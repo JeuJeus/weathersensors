@@ -1,2 +1,2 @@
-# awe2-keine-ahnung
+# awe2-wettersensoren
 project repository
