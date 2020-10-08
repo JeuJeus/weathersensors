@@ -42,24 +42,32 @@ function init(db) {
 }
 
 function getSensors(db) {
-
-    db.each("SELECT ID, MAC_ADDRESS, LOCATION FROM SENSOR", function (err, row) {
+    let sensors = [];
+    db.each("SELECT ID, MAC_ADDRESS, LOCATION FROM SENSOR", 
+    (err, row) => {
         if (err) {
             console.log(err)
-        } else {
-            console.log("lelelell" + row.id + ": " + row.info);
         }
-
+        else {
+            sensors.push( {
+                "id": row.ID,
+                "mac_address": row.MAC_ADDRESS,
+                "location": row.LOCATION
+            })
+            // console.log(sensors);
+        }
     });
+    console.log(sensors);
+    return sensors;
 }
 
 function insertDummySensors(db) {
     for (let i = 0; i < 10; i++) {
         db.run("INSERT INTO SENSOR (ID, MAC_ADDRESS, LOCATION) VALUES (?, ?, ?)", [
-                i,
-                "127.0.0.1",
-                "Paderboring"
-            ]
+            i,
+            "127.0.0.1",
+            "Paderboring"
+        ]
         )
     }
 }
