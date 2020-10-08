@@ -1,4 +1,4 @@
 .idea/**
-/backend/backend.iml
+*.iml
 /.idea/
 /backend/node_modules/
