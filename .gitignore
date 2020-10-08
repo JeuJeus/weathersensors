@@ -590,3 +590,5 @@ MigrationBackup/
 
 # End of https://www.toptal.com/developers/gitignore/api/node,intellij,visualstudiocode,visualstudio
 backend/package-lock.json
+backend/db/data.db
+backend/db/.fuse_*
