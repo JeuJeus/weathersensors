@@ -42,7 +42,8 @@ function init(db) {
 }
 
 function getSensors(db) {
-    sql = "SELECT ID, MAC_ADDRESS, LOCATION FROM SENSOR"
+    sql = "SELECT ID, MAC_ADDRESS, LOCATION " +
+          "FROM SENSOR"
     params = []
     return new Promise((resolve, reject) => {
         db.all(sql, params, (err, rows) => {
@@ -58,21 +59,28 @@ function getSensors(db) {
       })
 }
 
-function insertDummySensors(db) {
-    for (let i = 0; i < 10; i++) {
-        db.run("INSERT INTO SENSOR (ID, MAC_ADDRESS, LOCATION) VALUES (?, ?, ?)", [
-            i,
-            "127.0.0.1",
-            "Paderboring"
-        ]
-        )
-    }
+function getSensorData(db) {
+    sql = "SELECT SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY " +
+          "FROM SENSOR_DATA"
+    params = []
+    return new Promise((resolve, reject) => {
+        db.all(sql, params, (err, rows) => {
+            if (err) {
+                console.log('Error running sql: ' + sql)
+                console.log(err)
+                reject(err)
+            }
+            else {
+                resolve(rows)
+            }
+        })
+      })
 }
 
 module.exports = {
     "openDb": openDb,
     "init": init,
     "getSensors": getSensors,
-    "insertDummySensors": insertDummySensors,
+    "getSensorData": getSensorData,
     "closeDb": closeDb
 }
