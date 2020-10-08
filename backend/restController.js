@@ -3,15 +3,19 @@ const express = require('express')
 const app = express()
 
 app.get('/', function (req, res) {
-    res.send('Hello World')
+    let response = {"sensors" : [],
+                    "sensorData" : []
+                };
     let db = dbConnection.openDb()
     dbConnection.init(db)
     let sensors = dbConnection.getSensors(db)
-    sensors.then(s => console.log(s))
-    let sensorData = dbConnection.getSensorData(db);
-    sensorData.then(s => console.log(s))
+    let sensorData = dbConnection.getSensorData(db)
+    const data = Promise.all([sensors, sensorData]).then(data => {
+        response.sensors = data[0]
+        response.sensorData = data[1]
+        res.send(response)
+    })
     dbConnection.closeDb(db)
-
 })
 
 app.listen(3000)
