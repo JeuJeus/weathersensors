@@ -1,9 +1,16 @@
 const dbConnection = require('../databaseConnection')
 let db = dbConnection.openDb()
 
-insertDummySensors(db)
-insertDummySensorData(db)
+initTables(db).then(x => {
+    insertDummySensors(db)
+    insertDummySensorData(db)
 
+    dbConnection.closeDb(db)
+})
+
+async function initTables(db){
+    await dbConnection.init(db)
+}
 function insertDummySensorData(db) {
     for (let i = 0; i < 100; i++) {
         db.run("INSERT INTO SENSOR_DATA (SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY) "+

@@ -1,26 +1,19 @@
-// db.serialize(function() {
-//     db.run("CREATE TABLE lorem (info TEXT)");
-//
-//     var stmt = db.prepare("INSERT INTO lorem VALUES (?)");
-//     for (var i = 0; i < 10; i++) {
-//         stmt.run("Ipsum " + i);
-//     }
-//     stmt.finalize();
-//
-//     db.each("SELECT rowid AS id, info FROM lorem", function(err, row) {
-//         console.log(row.id + ": " + row.info);
-//     });
-// });
+const util = require('util')
+
 function openDb() {
     let sqlite3 = require('sqlite3').verbose()
-    return new sqlite3.Database('./db/data.db')
+    let db = new sqlite3.Database('./db/data.db')
+    db.run = util.promisify(db.run)
+    db.get = util.promisify(db.get)
+    db.all = util.promisify(db.all)
+    return db
 }
 
 function closeDb(db) {
     db.close()
 }
 
-function init(db) {
+async function init(db) {
     var createSensorTable = "CREATE TABLE IF NOT EXISTS \"SENSOR\" (" +
         "\"ID\"	INTEGER NOT NULL UNIQUE, " +
         "\"MAC_ADDRESS\"	TEXT NOT NULL, " +
@@ -36,41 +29,40 @@ function init(db) {
         " \"HUMIDITY\"	NUMERIC NOT NULL," +
         " PRIMARY KEY(\"SENSOR_ID\",\"TIMESTAMP\")" +
         ")"
-
-    db.run(createSensorTable)
-    db.run(createSensorDataTable)
+   
+    await db.run(createSensorTable)
+    await db.run(createSensorDataTable)
 }
 
-function getSensors(db) {
+async function getSensors(db) {
     sql = "SELECT ID, MAC_ADDRESS, LOCATION " +
           "FROM SENSOR"
     params = []
-    return new Promise((resolve, reject) =>
-        db.all(sql, params, (err, rows) => {
-            if (err) {
-                console.log('Error running sql: ' + sql)
-                console.log(err)
-                reject(err)
-            } else {
-                resolve(rows)
-            }
-        }))
+    return db.all(sql, params)
+          
+       
 }
 
-function getSensorData(db) {
+// function getSensorData(db) {
+//     sql = "SELECT SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY " +
+//           "FROM SENSOR_DATA"
+//     params = []
+//     return new Promise((resolve, reject) =>
+//         db.all(sql, params, (err, rows) => {
+//             if (err) {
+//                 console.log('Error running sql: ' + sql)
+//                 console.log(err)
+//                 reject(err)
+//             } else {
+//                 resolve(rows)
+//             }
+//         }))
+// }
+async function getSensorData(db) {
     sql = "SELECT SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY " +
           "FROM SENSOR_DATA"
     params = []
-    return new Promise((resolve, reject) =>
-        db.all(sql, params, (err, rows) => {
-            if (err) {
-                console.log('Error running sql: ' + sql)
-                console.log(err)
-                reject(err)
-            } else {
-                resolve(rows)
-            }
-        }))
+    return db.all(sql, params)
 }
 
 module.exports = {
