@@ -2,7 +2,8 @@ const dbConnection = require('./databaseConnection')
 const express = require('express')
 const app = express()
 
-app.get('/', function (req, res) {
+app.get('/getWeatherData', function (req, res) {
+    res.set('Access-Control-Allow-Origin', '*'); // Security not needed xD
     let response = {"sensors" : [],
                     "sensorData" : []
                 };
