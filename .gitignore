@@ -592,3 +592,4 @@ MigrationBackup/
 backend/package-lock.json
 backend/db/data.db
 backend/db/.fuse_*
+/frontend/package-lock.json

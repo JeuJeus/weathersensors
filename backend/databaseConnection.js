@@ -45,36 +45,32 @@ function getSensors(db) {
     sql = "SELECT ID, MAC_ADDRESS, LOCATION " +
           "FROM SENSOR"
     params = []
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) =>
         db.all(sql, params, (err, rows) => {
             if (err) {
                 console.log('Error running sql: ' + sql)
                 console.log(err)
                 reject(err)
-            }
-            else {
+            } else {
                 resolve(rows)
             }
-        })
-      })
+        }))
 }
 
 function getSensorData(db) {
     sql = "SELECT SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY " +
           "FROM SENSOR_DATA"
     params = []
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) =>
         db.all(sql, params, (err, rows) => {
             if (err) {
                 console.log('Error running sql: ' + sql)
                 console.log(err)
                 reject(err)
-            }
-            else {
+            } else {
                 resolve(rows)
             }
-        })
-      })
+        }))
 }
 
 module.exports = {
