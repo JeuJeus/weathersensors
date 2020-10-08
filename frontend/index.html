@@ -1,58 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AWE2</title>
+    <link   rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" 
+            integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
+
 <body>
-<table id="sensorTable" style="border: 1px solid black;"></table>
-<hr>
-<table id="sensorDataTable" style="border: 1px solid black;"></table>
+    <table id="sensorTable" class="pure-table pure-table-horizontal">
+        <tr>
+            <th>Sensor-ID</th>
+            <th>MAC-Adsress</th>
+            <th>Location</th>
+        </tr>
+    </table>
+        
+    <hr>
+    <table id="sensorDataTable" class="pure-table pure-table-horizontal">
+        <tr>
+            <th>Sensor-ID</th>
+            <th>Timestamp</th>
+            <th>Temperature</th>
+            <th>Air Pressure</th>
+            <th>Humidity</th>
+        </tr>
+    </table>
 
 
-<script>
-    $.get("http://localhost:3000/weatherData", function(data, status){
-        let sensorTable = document.querySelector("#sensorTable")
-        let sensorDataTable = document.querySelector("#sensorDataTable")
-        data.sensors.forEach(element => {
-            let tr = document.createElement("tr")
-            let td_id = document.createElement("td")
-            let td_mac = document.createElement("td")
-            let td_loc = document.createElement("td")
-            
-            td_id.innerHTML = element.ID
-            td_mac.innerHTML = element.MAC_ADDRESS
-            td_loc.innerHTML = element.LOCATION
+    <script>
+        $.get("http://localhost:3000/weatherData", function (data, status) {
+            let sensorTable = document.querySelector("#sensorTable")
+            let sensorDataTable = document.querySelector("#sensorDataTable")
+            data.sensors.forEach(element => {
+                let tr = document.createElement("tr")
+                let td_id = document.createElement("td")
+                let td_mac = document.createElement("td")
+                let td_loc = document.createElement("td")
 
-            sensorTable.appendChild(tr)
-            tr.appendChild(td_id)
-            tr.appendChild(td_mac)
-            tr.appendChild(td_loc)
-        });
+                td_id.innerHTML = element.ID
+                td_mac.innerHTML = element.MAC_ADDRESS
+                td_loc.innerHTML = element.LOCATION
 
-        data.sensorData.forEach(element => {
-            let tr = document.createElement("tr")
-            let td_id = document.createElement("td")
-            let td_ts = document.createElement("td")
-            let td_temp = document.createElement("td")
-            let td_airp = document.createElement("td")
-            let td_humid = document.createElement("td")
-            
-            td_id.innerHTML = element.SENSOR_ID
-            td_ts.innerHTML = element.TIMESTAMP
-            td_temp.innerHTML = element.TEMPERATURE
-            td_airp.innerHTML = element.AIRPRESSURE
-            td_humid.innerHTML = element.HUMIDITY
+                sensorTable.appendChild(tr)
+                tr.appendChild(td_id)
+                tr.appendChild(td_mac)
+                tr.appendChild(td_loc)
+            });
 
-            sensorDataTable.appendChild(tr)
-            tr.appendChild(td_id)
-            tr.appendChild(td_ts)
-            tr.appendChild(td_temp)
-            tr.appendChild(td_airp)
-            tr.appendChild(td_humid)
-        });
-    })
-</script>
+            data.sensorData.forEach(element => {
+                let tr = document.createElement("tr")
+                let td_id = document.createElement("td")
+                let td_ts = document.createElement("td")
+                let td_temp = document.createElement("td")
+                let td_airp = document.createElement("td")
+                let td_humid = document.createElement("td")
+
+                td_id.innerHTML = element.SENSOR_ID
+                td_ts.innerHTML = element.TIMESTAMP
+                td_temp.innerHTML = element.TEMPERATURE
+                td_airp.innerHTML = element.AIRPRESSURE
+                td_humid.innerHTML = element.HUMIDITY
+
+                sensorDataTable.appendChild(tr)
+                tr.appendChild(td_id)
+                tr.appendChild(td_ts)
+                tr.appendChild(td_temp)
+                tr.appendChild(td_airp)
+                tr.appendChild(td_humid)
+            });
+        })
+    </script>
 </body>
+
 </html>
