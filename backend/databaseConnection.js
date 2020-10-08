@@ -42,23 +42,20 @@ function init(db) {
 }
 
 function getSensors(db) {
-    let sensors = [];
-    db.each("SELECT ID, MAC_ADDRESS, LOCATION FROM SENSOR", 
-    (err, row) => {
-        if (err) {
-            console.log(err)
-        }
-        else {
-            sensors.push( {
-                "id": row.ID,
-                "mac_address": row.MAC_ADDRESS,
-                "location": row.LOCATION
-            })
-            // console.log(sensors);
-        }
-    });
-    console.log(sensors);
-    return sensors;
+    sql = "SELECT ID, MAC_ADDRESS, LOCATION FROM SENSOR"
+    params = []
+    return new Promise((resolve, reject) => {
+        db.all(sql, params, (err, rows) => {
+            if (err) {
+                console.log('Error running sql: ' + sql)
+                console.log(err)
+                reject(err)
+            }
+            else {
+                resolve(rows)
+            }
+        })
+      })
 }
 
 function insertDummySensors(db) {

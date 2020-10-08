@@ -8,7 +8,7 @@ app.get('/', function (req, res) {
     dbConnection.init(db)
     // dbConnection.insertDummySensors(db)
     let sensors = dbConnection.getSensors(db)
-    console.log(sensors);
+    sensors.then(s => console.log(s))
     dbConnection.closeDb(db)
 
 })
