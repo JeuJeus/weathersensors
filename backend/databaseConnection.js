@@ -39,25 +39,8 @@ async function getSensors(db) {
           "FROM SENSOR"
     params = []
     return db.all(sql, params)
-          
-       
 }
 
-// function getSensorData(db) {
-//     sql = "SELECT SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY " +
-//           "FROM SENSOR_DATA"
-//     params = []
-//     return new Promise((resolve, reject) =>
-//         db.all(sql, params, (err, rows) => {
-//             if (err) {
-//                 console.log('Error running sql: ' + sql)
-//                 console.log(err)
-//                 reject(err)
-//             } else {
-//                 resolve(rows)
-//             }
-//         }))
-// }
 async function getSensorData(db) {
     sql = "SELECT SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY " +
           "FROM SENSOR_DATA"
@@ -65,10 +48,18 @@ async function getSensorData(db) {
     return db.all(sql, params)
 }
 
+async function insertWeatherData(db, weatherData){
+    sql =   "INSERT INTO SENSOR_DATA (SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY) "+
+            "VALUES (?, ?, ?, ?, ?)"
+    params = [weatherData.SENSOR_ID, weatherData.TIMESTAMP, weatherData.TEMPERATURE, weatherData.AIRPRESSURE, weatherData.HUMIDITY]
+    db.run(sql, params)
+}
+
 module.exports = {
     "openDb": openDb,
     "init": init,
     "getSensors": getSensors,
     "getSensorData": getSensorData,
+    "insertWeatherData": insertWeatherData,
     "closeDb": closeDb
 }
