@@ -1,4 +1,4 @@
-const dbConnection = require('./databaseConnection')
+const dbConnection = require('../databaseConnection')
 let db = dbConnection.openDb()
 
 insertDummySensors(db)
