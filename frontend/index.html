@@ -32,7 +32,7 @@
 
 
     <script>
-        $.get("http://localhost:3000/weatherData", function (data, status) {
+        $.get("http://192.168.179.21:3000/weatherData", function (data, status) {
             let sensorTable = document.querySelector("#sensorTable")
             let sensorDataTable = document.querySelector("#sensorDataTable")
             data.sensors.forEach(element => {
