@@ -15,7 +15,7 @@ app.use(bodyParser.json({inflate: true, limit: '100kb', type: 'application/json'
 app.use(logger);
 
 
-httpServer.listen(3000, 'localhost', (err) => {
+httpServer.listen(3000, (err) => {
   if (err) {
     console.log(err);
   }
