@@ -1,53 +1,3 @@
-/***************************************************************************
-  Let me know that I've done wrong
-  When I've known this all along
-  I go around a time or two
-  Just to waste my time with you
-  Tell me all that you've thrown away
-  Find out games you don't wanna play
-  You are the only one that needs to know
-
-  I'll keep you my dirty little secret (dirty little secret)
-  Don't tell anyone or you'll be just another regret
-  (Just another regret, hope that you can keep it)
-  My dirty little secret
-
-  Who has to know?
-  When we live such fragile lives
-  It's the best way we survive
-  I go around a time or two
-  Just to waste my time with you
-  Tell me all that you've thrown away
-  Find out games you don't wanna play
-  You are the only one that needs to know
-
-
-  I'll keep you my dirty little secret (dirty little secret)
-  Don't tell anyone or you'll be just another regret
-  (Just another regret, hope that you can keep it)
-  My dirty little secret
-
-  Who has to know?
-  The way she feels inside (inside)
-  Those thoughts I can't deny (deny)
-  These sleeping thoughts won't lie (won't lie)
-  And all I've tried to hide
-  It's eating me apart
-  Trace this life out
-
-  I'll keep you my dirty little secret (dirty little secret)
-  Don't tell anyone or you'll be just another regret (just another regret)
-
-  I'll keep you my dirty little secret (dirty little secret)
-  Don't tell anyone or you'll be just another regret
-  (Just another regret, hope that you can keep it)
-  My dirty little secret
-  Dirty little secret
-  Dirty little secret
-
-  Who has to know?
-  Who has to know?
- ***************************************************************************/
 #include <Arduino.h>
 
 #include <ESP8266WiFi.h>
@@ -108,7 +58,7 @@ void loop() {
     HTTPClient http;
 
     Serial.print("[HTTP] begin...\n");
-    if (http.begin(client, "http://192.168.179.21:3000/weatherData")) {  // HTTP
+    if (http.begin(client, "https://awe2-api.jeujeus.de/weatherData")) {  // HTTP
       http.addHeader("Content-Type", "application/json");
 
       Serial.print("[HTTP] POSTING...\n");
