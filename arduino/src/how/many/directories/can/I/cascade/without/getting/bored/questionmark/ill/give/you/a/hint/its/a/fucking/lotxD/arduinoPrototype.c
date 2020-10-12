@@ -94,7 +94,7 @@ void setup() {
     delayTime = 10000;
 
     WiFi.mode(WIFI_STA);
-    WiFiMulti.addAP("gast", "gchf57snbos21234");
+    WiFiMulti.addAP("you never", "saw my pw");
 
     Serial.println();
 }
