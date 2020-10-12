@@ -2,14 +2,14 @@ const dbConnection = require('./databaseConnection');
 const express = require('express');
 const bodyParser = require('body-parser');
 const http = require('http');
-const app = express()
+const app = express();
 
 let httpServer = http.createServer(app);
 let db = dbConnection.openDb();
 let logger = function (req, res, next) {
     console.log("GOT REQUEST !");
     next(); // Passing the request to the next handler in the stack.
-}
+};
 
 app.use(bodyParser.json({inflate: true, limit: '100kb', type: 'application/json'}));
 app.use(logger);
@@ -22,7 +22,7 @@ httpServer.listen(3000, '192.168.179.21', (err) => {
     console.log("Started on PORT 3000");
     process.on('SIGINT', cleanup);
     process.on('SIGTERM', cleanup);
-})
+});
  
 app.get('/weatherData', async function (req, res) {
     res.set('Access-Control-Allow-Origin', '*'); // Security not needed xD
@@ -35,9 +35,10 @@ app.get('/weatherData', async function (req, res) {
     response.sensors = sensors;
     response.sensorData = sensorData;
     res.send(response);
-})
+});
 app.post('/weatherData', function (req, res) {
     if(req.body){
+        req.body.TIMESTAMP = Date.now();
         dbConnection.insertWeatherData(db, req.body);
     }else{
         console.log("parsing body failed");
