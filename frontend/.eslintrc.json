@@ -11,5 +11,8 @@
     "ecmaVersion": 12
   },
   "rules": {
+    "require-jsdoc": 0,
+    "no-tabs": 0,
+    "max-len": 0
   }
 }
