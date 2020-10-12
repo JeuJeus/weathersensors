@@ -591,3 +591,6 @@ MigrationBackup/
 # End of https://www.toptal.com/developers/gitignore/api/node,intellij,visualstudiocode,visualstudio
 backend/db/data.db
 backend/db/.fuse_*
+/backend/awe2backend.tar
+/awe2backend.tar
+/prototyp.tar
