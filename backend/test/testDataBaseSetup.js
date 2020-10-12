@@ -2,8 +2,8 @@ const dbConnection = require('../databaseConnection');
 const db = dbConnection.openDb();
 
 initTables(db).then((x) => {
-  insertDummySensors(db);
-  insertDummySensorData(db);
+  //insertDummySensors(db);
+  //insertDummySensorData(db);
 
   dbConnection.closeDb(db);
 });
