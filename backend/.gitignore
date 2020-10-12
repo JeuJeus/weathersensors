@@ -4,6 +4,7 @@
 /backend/node_modules/
 /frontend/node_modules/
 
+package-lock.json
 
 # Created by https://www.toptal.com/developers/gitignore/api/node,intellij,visualstudiocode,visualstudio
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,intellij,visualstudiocode,visualstudio
