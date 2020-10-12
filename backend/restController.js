@@ -15,15 +15,15 @@ app.use(bodyParser.json({inflate: true, limit: '100kb', type: 'application/json'
 app.use(logger);
 
 
-httpServer.listen(3000, '192.168.179.21', (err) => {
-    if (err) {
-        console.log(err);
-    }
-    console.log("Started on PORT 3000");
-    process.on('SIGINT', cleanup);
-    process.on('SIGTERM', cleanup);
+httpServer.listen(3000, 'localhost', (err) => {
+  if (err) {
+    console.log(err);
+  }
+  console.log('Started on PORT 3000');
+  process.on('SIGINT', cleanup);
+  process.on('SIGTERM', cleanup);
 });
- 
+
 app.get('/weatherData', async function (req, res) {
     res.set('Access-Control-Allow-Origin', '*'); // Security not needed xD
     let response = {
@@ -42,7 +42,7 @@ app.post('/weatherData', function (req, res) {
         dbConnection.insertWeatherData(db, req.body);
     }else{
         console.log("parsing body failed");
-    }   
+    }
     res.send('dirty boy dont use penis.js');
 });
 

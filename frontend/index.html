@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AWE2</title>
-    <link   rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" 
-            integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+    <link href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" rel="stylesheet"
+          integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
@@ -18,7 +18,7 @@
             <th>Location</th>
         </tr>
     </table>
-        
+
     <hr>
     <table id="sensorDataTable" class="pure-table pure-table-horizontal">
         <tr>
@@ -32,20 +32,22 @@
 
 
     <script>
-        $.get("http://192.168.179.21:3000/weatherData", function (data, status) {
-            let sensorTable = document.querySelector("#sensorTable")
-            let sensorDataTable = document.querySelector("#sensorDataTable")
-            data.sensors.forEach(element => {
-                let tr = document.createElement("tr")
-                let td_id = document.createElement("td")
-                let td_mac = document.createElement("td")
-                let td_loc = document.createElement("td")
+      $.get('https://awe2-api.jeujeus.de/weatherData', function(data, status) {
 
-                td_id.innerHTML = element.ID
-                td_mac.innerHTML = element.MAC_ADDRESS
-                td_loc.innerHTML = element.LOCATION
+        let sensorTable = document.querySelector('#sensorTable');
+        let sensorDataTable = document.querySelector('#sensorDataTable');
 
-                sensorTable.appendChild(tr)
+        data.sensors.forEach(element => {
+          let tr = document.createElement('tr');
+          let td_id = document.createElement('td');
+          let td_mac = document.createElement('td');
+          let td_loc = document.createElement('td');
+
+          td_id.innerHTML = element.ID;
+          td_mac.innerHTML = element.MAC_ADDRESS;
+          td_loc.innerHTML = element.LOCATION;
+
+          sensorTable.appendChild(tr);
                 tr.appendChild(td_id)
                 tr.appendChild(td_mac)
                 tr.appendChild(td_loc)
