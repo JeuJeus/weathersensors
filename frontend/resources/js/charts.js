@@ -66,7 +66,7 @@ function updateCharts() {
     let {timestamps, temperature, airPressure, humidity} = mapValuesOfData(data);
 
     updateChart(temperatureChart, timestamps, temperature);
-    updateChart(airPressureChart, temperature, airPressure);
+    updateChart(airPressureChart, timestamps, airPressure);
     updateChart(humidityChart, timestamps, humidity);
   });
 }
