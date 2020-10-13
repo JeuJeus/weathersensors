@@ -38,6 +38,7 @@ void setup() {
     if (!status) {
         Serial.println("Could not find a valid BME280 sensor, check wiring, address, sensor ID!");
         Serial.print("SensorID was: 0x"); Serial.println(bme.sensorID(),16);
+        //TODO change this delay to something more sensible
         while (1) delay(10);
     }
 
