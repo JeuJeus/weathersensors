@@ -14,6 +14,15 @@ function createChart(chartCanvasName, data, values, timestamps, label, color) {
         backgroundColor: color,
       }],
     },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: false,
+          },
+        }],
+      },
+    },
   });
 }
 
@@ -57,6 +66,7 @@ function updateChart(chart, timestamps, values) {
 
 function updateCharts() {
 
+  //TODO REMOVE ME FOR SHOWCASE ONLY
   console.log('updating charts - ' + new Date().toLocaleTimeString());
 
   $.get('https://awe2-api.jeujeus.de/weatherData', function(data, status) {
@@ -72,4 +82,14 @@ function updateCharts() {
 }
 
 // TODO CHANGE ME RUNNING EVERY 10 SECONDS IS TO MUCH
-setInterval(updateCharts, 100000);
+setInterval(updateCharts, 10000);
+
+function yAxisStartToggle() {
+  //TODO THERE MUST BE SOME DAMN BETTER WAY DOING THIS
+  temperatureChart.options.scales.yAxes[0].ticks.beginAtZero = !temperatureChart.options.scales.yAxes[0].ticks.beginAtZero;
+  temperatureChart.update();
+  airPressureChart.options.scales.yAxes[0].ticks.beginAtZero = !airPressureChart.options.scales.yAxes[0].ticks.beginAtZero;
+  airPressureChart.update();
+  humidityChart.options.scales.yAxes[0].ticks.beginAtZero = !humidityChart.options.scales.yAxes[0].ticks.beginAtZero;
+  humidityChart.update();
+}
