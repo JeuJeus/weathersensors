@@ -61,7 +61,14 @@ $.get('https://awe2-api.jeujeus.de/weatherData', function(data, status) {
   airPressureChart = createChart('chartAirPressure', data, airPressure, timestamps, 'Air Pressure', 'rgb(0,204,109)');
   humidityChart = createChart('chartHumidity', data, humidity, timestamps, 'Humidity', 'rgb(204,0,112)');
 
+  setValuesToBeDisplayed(temperature.slice(-1)[0], airPressure.slice(-1)[0], humidity.slice(-1)[0]);
 });
+
+function setValuesToBeDisplayed(tempNow, airPressNow, humidNow) {
+  document.getElementById('temperatureNow').innerText = tempNow.toFixed(2) + '°C';
+  document.getElementById('airPressureNow').innerText = airPressNow.toFixed(2) + 'mbar';
+  document.getElementById('humidityNow').innerText = humidNow.toFixed(2) + '%';
+}
 
 function updateChart(chart, timestamps, values) {
   chart.data.labels = timestamps;
@@ -83,6 +90,8 @@ function updateCharts() {
     updateChart(temperatureChart, timestamps, temperature);
     updateChart(airPressureChart, timestamps, airPressure);
     updateChart(humidityChart, timestamps, humidity);
+
+    setValuesToBeDisplayed(temperature.slice(-1)[0], airPressure.slice(-1)[0], humidity.slice(-1)[0]);
   });
 }
 
