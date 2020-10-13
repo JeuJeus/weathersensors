@@ -1,3 +1,14 @@
+/*NAVBAR*/
 .navbar-brand > img {
     margin-right: 0.5em;
+}
+
+/*CHARTS*/
+.chartz {
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+.chart {
+    margin-top: 1em;
 }
