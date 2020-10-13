@@ -44,7 +44,7 @@ void setup() {
     delayTime = 10000;
 
     WiFi.mode(WIFI_STA);
-    WiFiMulti.addAP("you never", "saw my pw");
+    WiFiMulti.addAP("$SSID-2.4ghz!", "$PASSWORD");
 
     Serial.println();
 }
