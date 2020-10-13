@@ -21,6 +21,11 @@ function createChart(chartCanvasName, data, values, timestamps, label, color) {
             beginAtZero: false,
           },
         }],
+        xAxes: [{
+          ticks: {
+            maxTicksLimit: 20,
+          },
+        }],
       },
     },
   });
