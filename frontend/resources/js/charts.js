@@ -1,7 +1,9 @@
 var temperatureChart, airPressureChart, humidityChart;
 
 function createChart(chartCanvasName, data, values, timestamps, label, color) {
+
   let chart = document.getElementById(chartCanvasName).getContext('2d');
+
   return new Chart(chart, {
     type: 'line',
     data: {
@@ -56,6 +58,7 @@ function updateChart(chart, timestamps, values) {
 
 function updateCharts() {
 
+  //TODO REMOVE ME FOR SHOWCASE ONLY
   console.log('updating charts - ' + new Date().toLocaleTimeString());
 
   $.get('https://awe2-api.jeujeus.de/weatherData', function(data, status) {
