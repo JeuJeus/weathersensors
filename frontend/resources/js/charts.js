@@ -1,7 +1,8 @@
 var temperatureChart, airPressureChart, humidityChart;
 
-function createChart(chartTemperature, data, values, timestamps, label, color) {
-  return new Chart(chartTemperature, {
+function createChart(chartCanvasName, data, values, timestamps, label, color) {
+  let chart = document.getElementById(chartCanvasName).getContext('2d');
+  return new Chart(chart, {
     type: 'line',
     data: {
       labels: timestamps,
@@ -39,15 +40,11 @@ $.get('https://awe2-api.jeujeus.de/weatherData', function(data, status) {
   //TODO REMOVE ME FOR SHOWCASE ONLY
   console.log(data.sensorData);
 
-  let chartTemperatureCanvas = document.getElementById('chartTemperature').getContext('2d');
-  let chartAirPressureCanvas = document.getElementById('chartAirPressure').getContext('2d');
-  let chartHumidityCanvas = document.getElementById('chartHumidity').getContext('2d');
-
   let {timestamps, temperature, airPressure, humidity} = mapValuesOfData(data);
 
-  temperatureChart = createChart(chartTemperatureCanvas, data, temperature, timestamps, 'Temperature', 'rgba(0, 119, 204, 0.3)');
-  airPressureChart = createChart(chartAirPressureCanvas, data, airPressure, timestamps, 'Air Pressure', 'rgb(0,204,109)');
-  humidityChart = createChart(chartHumidityCanvas, data, humidity, timestamps, 'Humidity', 'rgb(204,0,112)');
+  temperatureChart = createChart('chartTemperature', data, temperature, timestamps, 'Temperature', 'rgba(0, 119, 204, 0.3)');
+  airPressureChart = createChart('chartAirPressure', data, airPressure, timestamps, 'Air Pressure', 'rgb(0,204,109)');
+  humidityChart = createChart('chartHumidity', data, humidity, timestamps, 'Humidity', 'rgb(204,0,112)');
 
 });
 
