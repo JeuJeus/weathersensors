@@ -29,55 +29,15 @@
   let chartAirPressure = document.getElementById('chartAirPressure').getContext('2d');
   let chartHumidity = document.getElementById('chartHumidity').getContext('2d');
 
-  function createTemperatureChart(data, timestamps) {
-    let temperatures = data.sensorData.map(function(e) {
-      return e.TEMPERATURE;
-    });
-
+  function createChart(chartTemperature, data, values, timestamps, label, color) {
     new Chart(chartTemperature, {
       type: 'line',
       data: {
         labels: timestamps,
         datasets: [{
-          label: 'Temperature',
-          data: temperatures,
-          backgroundColor: 'rgba(0, 119, 204, 0.3)',
-        }],
-      },
-    });
-  }
-
-  function createAirPressureChart(data, timestamps) {
-    let airPressure = data.sensorData.map(function(e) {
-      return e.AIRPRESSURE;
-    });
-
-    new Chart(chartAirPressure, {
-      type: 'line',
-      data: {
-        labels: timestamps,
-        datasets: [{
-          label: 'Air Pressure',
-          data: airPressure,
-          backgroundColor: 'rgb(0,204,109)',
-        }],
-      },
-    });
-  }
-
-  function createHumidityChart(data, timestamps) {
-    let humidity = data.sensorData.map(function(e) {
-      return e.HUMIDITY;
-    });
-
-    new Chart(chartHumidity, {
-      type: 'line',
-      data: {
-        labels: timestamps,
-        datasets: [{
-          label: 'Humidity',
-          data: humidity,
-          backgroundColor: 'rgb(204,0,112)',
+          label: label,
+          data: values,
+          backgroundColor: color,
         }],
       },
     });
@@ -85,7 +45,7 @@
 
   $.get('https://awe2-api.jeujeus.de/weatherData', function(data, status) {
 
-    //REMOVE ME FOR SHOWCASE ONLY
+    //TODO REMOVE ME FOR SHOWCASE ONLY
     console.log(data.sensorData);
 
     let theBeginning = data.sensorData[0].TIMESTAMP;
@@ -93,9 +53,21 @@
       return e.TIMESTAMP - theBeginning;
     });
 
-    createTemperatureChart(data, timestamps);
-    createAirPressureChart(data, timestamps);
-    createHumidityChart(data, timestamps);
+    let temperature = data.sensorData.map(function(e) {
+      return e.TEMPERATURE;
+    });
+
+    let airPressure = data.sensorData.map(function(e) {
+      return e.AIRPRESSURE;
+    });
+
+    let humidity = data.sensorData.map(function(e) {
+      return e.HUMIDITY;
+    });
+
+    createChart(chartTemperature, data, temperature, timestamps, 'Temperature', 'rgba(0, 119, 204, 0.3)');
+    createChart(chartAirPressure, data, airPressure, timestamps, 'Air Pressure', 'rgb(0,204,109)');
+    createChart(chartHumidity, data, humidity, timestamps, 'Humidity', 'rgb(204,0,112)');
 
   });
 </script>
