@@ -12,9 +12,9 @@
 #include <Adafruit_BME280.h>
 
 #define SEALEVELPRESSURE_HPA (1013.25)
+#define SERVER_TO_CONNECT "http://awe2-api.jeujeus.de/weatherData"
 
 Adafruit_BME280 bme; // I2C
-
 ESP8266WiFiMulti WiFiMulti;
 
 //10minutes
@@ -24,7 +24,6 @@ unsigned long DELAY_TIME_REST_SEND = 1000*60*10;
 float temperature;
 float pressure;
 float humidity;
-
 
 void setup() {
     Serial.begin(115200);
@@ -58,7 +57,7 @@ void loop() {
     HTTPClient http;
 
     Serial.print("[HTTP] begin...\n");
-    if (http.begin(client, "http://awe2-api.jeujeus.de/weatherData")) {  // HTTP
+    if (http.begin(client, SERVER_TO_CONNECT)) {  // HTTP
       http.addHeader("Content-Type", "application/json");
 
       Serial.print("[HTTP] POSTING...\n");
