@@ -18,7 +18,8 @@ Adafruit_BME280 bme; // I2C
 ESP8266WiFiMulti WiFiMulti;
 
 //10minutes
-unsigned long DELAY_TIME = 1000*60*10;
+unsigned long DELAY_TIME_RECONNECT = 1000*1;
+unsigned long DELAY_TIME_REST_SEND = 1000*60*10;
 
 float temperature;
 float pressure;
@@ -57,7 +58,7 @@ void loop() {
     HTTPClient http;
 
     Serial.print("[HTTP] begin...\n");
-    if (http.begin(client, "https://awe2-api.jeujeus.de/weatherData")) {  // HTTP
+    if (http.begin(client, "http://awe2-api.jeujeus.de/weatherData")) {  // HTTP
       http.addHeader("Content-Type", "application/json");
 
       Serial.print("[HTTP] POSTING...\n");
@@ -90,9 +91,10 @@ void loop() {
     } else {
       Serial.printf("[HTTP} Unable to connect\n");
     }
+    delay(DELAY_TIME_REST_SEND);
   }
 
-  delay(DELAY_TIME);
+  delay(DELAY_TIME_RECONNECT);
 }
 
 
