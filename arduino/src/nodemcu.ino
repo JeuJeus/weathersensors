@@ -10,6 +10,7 @@
 // ########################################################################
 Adafruit_BME280 bme; // I2C
 ESP8266WiFiMulti WiFiMulti;
+byte mac[6];
 
 const unsigned long DELAY_TIME_RECONNECT       = 1000*1;
 const unsigned long DELAY_TIME_NO_SENSOR_FOUND = 1000*5;
@@ -38,13 +39,19 @@ void setup() {
 void loop() {
   // wait for WiFi connection
   if ((WiFiMulti.run() == WL_CONNECTED)) {
+
+    WiFi.macAddress(mac);
+    char macaddress[18];
+    snprintf(macaddress, sizeof(macaddress), "%02x:%02x:%02x:%02x:%02x:%02x",
+         mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+
     float temperature;
     float pressure;
     float humidity;
 
     readValues(&temperature, &pressure, &humidity);
     logValues(temperature, pressure, humidity);
-    
+
     WiFiClient client;
     HTTPClient http;
 
@@ -56,7 +63,7 @@ void loop() {
       // start connection and send HTTP header
 
       char body[150];
-      buildJson(&body[0], temperature, pressure, humidity);
+      buildJson(&body[0], macaddress, temperature, pressure, humidity);
 
       int httpCode = http.POST(body);
 
@@ -86,18 +93,19 @@ void loop() {
 
 
 void readValues(float *temperature, float *pressure, float *humidity) {
-  *temperature = bme.readTemperature(); 
+  *temperature = bme.readTemperature();
   *pressure = bme.readPressure() / 100.0F;
   *humidity = bme.readHumidity();
   return;
 }
 
-void buildJson(char* body, float temperature, float pressure, float humidity){
+void buildJson(char* body, char macaddress[18], float temperature, float pressure, float humidity){
   // todo get timestamp from time server
   // todo get and set MAC-Address
   unsigned int timestamp = 0;
-  sprintf(body, "{\"SENSOR_ID\":0,\"TIMESTAMP\":\"%d\",\"TEMPERATURE\":%f,\"AIRPRESSURE\":%f,\"HUMIDITY\":%f}",
-          timestamp, temperature, pressure, humidity);
+  Serial.println(macaddress);
+  sprintf(body, "{\"MACADDRESS\":\"%d\",\"TIMESTAMP\":\"%d\",\"TEMPERATURE\":%f,\"AIRPRESSURE\":%f,\"HUMIDITY\":%f}",
+          macaddress, timestamp, temperature, pressure, humidity);
   return;
 }
 
