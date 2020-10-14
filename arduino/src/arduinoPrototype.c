@@ -18,7 +18,7 @@ Adafruit_BME280 bme; // I2C
 ESP8266WiFiMulti WiFiMulti;
 
 //10minutes
-unsigned long delayTime = 1000*60*10;
+unsigned long DELAY_TIME = 1000*60*10;
 
 float temperature;
 float pressure;
@@ -92,7 +92,7 @@ void loop() {
     }
   }
 
-  delay(delayTime);
+  delay(DELAY_TIME);
 }
 
 

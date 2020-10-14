@@ -1,5 +1,5 @@
 let temperatureChart, airPressureChart, humidityChart;
-const updateInterval = 1000 * 60 * 5;
+const UPDATE_INTERVAL = 1000 * 60 * 5;
 
 function createChart(chartCanvasName, data, values, timestamps, label, color) {
 
@@ -96,7 +96,7 @@ function updateCharts() {
   });
 }
 
-setInterval(updateCharts, updateInterval);
+setInterval(updateCharts, UPDATE_INTERVAL);
 
 function yAxisStartToggle() {
   //TODO THERE MUST BE SOME DAMN BETTER WAY DOING THIS
