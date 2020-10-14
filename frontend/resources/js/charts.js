@@ -67,11 +67,12 @@ function createChartsForSensor() {
     airPressureChart = createChart('chartAirPressure', data, airPressure, timestamps, 'Air Pressure', 'rgb(0,204,109)');
     humidityChart = createChart('chartHumidity', data, humidity, timestamps, 'Humidity', 'rgb(204,0,112)');
 
-    setValuesToBeDisplayed(temperature.slice(-1)[0], airPressure.slice(-1)[0], humidity.slice(-1)[0]);
+    setValuesToBeDisplayed(sensors[sensorToPlot], temperature.slice(-1)[0], airPressure.slice(-1)[0], humidity.slice(-1)[0]);
   });
 }
 
-function setValuesToBeDisplayed(tempNow, airPressNow, humidNow) {
+function setValuesToBeDisplayed(sensor, tempNow, airPressNow, humidNow) {
+  document.getElementById('sensorPlotting').innerText = sensor.SENSOR_ID;
   document.getElementById('temperatureNow').innerText = tempNow.toFixed(2) + '°C';
   document.getElementById('airPressureNow').innerText = airPressNow.toFixed(2) + 'mbar';
   document.getElementById('humidityNow').innerText = humidNow.toFixed(2) + '%';
@@ -93,7 +94,7 @@ function updateCharts() {
     updateChart(airPressureChart, timestamps, airPressure);
     updateChart(humidityChart, timestamps, humidity);
 
-    setValuesToBeDisplayed(temperature.slice(-1)[0], airPressure.slice(-1)[0], humidity.slice(-1)[0]);
+    setValuesToBeDisplayed(sensors[sensorToPlot], temperature.slice(-1)[0], airPressure.slice(-1)[0], humidity.slice(-1)[0]);
   });
 }
 
