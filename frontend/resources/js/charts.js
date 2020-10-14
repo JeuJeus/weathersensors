@@ -101,6 +101,7 @@ function updateCharts(sensorToPlot) {
 }
 
 function switchSensor(sensor) {
+  // todo that's still ugly:(
   sensorToPlot = sensor;
   updateCharts();
 }
