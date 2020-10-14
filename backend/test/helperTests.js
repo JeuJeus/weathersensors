@@ -8,7 +8,7 @@ function testReduceElementsToMaxSize(){
     let maxSizes = Array.from(Array(testSensorData.length * 2).keys());
 
     maxSizes.forEach(maxSize => {
-        let reducedData = helper.reduceElementsToMaxSize(testSensorData, maxSize, 0);
+        let reducedData = helper.reduceElementsToMaxSize(testSensorData, testSensorData, maxSize, 0);
         console.assert(reducedData.length === Math.min(maxSize, testSensorData.length),
             `${maxSize}, ${testSensorData.length}, ${reducedData.length}`);
     })
