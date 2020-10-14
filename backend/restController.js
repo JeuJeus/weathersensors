@@ -36,6 +36,7 @@ app.get('/weatherData', async function (req, res) {
     response.sensorData = sensorData;
     res.send(response);
 });
+
 app.post('/weatherData', function (req, res) {
     if(req.body){
         req.body.TIMESTAMP = Date.now();

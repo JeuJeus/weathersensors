@@ -1,8 +1,12 @@
 let temperatureChart, airPressureChart, humidityChart;
+
 const UPDATE_INTERVAL = 1000 * 60 * 5;
 const SERVER_URI = 'https://awe2-api.jeujeus.de/weatherData';
 
-createCharts();
+let sensors;
+let sensorToPlot = 0;
+
+createChartsForSensor();
 setInterval(updateCharts, UPDATE_INTERVAL);
 
 function createChart(chartCanvasName, data, values, timestamps, label, color) {
@@ -36,29 +40,28 @@ function createChart(chartCanvasName, data, values, timestamps, label, color) {
   });
 }
 
-function mapValuesOfData(data) {
-  let timestamps = data.sensorData.map(function(e) {
-    return new Date(parseInt(e.TIMESTAMP)).toLocaleString('de-DE');
-  });
+function mapValuesOfData(data, sensor) {
+  let timestamps = data.sensorData.flatMap(
+    e => (e.SENSOR_ID === sensor) ? new Date(parseInt(e.TIMESTAMP)).toLocaleString('de-DE') : []);
 
-  let temperature = data.sensorData.map(function(e) {
-    return e.TEMPERATURE;
-  });
+  let temperature = data.sensorData.flatMap(
+    e => (e.SENSOR_ID === sensor) ? e.TEMPERATURE : []);
 
-  let airPressure = data.sensorData.map(function(e) {
-    return e.AIRPRESSURE;
-  });
+  let airPressure = data.sensorData.flatMap(
+    e => (e.SENSOR_ID === sensor) ? e.AIRPRESSURE : []);
 
-  let humidity = data.sensorData.map(function(e) {
-    return e.HUMIDITY;
-  });
+  let humidity = data.sensorData.flatMap(
+    e => (e.SENSOR_ID === sensor) ? e.HUMIDITY : []);
+
   return {timestamps, temperature, airPressure, humidity};
 }
 
-function createCharts() {
-  $.get(SERVER_URI, function (data, status) {
+function createChartsForSensor() {
+  $.get(SERVER_URI, function(data, status) {
 
-    let {timestamps, temperature, airPressure, humidity} = mapValuesOfData(data);
+    sensors = data.sensors;
+
+    let {timestamps, temperature, airPressure, humidity} = mapValuesOfData(data, sensorToPlot);
 
     temperatureChart = createChart('chartTemperature', data, temperature, timestamps, 'Temperature', 'rgba(0, 119, 204, 0.3)');
     airPressureChart = createChart('chartAirPressure', data, airPressure, timestamps, 'Air Pressure', 'rgb(0,204,109)');
@@ -81,10 +84,11 @@ function updateChart(chart, timestamps, values) {
 }
 
 function updateCharts() {
-
   $.get(SERVER_URI, function(data, status) {
 
-    let {timestamps, temperature, airPressure, humidity} = mapValuesOfData(data);
+    sensors = data.sensors;
+    let {timestamps, temperature, airPressure, humidity} = mapValuesOfData(data, sensorToPlot);
+
     updateChart(temperatureChart, timestamps, temperature);
     updateChart(airPressureChart, timestamps, airPressure);
     updateChart(humidityChart, timestamps, humidity);
