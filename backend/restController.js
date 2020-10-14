@@ -39,11 +39,11 @@ app.get('/weatherData', async function (req, res) {
 app.get('/weatherData/id/:SENSOR_ID', async function (req, res) {
     res.set('Access-Control-Allow-Origin', '*'); // Security not needed xD
     let response = {
-        "sensors": []
+        "sensorData": []
     };
     if (req.params.SENSOR_ID &&!isNaN(parseInt(req.params.SENSOR_ID))){
-        response.sensors = await dbConnection.getSensorDataById(db, req.params.SENSOR_ID);
-        res.status(400).send(response);
+        response.sensorData = await dbConnection.getSensorDataById(db, req.params.SENSOR_ID);
+        res.status(200).send(response);
     }
     else{
         res.status(400).send();
