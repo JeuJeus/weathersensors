@@ -12,7 +12,12 @@
 #include <Adafruit_BME280.h>
 
 #define SEALEVELPRESSURE_HPA (1013.25)
+
+// ###################### CONFIG ##########################################
 #define SERVER_TO_CONNECT "http://awe2-api.jeujeus.de/weatherData"
+#define SSID "$SSID-2.4ghz!"
+#define WIFI_PASSWORD "$PASSWORD"
+// ########################################################################
 
 Adafruit_BME280 bme; // I2C
 ESP8266WiFiMulti WiFiMulti;
@@ -43,7 +48,7 @@ void setup() {
     }
 
     WiFi.mode(WIFI_STA);
-    WiFiMulti.addAP("$SSID-2.4ghz!", "$PASSWORD");
+    WiFiMulti.addAP(SSID, WIFI_PASSWORD);
 
     Serial.println();
 }
