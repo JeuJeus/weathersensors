@@ -1,5 +1,9 @@
 let temperatureChart, airPressureChart, humidityChart;
 const UPDATE_INTERVAL = 1000 * 60 * 5;
+const SERVER_URI = 'https://awe2-api.jeujeus.de/weatherData';
+
+createCharts();
+setInterval(updateCharts, UPDATE_INTERVAL);
 
 function createChart(chartCanvasName, data, values, timestamps, label, color) {
 
@@ -51,19 +55,18 @@ function mapValuesOfData(data) {
   return {timestamps, temperature, airPressure, humidity};
 }
 
-$.get('https://awe2-api.jeujeus.de/weatherData', function(data, status) {
+function createCharts() {
+  $.get(SERVER_URI, function (data, status) {
 
-  //TODO REMOVE ME FOR SHOWCASE ONLY
-  console.log(data.sensorData);
+    let {timestamps, temperature, airPressure, humidity} = mapValuesOfData(data);
 
-  let {timestamps, temperature, airPressure, humidity} = mapValuesOfData(data);
+    temperatureChart = createChart('chartTemperature', data, temperature, timestamps, 'Temperature', 'rgba(0, 119, 204, 0.3)');
+    airPressureChart = createChart('chartAirPressure', data, airPressure, timestamps, 'Air Pressure', 'rgb(0,204,109)');
+    humidityChart = createChart('chartHumidity', data, humidity, timestamps, 'Humidity', 'rgb(204,0,112)');
 
-  temperatureChart = createChart('chartTemperature', data, temperature, timestamps, 'Temperature', 'rgba(0, 119, 204, 0.3)');
-  airPressureChart = createChart('chartAirPressure', data, airPressure, timestamps, 'Air Pressure', 'rgb(0,204,109)');
-  humidityChart = createChart('chartHumidity', data, humidity, timestamps, 'Humidity', 'rgb(204,0,112)');
-
-  setValuesToBeDisplayed(temperature.slice(-1)[0], airPressure.slice(-1)[0], humidity.slice(-1)[0]);
-});
+    setValuesToBeDisplayed(temperature.slice(-1)[0], airPressure.slice(-1)[0], humidity.slice(-1)[0]);
+  });
+}
 
 function setValuesToBeDisplayed(tempNow, airPressNow, humidNow) {
   document.getElementById('temperatureNow').innerText = tempNow.toFixed(2) + '°C';
@@ -79,7 +82,7 @@ function updateChart(chart, timestamps, values) {
 
 function updateCharts() {
 
-  $.get('https://awe2-api.jeujeus.de/weatherData', function(data, status) {
+  $.get(SERVER_URI, function(data, status) {
 
     let {timestamps, temperature, airPressure, humidity} = mapValuesOfData(data);
     updateChart(temperatureChart, timestamps, temperature);
@@ -89,8 +92,6 @@ function updateCharts() {
     setValuesToBeDisplayed(temperature.slice(-1)[0], airPressure.slice(-1)[0], humidity.slice(-1)[0]);
   });
 }
-
-setInterval(updateCharts, UPDATE_INTERVAL);
 
 function yAxisStartToggle() {
   //TODO THERE MUST BE SOME DAMN BETTER WAY DOING THIS
