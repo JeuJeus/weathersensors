@@ -3,6 +3,11 @@
     margin-right: 0.5em;
 }
 
+.buttonMargin {
+    margin-right: 1em;
+    margin-left: 1em;
+}
+
 /*CHARTS*/
 .chartz {
     margin-top: 2em;

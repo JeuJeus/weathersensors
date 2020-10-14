@@ -60,6 +60,7 @@ function createChartsForSensor() {
   $.get(SERVER_URI, function(data, status) {
 
     sensors = data.sensors;
+    updateSensorsDropdown();
 
     let {timestamps, temperature, airPressure, humidity} = mapValuesOfData(data, sensorToPlot);
 
@@ -72,7 +73,7 @@ function createChartsForSensor() {
 }
 
 function setValuesToBeDisplayed(sensor, tempNow, airPressNow, humidNow) {
-  document.getElementById('sensorPlotting').innerText = sensor.SENSOR_ID;
+  document.getElementById('sensorPlotting').innerText = sensor.ID;
   document.getElementById('temperatureNow').innerText = tempNow.toFixed(2) + '°C';
   document.getElementById('airPressureNow').innerText = airPressNow.toFixed(2) + 'mbar';
   document.getElementById('humidityNow').innerText = humidNow.toFixed(2) + '%';
@@ -88,6 +89,8 @@ function updateCharts() {
   $.get(SERVER_URI, function(data, status) {
 
     sensors = data.sensors;
+    updateSensorsDropdown();
+
     let {timestamps, temperature, airPressure, humidity} = mapValuesOfData(data, sensorToPlot);
 
     updateChart(temperatureChart, timestamps, temperature);
@@ -95,6 +98,28 @@ function updateCharts() {
     updateChart(humidityChart, timestamps, humidity);
 
     setValuesToBeDisplayed(sensors[sensorToPlot], temperature.slice(-1)[0], airPressure.slice(-1)[0], humidity.slice(-1)[0]);
+  });
+}
+
+function switchSensor(sensor) {
+  sensorToPlot = sensor;
+  updateCharts();
+}
+
+function updateSensorsDropdown() {
+  let sensorSelectDropdown = document.getElementById('sensorForChartDropdown');
+
+  sensorSelectDropdown.querySelectorAll('*').forEach(n => n.remove());
+
+  sensors.forEach(s => {
+    let sensorLink = document.createElement('a');
+    sensorLink.classList.add('dropdown-item');
+    //TODO REPLACE ME WITH ALIAS
+    sensorLink.textContent = `${s.ID} - ${s.LOCATION}`;
+    sensorLink.onclick = function() {
+      switchSensor(parseInt(s.ID));
+    };
+    sensorSelectDropdown.append(sensorLink);
   });
 }
 
