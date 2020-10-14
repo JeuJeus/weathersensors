@@ -73,7 +73,9 @@ function createChartsForSensor() {
 }
 
 function setValuesToBeDisplayed(sensor, tempNow, airPressNow, humidNow) {
+
   document.getElementById('sensorPlotting').innerText = sensor.ID;
+  document.getElementById("sensorPlottingLocation").innerText = sensor.LOCATION ? sensor.LOCATION : '';
   document.getElementById('temperatureNow').innerText = tempNow.toFixed(2) + '°C';
   document.getElementById('airPressureNow').innerText = airPressNow.toFixed(2) + 'mbar';
   document.getElementById('humidityNow').innerText = humidNow.toFixed(2) + '%';
