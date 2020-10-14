@@ -79,13 +79,7 @@ function updateChart(chart, timestamps, values) {
 
 function updateCharts() {
 
-  //TODO REMOVE ME FOR SHOWCASE ONLY
-  console.log('updating charts - ' + new Date().toLocaleTimeString());
-
   $.get('https://awe2-api.jeujeus.de/weatherData', function(data, status) {
-
-    //TODO REMOVE ME FOR SHOWCASE ONLY
-    console.log(data.sensorData);
 
     let {timestamps, temperature, airPressure, humidity} = mapValuesOfData(data);
     updateChart(temperatureChart, timestamps, temperature);
