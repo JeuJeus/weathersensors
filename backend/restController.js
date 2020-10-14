@@ -36,6 +36,19 @@ app.get('/weatherData', async function (req, res) {
     response.sensorData = sensorData;
     res.send(response);
 });
+app.get('/weatherData/id/:SENSOR_ID', async function (req, res) {
+    res.set('Access-Control-Allow-Origin', '*'); // Security not needed xD
+    let response = {
+        "sensors": []
+    };
+    if (req.params.SENSOR_ID &&!isNaN(parseInt(req.params.SENSOR_ID))){
+        response.sensors = await dbConnection.getSensorDataById(db, req.params.SENSOR_ID);
+        res.status(400).send(response);
+    }
+    else{
+        res.status(400).send();
+    }
+});
 
 app.post('/weatherData', function (req, res) {
     if(req.body){

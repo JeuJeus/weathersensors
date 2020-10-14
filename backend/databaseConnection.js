@@ -35,23 +35,31 @@ async function init(db) {
 }
 
 async function getSensors(db) {
-  sql = 'SELECT ID, MAC_ADDRESS, LOCATION ' +
+  let sql =  'SELECT ID, MAC_ADDRESS, LOCATION ' +
     'FROM SENSOR';
-  params = [];
+  let params = [];
   return db.all(sql, params);
 }
 
 async function getSensorData(db) {
-  sql = 'SELECT SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY ' +
-    'FROM SENSOR_DATA';
-  params = [];
+  let sql =  'SELECT SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY ' +
+      'FROM SENSOR_DATA';
+  let params = [];
+  return db.all(sql, params);
+}
+
+async function getSensorDataById(db, SENSOR_ID) {
+  let sql =  'SELECT SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY ' +
+        'FROM SENSOR_DATA ' +
+        'WHERE SENSOR_ID = ?';
+  let params = [SENSOR_ID];
   return db.all(sql, params);
 }
 
 async function insertWeatherData(db, weatherData) {
-  sql = 'INSERT INTO SENSOR_DATA (SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY) ' +
+  let sql =  'INSERT INTO SENSOR_DATA (SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY) ' +
     'VALUES (?, ?, ?, ?, ?)';
-  params = [weatherData.SENSOR_ID, weatherData.TIMESTAMP, weatherData.TEMPERATURE, weatherData.AIRPRESSURE, weatherData.HUMIDITY];
+  let params = [weatherData.SENSOR_ID, weatherData.TIMESTAMP, weatherData.TEMPERATURE, weatherData.AIRPRESSURE, weatherData.HUMIDITY];
   db.run(sql, params);
 }
 
@@ -60,6 +68,7 @@ module.exports = {
   'init': init,
   'getSensors': getSensors,
   'getSensorData': getSensorData,
+  'getSensorDataById' : getSensorDataById,
   'insertWeatherData': insertWeatherData,
   'closeDb': closeDb,
 };
