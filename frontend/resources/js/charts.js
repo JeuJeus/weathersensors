@@ -95,7 +95,6 @@ function updateCharts(sensorToPlot) {
     updateChart(temperatureChart, timestamps, temperature);
     updateChart(airPressureChart, timestamps, airPressure);
     updateChart(humidityChart, timestamps, humidity);
-
     setValuesToBeDisplayed(data.sensors[sensorToPlot], temperature.slice(-1)[0], airPressure.slice(-1)[0], humidity.slice(-1)[0]);
   });
 }
@@ -103,7 +102,7 @@ function updateCharts(sensorToPlot) {
 function switchSensor(sensor) {
   // todo that's still ugly:(
   sensorToPlot = sensor;
-  updateCharts();
+  updateCharts(sensorToPlot);
 }
 
 function updateSensorsDropdown(sensors) {
