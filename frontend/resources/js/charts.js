@@ -1,4 +1,5 @@
-var temperatureChart, airPressureChart, humidityChart;
+let temperatureChart, airPressureChart, humidityChart;
+const updateInterval = 1000 * 60 * 5;
 
 function createChart(chartCanvasName, data, values, timestamps, label, color) {
 
@@ -95,8 +96,7 @@ function updateCharts() {
   });
 }
 
-// TODO CHANGE ME RUNNING EVERY 10 SECONDS IS TO MUCH
-setInterval(updateCharts, 10000);
+setInterval(updateCharts, updateInterval);
 
 function yAxisStartToggle() {
   //TODO THERE MUST BE SOME DAMN BETTER WAY DOING THIS
