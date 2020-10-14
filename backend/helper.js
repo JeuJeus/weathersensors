@@ -30,5 +30,5 @@ function reduceElementsToMaxSize(elements, originalElements, maxSize, iterator){
 
 module.exports = {
     'reduceElementsToMaxSize' : reduceElementsToMaxSize,
-    'MAX_SENSOR_DATA_ELEMENTS' : MAX_SENSOR_DATA_ELEMENTS
+    'INITIAL_MAX_SENSOR_DATA_ELEMENTS' : INITIAL_MAX_SENSOR_DATA_ELEMENTS
 };
