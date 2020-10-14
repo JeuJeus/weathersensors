@@ -17,7 +17,8 @@ Adafruit_BME280 bme; // I2C
 
 ESP8266WiFiMulti WiFiMulti;
 
-unsigned long delayTime;
+//10minutes
+unsigned long delayTime = 1000*60*10;
 
 float temperature;
 float pressure;
@@ -38,11 +39,8 @@ void setup() {
     if (!status) {
         Serial.println("Could not find a valid BME280 sensor, check wiring, address, sensor ID!");
         Serial.print("SensorID was: 0x"); Serial.println(bme.sensorID(),16);
-        //TODO change this delay to something more sensible
         while (1) delay(10);
     }
-
-    delayTime = 10000;
 
     WiFi.mode(WIFI_STA);
     WiFiMulti.addAP("$SSID-2.4ghz!", "$PASSWORD");
@@ -94,7 +92,7 @@ void loop() {
     }
   }
 
-  //delay(delayTime);
+  delay(delayTime);
 }
 
 
