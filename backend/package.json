@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node test/testDataBaseSetup.js",
+    "helperTests": "node test/helperTests.js",
     "start": "node restController.js"
   },
   "keywords": [],
