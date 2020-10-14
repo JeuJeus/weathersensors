@@ -3,10 +3,9 @@ let temperatureChart, airPressureChart, humidityChart;
 const UPDATE_INTERVAL = 1000 * 60 * 5;
 const SERVER_URI = 'https://awe2-api.jeujeus.de/weatherData';
 
-let sensors;
 let sensorToPlot = 0;
 
-createChartsForSensor();
+createChartsForSensor(sensorToPlot);
 setInterval(updateCharts, UPDATE_INTERVAL);
 
 function createChart(chartCanvasName, data, values, timestamps, label, color) {
@@ -56,11 +55,10 @@ function mapValuesOfData(data, sensor) {
   return {timestamps, temperature, airPressure, humidity};
 }
 
-function createChartsForSensor() {
-  $.get(SERVER_URI, function(data, status) {
+function createChartsForSensor(sensorToPlot) {
+  $.get(SERVER_URI, function(data) {
 
-    sensors = data.sensors;
-    updateSensorsDropdown();
+    updateSensorsDropdown(data.sensors);
 
     let {timestamps, temperature, airPressure, humidity} = mapValuesOfData(data, sensorToPlot);
 
@@ -68,7 +66,7 @@ function createChartsForSensor() {
     airPressureChart = createChart('chartAirPressure', data, airPressure, timestamps, 'Air Pressure', 'rgb(0,204,109)');
     humidityChart = createChart('chartHumidity', data, humidity, timestamps, 'Humidity', 'rgb(204,0,112)');
 
-    setValuesToBeDisplayed(sensors[sensorToPlot], temperature.slice(-1)[0], airPressure.slice(-1)[0], humidity.slice(-1)[0]);
+    setValuesToBeDisplayed(data.sensors[sensorToPlot], temperature.slice(-1)[0], airPressure.slice(-1)[0], humidity.slice(-1)[0]);
   });
 }
 
@@ -87,11 +85,10 @@ function updateChart(chart, timestamps, values) {
   chart.update();
 }
 
-function updateCharts() {
-  $.get(SERVER_URI, function(data, status) {
+function updateCharts(sensorToPlot) {
+  $.get(SERVER_URI, function(data) {
 
-    sensors = data.sensors;
-    updateSensorsDropdown();
+    updateSensorsDropdown(data.sensors);
 
     let {timestamps, temperature, airPressure, humidity} = mapValuesOfData(data, sensorToPlot);
 
@@ -99,7 +96,7 @@ function updateCharts() {
     updateChart(airPressureChart, timestamps, airPressure);
     updateChart(humidityChart, timestamps, humidity);
 
-    setValuesToBeDisplayed(sensors[sensorToPlot], temperature.slice(-1)[0], airPressure.slice(-1)[0], humidity.slice(-1)[0]);
+    setValuesToBeDisplayed(data.sensors[sensorToPlot], temperature.slice(-1)[0], airPressure.slice(-1)[0], humidity.slice(-1)[0]);
   });
 }
 
@@ -108,7 +105,7 @@ function switchSensor(sensor) {
   updateCharts();
 }
 
-function updateSensorsDropdown() {
+function updateSensorsDropdown(sensors) {
   let sensorSelectDropdown = document.getElementById('sensorForChartDropdown');
 
   sensorSelectDropdown.querySelectorAll('*').forEach(n => n.remove());
