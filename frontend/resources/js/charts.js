@@ -40,25 +40,25 @@ function createChart(chartCanvasName, data, values, timestamps, label, color) {
   });
 }
 
-function mapValuesOfData(data, sensor) {
-  let timestamps = data.sensorData.flatMap(
-    e => (e.SENSOR_ID === sensor) ? new Date(parseInt(e.TIMESTAMP)).toLocaleString('de-DE') : []);
-
-  let temperature = data.sensorData.flatMap(
-    e => (e.SENSOR_ID === sensor) ? e.TEMPERATURE : []);
-
-  let airPressure = data.sensorData.flatMap(
-    e => (e.SENSOR_ID === sensor) ? e.AIRPRESSURE : []);
-
-  let humidity = data.sensorData.flatMap(
-    e => (e.SENSOR_ID === sensor) ? e.HUMIDITY : []);
-
+function mapValuesOfData(data) {
+  let timestamps = data.sensorData.map(
+    e => new Date(parseInt(e.TIMESTAMP)).toLocaleString('de-DE'),
+  );
+  let temperature = data.sensorData.map(
+    e => e.TEMPERATURE,
+  );
+  let airPressure = data.sensorData.map(
+    e => e.AIRPRESSURE,
+  );
+  let humidity = data.sensorData.map(
+    e => e.HUMIDITY,
+  );
   return {timestamps, temperature, airPressure, humidity};
 }
 
 function createChartsForSensor(sensorToPlot) {
   $.get(SERVER_URI + '/weatherData/id/' + sensorToPlot, function(data) {
-    let {timestamps, temperature, airPressure, humidity} = mapValuesOfData(data, sensorToPlot);
+    let {timestamps, temperature, airPressure, humidity} = mapValuesOfData(data);
 
     temperatureChart = createChart('chartTemperature', data, temperature, timestamps, 'Temperature', 'rgba(0, 119, 204, 0.3)');
     airPressureChart = createChart('chartAirPressure', data, airPressure, timestamps, 'Air Pressure', 'rgb(0,204,109)');
@@ -83,8 +83,8 @@ function updateChart(chart, timestamps, values) {
 }
 
 function updateCharts(sensorToPlot) {
-  $.get(SERVER_URI + '/weatherData', function(data) {
-    let {timestamps, temperature, airPressure, humidity} = mapValuesOfData(data, sensorToPlot);
+  $.get(SERVER_URI + '/weatherData/id/' + sensorToPlot, function(data) {
+    let {timestamps, temperature, airPressure, humidity} = mapValuesOfData(data);
 
     updateChart(temperatureChart, timestamps, temperature);
     updateChart(airPressureChart, timestamps, airPressure);
