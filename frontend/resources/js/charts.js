@@ -1,13 +1,10 @@
-import { backendURI } from './localConfig.js';
+import {SERVER_URI, UPDATE_INTERVAL} from './localConfig.js';
 
 let temperatureChart, airPressureChart, humidityChart;
 
-const UPDATE_INTERVAL = 1000 * 60 * 5;
-const SERVER_URI = backendURI;
-
 let sensorToPlot = 0;
+
 let granularityInput = document.querySelector('#granularity');
-granularityInput.value = 50;
 let granularity = granularityInput.value;
 
 
