@@ -35,21 +35,29 @@ async function init(db) {
 }
 
 async function getSensors(db) {
-  let sql =  'SELECT ID, MAC_ADDRESS, LOCATION ' +
+  let sql = 'SELECT ID, MAC_ADDRESS, LOCATION ' +
     'FROM SENSOR';
   let params = [];
   return db.all(sql, params);
 }
 
+async function getSensorById(db, SENSOR_ID) {
+  let sql = 'SELECT ID, MAC_ADDRESS, LOCATION ' +
+    'FROM SENSOR ' +
+    'WHERE ID = ?';
+  let params = [SENSOR_ID];
+  return db.all(sql, params);
+}
+
 async function getSensorData(db) {
-  let sql =  'SELECT SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY ' +
-      'FROM SENSOR_DATA';
+  let sql = 'SELECT SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY ' +
+    'FROM SENSOR_DATA';
   let params = [];
   return db.all(sql, params);
 }
 
 async function getSensorDataById(db, SENSOR_ID) {
-  let sql =  'SELECT SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY ' +
+  let sql = 'SELECT SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY ' +
         'FROM SENSOR_DATA ' +
         'WHERE SENSOR_ID = ?';
   let params = [SENSOR_ID];
@@ -71,4 +79,5 @@ module.exports = {
   'getSensorDataById' : getSensorDataById,
   'insertWeatherData': insertWeatherData,
   'closeDb': closeDb,
+  'getSensorById': getSensorById,
 };
