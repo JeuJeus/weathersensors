@@ -6,12 +6,13 @@ const UPDATE_INTERVAL = 1000 * 60 * 5;
 const SERVER_URI = backendURI;
 
 let sensorToPlot = 0;
+let granularity = document.querySelector('#granulartiy').value;
 
 init();
 
 function init() {
-  document.querySelector("#yAxisToggleButton").addEventListener('click', yAxisStartToggle, false);
-  createChartsForSensor(sensorToPlot);
+  document.querySelector('#yAxisToggleButton').addEventListener('click', yAxisStartToggle, false);
+  createChartsForSensor(sensorToPlot, granularity);
   updateSensorsDropdown();
   setInterval(updateDataOnPage.bind(this, sensorToPlot), UPDATE_INTERVAL);
 }
@@ -64,8 +65,9 @@ function mapValuesOfData(data) {
   return {timestamps, temperature, airPressure, humidity};
 }
 
-function createChartsForSensor(sensorToPlot) {
+function createChartsForSensor(sensorToPlot, granularity) {
   $.get(SERVER_URI + '/sensorData/id/' + sensorToPlot, function(data) {
+    data.sensorData = reduceElementsToMaxSize(data.sensorData, granularity);
     let {timestamps, temperature, airPressure, humidity} = mapValuesOfData(data);
 
     temperatureChart = createChart('chartTemperature', data, temperature, timestamps, 'Temperature', 'rgba(0, 119, 204, 0.3)');
