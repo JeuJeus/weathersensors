@@ -57,14 +57,16 @@ function mapValuesOfData(data) {
 }
 
 function createChartsForSensor(sensorToPlot) {
-  $.get(SERVER_URI + '/sensorAndData/id/' + sensorToPlot, function(data) {
+  $.get(SERVER_URI + '/sensorData/id/' + sensorToPlot, function(data) {
     let {timestamps, temperature, airPressure, humidity} = mapValuesOfData(data);
 
     temperatureChart = createChart('chartTemperature', data, temperature, timestamps, 'Temperature', 'rgba(0, 119, 204, 0.3)');
     airPressureChart = createChart('chartAirPressure', data, airPressure, timestamps, 'Air Pressure', 'rgb(0,204,109)');
     humidityChart = createChart('chartHumidity', data, humidity, timestamps, 'Humidity', 'rgb(204,0,112)');
 
-    setValuesToBeDisplayed(data.sensor[0], temperature.slice(-1)[0], airPressure.slice(-1)[0], humidity.slice(-1)[0]);
+    $.get(SERVER_URI + '/sensor/id/' + sensorToPlot, function(data) {
+      setValuesToBeDisplayed(data.sensor, temperature.slice(-1)[0], airPressure.slice(-1)[0], humidity.slice(-1)[0]);
+    });
   });
 }
 
@@ -83,14 +85,16 @@ function updateChart(chart, timestamps, values) {
 }
 
 function updateCharts(sensorToPlot) {
-  $.get(SERVER_URI + '/sensorAndData/id/' + sensorToPlot, function(data) {
+  $.get(SERVER_URI + '/sensorData/id/' + sensorToPlot, function(data) {
     let {timestamps, temperature, airPressure, humidity} = mapValuesOfData(data);
 
     updateChart(temperatureChart, timestamps, temperature);
     updateChart(airPressureChart, timestamps, airPressure);
     updateChart(humidityChart, timestamps, humidity);
 
-    setValuesToBeDisplayed(data.sensor[0], temperature.slice(-1)[0], airPressure.slice(-1)[0], humidity.slice(-1)[0]);
+    $.get(SERVER_URI + '/sensor/id/' + sensorToPlot, function(data) {
+      setValuesToBeDisplayed(data, temperature.slice(-1)[0], airPressure.slice(-1)[0], humidity.slice(-1)[0]);
+    });
   });
 }
 
