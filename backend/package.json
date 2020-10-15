@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node test/testDataBaseSetup.js",
-    "helperTests": "node test/helperTests.js",
-    "start": "node restController.js"
+    "test": "node src/test/testDataBaseSetup.js",
+    "helperTests": "node src/test/helperTests.js",
+    "start": "node src/main/restController.js"
   },
   "keywords": [],
   "author": "",

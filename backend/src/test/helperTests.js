@@ -1,4 +1,4 @@
-const helper = require('../helper');
+const helper = require('../main/helper');
 const testData = require('./testData');
 
 testReduceElementsToMaxSize();
