@@ -90,7 +90,7 @@ function updateCharts(sensorToPlot) {
     updateChart(airPressureChart, timestamps, airPressure);
     updateChart(humidityChart, timestamps, humidity);
 
-    setValuesToBeDisplayed(data.sensors[sensorToPlot], temperature.slice(-1)[0], airPressure.slice(-1)[0], humidity.slice(-1)[0]);
+    setValuesToBeDisplayed(data.sensor[0], temperature.slice(-1)[0], airPressure.slice(-1)[0], humidity.slice(-1)[0]);
   });
 }
 
