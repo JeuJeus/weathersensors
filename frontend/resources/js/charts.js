@@ -11,9 +11,11 @@ let granularity = granularityInput.value;
 init(sensorToPlot, granularity, granularityInput);
 
 function init(sensorToPlot, granularity, granularityInput) {
+
   document.querySelector('#yAxisToggleButton').addEventListener('click', yAxisStartToggle, false);
-  console.log(document.querySelector('#granularity').value);
+
   granularityInput.addEventListener('keydown', granularityOnChange.bind(this, sensorToPlot, granularity, granularityInput), false);
+
   createChartsForSensor(sensorToPlot, granularity);
   updateSensorsDropdown(granularity);
   setInterval(updateDataOnPage.bind(this, sensorToPlot, granularity), UPDATE_INTERVAL);
@@ -111,12 +113,6 @@ function updateCharts(sensorToPlot, granularity) {
   });
 }
 
-function switchSensor(sensor, granularity) {
-  // todo that's still ugly:(
-  sensorToPlot = sensor;
-  updateCharts(sensorToPlot, granularity);
-}
-
 function updateSensorsDropdown(granularity) {
   $.get(SERVER_URI + '/sensors/', function(data) {
 
@@ -129,17 +125,11 @@ function updateSensorsDropdown(granularity) {
       sensorLink.classList.add('dropdown-item');
       //TODO REPLACE ME WITH ALIAS
       sensorLink.textContent = `${s.ID} - ${s.LOCATION}`;
-      sensorLink.onclick = sensorLinkOnClick.bind(this, s.ID, granularity);
+      sensorLink.onclick = updateCharts.bind(this, parseInt(s.ID), granularity);
       sensorSelectDropdown.append(sensorLink);
     });
 
   });
-}
-
-
-function sensorLinkOnClick(ID, granularity){
-  sensorToPlot = parseInt(ID);
-  switchSensor(sensorToPlot, granularity);
 }
 
 function granularityOnChange(sensorToPlot, currentGranularity, input, e){
