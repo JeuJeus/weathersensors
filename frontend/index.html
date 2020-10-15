@@ -39,7 +39,7 @@
         </div>
     </div>
 
-    <button class="btn btn-outline-light btn-nav" onclick="yAxisStartToggle()" type="button">Toggle Y-Axis Start
+    <button id="yAxisToggleButton" class="btn btn-outline-light btn-nav" type="button">Toggle Y-Axis Start
     </button>
 
 </nav>
@@ -74,10 +74,11 @@
     </article>
     <article class="row">
         <section class="col text-center mt-3">
-            <form>
+            <div id = "granularityContainer">
                 <label for="granulartiy">Granulartiy: </label>
                 <input type="text" id="granulartiy" name="granulartiy">
-            </form>
+                <span> data points</span>
+            </div>
         </section>
     </article>
 </div>

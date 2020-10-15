@@ -7,9 +7,15 @@ const SERVER_URI = backendURI;
 
 let sensorToPlot = 0;
 
-createChartsForSensor(sensorToPlot);
-updateSensorsDropdown();
-setInterval(updateDataOnPage, UPDATE_INTERVAL);
+init();
+
+function init() {
+  document.querySelector("#yAxisToggleButton").addEventListener('click', yAxisStartToggle, false);
+  createChartsForSensor(sensorToPlot);
+  updateSensorsDropdown();
+  setInterval(updateDataOnPage.bind(this, sensorToPlot), UPDATE_INTERVAL);
+}
+
 
 function createChart(chartCanvasName, data, values, timestamps, label, color) {
 
@@ -118,16 +124,20 @@ function updateSensorsDropdown() {
       sensorLink.classList.add('dropdown-item');
       //TODO REPLACE ME WITH ALIAS
       sensorLink.textContent = `${s.ID} - ${s.LOCATION}`;
-      sensorLink.onclick = function() {
-        switchSensor(parseInt(s.ID));
-      };
+      sensorLink.onclick = sensorLinkOnClick.bind(this, s.ID);
       sensorSelectDropdown.append(sensorLink);
     });
 
   });
 }
 
-function updateDataOnPage() {
+
+function sensorLinkOnClick(ID){
+  sensorToPlot = parseInt(ID);
+  switchSensor(sensorToPlot);
+}
+
+function updateDataOnPage(sensorToPlot) {
   updateCharts(sensorToPlot);
   updateSensorsDropdown();
 }
