@@ -1,12 +1,11 @@
 import {SERVER_URI, UPDATE_INTERVAL} from './localConfig.js';
 
-let temperatureChart, airPressureChart, humidityChart;
+let unifiedChart;
 
 let sensorToPlot = 0;
 
 let granularityInput = document.querySelector('#granularity');
 let granularity = granularityInput.value;
-
 
 init(sensorToPlot, granularity, granularityInput);
 
@@ -21,8 +20,7 @@ function init(sensorToPlot, granularity, granularityInput) {
   setInterval(updateDataOnPage.bind(this, sensorToPlot, granularity), UPDATE_INTERVAL);
 }
 
-
-function createChart(chartCanvasName, data, values, timestamps, label, color) {
+function createChart(chartCanvasName, data, timestamps, tempVals, airPressVals, humidVals) {
 
   let chart = document.getElementById(chartCanvasName).getContext('2d');
 
@@ -31,14 +29,42 @@ function createChart(chartCanvasName, data, values, timestamps, label, color) {
     data: {
       labels: timestamps,
       datasets: [{
-        label: label,
-        data: values,
-        backgroundColor: color,
+        yAxisID: 'temp',
+        label: tempVals.label,
+        data: tempVals.data,
+        backgroundColor: tempVals.color,
+      }, {
+        yAxisID: 'air',
+        label: airPressVals.label,
+        data: airPressVals.data,
+        backgroundColor: airPressVals.color,
+      }, {
+        yAxisID: 'humid',
+        label: humidVals.label,
+        data: humidVals.data,
+        backgroundColor: humidVals.color,
       }],
     },
     options: {
       scales: {
         yAxes: [{
+          id: 'temp',
+          type: 'linear',
+          position: 'left',
+          ticks: {
+            beginAtZero: false,
+          },
+        }, {
+          id: 'air',
+          type: 'linear',
+          position: 'right',
+          ticks: {
+            beginAtZero: false,
+          },
+        }, {
+          id: 'humid',
+          type: 'linear',
+          position: 'right',
           ticks: {
             beginAtZero: false,
           },
@@ -71,12 +97,28 @@ function mapValuesOfData(data) {
 
 function createChartsForSensor(sensorToPlot, granularity) {
   $.get(SERVER_URI + '/sensorData/id/' + sensorToPlot, function(data) {
-    data.sensorData = reduceElementsToMaxSize(data.sensorData, granularity);
+
+    // data.sensorData = reduceElementsToMaxSize(data.sensorData, granularity);
+
     let {timestamps, temperature, airPressure, humidity} = mapValuesOfData(data);
 
-    temperatureChart = createChart('chartTemperature', data, temperature, timestamps, 'Temperature', 'rgba(0, 119, 204, 0.3)');
-    airPressureChart = createChart('chartAirPressure', data, airPressure, timestamps, 'Air Pressure', 'rgb(0,204,109)');
-    humidityChart = createChart('chartHumidity', data, humidity, timestamps, 'Humidity', 'rgb(204,0,112)');
+    let tempVals = {
+      label: 'Temperature',
+      data: temperature,
+      color: 'rgba(0, 119, 204, 0.3)',
+    };
+    let airPressVals = {
+      label: 'Air Pressure',
+      data: airPressure,
+      color: 'rgb(0,204,109)',
+    };
+    let humidVals = {
+      label: 'Humidity',
+      data: humidity,
+      color: 'rgb(204,0,112)',
+    };
+
+    unifiedChart = createChart('Sensor Data', data, timestamps, tempVals, airPressVals, humidVals);
 
     $.get(SERVER_URI + '/sensor/id/' + sensorToPlot, function(data) {
       setValuesToBeDisplayed(data.sensor, temperature.slice(-1)[0], airPressure.slice(-1)[0], humidity.slice(-1)[0]);
@@ -92,20 +134,22 @@ function setValuesToBeDisplayed(sensor, tempNow, airPressNow, humidNow) {
   document.getElementById('humidityNow').innerText = humidNow.toFixed(2) + '%';
 }
 
-function updateChart(chart, timestamps, values) {
+function updateChart(chart, timestamps, temperature, airPressure, humidity) {
   chart.data.labels = timestamps;
-  chart.data.datasets[0].data = values;
+  chart.data.datasets[0].data = temperature;
+  chart.data.datasets[0].data = airPressure;
+  chart.data.datasets[0].data = humidity;
   chart.update();
 }
 
 function updateCharts(sensorToPlot, granularity) {
   $.get(SERVER_URI + '/sensorData/id/' + sensorToPlot, function(data) {
-    data.sensorData = reduceElementsToMaxSize(data.sensorData, granularity);
+
+    // data.sensorData = reduceElementsToMaxSize(data.sensorData, granularity);
+
     let {timestamps, temperature, airPressure, humidity} = mapValuesOfData(data);
 
-    updateChart(temperatureChart, timestamps, temperature);
-    updateChart(airPressureChart, timestamps, airPressure);
-    updateChart(humidityChart, timestamps, humidity);
+    updateChart(unifiedChart, timestamps, temperature, airPressure, humidity);
 
     $.get(SERVER_URI + '/sensor/id/' + sensorToPlot, function(data) {
       setValuesToBeDisplayed(data.sensor, temperature.slice(-1)[0], airPressure.slice(-1)[0], humidity.slice(-1)[0]);
@@ -132,12 +176,12 @@ function updateSensorsDropdown(granularity) {
   });
 }
 
-function granularityOnChange(sensorToPlot, currentGranularity, input, e){
+function granularityOnChange(sensorToPlot, currentGranularity, input, e) {
   let keycode = (e.keyCode ? e.keyCode : e.which);
-  if (keycode === 13){
-    if (isInt(input.value)){
+  if (keycode === 13) {
+    if (isInt(input.value)) {
       let newGranularity = parseInt(input.value);
-      if (newGranularity !== currentGranularity && newGranularity > 1){
+      if (newGranularity !== currentGranularity && newGranularity > 1) {
         granularity = parseInt(input.value, 10);
         updateCharts(sensorToPlot, granularity);
       }
@@ -152,10 +196,8 @@ function updateDataOnPage(sensorToPlot, granularity) {
 
 function yAxisStartToggle() {
   //TODO THERE MUST BE SOME DAMN BETTER WAY DOING THIS
-  temperatureChart.options.scales.yAxes[0].ticks.beginAtZero = !temperatureChart.options.scales.yAxes[0].ticks.beginAtZero;
-  temperatureChart.update();
-  airPressureChart.options.scales.yAxes[0].ticks.beginAtZero = !airPressureChart.options.scales.yAxes[0].ticks.beginAtZero;
-  airPressureChart.update();
-  humidityChart.options.scales.yAxes[0].ticks.beginAtZero = !humidityChart.options.scales.yAxes[0].ticks.beginAtZero;
-  humidityChart.update();
+  unifiedChart.options.scales.yAxes[0].ticks.beginAtZero = !unifiedChart.options.scales.yAxes[0].ticks.beginAtZero;
+  unifiedChart.options.scales.yAxes[1].ticks.beginAtZero = !unifiedChart.options.scales.yAxes[1].ticks.beginAtZero;
+  unifiedChart.options.scales.yAxes[2].ticks.beginAtZero = !unifiedChart.options.scales.yAxes[2].ticks.beginAtZero;
+  unifiedChart.update();
 }
