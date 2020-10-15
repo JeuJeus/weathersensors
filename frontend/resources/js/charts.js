@@ -1,12 +1,13 @@
 let temperatureChart, airPressureChart, humidityChart;
 
 const UPDATE_INTERVAL = 1000 * 60 * 5;
-const SERVER_URI = 'https://awe2-api.jeujeus.de/weatherData';
+const SERVER_URI = 'https://awe2-api.jeujeus.de';
 
 let sensorToPlot = 0;
 
 createChartsForSensor(sensorToPlot);
-setInterval(updateCharts, UPDATE_INTERVAL);
+updateSensorsDropdown();
+setInterval(updateDataOnPage, UPDATE_INTERVAL);
 
 function createChart(chartCanvasName, data, values, timestamps, label, color) {
 
@@ -56,24 +57,20 @@ function mapValuesOfData(data, sensor) {
 }
 
 function createChartsForSensor(sensorToPlot) {
-  $.get(SERVER_URI, function(data) {
-
-    updateSensorsDropdown(data.sensors);
-
+  $.get(SERVER_URI + '/weatherData/id/' + sensorToPlot, function(data) {
     let {timestamps, temperature, airPressure, humidity} = mapValuesOfData(data, sensorToPlot);
 
     temperatureChart = createChart('chartTemperature', data, temperature, timestamps, 'Temperature', 'rgba(0, 119, 204, 0.3)');
     airPressureChart = createChart('chartAirPressure', data, airPressure, timestamps, 'Air Pressure', 'rgb(0,204,109)');
     humidityChart = createChart('chartHumidity', data, humidity, timestamps, 'Humidity', 'rgb(204,0,112)');
 
-    setValuesToBeDisplayed(data.sensors[sensorToPlot], temperature.slice(-1)[0], airPressure.slice(-1)[0], humidity.slice(-1)[0]);
+    setValuesToBeDisplayed(data.sensor[0], temperature.slice(-1)[0], airPressure.slice(-1)[0], humidity.slice(-1)[0]);
   });
 }
 
 function setValuesToBeDisplayed(sensor, tempNow, airPressNow, humidNow) {
-
   document.getElementById('sensorPlotting').innerText = sensor.ID;
-  document.getElementById("sensorPlottingLocation").innerText = sensor.LOCATION ? sensor.LOCATION : '';
+  document.getElementById('sensorPlottingLocation').innerText = sensor.LOCATION ? sensor.LOCATION : '';
   document.getElementById('temperatureNow').innerText = tempNow.toFixed(2) + '°C';
   document.getElementById('airPressureNow').innerText = airPressNow.toFixed(2) + 'mbar';
   document.getElementById('humidityNow').innerText = humidNow.toFixed(2) + '%';
@@ -86,15 +83,13 @@ function updateChart(chart, timestamps, values) {
 }
 
 function updateCharts(sensorToPlot) {
-  $.get(SERVER_URI, function(data) {
-
-    updateSensorsDropdown(data.sensors);
-
+  $.get(SERVER_URI + '/weatherData', function(data) {
     let {timestamps, temperature, airPressure, humidity} = mapValuesOfData(data, sensorToPlot);
 
     updateChart(temperatureChart, timestamps, temperature);
     updateChart(airPressureChart, timestamps, airPressure);
     updateChart(humidityChart, timestamps, humidity);
+
     setValuesToBeDisplayed(data.sensors[sensorToPlot], temperature.slice(-1)[0], airPressure.slice(-1)[0], humidity.slice(-1)[0]);
   });
 }
@@ -105,21 +100,30 @@ function switchSensor(sensor) {
   updateCharts(sensorToPlot);
 }
 
-function updateSensorsDropdown(sensors) {
-  let sensorSelectDropdown = document.getElementById('sensorForChartDropdown');
+function updateSensorsDropdown() {
+  $.get(SERVER_URI + '/sensors/', function(data) {
 
-  sensorSelectDropdown.querySelectorAll('*').forEach(n => n.remove());
+    let sensorSelectDropdown = document.getElementById('sensorForChartDropdown');
 
-  sensors.forEach(s => {
-    let sensorLink = document.createElement('a');
-    sensorLink.classList.add('dropdown-item');
-    //TODO REPLACE ME WITH ALIAS
-    sensorLink.textContent = `${s.ID} - ${s.LOCATION}`;
-    sensorLink.onclick = function() {
-      switchSensor(parseInt(s.ID));
-    };
-    sensorSelectDropdown.append(sensorLink);
+    sensorSelectDropdown.querySelectorAll('*').forEach(n => n.remove());
+
+    data.sensors.forEach(s => {
+      let sensorLink = document.createElement('a');
+      sensorLink.classList.add('dropdown-item');
+      //TODO REPLACE ME WITH ALIAS
+      sensorLink.textContent = `${s.ID} - ${s.LOCATION}`;
+      sensorLink.onclick = function() {
+        switchSensor(parseInt(s.ID));
+      };
+      sensorSelectDropdown.append(sensorLink);
+    });
+
   });
+}
+
+function updateDataOnPage() {
+  updateCharts(sensorToPlot);
+  updateSensorsDropdown();
 }
 
 function yAxisStartToggle() {
