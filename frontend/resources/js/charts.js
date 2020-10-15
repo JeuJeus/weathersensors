@@ -187,13 +187,13 @@ function EnterKeyPressed(e) {
   return (e.keyCode ? e.keyCode : e.which) === 13;
 }
 
-
 function isInt(value) {
   return /^\d+$/.test(value);
 }
 
 function granularityOnChange(sensorToPlot, currentGranularity, input, e) {
   if (EnterKeyPressed(e) && isInt(input.value)) {
+    e.preventDefault();
     let newGranularity = parseInt(input.value);
     if (newGranularity !== currentGranularity && newGranularity > 1) {
       granularity = parseInt(input.value, 10);
