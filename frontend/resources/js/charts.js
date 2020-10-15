@@ -1,7 +1,9 @@
+import { backendURI } from './localConfig.js';
+
 let temperatureChart, airPressureChart, humidityChart;
 
 const UPDATE_INTERVAL = 1000 * 60 * 5;
-const SERVER_URI = 'https://awe2-api.jeujeus.de';
+const SERVER_URI = backendURI;
 
 let sensorToPlot = 0;
 
