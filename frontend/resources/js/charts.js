@@ -129,7 +129,7 @@ function createChartsForSensor(sensorToPlot, granularity) {
   });
 }
 
-function setValuesToBeDisplayed(sensor, tempNow, airPressNow, humidNow) {
+function setValuesToBeDisplayed(sensor, tempNow, humidNow, airPressNow) {
   document.getElementById('sensorPlotting').innerText = sensor.ID;
   document.getElementById('sensorPlottingLocation').innerText = sensor.LOCATION ? sensor.LOCATION : '';
   document.getElementById('temperatureNow').innerText = tempNow.toFixed(2) + '°C';
