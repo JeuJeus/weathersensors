@@ -57,7 +57,7 @@ function mapValuesOfData(data) {
 }
 
 function createChartsForSensor(sensorToPlot) {
-  $.get(SERVER_URI + '/weatherData/id/' + sensorToPlot, function(data) {
+  $.get(SERVER_URI + '/sensorAndData/id/' + sensorToPlot, function(data) {
     let {timestamps, temperature, airPressure, humidity} = mapValuesOfData(data);
 
     temperatureChart = createChart('chartTemperature', data, temperature, timestamps, 'Temperature', 'rgba(0, 119, 204, 0.3)');
@@ -83,7 +83,7 @@ function updateChart(chart, timestamps, values) {
 }
 
 function updateCharts(sensorToPlot) {
-  $.get(SERVER_URI + '/weatherData/id/' + sensorToPlot, function(data) {
+  $.get(SERVER_URI + '/sensorAndData/id/' + sensorToPlot, function(data) {
     let {timestamps, temperature, airPressure, humidity} = mapValuesOfData(data);
 
     updateChart(temperatureChart, timestamps, temperature);

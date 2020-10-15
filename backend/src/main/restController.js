@@ -42,7 +42,7 @@ app.get('/weatherData', async function(req, res) {
   response.sensorData = helper.reduceElementsToMaxSize(response.sensorData, helper.INITIAL_MAX_SENSOR_DATA_ELEMENTS);
   res.send(response);
 });
-app.get('/weatherData/id/:SENSOR_ID', async function(req, res) {
+app.get('/sensorAndData/id/:SENSOR_ID', async function(req, res) {
   res.set('Access-Control-Allow-Origin', '*'); // Security not needed xD
   let response = {
     'sensor': [],
