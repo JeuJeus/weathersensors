@@ -60,9 +60,8 @@
         </section>
     </article>
 
-    <article class="row borderRadius" id="chartOptions">
-        <!--        TODO FIX BREAKPOINT FOR RESPONSIVENESS-->
-        <section class="col text-center">
+    <div class="row borderRadius" id="chartOptions">
+        <div class="col text-center col-12 col-sm-8 col-md-4 mt-4">
             <div class="dropdown buttonMargin">
                 <button class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" type="button">
                     Select Sensor
@@ -70,24 +69,26 @@
                 <div class="dropdown-menu buttonMargin" id="sensorForChartDropdown">
                 </div>
             </div>
-        </section>
-        <section class="col text-center">
+        </div>
+        <div class="col text-center col-12 col-sm-8 col-md-4 mt-4">
             <form>
                 <div class="input-group buttonMargin">
                     <div class="input-group-prepend">
                         <div class="input-group-text">Granularity <i class="leftSpace fas fa-braille"></i></div>
                     </div>
-                    <!--                    TODO FIX VARIABLE WIDTH-->
-                    <input class="form-control" id="granularity" name="granularity" style="width: 0.3em" type="text"
+                    <input class="form-control inputMargin" id="granularity" name="granularity" style="width: 0.3em"
+                           type="text"
                            value=50>
                 </div>
             </form>
-        </section>
-        <section class="col text-center buttonMargin">
-            <button class="btn btn-outline-dark btn-nav" id="yAxisToggleButton" type="button">Toggle Y-Axis Start
-            </button>
-        </section>
-    </article>
+        </div>
+        <div class="col text-center col-12 col-sm-8 col-md-4 mt-4">
+            <div class="buttonMargin">
+                <button class="btn btn-outline-dark btn-nav" id="yAxisToggleButton" type="button">Toggle Y-Axis Start
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="container chartz">

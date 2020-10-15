@@ -26,6 +26,14 @@
     font-size: 1.5rem;
 }
 
+.mt-4, .my-4 {
+    margin-top: 0em !important;
+}
+
+.inputMargin {
+    margin-right: 5em;
+}
+
 .input-group-text {
     background-color: #bab9b9;
     border: 1px solid #343a40;
