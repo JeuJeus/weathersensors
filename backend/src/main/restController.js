@@ -49,7 +49,7 @@ app.get('/weatherData/id/:SENSOR_ID', async function(req, res) {
     'sensorData': [],
   };
   if (req.params.SENSOR_ID && !isNaN(parseInt(req.params.SENSOR_ID))) {
-    response.sensor = await dbConnection.getSensor(db, req.params.SENSOR_ID);
+    response.sensor = await dbConnection.getSensorById(db, req.params.SENSOR_ID);
     response.sensorData = await dbConnection.getSensorDataById(db, req.params.SENSOR_ID);
     res.status(200).send(response);
   } else {
