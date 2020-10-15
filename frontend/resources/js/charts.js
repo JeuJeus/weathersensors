@@ -137,7 +137,7 @@ function setValuesToBeDisplayed(sensor, tempNow, humidNow, airPressNow) {
   document.getElementById('airPressureNow').innerText = airPressNow.toFixed(2) + 'mbar';
 }
 
-function updateChart(chart, timestamps, temperature, airPressure, humidity) {
+function updateChart(chart, timestamps, temperature, humidity, airPressure) {
   chart.data.labels = timestamps;
   chart.data.datasets[0].data = temperature;
   chart.data.datasets[0].data = humidity;
