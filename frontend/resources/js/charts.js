@@ -6,7 +6,7 @@ const UPDATE_INTERVAL = 1000 * 60 * 5;
 const SERVER_URI = backendURI;
 
 let sensorToPlot = 0;
-let granularity = document.querySelector('#granulartiy').value;
+let granularity = document.querySelector('#granularity').value;
 
 init();
 
