@@ -179,15 +179,21 @@ function updateSensorsDropdown(granularity) {
   });
 }
 
+function EnterKeyPressed(e) {
+  return (e.keyCode ? e.keyCode : e.which) === 13;
+}
+
+
+function isInt(value) {
+  return /^\d+$/.test(value);
+}
+
 function granularityOnChange(sensorToPlot, currentGranularity, input, e) {
-  let keycode = (e.keyCode ? e.keyCode : e.which);
-  if (keycode === 13) {
-    if (isInt(input.value)) {
-      let newGranularity = parseInt(input.value);
-      if (newGranularity !== currentGranularity && newGranularity > 1) {
-        granularity = parseInt(input.value, 10);
-        updateCharts(sensorToPlot, granularity);
-      }
+  if (EnterKeyPressed(e) && isInt(input.value)) {
+    let newGranularity = parseInt(input.value);
+    if (newGranularity !== currentGranularity && newGranularity > 1) {
+      granularity = parseInt(input.value, 10);
+      updateCharts(sensorToPlot, granularity);
     }
   }
 }
@@ -204,16 +210,9 @@ function yAxisStartToggle() {
   unifiedChart.options.scales.yAxes[2].ticks.beginAtZero = !unifiedChart.options.scales.yAxes[2].ticks.beginAtZero;
   unifiedChart.update();
 }
-
 function reduceElementsToMaxSize(elements, maxSize){
   if (elements.length <= maxSize) return elements;
   let orig_size = elements.length;
   return Array.from({length: maxSize}, (_, i) =>
       elements[Math.floor(i * (orig_size + Math.floor(orig_size/maxSize))/maxSize)]);
-}
-
-function isInt(value) {
-  return !isNaN(value) &&
-      parseInt(Number(value)) == value &&
-      !isNaN(parseInt(value, 10));
 }
