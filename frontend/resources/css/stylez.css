@@ -3,12 +3,13 @@
     margin-right: 0.5em;
 }
 
-.buttonMargin {
-    margin-right: 1em;
-    margin-left: 1em;
-}
 
 /*CHARTS*/
+
+.buttonMargin {
+    margin: 1.5em 1em;
+}
+
 .chartz {
     margin-top: 2em;
     margin-bottom: 2em;
@@ -25,25 +26,56 @@
     font-size: 1.5rem;
 }
 
-.biggerInput{
-    font-size: 1.5rem;
+.input-group-text {
+    background-color: #bab9b9;
+    border: 1px solid #343a40;
 }
 
-#nowValues > section{
+.leftSpace {
+    padding-left: 0.3em;
+}
+
+.borderRadius {
+    border-radius: 5px;
+}
+
+.sensorNaming {
+    margin-top: 0.2em;
+    margin-bottom: 0.4em;
+    padding-top: 0.5em;
+}
+
+#nowValues > section {
     padding: 0 0.3rem;
 }
-#nowValues > section > div{
+
+#nowValues > section > div {
     height: 100%;
 }
-#sensorNowSection > div{
+
+#sensorNowSection > div {
     background-color: rgba(214, 210, 68, 0.5);
+    border-radius: 5px;
 }
-#temperatureNowSection > div{
+
+#temperatureNowSection > div {
     background-color: rgba(204, 0, 112, 0.5);
+    border-radius: 5px;
 }
-#humidityNowSection > div{
+
+#humidityNowSection > div {
     background-color: rgba(0, 39, 191, 0.5);
+    border-radius: 5px;
 }
-#airPressureNowSection > div{
+
+#airPressureNowSection > div {
     background-color: rgba(0, 204, 109, 0.5);
+    border-radius: 5px;
+}
+
+#chartOptions {
+    background-color: rgba(186, 185, 185, 1);
+    margin-left: -10px;
+    margin-right: -10px;
+    margin-top: 1em;
 }

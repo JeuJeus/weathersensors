@@ -26,63 +26,66 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-
     <a class="navbar-brand" href="/">
         <img alt="" class="d-inline-block align-top" height="30" src="resources/img/logo.png" width="30">
         AWE2 - Wettersensoren</a>
-
-    <div class="dropdown buttonMargin">
-        <button class="btn btn-outline-light dropdown-toggle" data-toggle="dropdown" type="button">
-            Select Sensor
-        </button>
-        <div class="dropdown-menu buttonMargin" id="sensorForChartDropdown">
-        </div>
-    </div>
-
-    <button id="yAxisToggleButton" class="btn btn-outline-light btn-nav" type="button">Toggle Y-Axis Start
-    </button>
-
 </nav>
 
 <div class="container chartz">
     <article class="row" id="nowValues">
         <section class="col-12 col-sm-6 col-md-3 mt-3" id="sensorNowSection">
             <div class="text-center">
-                <p>Sensor <i class="fas fa-microchip"></i></p>
+                <p class="sensorNaming">Sensor <i class="fas fa-microchip"></i></p>
                 <h3 id="sensorPlotting" class="m-0">NaN</h3>
                 <small><span id="sensorPlottingLocation"></span></small>
             </div>
         </section>
         <section class="col-12 col-sm-6 col-md-3 mt-3" id="temperatureNowSection">
             <div class="text-center">
-                <p>Temperature <i class="fas fa-thermometer-quarter"></i></p>
+                <p class="sensorNaming">Temperature <i class="fas fa-thermometer-quarter"></i></p>
                 <h3 id="temperatureNow">NaN</h3>
             </div>
         </section>
         <section class="col-12 col-sm-6 col-md-3 mt-3" id="humidityNowSection">
             <div class="text-center">
-                <p>Humidity <i class="fas fa-tint"></i></p>
+                <p class="sensorNaming">Humidity <i class="fas fa-tint"></i></p>
                 <h3 id="humidityNow">NaN</h3>
             </div>
         </section>
         <section class="col-12 col-sm-6 col-md-3 mt-3" id="airPressureNowSection">
             <div class="text-center">
-                <p>Air Pressure <i class="fas fa-wind"></i></p>
+                <p class="sensorNaming">Air Pressure <i class="fas fa-wind"></i></p>
                 <h3 id="airPressureNow">NaN</h3>
             </div>
         </section>
     </article>
 
-    <article class="row">
-        <section class="col text-center mt-3">
-            <div id = "granularityContainer">
-                <label for="granularity"><h4>Granularity <i class="fas fa-braille"></i></h4></label>
-                <br>
-                <input class="form-control-sm biggerInput" id="granularity" name="granularity" type="text" value="50">
-                <span class="fas fa-horse-head funIcon"></span>
-                <br>
-                <span> data points</span>
+    <article class="row borderRadius" id="chartOptions">
+        <!--        TODO FIX BREAKPOINT FOR RESPONSIVENESS-->
+        <section class="col text-center">
+            <div class="dropdown buttonMargin">
+                <button class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" type="button">
+                    Select Sensor
+                </button>
+                <div class="dropdown-menu buttonMargin" id="sensorForChartDropdown">
+                </div>
             </div>
+        </section>
+        <section class="col text-center">
+            <form>
+                <div class="input-group buttonMargin">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Granularity <i class="leftSpace fas fa-braille"></i></div>
+                    </div>
+                    <!--                    TODO FIX VARIABLE WIDTH-->
+                    <input class="form-control" id="granularity" name="granularity" style="width: 0.3em" type="text"
+                           value=50>
+                </div>
+            </form>
+        </section>
+        <section class="col text-center buttonMargin">
+            <button class="btn btn-outline-dark btn-nav" id="yAxisToggleButton" type="button">Toggle Y-Axis Start
+            </button>
         </section>
     </article>
 </div>
