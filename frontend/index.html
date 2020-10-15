@@ -45,33 +45,41 @@
 </nav>
 
 <div class="container chartz">
-    <div class="row">
-        <div class="col-12 col-sm-6 col-md-3">
+    <article class="row">
+        <section class="col-12 col-sm-6 col-md-3 mt-3">
             <div class="text-center">
                 <p>Sensor <i class="fas fa-microchip"></i></p>
                 <h3 id="sensorPlotting" class="m-0">NaN</h3>
                 <small><span id="sensorPlottingLocation"></span></small>
             </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-3">
+        </section>
+        <section class="col-12 col-sm-6 col-md-3 mt-3">
             <div class="text-center">
                 <p>Temperature <i class="fas fa-thermometer-quarter"></i></p>
                 <h3 id="temperatureNow">NaN</h3>
             </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-3">
+        </section>
+        <section class="col-12 col-sm-6 col-md-3 mt-3">
             <div class="text-center">
                 <p>Air Pressure <i class="fas fa-wind"></i></p>
                 <h3 id="airPressureNow">NaN</h3>
             </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-3">
+        </section>
+        <section class="col-12 col-sm-6 col-md-3 mt-3">
             <div class="text-center">
                 <p>Humidity <i class="fas fa-tint"></i></p>
                 <h3 id="humidityNow">NaN</h3>
             </div>
-        </div>
-    </div>
+        </section>
+    </article>
+    <article class="row">
+        <section class="col text-center mt-3">
+            <form>
+                <label for="granulartiy">Granulartiy: </label>
+                <input type="text" id="granulartiy" name="granulartiy">
+            </form>
+        </section>
+    </article>
 </div>
 
 <div class="container chartz">
