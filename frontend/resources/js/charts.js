@@ -108,12 +108,12 @@ function createChartsForSensor(sensorToPlot, granularity) {
     let tempVals = {
       label: 'Temperature',
       data: temperature,
-      color: 'rgb(0,39,191)',
+      color:'rgb(204,0,112)'
     };
     let humidVals = {
       label: 'Humidity',
       data: humidity,
-      color: 'rgb(204,0,112)',
+      color: 'rgb(0,39,191)',
     };
     let airPressVals = {
       label: 'Air Pressure',
