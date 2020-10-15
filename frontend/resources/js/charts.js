@@ -52,6 +52,7 @@ function createChart(chartCanvasName, data, timestamps, tempVals, humidVals, air
           type: 'linear',
           position: 'left',
           ticks: {
+            fontColor: tempVals.color,
             beginAtZero: false,
           },
         }, {
@@ -59,6 +60,7 @@ function createChart(chartCanvasName, data, timestamps, tempVals, humidVals, air
           type: 'linear',
           position: 'right',
           ticks: {
+            fontColor: humidVals.color,
             beginAtZero: false,
           },
         }, {
@@ -66,6 +68,7 @@ function createChart(chartCanvasName, data, timestamps, tempVals, humidVals, air
           type: 'linear',
           position: 'right',
           ticks: {
+            fontColor: airPressVals.color,
             beginAtZero: false,
           },
         }],
@@ -105,7 +108,7 @@ function createChartsForSensor(sensorToPlot, granularity) {
     let tempVals = {
       label: 'Temperature',
       data: temperature,
-      color: 'rgba(0, 119, 204, 0.3)',
+      color: 'rgb(0,39,191)',
     };
     let humidVals = {
       label: 'Humidity',
