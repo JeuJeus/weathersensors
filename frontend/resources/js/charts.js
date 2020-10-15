@@ -144,8 +144,8 @@ function setValuesToBeDisplayed(sensor, tempNow, humidNow, airPressNow) {
 function updateChart(chart, timestamps, temperature, humidity, airPressure) {
   chart.data.labels = timestamps;
   chart.data.datasets[0].data = temperature;
-  chart.data.datasets[0].data = humidity;
-  chart.data.datasets[0].data = airPressure;
+  chart.data.datasets[1].data = humidity;
+  chart.data.datasets[2].data = airPressure;
   chart.update();
 }
 
