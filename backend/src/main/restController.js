@@ -29,6 +29,10 @@ httpServer.listen(3000, (err) => {
   process.on('SIGTERM', cleanup);
 });
 
+function validIdForRequest(req) {
+  return req.params.SENSOR_ID && !isNaN(parseInt(req.params.SENSOR_ID));
+}
+
 app.get('/weatherData', async function(req, res) {
   res.set('Access-Control-Allow-Origin', '*'); // Security not needed xD
   let response = {
@@ -47,8 +51,12 @@ app.get('/sensorData/id/:SENSOR_ID', async function(req, res) {
   let response = {
     'sensorData': [],
   };
-  response.sensorData = await dbConnection.getSensorDataById(db, req.params.SENSOR_ID);
-  res.status(200).send(response);
+  if (validIdForRequest(req)) {
+    response.sensorData = await dbConnection.getSensorDataById(db, req.params.SENSOR_ID);
+    res.status(200).send(response);
+  } else {
+    res.status(400).send();
+  }
 });
 app.get('/sensors', async function(req, res) {
   res.set('Access-Control-Allow-Origin', '*'); // Security not needed xD
@@ -63,7 +71,7 @@ app.get('/sensor/id/:SENSOR_ID', async function(req, res) {
   let response = {
     'sensor': [],
   };
-  if (req.params.SENSOR_ID && !isNaN(parseInt(req.params.SENSOR_ID))) {
+  if (validIdForRequest(req)) {
     response.sensor = (await dbConnection.getSensorById(db, req.params.SENSOR_ID))[0];
     res.status(200).send(response);
   } else {
