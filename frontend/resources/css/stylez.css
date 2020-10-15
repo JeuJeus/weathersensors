@@ -29,23 +29,18 @@
     font-size: 1.5rem;
 }
 
-#nowValues > section{
-    /*padding-left: 0.25rem;*/
-    /*padding-right: 0.25rem;*/
+#nowValues > section > div{
+    height: 100%;
 }
 #sensorNowSection > div{
     background-color: rgba(214, 210, 68, 0.5);
-    height: 100%;
 }
 #temperatureNowSection > div{
     background-color: rgba(204, 0, 112, 0.5);
-    height: 100%;
 }
 #humidityNowSection > div{
     background-color: rgba(0, 39, 191, 0.5);
-    height: 100%;
 }
 #airPressureNowSection > div{
     background-color: rgba(0, 204, 109, 0.5);
-    height: 100%;
 }
