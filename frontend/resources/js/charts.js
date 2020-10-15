@@ -6,15 +6,20 @@ const UPDATE_INTERVAL = 1000 * 60 * 5;
 const SERVER_URI = backendURI;
 
 let sensorToPlot = 0;
-let granularity = document.querySelector('#granularity').value;
+let granularityInput = document.querySelector('#granularity');
+granularityInput.value = 50;
+let granularity = granularityInput.value;
 
-init();
 
-function init() {
+init(sensorToPlot, granularity, granularityInput);
+
+function init(sensorToPlot, granularity, granularityInput) {
   document.querySelector('#yAxisToggleButton').addEventListener('click', yAxisStartToggle, false);
+  console.log(document.querySelector('#granularity').value);
+  granularityInput.addEventListener('keydown', granularityOnChange.bind(this, sensorToPlot, granularity, granularityInput), false);
   createChartsForSensor(sensorToPlot, granularity);
-  updateSensorsDropdown();
-  setInterval(updateDataOnPage.bind(this, sensorToPlot), UPDATE_INTERVAL);
+  updateSensorsDropdown(granularity);
+  setInterval(updateDataOnPage.bind(this, sensorToPlot, granularity), UPDATE_INTERVAL);
 }
 
 
@@ -94,8 +99,9 @@ function updateChart(chart, timestamps, values) {
   chart.update();
 }
 
-function updateCharts(sensorToPlot) {
+function updateCharts(sensorToPlot, granularity) {
   $.get(SERVER_URI + '/sensorData/id/' + sensorToPlot, function(data) {
+    data.sensorData = reduceElementsToMaxSize(data.sensorData, granularity);
     let {timestamps, temperature, airPressure, humidity} = mapValuesOfData(data);
 
     updateChart(temperatureChart, timestamps, temperature);
@@ -108,13 +114,13 @@ function updateCharts(sensorToPlot) {
   });
 }
 
-function switchSensor(sensor) {
+function switchSensor(sensor, granularity) {
   // todo that's still ugly:(
   sensorToPlot = sensor;
-  updateCharts(sensorToPlot);
+  updateCharts(sensorToPlot, granularity);
 }
 
-function updateSensorsDropdown() {
+function updateSensorsDropdown(granularity) {
   $.get(SERVER_URI + '/sensors/', function(data) {
 
     let sensorSelectDropdown = document.getElementById('sensorForChartDropdown');
@@ -126,7 +132,7 @@ function updateSensorsDropdown() {
       sensorLink.classList.add('dropdown-item');
       //TODO REPLACE ME WITH ALIAS
       sensorLink.textContent = `${s.ID} - ${s.LOCATION}`;
-      sensorLink.onclick = sensorLinkOnClick.bind(this, s.ID);
+      sensorLink.onclick = sensorLinkOnClick.bind(this, s.ID, granularity);
       sensorSelectDropdown.append(sensorLink);
     });
 
@@ -134,14 +140,27 @@ function updateSensorsDropdown() {
 }
 
 
-function sensorLinkOnClick(ID){
+function sensorLinkOnClick(ID, granularity){
   sensorToPlot = parseInt(ID);
-  switchSensor(sensorToPlot);
+  switchSensor(sensorToPlot, granularity);
 }
 
-function updateDataOnPage(sensorToPlot) {
-  updateCharts(sensorToPlot);
-  updateSensorsDropdown();
+function granularityOnChange(sensorToPlot, currentGranularity, input, e){
+  let keycode = (e.keyCode ? e.keyCode : e.which);
+  if (keycode === 13){
+    if (isInt(input.value)){
+      let newGranularity = parseInt(input.value);
+      if (newGranularity !== currentGranularity && newGranularity > 1){
+        granularity = parseInt(input.value, 10);
+        updateCharts(sensorToPlot, granularity);
+      }
+    }
+  }
+}
+
+function updateDataOnPage(sensorToPlot, granularity) {
+  updateCharts(sensorToPlot, granularity);
+  updateSensorsDropdown(granularity);
 }
 
 function yAxisStartToggle() {

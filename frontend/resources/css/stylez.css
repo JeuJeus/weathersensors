@@ -17,3 +17,14 @@
 .chart {
     margin-top: 2em;
 }
+
+.funIcon {
+    margin-left: -2.25rem;
+    z-index: 2;
+    color: black;
+    font-size: 1.5rem;
+}
+
+.biggerInput{
+    font-size: 1.5rem;
+}
