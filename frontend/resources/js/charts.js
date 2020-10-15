@@ -101,7 +101,7 @@ function mapValuesOfData(data) {
 function createChartsForSensor(sensorToPlot, granularity) {
   $.get(SERVER_URI + '/sensorData/id/' + sensorToPlot, function(data) {
 
-    // data.sensorData = reduceElementsToMaxSize(data.sensorData, granularity);
+    data.sensorData = reduceElementsToMaxSize(data.sensorData, granularity);
 
     let {timestamps, temperature, humidity, airPressure} = mapValuesOfData(data);
 
@@ -148,7 +148,7 @@ function updateChart(chart, timestamps, temperature, airPressure, humidity) {
 function updateCharts(sensorToPlot, granularity) {
   $.get(SERVER_URI + '/sensorData/id/' + sensorToPlot, function(data) {
 
-    // data.sensorData = reduceElementsToMaxSize(data.sensorData, granularity);
+    data.sensorData = reduceElementsToMaxSize(data.sensorData, granularity);
 
     let {timestamps, temperature, humidity, airPressure} = mapValuesOfData(data);
 
@@ -203,4 +203,17 @@ function yAxisStartToggle() {
   unifiedChart.options.scales.yAxes[1].ticks.beginAtZero = !unifiedChart.options.scales.yAxes[1].ticks.beginAtZero;
   unifiedChart.options.scales.yAxes[2].ticks.beginAtZero = !unifiedChart.options.scales.yAxes[2].ticks.beginAtZero;
   unifiedChart.update();
+}
+
+function reduceElementsToMaxSize(elements, maxSize){
+  if (elements.length <= maxSize) return elements;
+  let orig_size = elements.length;
+  return Array.from({length: maxSize}, (_, i) =>
+      elements[Math.floor(i * (orig_size + Math.floor(orig_size/maxSize))/maxSize)]);
+}
+
+function isInt(value) {
+  return !isNaN(value) &&
+      parseInt(Number(value)) == value &&
+      !isNaN(parseInt(value, 10));
 }
