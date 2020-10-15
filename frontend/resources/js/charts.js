@@ -32,17 +32,17 @@ function createChart(chartCanvasName, data, timestamps, tempVals, humidVals, air
         yAxisID: 'temp',
         label: tempVals.label,
         data: tempVals.data,
-        backgroundColor: tempVals.color,
+        borderColor: tempVals.color,
       }, {
         yAxisID: 'humid',
         label: humidVals.label,
         data: humidVals.data,
-        backgroundColor: humidVals.color,
+        borderColor: humidVals.color,
       }, {
         yAxisID: 'air',
         label: airPressVals.label,
         data: airPressVals.data,
-        backgroundColor: airPressVals.color,
+        borderColor: airPressVals.color,
       }],
     },
     options: {
