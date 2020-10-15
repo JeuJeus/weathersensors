@@ -93,7 +93,7 @@ function updateCharts(sensorToPlot) {
     updateChart(humidityChart, timestamps, humidity);
 
     $.get(SERVER_URI + '/sensor/id/' + sensorToPlot, function(data) {
-      setValuesToBeDisplayed(data, temperature.slice(-1)[0], airPressure.slice(-1)[0], humidity.slice(-1)[0]);
+      setValuesToBeDisplayed(data.sensor, temperature.slice(-1)[0], airPressure.slice(-1)[0], humidity.slice(-1)[0]);
     });
   });
 }
