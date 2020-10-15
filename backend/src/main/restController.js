@@ -83,6 +83,7 @@ app.get('/sensor/id/:SENSOR_ID', async function(req, res) {
 app.post('/weatherData', function(req, res) {
   if (req.body) {
     req.body.TIMESTAMP = Date.now();
+    //TODO NO VALIDATION AT ALL? XD
     dbConnection.insertWeatherData(db, req.body);
   } else {
     console.log('parsing body failed');
