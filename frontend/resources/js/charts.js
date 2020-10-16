@@ -19,7 +19,7 @@ function init(sensorToPlot, granularity, granularityInput) {
 
   document.querySelector('#yAxisToggleButton').addEventListener('click', yAxisStartToggle, false);
 
-  granularityInput.addEventListener('keydown', granularityOnChange.bind(this, sensorToPlot, granularity, granularityInput), false);
+  granularityInput.addEventListener('keydown', granularityOnChange.bind(this, granularityInput), false);
 
   createChartsForSensor(sensorToPlot, granularity);
   updateSensorsDropdown(granularity);
@@ -175,7 +175,7 @@ function updateSensorsDropdown(granularity) {
       sensorLink.classList.add('dropdown-item');
       //TODO REPLACE ME WITH ALIAS
       sensorLink.textContent = `${s.ID} - ${s.LOCATION}`;
-      sensorLink.onclick = updateCharts.bind(this, parseInt(s.ID), granularity);
+      sensorLink.onclick = sensorLinkOnClick.bind(this, parseInt(s.ID), granularity);
       sensorSelectDropdown.append(sensorLink);
     });
 
@@ -190,11 +190,11 @@ function isInt(value) {
   return /^\d+$/.test(value);
 }
 
-function granularityOnChange(sensorToPlot, currentGranularity, input, e) {
+function granularityOnChange(input, e) {
   if (EnterKeyPressed(e) && isInt(input.value)) {
     e.preventDefault();
     let newGranularity = parseInt(input.value);
-    if (newGranularity !== currentGranularity && newGranularity > 1) {
+    if (newGranularity !== granularity && newGranularity > 1) {
       granularity = parseInt(input.value, 10);
       updateCharts(sensorToPlot, granularity);
     }
@@ -220,4 +220,9 @@ function reduceElementsToMaxSize(elements, maxSize){
   let orig_size = elements.length;
   return Array.from({length: maxSize}, (_, i) =>
       elements[Math.floor(i * (orig_size + Math.floor(orig_size/maxSize))/maxSize)]);
+}
+
+function sensorLinkOnClick(ID, granularity){
+  sensorToPlot = ID;
+  updateCharts(sensorToPlot, granularity);
 }
