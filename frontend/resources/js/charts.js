@@ -8,7 +8,7 @@ import {
 
 let unifiedChart;
 
-let sensorToPlot = 0;
+let sensorToPlot = 1;
 
 let granularityInput = document.querySelector('#granularity');
 let granularity = granularityInput.value;
