@@ -104,7 +104,7 @@ function mapValuesOfData(data) {
 
 function createChartsForSensor(sensorToPlot, granularity) {
   $.get(SERVER_URI + '/sensorData/id/' + sensorToPlot, function(data) {
-
+    //todo move back to backend
     data.sensorData = reduceElementsToMaxSize(data.sensorData, granularity);
 
     let {timestamps, temperature, humidity, airPressure} = mapValuesOfData(data);
@@ -151,7 +151,7 @@ function updateChart(chart, timestamps, temperature, humidity, airPressure) {
 
 function updateCharts(sensorToPlot, granularity) {
   $.get(SERVER_URI + '/sensorData/id/' + sensorToPlot, function(data) {
-
+    //todo move back to backend
     data.sensorData = reduceElementsToMaxSize(data.sensorData, granularity);
 
     let {timestamps, temperature, humidity, airPressure} = mapValuesOfData(data);
@@ -214,6 +214,8 @@ function yAxisStartToggle() {
   unifiedChart.options.scales.yAxes[2].ticks.beginAtZero = !unifiedChart.options.scales.yAxes[2].ticks.beginAtZero;
   unifiedChart.update();
 }
+
+//todo move back to backend
 function reduceElementsToMaxSize(elements, maxSize){
   if (elements.length <= maxSize) return elements;
   let orig_size = elements.length;
