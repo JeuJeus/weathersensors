@@ -103,7 +103,6 @@ void buildJson(char* body, char macaddress[18], float temperature, float pressur
   // todo get timestamp from time server
   // todo get and set MAC-Address
   unsigned int timestamp = 0;
-  Serial.println(macaddress);
   sprintf(body, "{\"MACADDRESS\":\"%s\",\"TIMESTAMP\":\"%d\",\"TEMPERATURE\":%f,\"AIRPRESSURE\":%f,\"HUMIDITY\":%f}",
           macaddress, timestamp, temperature, pressure, humidity);
   return;
