@@ -58,7 +58,7 @@ function createChart(chartCanvasName, data, timestamps, tempVals, humidVals, air
           type: 'linear',
           position: 'left',
           ticks: {
-            fontColor: tempVals.color,
+            fontColor: TEMPERATURE_COLOR,
             beginAtZero: false,
           },
         }, {
@@ -66,7 +66,7 @@ function createChart(chartCanvasName, data, timestamps, tempVals, humidVals, air
           type: 'linear',
           position: 'right',
           ticks: {
-            fontColor: humidVals.color,
+            fontColor: HUMIDITY_COLOR,
             beginAtZero: false,
           },
         }, {
@@ -74,7 +74,7 @@ function createChart(chartCanvasName, data, timestamps, tempVals, humidVals, air
           type: 'linear',
           position: 'right',
           ticks: {
-            fontColor: airPressVals.color,
+            fontColor: AIRPRESSURE_COLOR,
             beginAtZero: false,
           },
         }],
