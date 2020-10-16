@@ -10,6 +10,7 @@
 // ########################################################################
 Adafruit_BME280 bme; // I2C
 ESP8266WiFiMulti WiFiMulti;
+// TODO CHECK IS A GLOBAL VAR NECESSARY?
 byte mac[6];
 
 const unsigned long DELAY_TIME_RECONNECT       = 1000*1;
@@ -112,15 +113,15 @@ void logValues(float temperature, float pressure, float humidity) {
   Serial.print("Temperature = ");
   Serial.print(temperature);
   Serial.println(" *C");
-  
+
   Serial.print("Humidity = ");
   Serial.print(humidity);
   Serial.println(" %");
-  
+
   Serial.print("Pressure = ");
   Serial.print(pressure);
   Serial.println(" hPa");
 
   Serial.println();
-  return; 
+  return;
 }

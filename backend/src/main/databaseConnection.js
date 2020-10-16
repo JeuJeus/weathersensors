@@ -50,10 +50,12 @@ async function getSensorById(db, SENSOR_ID) {
 }
 
 async function getSensorIDByMAC(db, MACADDRESS) {
+  //TODO REFACTOR DUPlICATION OF DB QUERY -> SEE RETURN
+  //TODO CHECK NAMING -> GET != INSERT
   let check = await checkForExistingMAC(db, MACADDRESS);
   if (check.length === 0) {
     let sql = 'INSERT INTO SENSOR (MAC_ADDRESS, LOCATION) ' +
-        'VALUES (?, ?)';
+      'VALUES (?, ?)';
     let params = [MACADDRESS, ''];
     db.all(sql, params);
     console.log('inserted new line into db');
