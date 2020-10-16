@@ -43,7 +43,6 @@ app.get('/weatherData', async function(req, res) {
   let sensorData = await dbConnection.getSensorData(db);
   response.sensors = sensors;
   response.sensorData = sensorData;
-  response.sensorData = helper.reduceElementsToMaxSize(response.sensorData, helper.INITIAL_MAX_SENSOR_DATA_ELEMENTS);
   res.send(response);
 });
 app.get('/sensorData/id/:SENSOR_ID', async function(req, res) {
