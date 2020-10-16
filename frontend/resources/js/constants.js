@@ -1,0 +1,14 @@
+const SERVER_URI = 'https://awe2-api.jeujeus.de';
+const UPDATE_INTERVAL = 1000 * 60 * 5;
+
+const TEMPERATURE_COLOR = 'rgb(204,0,112)';
+const HUMIDITY_COLOR = 'rgb(0,39,191)';
+const AIRPRESSURE_COLOR = 'rgb(0,204,109)';
+
+export {
+  SERVER_URI,
+  UPDATE_INTERVAL,
+  TEMPERATURE_COLOR,
+  AIRPRESSURE_COLOR,
+  HUMIDITY_COLOR,
+};

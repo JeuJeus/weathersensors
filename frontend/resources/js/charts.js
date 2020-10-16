@@ -1,8 +1,10 @@
-import {SERVER_URI, UPDATE_INTERVAL} from './localConfig.js';
-
-const TEMPERATURE_COLOR = 'rgb(204,0,112)';
-const HUMIDITY_COLOR = 'rgb(0,39,191)';
-const AIRPRESSURE_COLOR = 'rgb(0,204,109)';
+import {
+  AIRPRESSURE_COLOR,
+  HUMIDITY_COLOR,
+  SERVER_URI,
+  TEMPERATURE_COLOR,
+  UPDATE_INTERVAL,
+} from './constants.js';
 
 let unifiedChart;
 
@@ -36,17 +38,17 @@ function createChart(chartCanvasName, data, timestamps, tempVals, humidVals, air
         yAxisID: 'temp',
         label: tempVals.label,
         data: tempVals.data,
-        borderColor: tempVals.color,
+        borderColor: TEMPERATURE_COLOR,
       }, {
         yAxisID: 'humid',
         label: humidVals.label,
         data: humidVals.data,
-        borderColor: humidVals.color,
+        borderColor: HUMIDITY_COLOR,
       }, {
         yAxisID: 'air',
         label: airPressVals.label,
         data: airPressVals.data,
-        borderColor: airPressVals.color,
+        borderColor: AIRPRESSURE_COLOR,
       }],
     },
     options: {
@@ -112,17 +114,14 @@ function createChartsForSensor(sensorToPlot, granularity) {
     let tempVals = {
       label: 'Temperature',
       data: temperature,
-      color: TEMPERATURE_COLOR,
     };
     let humidVals = {
       label: 'Humidity',
       data: humidity,
-      color: HUMIDITY_COLOR,
     };
     let airPressVals = {
       label: 'Air Pressure',
       data: airPressure,
-      color: AIRPRESSURE_COLOR,
     };
 
     unifiedChart = createChart('Sensor Data', data, timestamps, tempVals, humidVals, airPressVals);
