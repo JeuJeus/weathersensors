@@ -114,8 +114,7 @@ app.post('/weatherData', validateSensorDataInBody(), function(req, res) {
 });
 
 function cleanup() {
-  console.log(`${new Date().toISOString()} - BACKEND SHUTTING DOWN`);
+  stream.write(`${new Date().toISOString()} - BACKEND SHUTTING DOWN`);
   dbConnection.closeDb(db);
   process.exit(1);
 }
-
