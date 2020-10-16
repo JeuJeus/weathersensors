@@ -43,15 +43,36 @@ async function getSensors(db) {
 
 async function getSensorById(db, SENSOR_ID) {
   let sql = 'SELECT ID, MAC_ADDRESS, LOCATION ' +
-    'FROM SENSOR ' +
-    'WHERE ID = ?';
+      'FROM SENSOR ' +
+      'WHERE ID = ?';
   let params = [SENSOR_ID];
+  return db.all(sql, params);
+}
+
+async function getSensorIDByMAC(db, MACADDRESS) {
+  let check = await checkForExistingMAC(db, MACADDRESS);
+  if (check.length === 0) {
+    let sql = 'INSERT INTO SENSOR (MAC_ADDRESS, LOCATION) ' +
+        'VALUES (?, ?)';
+    let params = [MACADDRESS, ''];
+    db.all(sql, params);
+    console.log('inserted new line into db');
+  }
+  return checkForExistingMAC(db, MACADDRESS);
+}
+
+//TODO TITLE SHOULD BE CHANGED
+async function checkForExistingMAC(db, MACADDRESS) {
+  let sql = 'SELECT ID, MAC_ADDRESS, LOCATION ' +
+      'FROM SENSOR ' +
+      'WHERE MAC_ADDRESS = ?';
+  let params = [MACADDRESS];
   return db.all(sql, params);
 }
 
 async function getSensorData(db) {
   let sql = 'SELECT SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY ' +
-    'FROM SENSOR_DATA';
+      'FROM SENSOR_DATA';
   let params = [];
   return db.all(sql, params);
 }
@@ -64,10 +85,12 @@ async function getSensorDataById(db, SENSOR_ID) {
   return db.all(sql, params);
 }
 
+
 async function insertWeatherData(db, weatherData) {
-  let sql =  'INSERT INTO SENSOR_DATA (SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY) ' +
-    'VALUES (?, ?, ?, ?, ?)';
-  let params = [weatherData.SENSOR_ID, weatherData.TIMESTAMP, weatherData.TEMPERATURE, weatherData.AIRPRESSURE, weatherData.HUMIDITY];
+  let SENSOR_ID = await getSensorIDByMAC(db, weatherData.MACADDRESS);
+  let sql = 'INSERT INTO SENSOR_DATA (SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY) ' +
+      'VALUES (?, ?, ?, ?, ?)';
+  let params = [SENSOR_ID[0].ID, weatherData.TIMESTAMP, weatherData.TEMPERATURE, weatherData.AIRPRESSURE, weatherData.HUMIDITY];
   db.run(sql, params);
 }
 
