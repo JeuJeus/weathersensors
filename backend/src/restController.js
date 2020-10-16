@@ -3,7 +3,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const http = require('http');
 const helper = require('./helper');
-const app = express();
+const app = require('express')();
+const basicAuth = require('express-basic-auth');
 const atob = require('atob');
 const {check, validationResult} = require('express-validator');
 const rfs = require('rotating-file-stream');
@@ -29,7 +30,6 @@ app.use(bodyParser.json({
 }));
 app.use(logger);
 
-
 httpServer.listen(3000, (err) => {
   if (err) {
     stream.write(`${new Date().toISOString()} - ERROR [${err}]\n`);
@@ -43,6 +43,7 @@ function validIdForRequest(req) {
   return req.params.SENSOR_ID && !isNaN(parseInt(req.params.SENSOR_ID));
 }
 
+// ############### GET REQUESTS ###############
 app.get('/weatherData', async function(req, res) {
   res.set('Access-Control-Allow-Origin', '*'); // Security not needed xD
   const response = {
@@ -91,6 +92,7 @@ app.get('/sensor/id/:SENSOR_ID', async function(req, res) {
   }
 });
 
+//############### POST REQUESTS ###############
 function validateSensorDataInBody() {
   return [
     check('MACADDRESS').isMACAddress(),
