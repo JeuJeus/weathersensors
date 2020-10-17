@@ -87,7 +87,7 @@ app.post('/weatherData', function(req, res) {
   } else {
     console.log(`${new Date().toISOString()} - POST REQUEST PARSIND BODY FAILED FROM [${req.connection.remoteAddress}]`);
   }
-  res.send(`${atob('ZGlydHkgYm95IGRvbnQgdXNlIHBlbmlzLmpz')}`);
+  res.send(`${atob('QWxsZSB2b24gdW5zIGVtcGZhbmdlbmVuIFdldHRlcmRhdGVuIHdlcmRlbiBuYWNoIC9kZXYvbnVsbCBnZXBpcGVkLiBBbGxlcyB3YXMgc2llIGltIEZyb250ZW5kIHNlaGVuIGlzdCBmYWtlIHVuZCB3aXJkIGdlbmVyaWVydCwgZGFzIHdhciB3ZW5pZ2VyIEF1ZndhbmQu')}`);
 });
 
 
