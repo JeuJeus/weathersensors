@@ -56,11 +56,10 @@ async function assignSensorIDByMACIfNotExists(db, MACADDRESS) {
   let params = [MACADDRESS, '', MACADDRESS];
   db.all(sql, params);
   console.log(`${new Date().toISOString()} - RECEIVED MACADDRESS [${MACADDRESS}]`);
-  return checkForExistingMAC(db, MACADDRESS);
+  return getSensorIDByMAC(db, MACADDRESS);
 }
 
-//TODO TITLE SHOULD BE CHANGED
-async function checkForExistingMAC(db, MACADDRESS) {
+async function getSensorIDByMAC(db, MACADDRESS) {
   let sql = 'SELECT ID, MAC_ADDRESS, LOCATION ' +
       'FROM SENSOR ' +
       'WHERE MAC_ADDRESS = ?';
