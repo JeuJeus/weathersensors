@@ -8,7 +8,7 @@ const app = express();
 let httpServer = http.createServer(app);
 let db = dbConnection.openDb();
 let logger = function(req, res, next) {
-  console.log('GOT REQUEST !');
+  console.log(`${new Date().toISOString()} - Got Request [${req.connection.remoteAddress}]`);
   next(); // Passing the request to the next handler in the stack.
 };
 
@@ -22,9 +22,9 @@ app.use(logger);
 
 httpServer.listen(3000, (err) => {
   if (err) {
-    console.log(err);
+    console.log(`${new Date().toISOString()} - ERROR [${err}]`);
   }
-  console.log('Started on PORT 3000');
+  console.log(`${new Date().toISOString()} - APPLICATION STARTED`);
   process.on('SIGINT', cleanup);
   process.on('SIGTERM', cleanup);
 });
@@ -85,14 +85,14 @@ app.post('/weatherData', function(req, res) {
     //TODO NO VALIDATION AT ALL? XD
     dbConnection.insertWeatherData(db, req.body);
   } else {
-    console.log('parsing body failed');
+    console.log(`${new Date().toISOString()} - POST REQUEST PARSIND BODY FAILED FROM [${req.connection.remoteAddress}]`);
   }
   res.send('dirty boy dont use penis.js');
 });
 
 
 function cleanup() {
-  console.log('shutting down -- ' + Date.now());
+  console.log(`${new Date().toISOString()} - SHUTTING DOWN`);
   dbConnection.closeDb(db);
   process.exit(1);
 }

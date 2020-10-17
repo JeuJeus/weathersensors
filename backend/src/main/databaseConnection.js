@@ -58,7 +58,7 @@ async function getSensorIDByMAC(db, MACADDRESS) {
       'VALUES (?, ?)';
     let params = [MACADDRESS, ''];
     db.all(sql, params);
-    console.log('inserted new line into db');
+    console.log(`${new Date().toISOString()} - INSERTED NEW SENSOR [${MACADDRESS}] INTO DB`);
   }
   return checkForExistingMAC(db, MACADDRESS);
 }
