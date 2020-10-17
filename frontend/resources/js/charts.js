@@ -120,20 +120,20 @@ function createChartsForSensor(sensorToPlot, granularity) {
 
     let {timestamps, temperature, humidity, airPressure} = mapValuesOfData(data);
 
-    let tempVals = {
+    let tempValues = {
       label: 'Temperature',
       data: temperature,
     };
-    let humidVals = {
+    let humidValues = {
       label: 'Humidity',
       data: humidity,
     };
-    let airPressVals = {
+    let airPressValues = {
       label: 'Air Pressure',
       data: airPressure,
     };
 
-    unifiedChart = createChart('Sensor Data', data, timestamps, tempVals, humidVals, airPressVals);
+    unifiedChart = createChart('Sensor Data', data, timestamps, tempValues, humidValues, airPressValues);
 
     $.get(SERVER_URI + '/sensor/id/' + sensorToPlot, function(data) {
       setValuesToBeDisplayed(data.sensor, temperature.slice(-1)[0], humidity.slice(-1)[0], airPressure.slice(-1)[0]);
