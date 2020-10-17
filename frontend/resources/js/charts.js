@@ -60,6 +60,9 @@ function createChart(chartCanvasName, data, timestamps, tempVals, humidVals, air
           ticks: {
             fontColor: TEMPERATURE_COLOR,
             beginAtZero: false,
+            callback: function (value) {
+              return value + '°C';
+            },
           },
         }, {
           id: 'humid',
@@ -68,6 +71,9 @@ function createChart(chartCanvasName, data, timestamps, tempVals, humidVals, air
           ticks: {
             fontColor: HUMIDITY_COLOR,
             beginAtZero: false,
+            callback: function (value) {
+              return value + '%';
+            },
           },
         }, {
           id: 'air',
@@ -76,6 +82,9 @@ function createChart(chartCanvasName, data, timestamps, tempVals, humidVals, air
           ticks: {
             fontColor: AIRPRESSURE_COLOR,
             beginAtZero: false,
+            callback: function (value) {
+              return value + ' mbar';
+            },
           },
         }],
         xAxes: [{
