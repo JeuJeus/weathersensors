@@ -25,7 +25,6 @@ void setup() {
     unsigned status = bme.begin(0x76);
     while (!status) {
         Serial.println("Could not find a valid BME280 sensor at 0x");
-        // todo make this shit work. Everytime sensor is not available, nodemcu crashed or w/e instead of going into this loop
         Serial.println(bme.sensorID());
         delay(DELAY_TIME_NO_SENSOR_FOUND);
         status = bme.begin(0x76);
@@ -101,7 +100,6 @@ void readValues(float *temperature, float *pressure, float *humidity) {
 
 void buildJson(char* body, char macaddress[18], float temperature, float pressure, float humidity){
   // todo get timestamp from time server
-  // todo get and set MAC-Address
   unsigned int timestamp = 0;
   sprintf(body, "{\"MACADDRESS\":\"%s\",\"TIMESTAMP\":\"%d\",\"TEMPERATURE\":%f,\"AIRPRESSURE\":%f,\"HUMIDITY\":%f}",
           macaddress, timestamp, temperature, pressure, humidity);
