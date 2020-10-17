@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "atob": "^2.1.2",
     "express": "^4.17.1",
     "sqlite3": "^5.0.0"
   },
