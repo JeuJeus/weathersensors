@@ -55,8 +55,8 @@ async function assignSensorIDByMACIfNotExists(db, MACADDRESS) {
       'EXCEPT SELECT MAC_ADDRESS, LOCATION FROM SENSOR WHERE MAC_ADDRESS = ?';
   let params = [MACADDRESS, '', MACADDRESS];
   db.all(sql, params);
-  console.log(`${new Date().toISOString()} - INSERTED NEW SENSOR [${MACADDRESS}] INTO DB`);
-  return getSensorIDByMAC(db, MACADDRESS);
+  console.log(`${new Date().toISOString()} - RECEIVED MACADDRESS [${MACADDRESS}]`);
+  return checkForExistingMAC(db, MACADDRESS);
 }
 
 //TODO TITLE SHOULD BE CHANGED
@@ -85,7 +85,7 @@ async function getSensorDataById(db, SENSOR_ID) {
 
 
 async function insertWeatherData(db, weatherData) {
-  let SENSOR_ID = await getSensorIDByMAC(db, weatherData.MACADDRESS);
+  let SENSOR_ID = await assignSensorIDByMACIfNotExists(db, weatherData.MACADDRESS);
   let sql = 'INSERT INTO SENSOR_DATA (SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY) ' +
       'VALUES (?, ?, ?, ?, ?)';
   let params = [SENSOR_ID[0].ID, weatherData.TIMESTAMP, weatherData.TEMPERATURE, weatherData.AIRPRESSURE, weatherData.HUMIDITY];
