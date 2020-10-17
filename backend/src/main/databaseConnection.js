@@ -49,18 +49,14 @@ async function getSensorById(db, SENSOR_ID) {
   return db.all(sql, params);
 }
 
-async function getSensorIDByMAC(db, MACADDRESS) {
-  //TODO REFACTOR DUPlICATION OF DB QUERY -> SEE RETURN
-  //TODO CHECK NAMING -> GET != INSERT
-  let check = await checkForExistingMAC(db, MACADDRESS);
-  if (check.length === 0) {
-    let sql = 'INSERT INTO SENSOR (MAC_ADDRESS, LOCATION) ' +
-      'VALUES (?, ?)';
-    let params = [MACADDRESS, ''];
-    db.all(sql, params);
-    console.log(`${new Date().toISOString()} - INSERTED NEW SENSOR [${MACADDRESS}] INTO DB`);
-  }
-  return checkForExistingMAC(db, MACADDRESS);
+async function assignSensorIDByMACIfNotExists(db, MACADDRESS) {
+  let sql = 'INSERT INTO SENSOR (MAC_ADDRESS, LOCATION) ' +
+      'VALUES (?, ?)' +
+      'EXCEPT SELECT MAC_ADDRESS, LOCATION FROM SENSOR WHERE MAC_ADDRESS = ?';
+  let params = [MACADDRESS, '', MACADDRESS];
+  db.all(sql, params);
+  console.log(`${new Date().toISOString()} - INSERTED NEW SENSOR [${MACADDRESS}] INTO DB`);
+  return getSensorIDByMAC(db, MACADDRESS);
 }
 
 //TODO TITLE SHOULD BE CHANGED
