@@ -14,7 +14,7 @@ byte mac[6];
 
 const unsigned long DELAY_TIME_RECONNECT       = 1000*1;
 const unsigned long DELAY_TIME_NO_SENSOR_FOUND = 1000*5;
-const unsigned long DELAY_TIME_REST_SEND       = 1000*60*10;
+const unsigned long DELAY_TIME_REST_SEND       = 1000*60*5;
 
 void setup() {
     Serial.begin(115200);

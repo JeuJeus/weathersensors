@@ -30,6 +30,7 @@ function createChart(chartCanvasName, data, timestamps, tempValues, humidValues,
 
   let chart = document.getElementById(chartCanvasName).getContext('2d');
 
+  //TODO REFACTOR ME INTO OWN CLASS?
   return new Chart(chart, {
     type: 'line',
     data: {
