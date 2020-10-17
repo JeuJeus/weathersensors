@@ -26,7 +26,7 @@ function init(sensorToPlot, granularity, granularityInput) {
   setInterval(updateDataOnPage.bind(this, sensorToPlot, granularity), UPDATE_INTERVAL);
 }
 
-function createChart(chartCanvasName, data, timestamps, tempVals, humidVals, airPressVals) {
+function createChart(chartCanvasName, data, timestamps, tempValues, humidValues, airPressValues) {
 
   let chart = document.getElementById(chartCanvasName).getContext('2d');
 
@@ -36,18 +36,18 @@ function createChart(chartCanvasName, data, timestamps, tempVals, humidVals, air
       labels: timestamps,
       datasets: [{
         yAxisID: 'temp',
-        label: tempVals.label,
-        data: tempVals.data,
+        label: tempValues.label,
+        data: tempValues.data,
         borderColor: TEMPERATURE_COLOR,
       }, {
         yAxisID: 'humid',
-        label: humidVals.label,
-        data: humidVals.data,
+        label: humidValues.label,
+        data: humidValues.data,
         borderColor: HUMIDITY_COLOR,
       }, {
         yAxisID: 'air',
-        label: airPressVals.label,
-        data: airPressVals.data,
+        label: airPressValues.label,
+        data: airPressValues.data,
         borderColor: AIRPRESSURE_COLOR,
       }],
     },
