@@ -87,7 +87,7 @@ app.post('/weatherData', function(req, res) {
   } else {
     console.log(`${new Date().toISOString()} - POST REQUEST PARSIND BODY FAILED FROM [${req.connection.remoteAddress}]`);
   }
-  res.send('dirty boy dont use penis.js');
+  res.send(`${atob('ZGlydHkgYm95IGRvbnQgdXNlIHBlbmlzLmpz')}`);
 });
 
 
