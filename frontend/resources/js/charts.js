@@ -8,29 +8,42 @@ import {
 
 class geileTypenWetterApp {
   constructor(granularityInputSelector, temperatureColor, airPressureColor, humidityColor, serverURI, updateInterval) {
+
+    // DOM - Elements
+    // TODO make selectors given to constructors like granularityInputSelector -> reusability and cleaner
     this.granularityInput = document.querySelector(granularityInputSelector);
+    this.yAxisToggleButton = document.querySelector('#yAxisToggleButton');
+    this.sensorPlotting = document.getElementById('sensorPlotting');
+    this.sensorPlottingLocation = document.getElementById('sensorPlottingLocation');
+    this.temperatureNow = document.getElementById('temperatureNow');
+    this.humidityNow = document.getElementById('humidityNow');
+    this.airPressureNow = document.getElementById('airPressureNow');
+    this.sensorSelectDropdown = document.getElementById('sensorForChartDropdown');
+    // current state
     this.granularity = this.granularityInput.value;
     this.sensorToPlot = 1;
 
     this.unifiedChart = undefined;
+    // config
     this.temperatureColor = temperatureColor;
     this.humidityColor = humidityColor;
     this.airpressureColor = airPressureColor;
 
     this.serverURI = serverURI;
     this.updateInterval = updateInterval;
+
   }
 
 
   init() {
 
-    document.querySelector('#yAxisToggleButton').addEventListener('click', this.yAxisStartToggle, false);
+    this.yAxisToggleButton.addEventListener('click', this.yAxisStartToggle.bind(this), false);
 
     this.granularityInput.addEventListener('keydown', this.granularityOnChange.bind(this, this.granularityInput), false);
 
     this.createChartsForSensor(this.sensorToPlot, this.granularity, this.serverURI);
     this.updateSensorsDropdown(this.granularity, this.serverURI);
-    setInterval(this.updateDataOnPage.bind(this, this.sensorToPlot, this.granularity), UPDATE_INTERVAL);
+    setInterval(this.updateDataOnPage.bind(this), this.updateInterval);
   }
 
   createChart(chartCanvasName, data, timestamps, tempValues, humidValues, airPressValues, tempColor, airPressColor, humidColor) {
@@ -143,7 +156,6 @@ class geileTypenWetterApp {
 
       this.unifiedChart = this.createChart('Sensor Data', data, timestamps, tempValues, humidValues, airPressValues,
           this.temperatureColor, this.airpressureColor, this.humidityColor);
-
       $.get(serverURI + '/sensor/id/' + sensorToPlot, (data) => {
         this.setValuesToBeDisplayed(data.sensor, temperature.slice(-1)[0], humidity.slice(-1)[0], airPressure.slice(-1)[0]);
       });
@@ -151,11 +163,11 @@ class geileTypenWetterApp {
   }
 
   setValuesToBeDisplayed(sensor, tempNow, humidNow, airPressNow) {
-    document.getElementById('sensorPlotting').innerText = sensor.ID;
-    document.getElementById('sensorPlottingLocation').innerText = sensor.LOCATION ? sensor.LOCATION : '';
-    document.getElementById('temperatureNow').innerText = tempNow.toFixed(2) + '°C';
-    document.getElementById('humidityNow').innerText = humidNow.toFixed(2) + '%';
-    document.getElementById('airPressureNow').innerText = airPressNow.toFixed(2) + 'mbar';
+    this.sensorPlotting.innerText = sensor.ID;
+    this.sensorPlottingLocation.innerText = sensor.LOCATION ? sensor.LOCATION : '';
+    this.temperatureNow.innerText = tempNow.toFixed(2) + '°C';
+    this.humidityNow.innerText = humidNow.toFixed(2) + '%';
+    this.airPressureNow.innerText = airPressNow.toFixed(2) + 'mbar';
   }
 
   updateChart(chart, timestamps, temperature, humidity, airPressure) {
@@ -184,17 +196,15 @@ class geileTypenWetterApp {
   updateSensorsDropdown(granularity, serverURI) {
     $.get(serverURI + '/sensors/', (data) => {
 
-      let sensorSelectDropdown = document.getElementById('sensorForChartDropdown');
-
-      sensorSelectDropdown.querySelectorAll('*').forEach(n => n.remove());
+      this.sensorSelectDropdown.querySelectorAll('*').forEach(n => n.remove());
 
       data.sensors.forEach(s => {
         let sensorLink = document.createElement('a');
         sensorLink.classList.add('dropdown-item');
         //TODO REPLACE ME WITH ALIAS
         sensorLink.textContent = `${s.ID} - ${s.LOCATION}`;
-        sensorLink.onclick = this.sensorLinkOnClick.bind(this, parseInt(s.ID), granularity);
-        sensorSelectDropdown.append(sensorLink);
+        sensorLink.onclick = this.sensorLinkOnClick.bind(this, parseInt(s.ID), granularity, serverURI);
+        this.sensorSelectDropdown.append(sensorLink);
       });
 
     });
@@ -206,14 +216,14 @@ class geileTypenWetterApp {
       let newGranularity = parseInt(input.value);
       if (newGranularity !== this.granularity && newGranularity > 1) {
         this.granularity = parseInt(input.value, 10);
-        this.updateCharts(this.sensorToPlot, this.granularity);
+        this.updateDataOnPage(this.sensorToPlot, this.granularity, this.serverURI);
       }
     }
   }
 
-  updateDataOnPage(sensorToPlot, granularity) {
-    this.updateCharts(sensorToPlot, granularity);
-    this.updateSensorsDropdown(granularity);
+  updateDataOnPage() {
+    this.updateCharts(this.sensorToPlot, this.granularity, this.serverURI);
+    this.updateSensorsDropdown(this.granularity, this.serverURI);
   }
 
   yAxisStartToggle() {
@@ -224,18 +234,14 @@ class geileTypenWetterApp {
     this.unifiedChart.update();
   }
 
-  sensorLinkOnClick(ID, granularity){
+  sensorLinkOnClick(ID, granularity, serverURI){
     this.sensorToPlot = ID;
-    this.updateCharts(this.sensorToPlot, granularity);
+    this.updateCharts(this.sensorToPlot, granularity, serverURI);
   }
 }
+// ######################################################################
 
-
-let app = new geileTypenWetterApp('#granularity', TEMPERATURE_COLOR, AIRPRESSURE_COLOR, HUMIDITY_COLOR, SERVER_URI, UPDATE_INTERVAL);
-app.init();
-
-
-
+// static functions
 //todo move back to backend
 function reduceElementsToMaxSize(elements, maxSize){
   if (elements.length <= maxSize) return elements;
@@ -244,6 +250,9 @@ function reduceElementsToMaxSize(elements, maxSize){
       elements[Math.floor(i * (orig_size + Math.floor(orig_size/maxSize))/maxSize)]);
 }
 
+/**
+ * @return {boolean}
+ */
 function EnterKeyPressed(e) {
   return (e.keyCode ? e.keyCode : e.which) === 13;
 }
@@ -251,3 +260,8 @@ function EnterKeyPressed(e) {
 function isInt(value) {
   return /^\d+$/.test(value);
 }
+// ######################################################################
+
+// creating app
+let app = new geileTypenWetterApp('#granularity', TEMPERATURE_COLOR, AIRPRESSURE_COLOR, HUMIDITY_COLOR, SERVER_URI, UPDATE_INTERVAL);
+app.init();
