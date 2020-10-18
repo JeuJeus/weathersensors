@@ -250,9 +250,6 @@ function reduceElementsToMaxSize(elements, maxSize){
       elements[Math.floor(i * (orig_size + Math.floor(orig_size/maxSize))/maxSize)]);
 }
 
-/**
- * @return {boolean}
- */
 function EnterKeyPressed(e) {
   return (e.keyCode ? e.keyCode : e.which) === 13;
 }
