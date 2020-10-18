@@ -2,7 +2,6 @@ const dbConnection = require('./databaseConnection');
 const express = require('express');
 const bodyParser = require('body-parser');
 const http = require('http');
-const helper = require('./helper');
 const app = express();
 const atob = require('atob');
 

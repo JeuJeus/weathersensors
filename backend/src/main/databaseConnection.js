@@ -84,6 +84,7 @@ async function getSensorDataById(db, SENSOR_ID) {
 
 
 async function insertWeatherData(db, weatherData) {
+  //TODO REFACTOR INSERT LAYER
   let SENSOR_ID = await assignSensorIDByMACIfNotExists(db, weatherData.MACADDRESS);
   let sql = 'INSERT INTO SENSOR_DATA (SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY) ' +
       'VALUES (?, ?, ?, ?, ?)';

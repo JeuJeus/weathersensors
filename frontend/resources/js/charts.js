@@ -34,7 +34,6 @@ class geileTypenWetterApp {
 
   }
 
-
   init() {
 
     this.yAxisToggleButton.addEventListener('click', this.yAxisStartToggle.bind(this), false);
