@@ -6,223 +6,235 @@ import {
   UPDATE_INTERVAL,
 } from './constants.js';
 
-let unifiedChart;
+class geileTypenWetterApp {
+  constructor(granularityInputSelector, temperatureColor, airPressureColor, humidityColor, serverURI, updateInterval) {
+    this.granularityInput = document.querySelector(granularityInputSelector);
+    this.granularity = this.granularityInput.value;
+    this.sensorToPlot = 1;
 
-let sensorToPlot = 1;
+    this.unifiedChart = undefined;
+    this.temperatureColor = temperatureColor;
+    this.humidityColor = humidityColor;
+    this.airpressureColor = airPressureColor;
 
-let granularityInput = document.querySelector('#granularity');
-let granularity = granularityInput.value;
+    this.serverURI = serverURI;
+    this.updateInterval = updateInterval;
+  }
 
-init(sensorToPlot, granularity, granularityInput);
 
-function init(sensorToPlot, granularity, granularityInput) {
+  init() {
 
-  document.querySelector('#yAxisToggleButton').addEventListener('click', yAxisStartToggle, false);
+    document.querySelector('#yAxisToggleButton').addEventListener('click', this.yAxisStartToggle, false);
 
-  granularityInput.addEventListener('keydown', granularityOnChange.bind(this, granularityInput), false);
+    this.granularityInput.addEventListener('keydown', this.granularityOnChange.bind(this, this.granularityInput), false);
 
-  createChartsForSensor(sensorToPlot, granularity);
-  updateSensorsDropdown(granularity);
-  setInterval(updateDataOnPage.bind(this, sensorToPlot, granularity), UPDATE_INTERVAL);
-}
+    this.createChartsForSensor(this.sensorToPlot, this.granularity, this.serverURI);
+    this.updateSensorsDropdown(this.granularity, this.serverURI);
+    setInterval(this.updateDataOnPage.bind(this, this.sensorToPlot, this.granularity), UPDATE_INTERVAL);
+  }
 
-function createChart(chartCanvasName, data, timestamps, tempValues, humidValues, airPressValues) {
+  createChart(chartCanvasName, data, timestamps, tempValues, humidValues, airPressValues, tempColor, airPressColor, humidColor) {
 
-  let chart = document.getElementById(chartCanvasName).getContext('2d');
+    let chart = document.getElementById(chartCanvasName).getContext('2d');
 
-  //TODO REFACTOR ME INTO OWN CLASS?
-  return new Chart(chart, {
-    type: 'line',
-    data: {
-      labels: timestamps,
-      datasets: [{
-        yAxisID: 'temp',
-        label: tempValues.label,
-        data: tempValues.data,
-        borderColor: TEMPERATURE_COLOR,
-      }, {
-        yAxisID: 'humid',
-        label: humidValues.label,
-        data: humidValues.data,
-        borderColor: HUMIDITY_COLOR,
-      }, {
-        yAxisID: 'air',
-        label: airPressValues.label,
-        data: airPressValues.data,
-        borderColor: AIRPRESSURE_COLOR,
-      }],
-    },
-    options: {
-      scales: {
-        yAxes: [{
-          id: 'temp',
-          type: 'linear',
-          position: 'left',
-          ticks: {
-            fontColor: TEMPERATURE_COLOR,
-            beginAtZero: false,
-            callback: function (value) {
-              return value + '°C';
-            },
-          },
+    //TODO REFACTOR ME INTO OWN CLASS?
+    return new Chart(chart, {
+      type: 'line',
+      data: {
+        labels: timestamps,
+        datasets: [{
+          yAxisID: 'temp',
+          label: tempValues.label,
+          data: tempValues.data,
+          borderColor: tempColor,
         }, {
-          id: 'humid',
-          type: 'linear',
-          position: 'right',
-          ticks: {
-            fontColor: HUMIDITY_COLOR,
-            beginAtZero: false,
-            callback: function (value) {
-              return value + '%';
-            },
-          },
+          yAxisID: 'humid',
+          label: humidValues.label,
+          data: humidValues.data,
+          borderColor: humidColor,
         }, {
-          id: 'air',
-          type: 'linear',
-          position: 'right',
-          ticks: {
-            fontColor: AIRPRESSURE_COLOR,
-            beginAtZero: false,
-            callback: function (value) {
-              return value + ' mbar';
-            },
-          },
-        }],
-        xAxes: [{
-          ticks: {
-            maxTicksLimit: 20,
-          },
+          yAxisID: 'air',
+          label: airPressValues.label,
+          data: airPressValues.data,
+          borderColor: airPressColor,
         }],
       },
-    },
-  });
-}
-
-function mapValuesOfData(data) {
-  let timestamps = data.sensorData.map(
-    e => new Date(parseInt(e.TIMESTAMP)).toLocaleString('de-DE'),
-  );
-  let temperature = data.sensorData.map(
-    e => e.TEMPERATURE,
-  );
-  let humidity = data.sensorData.map(
-    e => e.HUMIDITY,
-  );
-  let airPressure = data.sensorData.map(
-    e => e.AIRPRESSURE,
-  );
-  return {timestamps, temperature, airPressure, humidity};
-}
-
-function createChartsForSensor(sensorToPlot, granularity) {
-  $.get(SERVER_URI + '/sensorData/id/' + sensorToPlot, function(data) {
-    //todo move back to backend
-    data.sensorData = reduceElementsToMaxSize(data.sensorData, granularity);
-
-    let {timestamps, temperature, humidity, airPressure} = mapValuesOfData(data);
-
-    let tempValues = {
-      label: 'Temperature',
-      data: temperature,
-    };
-    let humidValues = {
-      label: 'Humidity',
-      data: humidity,
-    };
-    let airPressValues = {
-      label: 'Air Pressure',
-      data: airPressure,
-    };
-
-    unifiedChart = createChart('Sensor Data', data, timestamps, tempValues, humidValues, airPressValues);
-
-    $.get(SERVER_URI + '/sensor/id/' + sensorToPlot, function(data) {
-      setValuesToBeDisplayed(data.sensor, temperature.slice(-1)[0], humidity.slice(-1)[0], airPressure.slice(-1)[0]);
+      options: {
+        scales: {
+          yAxes: [{
+            id: 'temp',
+            type: 'linear',
+            position: 'left',
+            ticks: {
+              fontColor: tempColor,
+              beginAtZero: false,
+              callback: function (value) {
+                return value + '°C';
+              },
+            },
+          }, {
+            id: 'humid',
+            type: 'linear',
+            position: 'right',
+            ticks: {
+              fontColor: humidColor,
+              beginAtZero: false,
+              callback: function (value) {
+                return value + '%';
+              },
+            },
+          }, {
+            id: 'air',
+            type: 'linear',
+            position: 'right',
+            ticks: {
+              fontColor: airPressColor,
+              beginAtZero: false,
+              callback: function (value) {
+                return value + ' mbar';
+              },
+            },
+          }],
+          xAxes: [{
+            ticks: {
+              maxTicksLimit: 20,
+            },
+          }],
+        },
+      },
     });
-  });
-}
+  }
 
-function setValuesToBeDisplayed(sensor, tempNow, humidNow, airPressNow) {
-  document.getElementById('sensorPlotting').innerText = sensor.ID;
-  document.getElementById('sensorPlottingLocation').innerText = sensor.LOCATION ? sensor.LOCATION : '';
-  document.getElementById('temperatureNow').innerText = tempNow.toFixed(2) + '°C';
-  document.getElementById('humidityNow').innerText = humidNow.toFixed(2) + '%';
-  document.getElementById('airPressureNow').innerText = airPressNow.toFixed(2) + 'mbar';
-}
+  mapValuesOfData(data) {
+    let timestamps = data.sensorData.map(
+        e => new Date(parseInt(e.TIMESTAMP)).toLocaleString('de-DE'),
+    );
+    let temperature = data.sensorData.map(
+        e => e.TEMPERATURE,
+    );
+    let humidity = data.sensorData.map(
+        e => e.HUMIDITY,
+    );
+    let airPressure = data.sensorData.map(
+        e => e.AIRPRESSURE,
+    );
+    return {timestamps, temperature, airPressure, humidity};
+  }
 
-function updateChart(chart, timestamps, temperature, humidity, airPressure) {
-  chart.data.labels = timestamps;
-  chart.data.datasets[0].data = temperature;
-  chart.data.datasets[1].data = humidity;
-  chart.data.datasets[2].data = airPressure;
-  chart.update();
-}
+  createChartsForSensor(sensorToPlot, granularity, serverURI) {
+    $.get(serverURI + '/sensorData/id/' + sensorToPlot, (data) => {
+      //todo move back to backend
+      data.sensorData = reduceElementsToMaxSize(data.sensorData, granularity);
 
-function updateCharts(sensorToPlot, granularity) {
-  $.get(SERVER_URI + '/sensorData/id/' + sensorToPlot, function(data) {
-    //todo move back to backend
-    data.sensorData = reduceElementsToMaxSize(data.sensorData, granularity);
+      let {timestamps, temperature, humidity, airPressure} = this.mapValuesOfData(data);
 
-    let {timestamps, temperature, humidity, airPressure} = mapValuesOfData(data);
+      let tempValues = {
+        label: 'Temperature',
+        data: temperature,
+      };
+      let humidValues = {
+        label: 'Humidity',
+        data: humidity,
+      };
+      let airPressValues = {
+        label: 'Air Pressure',
+        data: airPressure,
+      };
 
-    updateChart(unifiedChart, timestamps, temperature, humidity, airPressure);
+      this.unifiedChart = this.createChart('Sensor Data', data, timestamps, tempValues, humidValues, airPressValues,
+          this.temperatureColor, this.airpressureColor, this.humidityColor);
 
-    $.get(SERVER_URI + '/sensor/id/' + sensorToPlot, function(data) {
-      setValuesToBeDisplayed(data.sensor, temperature.slice(-1)[0], humidity.slice(-1)[0], airPressure.slice(-1)[0]);
+      $.get(serverURI + '/sensor/id/' + sensorToPlot, (data) => {
+        this.setValuesToBeDisplayed(data.sensor, temperature.slice(-1)[0], humidity.slice(-1)[0], airPressure.slice(-1)[0]);
+      });
     });
-  });
-}
+  }
 
-function updateSensorsDropdown(granularity) {
-  $.get(SERVER_URI + '/sensors/', function(data) {
+  setValuesToBeDisplayed(sensor, tempNow, humidNow, airPressNow) {
+    document.getElementById('sensorPlotting').innerText = sensor.ID;
+    document.getElementById('sensorPlottingLocation').innerText = sensor.LOCATION ? sensor.LOCATION : '';
+    document.getElementById('temperatureNow').innerText = tempNow.toFixed(2) + '°C';
+    document.getElementById('humidityNow').innerText = humidNow.toFixed(2) + '%';
+    document.getElementById('airPressureNow').innerText = airPressNow.toFixed(2) + 'mbar';
+  }
 
-    let sensorSelectDropdown = document.getElementById('sensorForChartDropdown');
+  updateChart(chart, timestamps, temperature, humidity, airPressure) {
+    chart.data.labels = timestamps;
+    chart.data.datasets[0].data = temperature;
+    chart.data.datasets[1].data = humidity;
+    chart.data.datasets[2].data = airPressure;
+    chart.update();
+  }
 
-    sensorSelectDropdown.querySelectorAll('*').forEach(n => n.remove());
+  updateCharts(sensorToPlot, granularity, serverURI) {
+    $.get(serverURI + '/sensorData/id/' + sensorToPlot, (data) => {
+      //todo move back to backend
+      data.sensorData = reduceElementsToMaxSize(data.sensorData, granularity);
 
-    data.sensors.forEach(s => {
-      let sensorLink = document.createElement('a');
-      sensorLink.classList.add('dropdown-item');
-      //TODO REPLACE ME WITH ALIAS
-      sensorLink.textContent = `${s.ID} - ${s.LOCATION}`;
-      sensorLink.onclick = sensorLinkOnClick.bind(this, parseInt(s.ID), granularity);
-      sensorSelectDropdown.append(sensorLink);
+      let {timestamps, temperature, humidity, airPressure} = this.mapValuesOfData(data);
+
+      this.updateChart(this.unifiedChart, timestamps, temperature, humidity, airPressure);
+
+      $.get(serverURI + '/sensor/id/' + sensorToPlot, (data) => {
+        this.setValuesToBeDisplayed(data.sensor, temperature.slice(-1)[0], humidity.slice(-1)[0], airPressure.slice(-1)[0]);
+      });
     });
+  }
 
-  });
-}
+  updateSensorsDropdown(granularity, serverURI) {
+    $.get(serverURI + '/sensors/', (data) => {
 
-function EnterKeyPressed(e) {
-  return (e.keyCode ? e.keyCode : e.which) === 13;
-}
+      let sensorSelectDropdown = document.getElementById('sensorForChartDropdown');
 
-function isInt(value) {
-  return /^\d+$/.test(value);
-}
+      sensorSelectDropdown.querySelectorAll('*').forEach(n => n.remove());
 
-function granularityOnChange(input, e) {
-  if (EnterKeyPressed(e) && isInt(input.value)) {
-    e.preventDefault();
-    let newGranularity = parseInt(input.value);
-    if (newGranularity !== granularity && newGranularity > 1) {
-      granularity = parseInt(input.value, 10);
-      updateCharts(sensorToPlot, granularity);
+      data.sensors.forEach(s => {
+        let sensorLink = document.createElement('a');
+        sensorLink.classList.add('dropdown-item');
+        //TODO REPLACE ME WITH ALIAS
+        sensorLink.textContent = `${s.ID} - ${s.LOCATION}`;
+        sensorLink.onclick = this.sensorLinkOnClick.bind(this, parseInt(s.ID), granularity);
+        sensorSelectDropdown.append(sensorLink);
+      });
+
+    });
+  }
+
+  granularityOnChange(input, e) {
+    if (EnterKeyPressed(e) && isInt(input.value)) {
+      e.preventDefault();
+      let newGranularity = parseInt(input.value);
+      if (newGranularity !== this.granularity && newGranularity > 1) {
+        this.granularity = parseInt(input.value, 10);
+        this.updateCharts(this.sensorToPlot, this.granularity);
+      }
     }
+  }
+
+  updateDataOnPage(sensorToPlot, granularity) {
+    this.updateCharts(sensorToPlot, granularity);
+    this.updateSensorsDropdown(granularity);
+  }
+
+  yAxisStartToggle() {
+    //TODO THERE MUST BE SOME DAMN BETTER WAY DOING THIS
+    this.unifiedChart.options.scales.yAxes[0].ticks.beginAtZero = !this.unifiedChart.options.scales.yAxes[0].ticks.beginAtZero;
+    this.unifiedChart.options.scales.yAxes[1].ticks.beginAtZero = !this.unifiedChart.options.scales.yAxes[1].ticks.beginAtZero;
+    this.unifiedChart.options.scales.yAxes[2].ticks.beginAtZero = !this.unifiedChart.options.scales.yAxes[2].ticks.beginAtZero;
+    this.unifiedChart.update();
+  }
+
+  sensorLinkOnClick(ID, granularity){
+    this.sensorToPlot = ID;
+    this.updateCharts(this.sensorToPlot, granularity);
   }
 }
 
-function updateDataOnPage(sensorToPlot, granularity) {
-  updateCharts(sensorToPlot, granularity);
-  updateSensorsDropdown(granularity);
-}
 
-function yAxisStartToggle() {
-  //TODO THERE MUST BE SOME DAMN BETTER WAY DOING THIS
-  unifiedChart.options.scales.yAxes[0].ticks.beginAtZero = !unifiedChart.options.scales.yAxes[0].ticks.beginAtZero;
-  unifiedChart.options.scales.yAxes[1].ticks.beginAtZero = !unifiedChart.options.scales.yAxes[1].ticks.beginAtZero;
-  unifiedChart.options.scales.yAxes[2].ticks.beginAtZero = !unifiedChart.options.scales.yAxes[2].ticks.beginAtZero;
-  unifiedChart.update();
-}
+let app = new geileTypenWetterApp('#granularity', TEMPERATURE_COLOR, AIRPRESSURE_COLOR, HUMIDITY_COLOR, SERVER_URI, UPDATE_INTERVAL);
+app.init();
+
+
 
 //todo move back to backend
 function reduceElementsToMaxSize(elements, maxSize){
@@ -232,7 +244,10 @@ function reduceElementsToMaxSize(elements, maxSize){
       elements[Math.floor(i * (orig_size + Math.floor(orig_size/maxSize))/maxSize)]);
 }
 
-function sensorLinkOnClick(ID, granularity){
-  sensorToPlot = ID;
-  updateCharts(sensorToPlot, granularity);
+function EnterKeyPressed(e) {
+  return (e.keyCode ? e.keyCode : e.which) === 13;
+}
+
+function isInt(value) {
+  return /^\d+$/.test(value);
 }
