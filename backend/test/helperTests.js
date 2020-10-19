@@ -1,8 +1,15 @@
-var assert = require('assert');
-describe('for this project', function() {
-  describe('we all', function() {
-    it('should write more test', function() {
-      assert.equal(1, 1);
-    });
+const expect = require('chai').expect;
+const helper = require('../src/helper');
+const testData = require('./testData');
+
+
+describe('reduceElementsToMaxSize()', () => {
+  const testD = testData.testSensorData.sensorData;
+  it('with 0 as maxSize', () => {
+    expect(helper.reduceElementsToMaxSize(testD, 0)).to.deep.equal([]);
+  });
+
+  it('with maxSize > length', () => {
+    expect(helper.reduceElementsToMaxSize(testD, testD.length+1)).to.equal(testD);
   });
 });
