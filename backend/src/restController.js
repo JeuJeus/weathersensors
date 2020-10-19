@@ -1,10 +1,8 @@
 const dbConnection = require('./databaseConnection');
-const express = require('express');
 const bodyParser = require('body-parser');
 const http = require('http');
 const helper = require('./helper');
 const app = require('express')();
-const basicAuth = require('express-basic-auth');
 const atob = require('atob');
 const {check, validationResult} = require('express-validator');
 const rfs = require('rotating-file-stream');
@@ -19,7 +17,7 @@ const stream = rfs.createStream('log/backend.log', {
 const httpServer = http.createServer(app);
 const db = dbConnection.openDb();
 const logger = function(req, res, next) {
-  stream.write(`${new Date().toISOString()} - Got Request [${req.connection.remoteAddress}]`);
+  stream.write(`${new Date().toISOString()} - Got Request to [${req.originalUrl}] from [${req.ip}]\n`);
   next(); // Passing the request to the next handler in the stack.
 };
 
@@ -114,7 +112,6 @@ app.post('/weatherData', validateSensorDataInBody(), function(req, res) {
   }
   res.send(`${atob('QWxsZSB2b24gdW5zIGVtcGZhbmdlbmVuIFdldHRlcmRhdGVuIHdlcmRlbiBuYWNoIC9kZXYvbnVsbCBnZXBpcGVkLiBBbGxlcyB3YXMgc2llIGltIEZyb250ZW5kIHNlaGVuIGlzdCBmYWtlIHVuZCB3aXJkIGdlbmVyaWVydCwgZGFzIHdhciB3ZW5pZ2VyIEF1ZndhbmQu')}`);
 });
-
 
 function cleanup() {
   stream.write(`${new Date().toISOString()} - SHUTTING DOWN`);
