@@ -5,9 +5,9 @@ const http = require('http');
 const app = express();
 const atob = require('atob');
 
-let httpServer = http.createServer(app);
-let db = dbConnection.openDb();
-let logger = function(req, res, next) {
+const httpServer = http.createServer(app);
+const db = dbConnection.openDb();
+const logger = function(req, res, next) {
   console.log(`${new Date().toISOString()} - Got Request [${req.connection.remoteAddress}]`);
   next(); // Passing the request to the next handler in the stack.
 };
@@ -35,19 +35,19 @@ function validIdForRequest(req) {
 
 app.get('/weatherData', async function(req, res) {
   res.set('Access-Control-Allow-Origin', '*'); // Security not needed xD
-  let response = {
+  const response = {
     'sensors': [],
     'sensorData': [],
   };
-  let sensors = await dbConnection.getSensors(db);
-  let sensorData = await dbConnection.getSensorData(db);
+  const sensors = await dbConnection.getSensors(db);
+  const sensorData = await dbConnection.getSensorData(db);
   response.sensors = sensors;
   response.sensorData = sensorData;
   res.send(response);
 });
 app.get('/sensorData/id/:SENSOR_ID', async function(req, res) {
   res.set('Access-Control-Allow-Origin', '*'); // Security not needed xD
-  let response = {
+  const response = {
     'sensorData': [],
   };
   if (validIdForRequest(req)) {
@@ -59,7 +59,7 @@ app.get('/sensorData/id/:SENSOR_ID', async function(req, res) {
 });
 app.get('/sensors', async function(req, res) {
   res.set('Access-Control-Allow-Origin', '*'); // Security not needed xD
-  let response = {
+  const response = {
     'sensors': [],
   };
   response.sensors = await dbConnection.getSensors(db);
@@ -67,7 +67,7 @@ app.get('/sensors', async function(req, res) {
 });
 app.get('/sensor/id/:SENSOR_ID', async function(req, res) {
   res.set('Access-Control-Allow-Origin', '*'); // Security not needed xD
-  let response = {
+  const response = {
     'sensor': [],
   };
   if (validIdForRequest(req)) {
@@ -82,7 +82,7 @@ app.get('/sensor/id/:SENSOR_ID', async function(req, res) {
 app.post('/weatherData', function(req, res) {
   if (req.body) {
     req.body.TIMESTAMP = Date.now();
-    //TODO NO VALIDATION AT ALL? XD
+    // TODO NO VALIDATION AT ALL? XD
     dbConnection.insertWeatherData(db, req.body);
   } else {
     console.log(`${new Date().toISOString()} - POST REQUEST PARSIND BODY FAILED FROM [${req.connection.remoteAddress}]`);

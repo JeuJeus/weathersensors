@@ -35,60 +35,60 @@ async function init(db) {
 }
 
 async function getSensors(db) {
-  let sql = 'SELECT ID, MAC_ADDRESS, LOCATION ' +
+  const sql = 'SELECT ID, MAC_ADDRESS, LOCATION ' +
     'FROM SENSOR';
-  let params = [];
+  const params = [];
   return db.all(sql, params);
 }
 
 async function getSensorById(db, SENSOR_ID) {
-  let sql = 'SELECT ID, MAC_ADDRESS, LOCATION ' +
+  const sql = 'SELECT ID, MAC_ADDRESS, LOCATION ' +
       'FROM SENSOR ' +
       'WHERE ID = ?';
-  let params = [SENSOR_ID];
+  const params = [SENSOR_ID];
   return db.all(sql, params);
 }
 
 async function assignSensorIDByMACIfNotExists(db, MACADDRESS) {
-  let sql = 'INSERT INTO SENSOR (MAC_ADDRESS, LOCATION) ' +
+  const sql = 'INSERT INTO SENSOR (MAC_ADDRESS, LOCATION) ' +
       'VALUES (?, ?)' +
       'EXCEPT SELECT MAC_ADDRESS, LOCATION FROM SENSOR WHERE MAC_ADDRESS = ?';
-  let params = [MACADDRESS, '', MACADDRESS];
+  const params = [MACADDRESS, '', MACADDRESS];
   db.all(sql, params);
   console.log(`${new Date().toISOString()} - RECEIVED MACADDRESS [${MACADDRESS}]`);
   return getSensorIDByMAC(db, MACADDRESS);
 }
 
 async function getSensorIDByMAC(db, MACADDRESS) {
-  let sql = 'SELECT ID, MAC_ADDRESS, LOCATION ' +
+  const sql = 'SELECT ID, MAC_ADDRESS, LOCATION ' +
       'FROM SENSOR ' +
       'WHERE MAC_ADDRESS = ?';
-  let params = [MACADDRESS];
+  const params = [MACADDRESS];
   return db.all(sql, params);
 }
 
 async function getSensorData(db) {
-  let sql = 'SELECT SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY ' +
+  const sql = 'SELECT SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY ' +
       'FROM SENSOR_DATA';
-  let params = [];
+  const params = [];
   return db.all(sql, params);
 }
 
 async function getSensorDataById(db, SENSOR_ID) {
-  let sql = 'SELECT SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY ' +
+  const sql = 'SELECT SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY ' +
         'FROM SENSOR_DATA ' +
         'WHERE SENSOR_ID = ?';
-  let params = [SENSOR_ID];
+  const params = [SENSOR_ID];
   return db.all(sql, params);
 }
 
 
 async function insertWeatherData(db, weatherData) {
-  //TODO REFACTOR INSERT LAYER
-  let SENSOR_ID = await assignSensorIDByMACIfNotExists(db, weatherData.MACADDRESS);
-  let sql = 'INSERT INTO SENSOR_DATA (SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY) ' +
+  // TODO REFACTOR INSERT LAYER
+  const SENSOR_ID = await assignSensorIDByMACIfNotExists(db, weatherData.MACADDRESS);
+  const sql = 'INSERT INTO SENSOR_DATA (SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY) ' +
       'VALUES (?, ?, ?, ?, ?)';
-  let params = [SENSOR_ID[0].ID, weatherData.TIMESTAMP, weatherData.TEMPERATURE, weatherData.AIRPRESSURE, weatherData.HUMIDITY];
+  const params = [SENSOR_ID[0].ID, weatherData.TIMESTAMP, weatherData.TEMPERATURE, weatherData.AIRPRESSURE, weatherData.HUMIDITY];
   db.run(sql, params);
 }
 
@@ -97,7 +97,7 @@ module.exports = {
   'init': init,
   'getSensors': getSensors,
   'getSensorData': getSensorData,
-  'getSensorDataById' : getSensorDataById,
+  'getSensorDataById': getSensorDataById,
   'insertWeatherData': insertWeatherData,
   'closeDb': closeDb,
   'getSensorById': getSensorById,
