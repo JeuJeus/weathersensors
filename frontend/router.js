@@ -5,8 +5,8 @@ const app = require('express')();
 const basicAuth = require('express-basic-auth');
 const path = require('path');
 
-let httpServer = http.createServer(app);
-let logger = function(req, res, next) {
+const httpServer = http.createServer(app);
+const logger = function (req, res, next) {
   console.log(`${new Date().toISOString()} - Got Request to [${req.originalUrl}] from [${req.ip}]`);
   next(); // Passing the request to the next handler in the stack.
 };
@@ -29,19 +29,19 @@ httpServer.listen(3344, (err) => {
 });
 
 // ############### GET ROOT ###############
-app.get('/', async function(req, res) {
+app.get('/', async function (req, res) {
   res.set('Access-Control-Allow-Origin', '*'); // Security not needed xD
   res.sendFile(path.join(__dirname + '/index.html'));
 });
 
-//############### BASIC AUTH SECURED ###############
-app.use(basicAuth({
+// ############### BASIC AUTH SECURED ###############
+const auth = basicAuth({
   users: {admin: '$PASSWORD'},
   challenge: true,
-}));
+});
 
-app.get('/admin', function(req, res) {
-  res.send('hello world');
+app.get('/admin', auth, function (req, res) {
+  res.sendFile(path.join(__dirname + '/admin.html'));
 });
 
 function cleanup() {
