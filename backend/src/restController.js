@@ -2,6 +2,7 @@ const dbConnection = require('./databaseConnection');
 const express = require('express');
 const bodyParser = require('body-parser');
 const http = require('http');
+const helper = require('./helper');
 const app = express();
 const atob = require('atob');
 
@@ -52,6 +53,9 @@ app.get('/sensorData/id/:SENSOR_ID', async function(req, res) {
   };
   if (validIdForRequest(req)) {
     response.sensorData = await dbConnection.getSensorDataById(db, req.params.SENSOR_ID);
+    if (req.query.granularity) {
+      response.sensorData = helper.reduceElementsToMaxSize(response.sensorData, req.query.granularity);
+    }
     res.status(200).send(response);
   } else {
     res.status(400).send();

@@ -134,10 +134,7 @@ class GeileTypenWetterApp {
   }
 
   createChartsForSensor(sensorToPlot, granularity, serverURI) {
-    $.get(serverURI + '/sensorData/id/' + sensorToPlot, (data) => {
-      //todo move back to backend
-      data.sensorData = reduceElementsToMaxSize(data.sensorData, granularity);
-
+    $.get(serverURI + '/sensorData/id/' + sensorToPlot, {'granularity' : granularity}, (data) => {
       let {timestamps, temperature, humidity, airPressure} = this.mapValuesOfData(data);
 
       let tempValues = {
@@ -178,10 +175,7 @@ class GeileTypenWetterApp {
   }
 
   updateCharts(sensorToPlot, granularity, serverURI) {
-    $.get(serverURI + '/sensorData/id/' + sensorToPlot, (data) => {
-      //todo move back to backend
-      data.sensorData = reduceElementsToMaxSize(data.sensorData, granularity);
-
+    $.get(serverURI + '/sensorData/id/' + sensorToPlot, {'granularity' : granularity}, (data) => {
       let {timestamps, temperature, humidity, airPressure} = this.mapValuesOfData(data);
 
       this.updateChart(this.unifiedChart, timestamps, temperature, humidity, airPressure);
@@ -241,14 +235,6 @@ class GeileTypenWetterApp {
 // ######################################################################
 
 // static functions
-//todo move back to backend
-function reduceElementsToMaxSize(elements, maxSize){
-  if (elements.length <= maxSize) return elements;
-  let orig_size = elements.length;
-  return Array.from({length: maxSize}, (_, i) =>
-      elements[Math.floor(i * (orig_size + Math.floor(orig_size/maxSize))/maxSize)]);
-}
-
 function EnterKeyPressed(e) {
   return (e.keyCode ? e.keyCode : e.which) === 13;
 }
