@@ -6,7 +6,7 @@ import {
   UPDATE_INTERVAL,
 } from './constants.js';
 
-class geileTypenWetterApp {
+class GeileTypenWetterApp {
   constructor(granularityInputSelector, temperatureColor, airPressureColor, humidityColor, serverURI, updateInterval) {
 
     // DOM - Elements
@@ -259,5 +259,5 @@ function isInt(value) {
 // ######################################################################
 
 // creating app
-let app = new geileTypenWetterApp('#granularity', TEMPERATURE_COLOR, AIRPRESSURE_COLOR, HUMIDITY_COLOR, SERVER_URI, UPDATE_INTERVAL);
+let app = new GeileTypenWetterApp('#granularity', TEMPERATURE_COLOR, AIRPRESSURE_COLOR, HUMIDITY_COLOR, SERVER_URI, UPDATE_INTERVAL);
 app.init();
