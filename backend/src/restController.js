@@ -17,7 +17,7 @@ const stream = rfs.createStream('log/backend.log', {
 const httpServer = http.createServer(app);
 const db = dbConnection.openDb();
 const logger = function(req, res, next) {
-  stream.write(`${new Date().toISOString()} - Got Request to [${req.originalUrl}] from [${req.ip}]\n`);
+  stream.write(`${new Date().toISOString()} - GOT REQUEST TO [${req.originalUrl}] FROM [${req.ip}]\n`);
   next(); // Passing the request to the next handler in the stack.
 };
 
@@ -114,7 +114,7 @@ app.post('/weatherData', validateSensorDataInBody(), function(req, res) {
 });
 
 function cleanup() {
-  console.log(`${new Date().toISOString()} - SHUTTING DOWN`);
+  console.log(`${new Date().toISOString()} - BACKEND SHUTTING DOWN`);
   dbConnection.closeDb(db);
   process.exit(1);
 }

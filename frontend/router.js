@@ -7,7 +7,7 @@ const path = require('path');
 
 const httpServer = http.createServer(app);
 const logger = function (req, res, next) {
-  console.log(`${new Date().toISOString()} - Got Request to [${req.originalUrl}] from [${req.ip}]`);
+  console.log(`${new Date().toISOString()} - GOT REQUEST TO [${req.originalUrl}] FROM [${req.ip}]`);
   next(); // Passing the request to the next handler in the stack.
 };
 
