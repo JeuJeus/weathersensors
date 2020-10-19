@@ -41,10 +41,12 @@ describe('-- REST CONTROLLER -- ', () => {
 
   chai.use(chaiHttp);
 
-  describe('when get /weatherData', () => {
+  const stubbedSensors = sinon.stub(dbConnection, 'getSensors').returns(stubSensor);
+  const stubbedDatas = sinon.stub(dbConnection, 'getSensorData').returns(stubSensorData);
+  const stubbedSensorData = sinon.stub(dbConnection, 'getSensorDataById').returns(stubSensorData);
+  const stubbedSensor = sinon.stub(dbConnection, 'getSensorById').returns(stubSensor);
 
-    const stubbedSensor = sinon.stub(dbConnection, 'getSensors').returns(stubSensor);
-    const stubbedData = sinon.stub(dbConnection, 'getSensorData').returns(stubSensorData);
+  describe('when get /weatherData', () => {
 
     it('should return valid data when calling get', () => {
       chai.request('http://localhost:3000')
@@ -58,10 +60,7 @@ describe('-- REST CONTROLLER -- ', () => {
   });
 
   describe('when get /sensorData/id/:SENSOR_ID', () => {
-
-    const stubbed = sinon.stub(dbConnection, 'getSensorDataById').returns(stubSensorData);
-
-    it('should return valid sensor when calling get with valid id', () => {
+    it('should return valid sensordata when calling get with valid id', () => {
       chai.request('http://localhost:3000')
         .get('/sensorData/id/1')
         .end((err, res) => {
@@ -88,6 +87,34 @@ describe('-- REST CONTROLLER -- ', () => {
     });
   });
 
+  describe('when get /sensors', () => {
+    it('should return valid sensors when calling get', () => {
+      chai.request('http://localhost:3000')
+        .get('/sensors')
+        .end((err, res) => {
+          res.should.have.status(200);
+          expect(res.body.sensors[0]).to.deep.equal(stubSensor[0]);
+        });
+    });
+  });
+
+  describe('when get /sensor/id/:SENSOR_ID', () => {
+    it('should return valid sensor when calling get with valid id', () => {
+      chai.request('http://localhost:3000')
+        .get('/sensor/id/1')
+        .end((err, res) => {
+          res.should.have.status(200);
+          expect(res.body.sensor).to.deep.equal(stubSensor[0]);
+        });
+    });
+    it('should return 404 when id not found or wrong', () => {
+      chai.request('http://localhost:3000')
+        .get('/sensors/id/awe')
+        .end((err, res) => {
+          res.should.have.status(404);
+        });
+    });
+  });
 
   describe('it should validate Sensor Data in POST Request', () => {
     it('should be valid when posting valid data', () => {
