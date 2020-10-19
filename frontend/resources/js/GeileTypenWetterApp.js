@@ -219,11 +219,11 @@ class GeileTypenWetterApp {
     this.updateSensorsDropdown(this.granularity, this.serverURI);
   }
 
+  //Autor: JF, PR
   yAxisStartToggle() {
-    //TODO THERE MUST BE SOME DAMN BETTER WAY DOING THIS
-    this.unifiedChart.options.scales.yAxes[0].ticks.beginAtZero = !this.unifiedChart.options.scales.yAxes[0].ticks.beginAtZero;
-    this.unifiedChart.options.scales.yAxes[1].ticks.beginAtZero = !this.unifiedChart.options.scales.yAxes[1].ticks.beginAtZero;
-    this.unifiedChart.options.scales.yAxes[2].ticks.beginAtZero = !this.unifiedChart.options.scales.yAxes[2].ticks.beginAtZero;
+    this.unifiedChart.options.scales.yAxes.forEach(yAxis =>{
+      yAxis.ticks.beginAtZero = ! yAxis.ticks.beginAtZero;
+    });
     this.unifiedChart.update();
   }
 
