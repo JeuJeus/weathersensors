@@ -1,10 +1,8 @@
 const dbConnection = require('./databaseConnection');
-const express = require('express');
 const bodyParser = require('body-parser');
 const http = require('http');
 const helper = require('./helper');
 const app = require('express')();
-const basicAuth = require('express-basic-auth');
 const atob = require('atob');
 const {check, validationResult} = require('express-validator');
 const rfs = require('rotating-file-stream');

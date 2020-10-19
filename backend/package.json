@@ -6,8 +6,8 @@
   "scripts": {
     "test": "mocha --exit",
     "setup": "node test/testDataBaseSetup.js",
-    "helperTests": "node src/test/testMain.js",
-    "start": "node src/main/restController.js"
+    "helperTests": "node src/test/helperTests.js",
+    "start": "node src/restController.js"
   },
   "keywords": [],
   "author": "",
