@@ -5,6 +5,7 @@ const http = require('http');
 const helper = require('./helper');
 const app = express();
 const atob = require('atob');
+const {check, validationResult} = require('express-validator');
 
 const httpServer = http.createServer(app);
 const db = dbConnection.openDb();
@@ -82,14 +83,24 @@ app.get('/sensor/id/:SENSOR_ID', async function(req, res) {
   }
 });
 
+function validateSensorDataInBody() {
+  return [
+    check('MACADDRESS').isMACAddress(),
+    check('TEMPERATURE').isFloat(),
+    check('AIRPRESSURE').isFloat(),
+    check('HUMIDITY').isFloat(),
+  ];
+}
 
-app.post('/weatherData', function(req, res) {
-  if (req.body) {
+app.post('/weatherData', validateSensorDataInBody(), function(req, res) {
+  const errors = validationResult(req);
+  if (errors.isEmpty()) {
+    //TODO MOVE TO NTP ON ESP
     req.body.TIMESTAMP = Date.now();
-    // TODO NO VALIDATION AT ALL? XD
     dbConnection.insertWeatherData(db, req.body);
   } else {
-    console.log(`${new Date().toISOString()} - POST REQUEST PARSIND BODY FAILED FROM [${req.connection.remoteAddress}]`);
+    console.log(`${new Date().toISOString()} - POST REQUEST PARSING BODY FAILED FROM [${req.connection.remoteAddress}]`);
+    return res.status(400).json({errors: errors.array()});
   }
   res.send(`${atob('QWxsZSB2b24gdW5zIGVtcGZhbmdlbmVuIFdldHRlcmRhdGVuIHdlcmRlbiBuYWNoIC9kZXYvbnVsbCBnZXBpcGVkLiBBbGxlcyB3YXMgc2llIGltIEZyb250ZW5kIHNlaGVuIGlzdCBmYWtlIHVuZCB3aXJkIGdlbmVyaWVydCwgZGFzIHdhciB3ZW5pZ2VyIEF1ZndhbmQu')}`);
 });
@@ -100,4 +111,3 @@ function cleanup() {
   dbConnection.closeDb(db);
   process.exit(1);
 }
-
