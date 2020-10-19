@@ -17,7 +17,7 @@ const stream = rfs.createStream('log/backend.log', {
 const httpServer = http.createServer(app);
 const db = dbConnection.openDb();
 const logger = function(req, res, next) {
-  stream.write(`${new Date().toISOString()} - Got Request [${req.connection.remoteAddress}]\n`);
+  stream.write(`${new Date().toISOString()} - GOT REQUEST TO [${req.originalUrl}] FROM [${req.ip}]\n`);
   next(); // Passing the request to the next handler in the stack.
 };
 
