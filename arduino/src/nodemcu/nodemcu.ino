@@ -55,6 +55,7 @@ void loop() {
 
   readValues(&data);
   logValues(&data);
+  // todo check for max size..
   dataList.add(data);
 
   // wait for WiFi connection
