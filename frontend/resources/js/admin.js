@@ -1,12 +1,9 @@
-import {
-  SERVER_URI,
-} from './constants.js';
-
-const table = document.getElementById('sensorTable');
+import {SERVER_URI} from './constants.js';
 
 class SensorTableFiller {
-  constructor(serverURI) {
+  constructor(serverURI, sensorTable) {
     this.serverURI = serverURI;
+    this.sensorTable = document.getElementById(sensorTable);
   }
 
   init() {
@@ -14,13 +11,10 @@ class SensorTableFiller {
   }
 
   addToTable(s) {
-    const row = table.insertRow(-1);
-    const idCol = row.insertCell(0);
-    const macCol = row.insertCell(1);
-    const locCol = row.insertCell(2);
-    idCol.innerText = s.ID;
-    macCol.innerText = s.MAC_ADDRESS;
-    locCol.innerText = s.LOCATION;
+    const row = this.sensorTable.insertRow(-1);
+    row.insertCell(0).innerText = s.ID;
+    row.insertCell(1).innerText = s.MAC_ADDRESS;
+    row.insertCell(2).innerText = s.LOCATION;
   }
 
   getSensors(serverURI) {
@@ -30,5 +24,5 @@ class SensorTableFiller {
   }
 }
 
-const app = new SensorTableFiller(SERVER_URI);
+const app = new SensorTableFiller(SERVER_URI, 'sensorTable');
 app.init();
