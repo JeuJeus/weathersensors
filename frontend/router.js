@@ -24,8 +24,8 @@ app.use(bodyParser.json({
   limit: '100kb',
   type: 'application/json',
 }));
-app.use(logger);
 app.use('/resources', express.static(path.join(__dirname, 'resources')));
+app.use(logger);
 
 httpServer.listen(3344, (err) => {
   if (err) {
