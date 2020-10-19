@@ -1,4 +1,4 @@
-const dbConnection = require('../databaseConnection');
+const dbConnection = require('../src/databaseConnection');
 const db = dbConnection.openDb();
 
 initTables(db).then((x) => {

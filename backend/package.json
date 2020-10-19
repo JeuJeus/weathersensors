@@ -7,7 +7,7 @@
     "test": "mocha",
     "setup": "node test/testDataBaseSetup.js",
     "helperTests": "node test/helperTests.js",
-    "start": "node restController.js"
+    "start": "node src/restController.js"
   },
   "keywords": [],
   "author": "",
