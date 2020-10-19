@@ -32,7 +32,7 @@ httpServer.listen(3000, (err) => {
   if (err) {
     stream.write(`${new Date().toISOString()} - ERROR [${err}]`);
   }
-  stream.write(`${new Date().toISOString()} - APPLICATION STARTED`);
+  stream.write(`${new Date().toISOString()} - BACKEND STARTED`);
   process.on('SIGINT', cleanup);
   process.on('SIGTERM', cleanup);
 });
@@ -107,14 +107,15 @@ app.post('/weatherData', validateSensorDataInBody(), function(req, res) {
     req.body.TIMESTAMP = Date.now();
     dbConnection.insertWeatherData(db, req.body);
   } else {
-    stream.write(`${new Date().toISOString()} - POST REQUEST PARSING BODY FAILED FROM [${req.connection.remoteAddress}]`);
+    console.log(`${new Date().toISOString()} - POST REQUEST PARSING BODY FAILED FROM [${req.connection.remoteAddress}]`);
     return res.status(400).json({errors: errors.array()});
   }
   res.send(`${atob('QWxsZSB2b24gdW5zIGVtcGZhbmdlbmVuIFdldHRlcmRhdGVuIHdlcmRlbiBuYWNoIC9kZXYvbnVsbCBnZXBpcGVkLiBBbGxlcyB3YXMgc2llIGltIEZyb250ZW5kIHNlaGVuIGlzdCBmYWtlIHVuZCB3aXJkIGdlbmVyaWVydCwgZGFzIHdhciB3ZW5pZ2VyIEF1ZndhbmQu')}`);
 });
 
 function cleanup() {
-  stream.write(`${new Date().toISOString()} - SHUTTING DOWN`);
+  console.log(`${new Date().toISOString()} - SHUTTING DOWN`);
   dbConnection.closeDb(db);
   process.exit(1);
 }
+

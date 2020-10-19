@@ -23,7 +23,7 @@ httpServer.listen(3344, (err) => {
   if (err) {
     console.log(`${new Date().toISOString()} - ERROR [${err}]`);
   }
-  console.log(`${new Date().toISOString()} - APPLICATION STARTED`);
+  console.log(`${new Date().toISOString()} - FRONTEND STARTED`);
   process.on('SIGINT', cleanup);
   process.on('SIGTERM', cleanup);
 });
@@ -45,6 +45,6 @@ app.get('/admin', auth, function (req, res) {
 });
 
 function cleanup() {
-  console.log(`${new Date().toISOString()} - SHUTTING DOWN`);
+  console.log(`${new Date().toISOString()} - FRONTEND SHUTTING DOWN`);
   process.exit(1);
 }
