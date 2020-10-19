@@ -1,9 +1,9 @@
 import {SERVER_URI} from './constants.js';
 
 class SensorTableFiller {
-  constructor(serverURI, sensorTable) {
+  constructor(serverURI) {
     this.serverURI = serverURI;
-    this.sensorTable = document.getElementById(sensorTable);
+    this.sensorTable = document.getElementById('sensorTable');
   }
 
   init() {
@@ -24,5 +24,5 @@ class SensorTableFiller {
   }
 }
 
-const app = new SensorTableFiller(SERVER_URI, 'sensorTable');
+const app = new SensorTableFiller(SERVER_URI);
 app.init();
