@@ -32,7 +32,7 @@ httpServer.listen(3000, (err) => {
   if (err) {
     stream.write(`${new Date().toISOString()} - ERROR [${err}]\n`);
   }
-  stream.write(`${new Date().toISOString()} - APPLICATION STARTED\n`);
+  stream.write(`${new Date().toISOString()} - BACKEND STARTED\n`);
   process.on('SIGINT', cleanup);
   process.on('SIGTERM', cleanup);
 });
@@ -113,7 +113,8 @@ app.post('/weatherData', validateSensorDataInBody(), function(req, res) {
 });
 
 function cleanup() {
-  stream.write(`${new Date().toISOString()} - SHUTTING DOWN\n`);
+  stream.write(`${new Date().toISOString()} - BACKEND SHUTTING DOWN\n`);
   dbConnection.closeDb(db);
   process.exit(1);
 }
+
