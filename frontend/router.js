@@ -4,10 +4,18 @@ const express = require('express');
 const app = require('express')();
 const basicAuth = require('express-basic-auth');
 const path = require('path');
+const rfs = require('rotating-file-stream');
+
+const stream = rfs.createStream('log/frontend.log', {
+  size: '10M',
+  interval: '1d',
+  compress: 'gzip',
+  teeToStdout: true,
+});
 
 const httpServer = http.createServer(app);
-const logger = function (req, res, next) {
-  console.log(`${new Date().toISOString()} - GOT REQUEST TO [${req.originalUrl}] FROM [${req.ip}]`);
+const logger = function(req, res, next) {
+  stream.write(`${new Date().toISOString()} - GOT REQUEST TO [${req.originalUrl}] FROM [${req.ip}]`);
   next(); // Passing the request to the next handler in the stack.
 };
 
@@ -21,9 +29,9 @@ app.use(logger);
 
 httpServer.listen(3344, (err) => {
   if (err) {
-    console.log(`${new Date().toISOString()} - ERROR [${err}]`);
+    stream.write(`${new Date().toISOString()} - ERROR [${err}]`);
   }
-  console.log(`${new Date().toISOString()} - FRONTEND STARTED`);
+  stream.write(`${new Date().toISOString()} - FRONTEND STARTED`);
   process.on('SIGINT', cleanup);
   process.on('SIGTERM', cleanup);
 });
@@ -45,6 +53,6 @@ app.get('/admin', auth, function (req, res) {
 });
 
 function cleanup() {
-  console.log(`${new Date().toISOString()} - FRONTEND SHUTTING DOWN`);
+  stream.write(`${new Date().toISOString()} - FRONTEND SHUTTING DOWN`);
   process.exit(1);
 }
