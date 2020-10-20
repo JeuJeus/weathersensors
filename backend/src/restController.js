@@ -6,11 +6,19 @@ const helper = require('./helper');
 const app = express();
 const atob = require('atob');
 const {check, validationResult} = require('express-validator');
+const rfs = require('rotating-file-stream');
+
+const stream = rfs.createStream('log/backend.log', {
+  size: '10M',
+  interval: '1d',
+  compress: 'gzip',
+  teeToStdout: true,
+});
 
 const httpServer = http.createServer(app);
 const db = dbConnection.openDb();
 const logger = function(req, res, next) {
-  console.log(`${new Date().toISOString()} - Got Request [${req.connection.remoteAddress}]`);
+  stream.write(`${new Date().toISOString()} - Got Request [${req.connection.remoteAddress}]`);
   next(); // Passing the request to the next handler in the stack.
 };
 
@@ -24,9 +32,9 @@ app.use(logger);
 
 httpServer.listen(3000, (err) => {
   if (err) {
-    console.log(`${new Date().toISOString()} - ERROR [${err}]`);
+    stream.write(`${new Date().toISOString()} - ERROR [${err}]`);
   }
-  console.log(`${new Date().toISOString()} - APPLICATION STARTED`);
+  stream.write(`${new Date().toISOString()} - APPLICATION STARTED`);
   process.on('SIGINT', cleanup);
   process.on('SIGTERM', cleanup);
 });
@@ -99,7 +107,7 @@ app.post('/weatherData', validateSensorDataInBody(), function(req, res) {
     req.body.TIMESTAMP = Date.now();
     dbConnection.insertWeatherData(db, req.body);
   } else {
-    console.log(`${new Date().toISOString()} - POST REQUEST PARSING BODY FAILED FROM [${req.connection.remoteAddress}]`);
+    stream.write(`${new Date().toISOString()} - POST REQUEST PARSING BODY FAILED FROM [${req.connection.remoteAddress}]`);
     return res.status(400).json({errors: errors.array()});
   }
   res.send(`${atob('QWxsZSB2b24gdW5zIGVtcGZhbmdlbmVuIFdldHRlcmRhdGVuIHdlcmRlbiBuYWNoIC9kZXYvbnVsbCBnZXBpcGVkLiBBbGxlcyB3YXMgc2llIGltIEZyb250ZW5kIHNlaGVuIGlzdCBmYWtlIHVuZCB3aXJkIGdlbmVyaWVydCwgZGFzIHdhciB3ZW5pZ2VyIEF1ZndhbmQu')}`);
@@ -107,7 +115,7 @@ app.post('/weatherData', validateSensorDataInBody(), function(req, res) {
 
 
 function cleanup() {
-  console.log(`${new Date().toISOString()} - SHUTTING DOWN`);
+  stream.write(`${new Date().toISOString()} - SHUTTING DOWN`);
   dbConnection.closeDb(db);
   process.exit(1);
 }
