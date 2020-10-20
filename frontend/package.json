@@ -21,7 +21,6 @@
     "eslint-config-google": "^0.14.0",
     "jquery-jsdom": "^1.0.0",
     "jsdom": "^16.4.0",
-    "jsdom-global": "latest",
     "mocha": "^8.2.0"
   }
 }

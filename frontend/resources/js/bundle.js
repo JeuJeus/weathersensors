@@ -255,7 +255,7 @@ module.exports = {
 
 
 },{}],3:[function(require,module,exports){
-const SERVER_URI = 'http://localhost:3000';
+const SERVER_URI = 'https://awe2-api.jeujeus.de';
 const UPDATE_INTERVAL = 1000 * 60;// one minute
 
 const TEMPERATURE_COLOR = 'rgb(204,0,112,0.7)';
