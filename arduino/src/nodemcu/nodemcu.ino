@@ -8,6 +8,8 @@
 #define SERVER_TO_CONNECT "http://awe2-api.jeujeus.de/weatherData"
 #define SSID "$SSID-2.4ghz!"
 #define WIFI_PASSWORD "$PASSWORD"
+#define MAC_ADDRESS_LENGTH 18
+#define MAX_SENSOR_DATA 100
 // ########################################################################
 struct sensorData {
   float temperature;
@@ -55,7 +57,9 @@ void loop() {
 
   readValues(&data);
   logValues(&data);
-  // todo check for max size..
+  if (dataList.size() == MAX_SENSOR_DATA){
+    dataList.shift();
+  }
   dataList.add(data);
 
   // wait for WiFi connection
