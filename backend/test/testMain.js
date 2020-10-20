@@ -1,8 +1,10 @@
 const expect = require('chai').expect;
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const should = chai.should();
 
 const helper = require('../src/helper');
+const restController = require('../src/restController');
 const testData = require('./testData');
 const dbConnection = require('../src/databaseConnection');
 const sinon = require('sinon');
@@ -17,6 +19,10 @@ describe('-- HELPER TESTS -- ', () => {
 
     it('with maxSize > length', () => {
       expect(helper.reduceElementsToMaxSize(testD, testD.length + 1)).to.equal(testD);
+    });
+
+    it('with valid maxSize', () => {
+      expect(helper.reduceElementsToMaxSize(testD, testD.length / 2).length).to.deep.equal(testD.length / 2);
     });
   });
 });
