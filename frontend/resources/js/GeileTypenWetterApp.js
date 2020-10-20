@@ -7,18 +7,20 @@ import {
 } from './constants.js';
 
 class GeileTypenWetterApp {
-  constructor(granularityInputSelector, temperatureColor, airPressureColor, humidityColor, serverURI, updateInterval) {
+  constructor(temperatureColor, airPressureColor, humidityColor, serverURI, updateInterval,
+    granularityInputSelector, yAxisToggleSelector, sensorPlottingSelector, sensorPlotLocationSelector, temperatureNowSelector,
+    humidityNowSelector, airPressureNowSelector, sensorDropdownSelector) {
 
     // DOM - Elements
-    // TODO make selectors given to constructors like granularityInputSelector -> reusability and cleaner
     this.granularityInput = document.querySelector(granularityInputSelector);
-    this.yAxisToggleButton = document.querySelector('#yAxisToggleButton');
-    this.sensorPlotting = document.getElementById('sensorPlotting');
-    this.sensorPlottingLocation = document.getElementById('sensorPlottingLocation');
-    this.temperatureNow = document.getElementById('temperatureNow');
-    this.humidityNow = document.getElementById('humidityNow');
-    this.airPressureNow = document.getElementById('airPressureNow');
-    this.sensorSelectDropdown = document.getElementById('sensorForChartDropdown');
+    this.yAxisToggleButton = document.querySelector(yAxisToggleSelector);
+    this.sensorPlotting = document.getElementById(sensorPlottingSelector);
+    this.sensorPlottingLocation = document.getElementById(sensorPlotLocationSelector);
+    this.temperatureNow = document.getElementById(temperatureNowSelector);
+    this.humidityNow = document.getElementById(humidityNowSelector);
+    this.airPressureNow = document.getElementById(airPressureNowSelector);
+    this.sensorSelectDropdown = document.getElementById(sensorDropdownSelector);
+
     // current state
     this.granularity = this.granularityInput.value;
     this.sensorToPlot = 1;
@@ -80,7 +82,7 @@ class GeileTypenWetterApp {
             ticks: {
               fontColor: tempColor,
               beginAtZero: false,
-              callback: function (value) {
+              callback: function(value) {
                 return value + '°C';
               },
             },
@@ -91,7 +93,7 @@ class GeileTypenWetterApp {
             ticks: {
               fontColor: humidColor,
               beginAtZero: false,
-              callback: function (value) {
+              callback: function(value) {
                 return value + '%';
               },
             },
@@ -102,7 +104,7 @@ class GeileTypenWetterApp {
             ticks: {
               fontColor: airPressColor,
               beginAtZero: false,
-              callback: function (value) {
+              callback: function(value) {
                 return value + ' mbar';
               },
             },
@@ -119,22 +121,22 @@ class GeileTypenWetterApp {
 
   mapValuesOfData(data) {
     let timestamps = data.sensorData.map(
-        e => new Date(parseInt(e.TIMESTAMP)).toLocaleString('de-DE'),
+      e => new Date(parseInt(e.TIMESTAMP)).toLocaleString('de-DE'),
     );
     let temperature = data.sensorData.map(
-        e => e.TEMPERATURE,
+      e => e.TEMPERATURE,
     );
     let humidity = data.sensorData.map(
-        e => e.HUMIDITY,
+      e => e.HUMIDITY,
     );
     let airPressure = data.sensorData.map(
-        e => e.AIRPRESSURE,
+      e => e.AIRPRESSURE,
     );
     return {timestamps, temperature, airPressure, humidity};
   }
 
   createChartsForSensor(sensorToPlot, granularity, serverURI) {
-    $.get(serverURI + '/sensorData/id/' + sensorToPlot, {'granularity' : granularity}, (data) => {
+    $.get(serverURI + '/sensorData/id/' + sensorToPlot, {'granularity': granularity}, (data) => {
       let {timestamps, temperature, humidity, airPressure} = this.mapValuesOfData(data);
 
       let tempValues = {
@@ -151,7 +153,7 @@ class GeileTypenWetterApp {
       };
 
       this.unifiedChart = this.createChart('Sensor Data', data, timestamps, tempValues, humidValues, airPressValues,
-          this.temperatureColor, this.airpressureColor, this.humidityColor);
+        this.temperatureColor, this.airpressureColor, this.humidityColor);
       $.get(serverURI + '/sensor/id/' + sensorToPlot, (data) => {
         this.setValuesToBeDisplayed(data.sensor, temperature.slice(-1)[0], humidity.slice(-1)[0], airPressure.slice(-1)[0]);
       });
@@ -175,7 +177,7 @@ class GeileTypenWetterApp {
   }
 
   updateCharts(sensorToPlot, granularity, serverURI) {
-    $.get(serverURI + '/sensorData/id/' + sensorToPlot, {'granularity' : granularity}, (data) => {
+    $.get(serverURI + '/sensorData/id/' + sensorToPlot, {'granularity': granularity}, (data) => {
       let {timestamps, temperature, humidity, airPressure} = this.mapValuesOfData(data);
 
       this.updateChart(this.unifiedChart, timestamps, temperature, humidity, airPressure);
@@ -221,17 +223,18 @@ class GeileTypenWetterApp {
 
   //Autor: JF, PR
   yAxisStartToggle() {
-    this.unifiedChart.options.scales.yAxes.forEach(yAxis =>{
-      yAxis.ticks.beginAtZero = ! yAxis.ticks.beginAtZero;
+    this.unifiedChart.options.scales.yAxes.forEach(yAxis => {
+      yAxis.ticks.beginAtZero = !yAxis.ticks.beginAtZero;
     });
     this.unifiedChart.update();
   }
 
-  sensorLinkOnClick(ID, granularity, serverURI){
+  sensorLinkOnClick(ID, granularity, serverURI) {
     this.sensorToPlot = ID;
     this.updateCharts(this.sensorToPlot, granularity, serverURI);
   }
 }
+
 // ######################################################################
 
 // static functions
@@ -242,8 +245,13 @@ function EnterKeyPressed(e) {
 function isInt(value) {
   return /^\d+$/.test(value);
 }
+
 // ######################################################################
 
 // creating app
-let app = new GeileTypenWetterApp('#granularity', TEMPERATURE_COLOR, AIRPRESSURE_COLOR, HUMIDITY_COLOR, SERVER_URI, UPDATE_INTERVAL);
+let app = new GeileTypenWetterApp(TEMPERATURE_COLOR, AIRPRESSURE_COLOR, HUMIDITY_COLOR, SERVER_URI, UPDATE_INTERVAL,
+  '#granularity', '#yAxisToggleButton', 'sensorPlotting',
+  'sensorPlottingLocation', 'temperatureNow', 'humidityNow',
+  'airPressureNow', 'sensorForChartDropdown', '#yAxisToggleButton',
+  'sensorPlottingLocation', 'temperatureNow', 'humidityNow', 'airPressureNow', 'sensorForChartDropdown');
 app.init();
