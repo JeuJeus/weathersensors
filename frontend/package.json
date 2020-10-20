@@ -5,19 +5,23 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --exit",
-    "start": "http-server -c-1 -p 8080"
+    "start": "(cd resources/js && browserify AppCaller.js -o bundle.js) & http-server -c-1 -p 8080"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "browserify": "^17.0.0",
     "chart.js": "^2.9.3",
     "http-server": "^0.12.3"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
     "eslint": "^7.11.0",
     "eslint-config-google": "^0.14.0",
-    "mocha": "^8.2.0",
-    "chai": "^4.2.0"
+    "jquery-jsdom": "^1.0.0",
+    "jsdom": "^16.4.0",
+    "jsdom-global": "latest",
+    "mocha": "^8.2.0"
   }
 }

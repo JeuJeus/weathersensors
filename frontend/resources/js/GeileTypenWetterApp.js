@@ -1,16 +1,7 @@
-import {
-  AIRPRESSURE_COLOR,
-  HUMIDITY_COLOR,
-  SERVER_URI,
-  TEMPERATURE_COLOR,
-  UPDATE_INTERVAL,
-} from './constants.js';
-
 class GeileTypenWetterApp {
   constructor(temperatureColor, airPressureColor, humidityColor, serverURI, updateInterval,
-    granularityInputSelector, yAxisToggleSelector, sensorPlottingSelector, sensorPlotLocationSelector, temperatureNowSelector,
-    humidityNowSelector, airPressureNowSelector, sensorDropdownSelector) {
-
+      granularityInputSelector, yAxisToggleSelector, sensorPlottingSelector, sensorPlotLocationSelector, temperatureNowSelector,
+      humidityNowSelector, airPressureNowSelector, sensorDropdownSelector) {
     // DOM - Elements
     this.granularityInput = document.querySelector(granularityInputSelector);
     this.yAxisToggleButton = document.querySelector(yAxisToggleSelector);
@@ -48,10 +39,9 @@ class GeileTypenWetterApp {
   }
 
   createChart(chartCanvasName, data, timestamps, tempValues, humidValues, airPressValues, tempColor, airPressColor, humidColor) {
+    const chart = document.getElementById(chartCanvasName).getContext('2d');
 
-    let chart = document.getElementById(chartCanvasName).getContext('2d');
-
-    //TODO REFACTOR ME INTO OWN CLASS?
+    // TODO REFACTOR ME INTO OWN CLASS?
     return new Chart(chart, {
       type: 'line',
       data: {
@@ -120,40 +110,40 @@ class GeileTypenWetterApp {
   }
 
   mapValuesOfData(data) {
-    let timestamps = data.sensorData.map(
-      e => new Date(parseInt(e.TIMESTAMP)).toLocaleString('de-DE'),
+    const timestamps = data.sensorData.map(
+        (e) => new Date(parseInt(e.TIMESTAMP)).toLocaleString('de-DE'),
     );
-    let temperature = data.sensorData.map(
-      e => e.TEMPERATURE,
+    const temperature = data.sensorData.map(
+        (e) => e.TEMPERATURE,
     );
-    let humidity = data.sensorData.map(
-      e => e.HUMIDITY,
+    const humidity = data.sensorData.map(
+        (e) => e.HUMIDITY,
     );
-    let airPressure = data.sensorData.map(
-      e => e.AIRPRESSURE,
+    const airPressure = data.sensorData.map(
+        (e) => e.AIRPRESSURE,
     );
     return {timestamps, temperature, airPressure, humidity};
   }
 
   createChartsForSensor(sensorToPlot, granularity, serverURI) {
     $.get(serverURI + '/sensorData/id/' + sensorToPlot, {'granularity': granularity}, (data) => {
-      let {timestamps, temperature, humidity, airPressure} = this.mapValuesOfData(data);
+      const {timestamps, temperature, humidity, airPressure} = this.mapValuesOfData(data);
 
-      let tempValues = {
+      const tempValues = {
         label: 'Temperature',
         data: temperature,
       };
-      let humidValues = {
+      const humidValues = {
         label: 'Humidity',
         data: humidity,
       };
-      let airPressValues = {
+      const airPressValues = {
         label: 'Air Pressure',
         data: airPressure,
       };
 
       this.unifiedChart = this.createChart('Sensor Data', data, timestamps, tempValues, humidValues, airPressValues,
-        this.temperatureColor, this.airpressureColor, this.humidityColor);
+          this.temperatureColor, this.airpressureColor, this.humidityColor);
       $.get(serverURI + '/sensor/id/' + sensorToPlot, (data) => {
         this.setValuesToBeDisplayed(data.sensor, temperature.slice(-1)[0], humidity.slice(-1)[0], airPressure.slice(-1)[0]);
       });
@@ -178,7 +168,7 @@ class GeileTypenWetterApp {
 
   updateCharts(sensorToPlot, granularity, serverURI) {
     $.get(serverURI + '/sensorData/id/' + sensorToPlot, {'granularity': granularity}, (data) => {
-      let {timestamps, temperature, humidity, airPressure} = this.mapValuesOfData(data);
+      const {timestamps, temperature, humidity, airPressure} = this.mapValuesOfData(data);
 
       this.updateChart(this.unifiedChart, timestamps, temperature, humidity, airPressure);
 
@@ -190,25 +180,23 @@ class GeileTypenWetterApp {
 
   updateSensorsDropdown(granularity, serverURI) {
     $.get(serverURI + '/sensors/', (data) => {
+      this.sensorSelectDropdown.querySelectorAll('*').forEach((n) => n.remove());
 
-      this.sensorSelectDropdown.querySelectorAll('*').forEach(n => n.remove());
-
-      data.sensors.forEach(s => {
-        let sensorLink = document.createElement('a');
+      data.sensors.forEach((s) => {
+        const sensorLink = document.createElement('a');
         sensorLink.classList.add('dropdown-item');
-        //TODO REPLACE ME WITH ALIAS
+        // TODO REPLACE ME WITH ALIAS
         sensorLink.textContent = `${s.ID} - ${s.LOCATION}`;
         sensorLink.onclick = this.sensorLinkOnClick.bind(this, parseInt(s.ID), granularity, serverURI);
         this.sensorSelectDropdown.append(sensorLink);
       });
-
     });
   }
 
   granularityOnChange(input, e) {
-    if (EnterKeyPressed(e) && isInt(input.value)) {
+    if (enterKeyPressed(e) && isInt(input.value)) {
       e.preventDefault();
-      let newGranularity = parseInt(input.value);
+      const newGranularity = parseInt(input.value);
       if (newGranularity !== this.granularity && newGranularity > 1) {
         this.granularity = parseInt(input.value, 10);
         this.updateDataOnPage(this.sensorToPlot, this.granularity, this.serverURI);
@@ -221,9 +209,8 @@ class GeileTypenWetterApp {
     this.updateSensorsDropdown(this.granularity, this.serverURI);
   }
 
-  //Autor: JF, PR
   yAxisStartToggle() {
-    this.unifiedChart.options.scales.yAxes.forEach(yAxis => {
+    this.unifiedChart.options.scales.yAxes.forEach((yAxis) => {
       yAxis.ticks.beginAtZero = !yAxis.ticks.beginAtZero;
     });
     this.unifiedChart.update();
@@ -233,12 +220,12 @@ class GeileTypenWetterApp {
     this.sensorToPlot = ID;
     this.updateCharts(this.sensorToPlot, granularity, serverURI);
   }
-}
+};
 
 // ######################################################################
 
 // static functions
-function EnterKeyPressed(e) {
+function enterKeyPressed(e) {
   return (e.keyCode ? e.keyCode : e.which) === 13;
 }
 
@@ -248,10 +235,9 @@ function isInt(value) {
 
 // ######################################################################
 
-// creating app
-let app = new GeileTypenWetterApp(TEMPERATURE_COLOR, AIRPRESSURE_COLOR, HUMIDITY_COLOR, SERVER_URI, UPDATE_INTERVAL,
-  '#granularity', '#yAxisToggleButton', 'sensorPlotting',
-  'sensorPlottingLocation', 'temperatureNow', 'humidityNow',
-  'airPressureNow', 'sensorForChartDropdown', '#yAxisToggleButton',
-  'sensorPlottingLocation', 'temperatureNow', 'humidityNow', 'airPressureNow', 'sensorForChartDropdown');
-app.init();
+module.exports = {
+  'GeileTypenWetterApp': GeileTypenWetterApp,
+  'enterKeyPressed': enterKeyPressed,
+  'isInt': isInt,
+};
+
