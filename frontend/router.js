@@ -15,7 +15,7 @@ const stream = rfs.createStream('log/frontend.log', {
 
 const httpServer = http.createServer(app);
 const logger = function(req, res, next) {
-  stream.write(`${new Date().toISOString()} - GOT REQUEST TO [${req.originalUrl}] FROM [${req.ip}]`);
+  stream.write(`${new Date().toISOString()} - GOT REQUEST TO [${req.originalUrl}] FROM [${req.ip}]\n`);
   next(); // Passing the request to the next handler in the stack.
 };
 
@@ -24,14 +24,14 @@ app.use(bodyParser.json({
   limit: '100kb',
   type: 'application/json',
 }));
-app.use('/resources', express.static(path.join(__dirname, 'resources')));
 app.use(logger);
+app.use('/resources', express.static(path.join(__dirname, 'resources')));
 
 httpServer.listen(3344, (err) => {
   if (err) {
-    stream.write(`${new Date().toISOString()} - ERROR [${err}]`);
+    stream.write(`${new Date().toISOString()} - ERROR [${err}]\n`);
   }
-  stream.write(`${new Date().toISOString()} - FRONTEND STARTED`);
+  stream.write(`${new Date().toISOString()} - FRONTEND STARTED\n`);
   process.on('SIGINT', cleanup);
   process.on('SIGTERM', cleanup);
 });
@@ -53,6 +53,6 @@ app.get('/admin', auth, function (req, res) {
 });
 
 function cleanup() {
-  stream.write(`${new Date().toISOString()} - FRONTEND SHUTTING DOWN`);
+  stream.write(`${new Date().toISOString()} - FRONTEND SHUTTING DOWN\n`);
   process.exit(1);
 }
