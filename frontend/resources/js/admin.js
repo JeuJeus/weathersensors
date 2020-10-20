@@ -22,6 +22,7 @@ class SensorTableFiller {
     inputContainerDiv.classList.add("input-group");
     let inputElement = document.createElement("input");
     inputElement.type = "text";
+    inputElement.id = "inputLocation";
     inputElement.classList.add("form-control");
     inputElement.classList.add("locationEntry");
     inputElement.value = sensor.LOCATION;
@@ -35,7 +36,8 @@ class SensorTableFiller {
     inputContainerDivButton.appendChild(buttonElement);
     inputContainerDiv.appendChild(inputElement);
     inputContainerDiv.appendChild(inputContainerDivButton);
-    buttonElement.addEventListener('click', this.postUpdateSensorLocation.bind(this, sensor.ID, inputElement.value), false);
+
+    buttonElement.addEventListener('click', this.postUpdateSensorLocation.bind(this, sensor.ID), false);
     row.insertCell(2).appendChild(inputContainerDiv);
   }
 
@@ -47,7 +49,8 @@ class SensorTableFiller {
     });
   }
 
-  postUpdateSensorLocation(id, location) {
+  postUpdateSensorLocation(id) {
+    var location = $("#inputLocation").val();
     $.post(this.serverURI + '/updateSensorLocation', {ID: id, LOCATION: location});
   }
 }
