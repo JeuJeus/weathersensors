@@ -10,16 +10,18 @@ class SensorTableFiller {
     this.getSensors(SERVER_URI);
   }
 
-  addToTable(s) {
-    const row = this.sensorTable.insertRow(-1);
-    row.insertCell(0).innerText = s.ID;
-    row.insertCell(1).innerText = s.MAC_ADDRESS;
-    row.insertCell(2).innerText = s.LOCATION;
+  insertRows(sensor) {
+    let row = this.sensorTable.insertRow(-1);
+    row.insertCell(0).innerText = sensor.ID;
+    row.insertCell(1).innerText = sensor.MAC_ADDRESS;
+    row.insertCell(2).innerHTML = `<input type="text" class="form-control locationEntry" value="${sensor.LOCATION}">`;
   }
 
   getSensors(serverURI) {
     $.get(serverURI + '/sensors', (data) => {
-      data.sensors.forEach((s) => this.addToTable(s));
+      data.sensors.forEach((sensor) => {
+        this.insertRows(sensor);
+      });
     });
   }
 }
