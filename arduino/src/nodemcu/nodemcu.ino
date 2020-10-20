@@ -4,6 +4,8 @@
 #include <WiFiClient.h>
 #include <Adafruit_BME280.h>
 #include <LinkedList.h>
+#include <EasyNTPClient.h>
+#include <WiFiUdp.h>
 // ###################### CONFIG ##########################################
 #define SERVER_TO_CONNECT "http://awe2-api.jeujeus.de/weatherData"
 #define SSID "$SSID-2.4ghz!"
@@ -15,11 +17,13 @@ struct sensorData {
   float temperature;
   float pressure;
   float humidity;
-  unsigned int timestamp;
+  unsigned long timestamp;
 };
 
 Adafruit_BME280 bme; // I2C
 ESP8266WiFiMulti WiFiMulti;
+WiFiUDP udp;
+EasyNTPClient ntpClient(udp, "pool.ntp.org", (1*60*60)); // CEST = GMT/UTC + 1:00
 
 const unsigned long DELAY_TIME_NO_SENSOR_FOUND = 1000*5;
 const unsigned long DELAY_TIME_REST_SEND       = 1000*60*5;
@@ -82,8 +86,8 @@ void sendCachedData(){
     if (http.begin(client, SERVER_TO_CONNECT)) {
       http.addHeader("Content-Type", "application/json");
 
-      char body[150];
-      buildJson(&body[0], macAddress, data.temperature, data.pressure, data.humidity);
+      char body[200];
+      buildJson(&body[0], macAddress,data.timestamp, data.temperature, data.pressure, data.humidity);
       int httpCode = http.POST(body);
 
       if (processHttpResponse(&http, httpCode)) {
@@ -125,21 +129,24 @@ void getMacAddress(char* macAddress, int n){
 }
 
 void readValues(struct sensorData* data) {
+  data->timestamp = ntpClient.getUnixTime();
   data->temperature = bme.readTemperature();
   data->pressure = bme.readPressure() / 100.0F;
   data->humidity = bme.readHumidity();
   return;
 }
 
-void buildJson(char* body, char macaddress[MAC_ADDRESS_LENGTH], float temperature, float pressure, float humidity){
-  // todo get timestamp from time server
-  unsigned int timestamp = 0;
-  sprintf(body, "{\"MACADDRESS\":\"%s\",\"TIMESTAMP\":\"%d\",\"TEMPERATURE\":%f,\"pressure\":%f,\"HUMIDITY\":%f}",
+void buildJson(char* body, char macaddress[MAC_ADDRESS_LENGTH], unsigned long timestamp, float temperature, float pressure, float humidity){
+  sprintf(body, "{\"MACADDRESS\":\"%s\",\"TIMESTAMP\":\"%lu\",\"TEMPERATURE\":%f,\"pressure\":%f,\"HUMIDITY\":%f}",
           macaddress, timestamp, temperature, pressure, humidity);
   return;
 }
 
 void logValues(struct sensorData* data) {
+  Serial.print("Timestamp = ");
+  Serial.print(data->timestamp);
+  Serial.println(" UNIX-Time");
+
   Serial.print("Temperature = ");
   Serial.print(data->temperature);
   Serial.println(" *C");

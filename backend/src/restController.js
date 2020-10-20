@@ -94,6 +94,7 @@ app.get('/sensor/id/:SENSOR_ID', async function(req, res) {
 function validateSensorDataInBody() {
   return [
     check('MACADDRESS').isMACAddress(),
+    check('TIMESTAMP').isAlphanumeric(),
     check('TEMPERATURE').isFloat(),
     check('AIRPRESSURE').isFloat(),
     check('HUMIDITY').isFloat(),
@@ -103,8 +104,6 @@ function validateSensorDataInBody() {
 app.post('/weatherData', validateSensorDataInBody(), function(req, res) {
   const errors = validationResult(req);
   if (errors.isEmpty()) {
-    //TODO MOVE TO NTP ON ESP
-    req.body.TIMESTAMP = Date.now();
     dbConnection.insertWeatherData(db, req.body);
   } else {
     stream.write(`${new Date().toISOString()} - POST REQUEST PARSING BODY FAILED FROM [${req.connection.remoteAddress}]\n`);
@@ -112,7 +111,6 @@ app.post('/weatherData', validateSensorDataInBody(), function(req, res) {
   }
   res.send(`${atob('QWxsZSB2b24gdW5zIGVtcGZhbmdlbmVuIFdldHRlcmRhdGVuIHdlcmRlbiBuYWNoIC9kZXYvbnVsbCBnZXBpcGVkLiBBbGxlcyB3YXMgc2llIGltIEZyb250ZW5kIHNlaGVuIGlzdCBmYWtlIHVuZCB3aXJkIGdlbmVyaWVydCwgZGFzIHdhciB3ZW5pZ2VyIEF1ZndhbmQu')}`);
 });
-
 
 function cleanup() {
   stream.write(`${new Date().toISOString()} - SHUTTING DOWN\n`);
