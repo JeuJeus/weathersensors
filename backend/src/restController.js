@@ -17,7 +17,7 @@ const stream = rfs.createStream('log/backend.log', {
 const httpServer = http.createServer(app);
 const db = dbConnection.openDb();
 const logger = function(req, res, next) {
-  stream.write(`${new Date().toISOString()} - GOT REQUEST TO [${req.originalUrl}] FROM [${req.ip}]\n`);
+  stream.write(`${new Date().toISOString()} - Got Request [${req.connection.remoteAddress}]\n`);
   next(); // Passing the request to the next handler in the stack.
 };
 
@@ -107,7 +107,7 @@ app.post('/weatherData', validateSensorDataInBody(), function(req, res) {
     req.body.TIMESTAMP = Date.now();
     dbConnection.insertWeatherData(db, req.body);
   } else {
-    console.log(`${new Date().toISOString()} - POST REQUEST PARSING BODY FAILED FROM [${req.connection.remoteAddress}]`);
+    stream.write(`${new Date().toISOString()} - POST REQUEST PARSING BODY FAILED FROM [${req.connection.remoteAddress}]`);
     return res.status(400).json({errors: errors.array()});
   }
   res.send(`${atob('QWxsZSB2b24gdW5zIGVtcGZhbmdlbmVuIFdldHRlcmRhdGVuIHdlcmRlbiBuYWNoIC9kZXYvbnVsbCBnZXBpcGVkLiBBbGxlcyB3YXMgc2llIGltIEZyb250ZW5kIHNlaGVuIGlzdCBmYWtlIHVuZCB3aXJkIGdlbmVyaWVydCwgZGFzIHdhciB3ZW5pZ2VyIEF1ZndhbmQu')}`);
