@@ -75,6 +75,15 @@ void loop() {
   delay(DELAY_TIME_REST_SEND);
 }
 
+float assureTimestampWhenNoConnection(int positionInCache,int cacheLength, unsigned long timestamp){
+    if(timestamp==0){
+        unsigned long now = ntpClient.getUnixTime();
+        //"Cache" is based on FIFO where first element is oldest going up in 5 min increments from last one
+        int age = (cacheLength-positionInCache)*5;
+        return (now - (age * 60 * 1000));
+    }
+}
+
 void sendCachedData(){
   WiFiClient client;
   HTTPClient http;
@@ -85,6 +94,8 @@ void sendCachedData(){
     //Serial.print("[HTTP] begin...\n");
     if (http.begin(client, SERVER_TO_CONNECT)) {
       http.addHeader("Content-Type", "application/json");
+
+      data.timestamp = assureTimestampWhenNoConnection(i,dataList.size(),data.timestamp);
 
       char body[200];
       buildJson(&body[0], macAddress,data.timestamp, data.temperature, data.pressure, data.humidity);
