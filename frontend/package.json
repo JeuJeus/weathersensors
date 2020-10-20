@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --exit",
+    "test": "(cd resources/js && browserify AppCaller.js -o bundle.js) & mocha --exit",
     "start": "(cd resources/js && browserify AppCaller.js -o bundle.js) & http-server -c-1 -p 8080"
   },
   "keywords": [],

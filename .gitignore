@@ -594,3 +594,4 @@ backend/db/.fuse_*
 /backend/awe2backend.tar
 /awe2backend.tar
 /prototyp.tar
+/frontend/resources/js/bundle.js
