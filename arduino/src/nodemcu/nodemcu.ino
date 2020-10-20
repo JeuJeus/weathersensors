@@ -21,7 +21,6 @@ struct sensorData {
 Adafruit_BME280 bme; // I2C
 ESP8266WiFiMulti WiFiMulti;
 
-const unsigned long DELAY_TIME_RECONNECT       = 1000*1;
 const unsigned long DELAY_TIME_NO_SENSOR_FOUND = 1000*5;
 const unsigned long DELAY_TIME_REST_SEND       = 1000*60*5;
 
@@ -69,7 +68,7 @@ void loop() {
   else{
     Serial.println("No wifi connection");
   }
-  delay(DELAY_TIME_RECONNECT);
+  delay(DELAY_TIME_REST_SEND);
 }
 
 void sendCachedData(){
