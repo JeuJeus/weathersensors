@@ -90,7 +90,7 @@ app.get('/sensor/id/:SENSOR_ID', async function(req, res) {
   }
 });
 
-//############### POST REQUESTS ###############
+// ############### POST REQUESTS ###############
 function validateSensorDataInBody() {
   return [
     check('MACADDRESS').isMACAddress(),
@@ -110,18 +110,18 @@ function validateSensorLocation() {
 app.post('/weatherData', validateSensorDataInBody(), function (req, res) {
   const errors = validationResult(req);
   if (errors.isEmpty()) {
-    //TODO MOVE TO NTP ON ESP
+    // TODO MOVE TO NTP ON ESP
     req.body.TIMESTAMP = Date.now();
     dbConnection.insertWeatherData(db, req.body);
   } else {
-    stream.write(`${new Date().toISOString()} - POST REQUEST PARSING BODY FAILED FROM [${req.connection.remoteAddress}]`);
+    stream.write(`${new Date().toISOString()} - POST REQUEST PARSING BODY FAILED FROM [${req.connection.remoteAddress}]\n`);
     return res.status(400).json({errors: errors.array()});
   }
   res.send(`${atob('QWxsZSB2b24gdW5zIGVtcGZhbmdlbmVuIFdldHRlcmRhdGVuIHdlcmRlbiBuYWNoIC9kZXYvbnVsbCBnZXBpcGVkLiBBbGxlcyB3YXMgc2llIGltIEZyb250ZW5kIHNlaGVuIGlzdCBmYWtlIHVuZCB3aXJkIGdlbmVyaWVydCwgZGFzIHdhciB3ZW5pZ2VyIEF1ZndhbmQu')}`);
 });
 
 app.post('/updateSensorLocation', validateSensorLocation(), function (req, res) {
-  console.log(req.body);
+  // TODO WRITE TEST FOR ME DADDY UWU
   dbConnection.updateSensorLocation(db, req.body);
   res.send('success');
 });
