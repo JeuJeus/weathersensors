@@ -92,7 +92,7 @@ app.get('/sensor/id/:SENSOR_ID', async function(req, res) {
   }
 });
 
-//############### POST REQUESTS ###############
+// ############### POST REQUESTS ###############
 function validateSensorDataInBody() {
   return [
     check('MACADDRESS').isMACAddress(),
@@ -122,7 +122,7 @@ app.post('/weatherData', validateSensorDataInBody(), function (req, res) {
 });
 
 app.post('/updateSensorLocation', validateSensorLocation(), function (req, res) {
-  console.log(req.body);
+  // TODO WRITE TEST FOR ME DADDY UWU
   dbConnection.updateSensorLocation(db, req.body);
   res.send('success');
 });
@@ -133,4 +133,3 @@ function cleanup() {
   dbConnection.closeDb(db);
   process.exit(1);
 }
-
