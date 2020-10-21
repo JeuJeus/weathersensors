@@ -92,6 +92,14 @@ async function insertWeatherData(db, weatherData) {
   db.run(sql, params);
 }
 
+async function updateSensorLocation(db, sensorLocationData) {
+  console.log('\nSensor Location: ' + sensorLocationData);
+  console.log('\nSensor ID: ' + sensorLocationData.LOCATION);
+  const sql = 'UPDATE SENSOR SET LOCATION = ? WHERE ID=?';
+  const params = [sensorLocationData.LOCATION, sensorLocationData.ID];
+  db.run(sql, params);
+}
+
 module.exports = {
   'openDb': openDb,
   'init': init,
@@ -101,4 +109,5 @@ module.exports = {
   'insertWeatherData': insertWeatherData,
   'closeDb': closeDb,
   'getSensorById': getSensorById,
+  'updateSensorLocation': updateSensorLocation,
 };
