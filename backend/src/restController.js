@@ -100,7 +100,14 @@ function validateSensorDataInBody() {
   ];
 }
 
-app.post('/weatherData', validateSensorDataInBody(), function(req, res) {
+function validateSensorLocation() {
+  return [
+    check('ID').isInt(),
+    check('LOCATION').isString(),
+  ];
+}
+
+app.post('/weatherData', validateSensorDataInBody(), function (req, res) {
   const errors = validationResult(req);
   if (errors.isEmpty()) {
     //TODO MOVE TO NTP ON ESP
@@ -112,6 +119,13 @@ app.post('/weatherData', validateSensorDataInBody(), function(req, res) {
   }
   res.send(`${atob('QWxsZSB2b24gdW5zIGVtcGZhbmdlbmVuIFdldHRlcmRhdGVuIHdlcmRlbiBuYWNoIC9kZXYvbnVsbCBnZXBpcGVkLiBBbGxlcyB3YXMgc2llIGltIEZyb250ZW5kIHNlaGVuIGlzdCBmYWtlIHVuZCB3aXJkIGdlbmVyaWVydCwgZGFzIHdhciB3ZW5pZ2VyIEF1ZndhbmQu')}`);
 });
+
+app.post('/updateSensorLocation', validateSensorLocation(), function (req, res) {
+  console.log(req.body);
+  dbConnection.updateSensorLocation(db, req.body);
+  res.send('success');
+});
+
 
 function cleanup() {
   stream.write(`${new Date().toISOString()} - BACKEND SHUTTING DOWN`);
