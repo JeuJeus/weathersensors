@@ -7,6 +7,7 @@
 #include <EasyNTPClient.h>
 #include <WiFiUdp.h>
 // ###################### CONFIG ##########################################
+//TODO FÜR AGABE ÄNDERN
 #define SERVER_TO_CONNECT "http://awe2-api.jeujeus.de/weatherData"
 #define SSID "$SSID-2.4ghz!"
 #define WIFI_PASSWORD "$PASSWORD"

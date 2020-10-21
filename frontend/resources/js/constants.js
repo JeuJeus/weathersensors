@@ -1,3 +1,4 @@
+//TODO FÜR ABGABE ÄNDERN
 const SERVER_URI = 'https://awe2-api.jeujeus.de';
 const UPDATE_INTERVAL = 1000 * 60;// one minute
 
