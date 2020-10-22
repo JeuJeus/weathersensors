@@ -105,6 +105,7 @@ function validateSensorDataInBody() {
 
 function validateSensorLocation() {
   return [
+    check('API_TOKEN').equals('aGllckv2bm50ZUlocmVXZXJidW5nU3RlaGVu'),
     check('ID').isInt(),
     check('LOCATION').isString(),
   ];

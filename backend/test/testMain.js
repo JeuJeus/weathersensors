@@ -154,6 +154,7 @@ describe('-- REST CONTROLLER -- ', () => {
       chai.request('http://localhost:3000')
         .post('/updateSensorLocation')
         .send({
+          API_TOKEN: 'aGllckv2bm50ZUlocmVXZXJidW5nU3RlaGVu',
           ID: 1,
           LOCATION: 'Paderboring',
         })
@@ -161,7 +162,19 @@ describe('-- REST CONTROLLER -- ', () => {
           res.should.have.status(200);
         });
     });
-    it('should return 400 when posting valid data', () => {
+    it('should return 400 when posting invalid data', () => {
+      chai.request('http://localhost:3000')
+        .post('/updateSensorLocation')
+        .send({
+          API_TOKEN: 'c2FhYWFpaWlpdGVuYmFjaGVy',
+          ID: 'test',
+          LOCATION: 1,
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+        });
+    });
+    it('should return 400 when missing authentication', () => {
       chai.request('http://localhost:3000')
         .post('/updateSensorLocation')
         .send({
