@@ -130,6 +130,7 @@ app.post('/updateSensorLocation', validateSensorLocation(), function(req, res) {
   const errors = validationResult(req);
   if (errors.isEmpty()) {
     dbConnection.updateSensorLocation(db, req.body);
+    stream.write(`${new Date().toISOString()} - SENSOR [${req.body.ID}] WAS UPDATED BY [${req.connection.remoteAddress}]\n`);
   } else {
     return errorParsingPostBody(req, res, errors);
   }
