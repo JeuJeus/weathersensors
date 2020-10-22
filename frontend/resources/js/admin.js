@@ -70,8 +70,13 @@ class SensorTableFiller {
   }
 
   postUpdateSensorLocation(id) {
-    var location = $("#inputLocation").val();
-    $.post(this.serverURI + '/updateSensorLocation', {ID: id, LOCATION: location});
+    var location = $('#inputLocation').val();
+    $.ajax({
+      type: 'POST',
+      url: this.serverURI + '/updateSensorLocation',
+      data: {ID: id, LOCATION: location},
+      dataType: 'application/json; charset=utf-8',
+    });
   }
 }
 
