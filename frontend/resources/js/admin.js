@@ -75,12 +75,19 @@ class SensorTableFiller {
     $.ajax({
       type: 'POST',
       url: this.serverURI + '/updateSensorLocation',
-      data: {
-        API_TOKEN: apiToken,
-        ID: id,
-        LOCATION: location,
+      data: JSON.stringify(
+        {
+          API_TOKEN: apiToken,
+          ID: id,
+          LOCATION: location,
+        }),
+      success: function(data) {
+        alert(data);
       },
-      dataType: 'application/json; charset=utf-8',
+      failure: function(data) {
+        alert(data);
+      },
+      contentType: 'application/json',
     });
   }
 }
