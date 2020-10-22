@@ -70,12 +70,24 @@ class SensorTableFiller {
   }
 
   postUpdateSensorLocation(id) {
-    var location = $('#inputLocation').val();
+    let location = $('#inputLocation').val();
+    let apiToken = $('#api-token').val();
     $.ajax({
       type: 'POST',
       url: this.serverURI + '/updateSensorLocation',
-      data: {ID: id, LOCATION: location},
-      dataType: 'application/json; charset=utf-8',
+      data: JSON.stringify(
+          {
+            API_TOKEN: apiToken,
+            ID: id,
+            LOCATION: location,
+          }),
+      success: function (data) {
+        alert(data);
+      },
+      failure: function (data) {
+        alert(data);
+      },
+      contentType: 'application/json',
     });
   }
 }

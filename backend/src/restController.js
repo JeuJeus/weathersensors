@@ -6,7 +6,7 @@ const app = require('express')();
 const atob = require('atob');
 const {check, validationResult} = require('express-validator');
 const rfs = require('rotating-file-stream');
-
+const cors = require('cors');
 const stream = rfs.createStream('log/backend.log', {
   size: '10M',
   interval: '1d',
@@ -16,17 +16,20 @@ const stream = rfs.createStream('log/backend.log', {
 
 const httpServer = http.createServer(app);
 const db = dbConnection.openDb();
+
 const logger = function(req, res, next) {
   stream.write(`${new Date().toISOString()} - Got Request [${req.connection.remoteAddress}]\n`);
   next(); // Passing the request to the next handler in the stack.
 };
+app.use(logger);
 
 app.use(bodyParser.json({
   inflate: true,
   limit: '100kb',
   type: 'application/json',
 }));
-app.use(logger);
+//TODO SET ME ACCORDING TO DEPLOYMENT PLANS
+app.use(cors({origin: '*'}));
 
 httpServer.listen(3000, (err) => {
   if (err) {
