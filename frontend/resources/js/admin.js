@@ -19,43 +19,45 @@ class SensorTableFiller {
   }
 
   buildLocationEntry(sensor, row) {
-    this.createButtonElement()
-      .addEventListener('click',
-        this.postUpdateSensorLocation.bind(this, sensor.ID), false);
-    row.insertCell(2).appendChild(this.createInputContainerDiv(sensor));
+    //TODO MAYBE REFACTOR INTO OWN STATIC CLASS
+    row.insertCell(2).appendChild(this.createInputGroupWithButton(sensor));
   }
 
-  createInputContainerDiv(sensor) {
+  createInputGroupWithButton(sensor) {
     let inputContainerDiv = document.createElement('div');
     inputContainerDiv.classList.add('input-group');
-    inputContainerDiv.appendChild(this.createInputElement(sensor));
-    inputContainerDiv.appendChild(this.createContainerDivButton());
+    inputContainerDiv.appendChild(this.createInputElement(sensor.LOCATION));
+    inputContainerDiv.appendChild(this.createContainerDivWithButton(sensor.ID));
     return inputContainerDiv;
   }
 
-  createInputElement(sensor) {
+  createInputElement(sensorLocation) {
     let inputElement = document.createElement('input');
     inputElement.type = 'text';
     inputElement.id = 'inputLocation';
     inputElement.classList.add('form-control');
     inputElement.classList.add('locationEntry');
-    inputElement.value = sensor.LOCATION;
+    inputElement.value = sensorLocation;
     return inputElement;
   }
 
-  createContainerDivButton() {
+  createContainerDivWithButton(sensorId) {
     let inputContainerDivButton = document.createElement('div');
     inputContainerDivButton.classList.add('input-group-append');
-    inputContainerDivButton.appendChild(this.createButtonElement());
+    inputContainerDivButton.appendChild(this.createButtonElementWithEventListener(sensorId));
     return inputContainerDivButton;
   }
 
-  createButtonElement() {
+  createButtonElementWithEventListener(sensorId) {
     let buttonElement = document.createElement('button');
     buttonElement.type = 'submit';
     buttonElement.classList.add('btn');
     buttonElement.classList.add('btn-secondary');
     buttonElement.innerText = 'OK';
+    //TODO ALSO DO THIS WITH ENTER ON INPUT
+    //TODO MAYBE EXTRACT EVENT LISTENER CREATION TO OWN FUNCTION
+    buttonElement.addEventListener('click',
+        this.postUpdateSensorLocation.bind(this, sensorId), false);
     return buttonElement;
   }
 
