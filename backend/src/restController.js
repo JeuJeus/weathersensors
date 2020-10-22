@@ -126,7 +126,6 @@ app.post('/weatherData', validateSensorDataInBody(), function(req, res) {
 });
 
 app.post('/updateSensorLocation', validateSensorLocation(), function(req, res) {
-// TODO WRITE TEST FOR ME DADDY UWU
   const errors = validationResult(req);
   if (errors.isEmpty()) {
     dbConnection.updateSensorLocation(db, req.body);

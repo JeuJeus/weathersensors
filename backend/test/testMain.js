@@ -148,5 +148,30 @@ describe('-- REST CONTROLLER -- ', () => {
           });
     });
   });
+
+  describe('it should validate sensor when renaming with POST Request', () => {
+    it('should be renamed when posting valid data', () => {
+      chai.request('http://localhost:3000')
+        .post('/updateSensorLocation')
+        .send({
+          ID: 1,
+          LOCATION: 'Paderboring',
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+        });
+    });
+    it('should return 400 when posting valid data', () => {
+      chai.request('http://localhost:3000')
+        .post('/updateSensorLocation')
+        .send({
+          ID: 'test',
+          LOCATION: 1,
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+        });
+    });
+  });
 });
 
