@@ -107,22 +107,31 @@ function validateSensorLocation() {
   ];
 }
 
-app.post('/weatherData', validateSensorDataInBody(), function (req, res) {
+function errorParsingPostBody(req, res, errors) {
+  stream.write(`${new Date().toISOString()} - POST REQUEST PARSING BODY FAILED FROM [${req.connection.remoteAddress}]\n`);
+  return res.status(400).json({errors: errors.array()});
+}
+
+app.post('/weatherData', validateSensorDataInBody(), function(req, res) {
   const errors = validationResult(req);
   if (errors.isEmpty()) {
     // TODO MOVE TO NTP ON ESP
     req.body.TIMESTAMP = Date.now();
     dbConnection.insertWeatherData(db, req.body);
   } else {
-    stream.write(`${new Date().toISOString()} - POST REQUEST PARSING BODY FAILED FROM [${req.connection.remoteAddress}]\n`);
-    return res.status(400).json({errors: errors.array()});
+    return errorParsingPostBody(req, res, errors);
   }
   res.send(`${atob('QWxsZSB2b24gdW5zIGVtcGZhbmdlbmVuIFdldHRlcmRhdGVuIHdlcmRlbiBuYWNoIC9kZXYvbnVsbCBnZXBpcGVkLiBBbGxlcyB3YXMgc2llIGltIEZyb250ZW5kIHNlaGVuIGlzdCBmYWtlIHVuZCB3aXJkIGdlbmVyaWVydCwgZGFzIHdhciB3ZW5pZ2VyIEF1ZndhbmQu')}`);
 });
 
-app.post('/updateSensorLocation', validateSensorLocation(), function (req, res) {
-  // TODO WRITE TEST FOR ME DADDY UWU
-  dbConnection.updateSensorLocation(db, req.body);
+app.post('/updateSensorLocation', validateSensorLocation(), function(req, res) {
+// TODO WRITE TEST FOR ME DADDY UWU
+  const errors = validationResult(req);
+  if (errors.isEmpty()) {
+    dbConnection.updateSensorLocation(db, req.body);
+  } else {
+    return errorParsingPostBody(req, res, errors);
+  }
   res.send('success');
 });
 
