@@ -196,7 +196,6 @@ class GeileTypenWetterApp {
       data.sensors.forEach(s => {
         let sensorLink = document.createElement('a');
         sensorLink.classList.add('dropdown-item');
-        //TODO REPLACE ME WITH ALIAS
         sensorLink.textContent = `${s.ID} - ${s.LOCATION}`;
         sensorLink.onclick = this.sensorLinkOnClick.bind(this, parseInt(s.ID), granularity, serverURI);
         this.sensorSelectDropdown.append(sensorLink);
@@ -221,7 +220,6 @@ class GeileTypenWetterApp {
     this.updateSensorsDropdown(this.granularity, this.serverURI);
   }
 
-  //Autor: JF, PR
   yAxisStartToggle() {
     this.unifiedChart.options.scales.yAxes.forEach(yAxis => {
       yAxis.ticks.beginAtZero = !yAxis.ticks.beginAtZero;
