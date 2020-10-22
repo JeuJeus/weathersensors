@@ -240,4 +240,3 @@ module.exports = {
   'enterKeyPressed': enterKeyPressed,
   'isInt': isInt,
 };
-
