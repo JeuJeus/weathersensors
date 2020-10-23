@@ -22,7 +22,7 @@ function openDb() {
 function closeDb(db) {
   db.close();
 }
-
+//TODO BUGFIX SOMEHOW THERE IS AN INITIAL SENSOR AND I DONT KNOW WHY
 async function init(db) {
   const createSensorTable = `CREATE TABLE IF NOT EXISTS "SENSOR"
           (` +
