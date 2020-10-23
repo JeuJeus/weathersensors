@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "(cd resources/js & browserify AppCaller.js -o frontend.js & browserify AdminAppCaller.js -o frontend-admin.js) & mocha --exit",
-    "start": "(cd resources/js & browserify AppCaller.js -o frontend.js & browserify AdminAppCaller.js -o frontend-admin.js) & node router.js"
+    "test": "(cd resources/js && browserify AppCaller.js -o frontend.js && browserify AdminAppCaller.js -o frontend-admin.js) & mocha --exit",
+    "start": "(cd resources/js && browserify AppCaller.js -o frontend.js && browserify AdminAppCaller.js -o frontend-admin.js) & node router.js"
   },
   "keywords": [],
   "author": "",
