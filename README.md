@@ -19,7 +19,7 @@ Für diesen Schritt haben wir uns entscheiden um die Images einfach auf einem Se
 ohne Docker Registries (e.g. Docker.io) in Anspruch nehmen zu müssen.
 
 #### Backend StartCommand:
-```docker run -p 3000:3000 --name awe2-backend -it awe2/backend:beta```
+```docker run -p 3333:3333 --name awe2-backend -it awe2/backend:beta```
 
 #### Frontend StartCommand:
 ```docker run -p 3344:3344 --name awe2-frontend -it awe2/frontend:beta```

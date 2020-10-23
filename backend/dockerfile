@@ -6,5 +6,5 @@ COPY package*.json ./
 RUN npm install --production
 COPY . .
 
-EXPOSE 3000:3000
+EXPOSE 3333:3333
 CMD [ "node", "src/restController.js" ]
