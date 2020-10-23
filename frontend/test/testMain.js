@@ -1,7 +1,7 @@
 const expect = require('chai').expect;
 const {JSDOM} = require('jsdom'); // no idea why curly braces needed
 const App = require('../resources/js/GeileTypenWetterApp');
-App.constants = require('../resources/js/constants');
+App.constants = require('../resources/js/Constants');
 global.$ = require('jquery-jsdom');
 
 const JSDOM_OPTIONS = {

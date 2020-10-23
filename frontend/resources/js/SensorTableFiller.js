@@ -1,14 +1,11 @@
-import {SERVER_URI} from './constants.js';
-
 class SensorTableFiller {
-
   constructor(serverURI) {
     this.serverURI = serverURI;
     this.sensorTable = document.getElementById('sensorTable');
   }
 
   init() {
-    this.getSensors(SERVER_URI);
+    this.getSensors(this.serverURI);
   }
 
   insertRows(sensor) {
@@ -92,5 +89,6 @@ class SensorTableFiller {
   }
 }
 
-const app = new SensorTableFiller(SERVER_URI);
-app.init();
+module.exports = {
+  'SensorTableFiller': SensorTableFiller,
+};

@@ -220,7 +220,7 @@ class GeileTypenWetterApp {
     this.sensorToPlot = ID;
     this.updateCharts(this.sensorToPlot, granularity, serverURI);
   }
-};
+}
 
 // ######################################################################
 
