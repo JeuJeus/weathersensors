@@ -152,7 +152,7 @@ void readValues(struct sensorData* data) {
 }
 
 void buildJson(char* body, char macaddress[MAC_ADDRESS_LENGTH], unsigned long timestamp, float temperature, float pressure, float humidity){
-  sprintf(body, "{\"MACADDRESS\":\"%s\",\"TIMESTAMP\":\"%lu\",\"TEMPERATURE\":%f,\"pressure\":%f,\"HUMIDITY\":%f}",
+  sprintf(body, "{\"MACADDRESS\":\"%s\",\"TIMESTAMP\":\"%lu\",\"TEMPERATURE\":%f,\"AIRPRESSURE\":%f,\"HUMIDITY\":%f}",
           macaddress, timestamp, temperature, pressure, humidity);
   return;
 }
