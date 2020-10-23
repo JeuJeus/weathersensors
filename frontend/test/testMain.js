@@ -10,11 +10,11 @@ const JSDOM_OPTIONS = {
 };
 
 describe('-- APP TESTS -- ', () => {
-  const x = JSDOM.fromFile('index.html', JSDOM_OPTIONS)
-      .then((dom) => {
-        global.window = dom.window;
-        global.document = dom.window.document;
-      });
+  const x = JSDOM.fromFile('static/index.html', JSDOM_OPTIONS)
+    .then((dom) => {
+      global.window = dom.window;
+      global.document = dom.window.document;
+    });
   describe('reading dom elements from html file', () => {
     it('global.document working', () => {
       expect(document.querySelector('p')).to.not.equal(undefined);
