@@ -185,7 +185,6 @@ class GeileTypenWetterApp {
       data.sensors.forEach((s) => {
         const sensorLink = document.createElement('a');
         sensorLink.classList.add('dropdown-item');
-        // TODO REPLACE ME WITH ALIAS
         sensorLink.textContent = `${s.ID} - ${s.LOCATION}`;
         sensorLink.onclick = this.sensorLinkOnClick.bind(this, parseInt(s.ID), granularity, serverURI);
         this.sensorSelectDropdown.append(sensorLink);
