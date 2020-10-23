@@ -2,9 +2,9 @@ name: Test Backend
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, develop_* ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, develop_* ]
 
 defaults:
   run:
