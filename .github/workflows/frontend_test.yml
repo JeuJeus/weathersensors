@@ -2,9 +2,9 @@ name: Test Frontend
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, develop_* ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, develop_* ]
 
 defaults:
   run:
