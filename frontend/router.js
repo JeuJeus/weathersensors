@@ -39,7 +39,7 @@ httpServer.listen(3344, (err) => {
 // ############### GET ROOT ###############
 app.get('/', async function (req, res) {
   res.set('Access-Control-Allow-Origin', '*'); // Security not needed xD
-  res.sendFile(path.join(__dirname + '/index.html'));
+  res.sendFile(path.join(__dirname + '/static/index.html'));
 });
 
 // ############### BASIC AUTH SECURED ###############
@@ -49,7 +49,7 @@ const auth = basicAuth({
 });
 
 app.get('/admin', auth, function (req, res) {
-  res.sendFile(path.join(__dirname + '/admin.html'));
+  res.sendFile(path.join(__dirname + '/static/admin.html'));
 });
 
 function cleanup() {
