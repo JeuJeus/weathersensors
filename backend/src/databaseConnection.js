@@ -16,13 +16,13 @@ function openDb() {
   db.run = util.promisify(db.run);
   db.get = util.promisify(db.get);
   db.all = util.promisify(db.all);
+  init(db);
   return db;
 }
 
 function closeDb(db) {
   db.close();
 }
-//TODO BUGFIX SOMEHOW THERE IS AN INITIAL SENSOR AND I DONT KNOW WHY
 async function init(db) {
   const createSensorTable = `CREATE TABLE IF NOT EXISTS "SENSOR"
           (` +
@@ -92,7 +92,6 @@ async function getSensorDataById(db, SENSOR_ID) {
   const params = [SENSOR_ID];
   return db.all(sql, params);
 }
-
 
 async function insertWeatherData(db, weatherData) {
   // TODO REFACTOR INSERT LAYER

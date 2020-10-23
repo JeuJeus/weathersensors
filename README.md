@@ -10,7 +10,7 @@ Diese senden die gesammelten Daten an einen zentralen Server, welcher die Daten 
 tba TODO add me
 Hier ist insbesondere auf die korrekte Anpassung des Wertes ```SERVER_TO_CONNECT``` zu achten.
 
-### backend & frontend
+### backend & frontend+
 Backend sowie Frontend werden mithilfe von Docker deployed. 
 Die Images dafür lassen sich in den jeweiligen Modulen mit Hilfe der ```buildImageandTar.sh``` Skripts bauen.
 Diese bauen die Images und stellen diese in der lokalen Dockerumgebung zum Start bereit.
@@ -19,10 +19,9 @@ Für diesen Schritt haben wir uns entscheiden um die Images einfach auf einem Se
 ohne Docker Registries (e.g. Docker.io) in Anspruch nehmen zu müssen.
 
 #### Backend StartCommand:
-```docker run -it --name awe2-backend -p 3000:3000 ```
+```docker run -p 3000:3000 --name awe2-backend -it awe2/backend:beta```
 
 #### Frontend StartCommand:
-```docker run -it --name awe2-frontend -p 3344:3344 ```
-
+```docker run -p 3344:3344 --name awe2-frontend -it awe2/frontend:beta```
 
 
