@@ -81,8 +81,8 @@ float assureTimestampWhenNoConnection(int positionInCache,int cacheLength, unsig
         unsigned long now = 0;
             do {
                 now = ntpClient.getUnixTime();
-            } while (now = 0);
-        //"Cache" is based on FIFO where first element is oldest going up in 5 min increments from last one
+            } while (now == 0);
+        //"Cache" is based on FIFO where each element is $(DELAY_TIME_REST_SEND) minutes of age apart
         int age = (cacheLength-positionInCache)*5;
         return (now - (age * 60 * 1000));
     }
