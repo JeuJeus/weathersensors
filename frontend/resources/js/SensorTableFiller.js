@@ -69,7 +69,7 @@ class SensorTableFiller {
   postUpdateSensorLocation(id) {
     let location = $('#inputLocation').val();
     let apiToken = $('#api-token').val();
-    //TODO FIX ME - RENAMING SENSOR CAUSES DUPLICATE TO BE CREATED
+    //TODO FIX ME - RENAMING SENSOR CAUSES DUPLICATE TO BE CREATED, RENAMING UNNAMED DUPLICATE IS NOTED WITH SUCCESS BUT NAME FROM OLD REPLACES WHATEVER IS PUT IN
     $.ajax({
       type: 'POST',
       url: this.serverURI + '/updateSensorLocation',

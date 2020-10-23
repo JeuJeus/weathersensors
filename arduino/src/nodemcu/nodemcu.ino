@@ -18,13 +18,13 @@ struct sensorData {
   float temperature;
   float pressure;
   float humidity;
-  unsigned long timestamp;
+  int timestamp;
 };
 
 Adafruit_BME280 bme; // I2C
 ESP8266WiFiMulti WiFiMulti;
 WiFiUDP udp;
-EasyNTPClient ntpClient(udp, "pool.ntp.org", (1*60*60)); // CEST = GMT/UTC + 1:00
+EasyNTPClient ntpClient(udp, "pool.ntp.org", (2*60*60)); // CEST = GMT/UTC + 2:00
 
 const unsigned long DELAY_TIME_NO_SENSOR_FOUND = 1000*5;
 const unsigned long DELAY_TIME_REST_SEND       = 1000*60*5;
@@ -76,16 +76,15 @@ void loop() {
   delay(DELAY_TIME_REST_SEND);
 }
 
-float assureTimestampWhenNoConnection(int positionInCache,int cacheLength, unsigned long timestamp){
-    if(timestamp==0){
-        unsigned long now = 0;
-            do {
-                now = ntpClient.getUnixTime();
-            } while (now == 0);
-        //"Cache" is based on FIFO where each element is $(DELAY_TIME_REST_SEND) minutes of age apart
-        int age = (cacheLength-positionInCache)*5;
-        return (now - (age * 60 * 1000));
-    }
+float assureTimestampWhenNoConnection(int positionInCache,int cacheLength, int timestamp){
+    int now = 0;
+    do {
+        //assure udp connection to ntp is established
+        now = ntpClient.getUnixTime();
+    } while (now == 0);
+    //"Cache" is based on FIFO where each element is $(DELAY_TIME_REST_SEND) minutes of age apart
+    int ageMinutes = (cacheLength-positionInCache)*5;
+    return (now - (ageMinutes * 60 * 1000));
 }
 
 void sendCachedData(){
@@ -99,7 +98,10 @@ void sendCachedData(){
     if (http.begin(client, SERVER_TO_CONNECT)) {
       http.addHeader("Content-Type", "application/json");
 
-      data.timestamp = assureTimestampWhenNoConnection(i,dataList.size(),data.timestamp);
+      if(data.timestamp == 0){
+        Serial.println("Correcting null Value timestamp after connection loss.");
+        data.timestamp = assureTimestampWhenNoConnection(i,dataList.size(),data.timestamp);
+      }
 
       char body[200];
       buildJson(&body[0], macAddress,data.timestamp, data.temperature, data.pressure, data.humidity);
@@ -144,7 +146,7 @@ void getMacAddress(char* macAddress, int n){
 }
 
 void readValues(struct sensorData* data) {
-  data->timestamp = ntpClient.getUnixTime();
+  data->timestamp = int(ntpClient.getUnixTime());
   data->temperature = bme.readTemperature();
   data->pressure = bme.readPressure() / 100.0F;
   data->humidity = bme.readHumidity();
@@ -152,7 +154,7 @@ void readValues(struct sensorData* data) {
 }
 
 void buildJson(char* body, char macaddress[MAC_ADDRESS_LENGTH], unsigned long timestamp, float temperature, float pressure, float humidity){
-  sprintf(body, "{\"MACADDRESS\":\"%s\",\"TIMESTAMP\":\"%lu\",\"TEMPERATURE\":%f,\"AIRPRESSURE\":%f,\"HUMIDITY\":%f}",
+  sprintf(body, "{\"MACADDRESS\":\"%s\",\"TIMESTAMP\":\"%d\",\"TEMPERATURE\":%f,\"AIRPRESSURE\":%f,\"HUMIDITY\":%f}",
           macaddress, timestamp, temperature, pressure, humidity);
   return;
 }
