@@ -1,7 +1,17 @@
+const fs = require('fs');
 const util = require('util');
+const sqlite3 = require('sqlite3').verbose();
+
+function ensureDbDirSync(dirpath) {
+  try {
+    return fs.mkdirSync(dirpath);
+  } catch (err) {
+    if (err.code !== 'EEXIST') throw err;
+  }
+}
 
 function openDb() {
-  const sqlite3 = require('sqlite3').verbose();
+  ensureDbDirSync('db');
   const db = new sqlite3.Database('./db/data.db');
   db.run = util.promisify(db.run);
   db.get = util.promisify(db.get);
@@ -14,7 +24,8 @@ function closeDb(db) {
 }
 
 async function init(db) {
-  const createSensorTable = `CREATE TABLE IF NOT EXISTS "SENSOR" (` +
+  const createSensorTable = `CREATE TABLE IF NOT EXISTS "SENSOR"
+          (` +
     `"ID"	INTEGER NOT NULL UNIQUE, ` +
     `"MAC_ADDRESS"	TEXT NOT NULL, ` +
     `"LOCATION"	TEXT NOT NULL,` +
@@ -43,16 +54,16 @@ async function getSensors(db) {
 
 async function getSensorById(db, SENSOR_ID) {
   const sql = 'SELECT ID, MAC_ADDRESS, LOCATION ' +
-      'FROM SENSOR ' +
-      'WHERE ID = ?';
+    'FROM SENSOR ' +
+    'WHERE ID = ?';
   const params = [SENSOR_ID];
   return db.all(sql, params);
 }
 
 async function assignSensorIDByMACIfNotExists(db, MACADDRESS) {
   const sql = 'INSERT INTO SENSOR (MAC_ADDRESS, LOCATION) ' +
-      'VALUES (?, ?)' +
-      'EXCEPT SELECT MAC_ADDRESS, LOCATION FROM SENSOR WHERE MAC_ADDRESS = ?';
+    'VALUES (?, ?)' +
+    'EXCEPT SELECT MAC_ADDRESS, LOCATION FROM SENSOR WHERE MAC_ADDRESS = ?';
   const params = [MACADDRESS, '', MACADDRESS];
   db.all(sql, params);
   console.log(`${new Date().toISOString()} - RECEIVED MACADDRESS [${MACADDRESS}]`);
@@ -61,23 +72,23 @@ async function assignSensorIDByMACIfNotExists(db, MACADDRESS) {
 
 async function getSensorIDByMAC(db, MACADDRESS) {
   const sql = 'SELECT ID, MAC_ADDRESS, LOCATION ' +
-      'FROM SENSOR ' +
-      'WHERE MAC_ADDRESS = ?';
+    'FROM SENSOR ' +
+    'WHERE MAC_ADDRESS = ?';
   const params = [MACADDRESS];
   return db.all(sql, params);
 }
 
 async function getSensorData(db) {
   const sql = 'SELECT SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY ' +
-      'FROM SENSOR_DATA';
+    'FROM SENSOR_DATA';
   const params = [];
   return db.all(sql, params);
 }
 
 async function getSensorDataById(db, SENSOR_ID) {
   const sql = 'SELECT SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY ' +
-        'FROM SENSOR_DATA ' +
-        'WHERE SENSOR_ID = ?';
+    'FROM SENSOR_DATA ' +
+    'WHERE SENSOR_ID = ?';
   const params = [SENSOR_ID];
   return db.all(sql, params);
 }
@@ -87,7 +98,7 @@ async function insertWeatherData(db, weatherData) {
   // TODO REFACTOR INSERT LAYER
   const SENSOR_ID = await assignSensorIDByMACIfNotExists(db, weatherData.MACADDRESS);
   const sql = 'INSERT INTO SENSOR_DATA (SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY) ' +
-      'VALUES (?, ?, ?, ?, ?)';
+    'VALUES (?, ?, ?, ?, ?)';
   const params = [SENSOR_ID[0].ID, weatherData.TIMESTAMP, weatherData.TEMPERATURE, weatherData.AIRPRESSURE, weatherData.HUMIDITY];
   db.run(sql, params);
 }

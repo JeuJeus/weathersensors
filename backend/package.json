@@ -5,8 +5,6 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --exit",
-    "setup": "node test/testDataBaseSetup.js",
-    "helperTests": "node test/testMain.js",
     "start": "node src/restController.js"
   },
   "keywords": [],
