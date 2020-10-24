@@ -18,6 +18,7 @@ struct sensorData {
   float temperature;
   float pressure;
   float humidity;
+//based on unixtimestamp with second accuracy
   int timestamp;
 };
 

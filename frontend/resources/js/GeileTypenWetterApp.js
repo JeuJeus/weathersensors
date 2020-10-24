@@ -111,6 +111,7 @@ class GeileTypenWetterApp {
 
   mapValuesOfData(data) {
     const timestamps = data.sensorData.map(
+      //factor 1000 is needed here in order to convert from unix based on seconds to unix timestamp based on milliseconds
       (e) => new Date(parseFloat(e.TIMESTAMP) * 1000).toLocaleString('de-DE'),
     );
     const temperature = data.sensorData.map(
