@@ -25,11 +25,11 @@ function closeDb(db) {
 }
 async function init(db) {
   const createSensorTable = `CREATE TABLE IF NOT EXISTS "SENSOR"
-          (` +
-    `"ID"	INTEGER NOT NULL UNIQUE, ` +
-    `"MAC_ADDRESS"	TEXT NOT NULL, ` +
-    `"LOCATION"	TEXT NOT NULL,` +
-    ` PRIMARY KEY("ID" AUTOINCREMENT)` +
+      (` +
+      `"ID"	INTEGER NOT NULL UNIQUE, ` +
+      `"MAC_ADDRESS"	TEXT NOT NULL, ` +
+      `"LOCATION"	TEXT,` +
+      ` PRIMARY KEY("ID" AUTOINCREMENT)` +
     `)`;
 
   const createSensorDataTable = `CREATE TABLE IF NOT EXISTS "SENSOR_DATA" (` +
