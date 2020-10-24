@@ -11,7 +11,7 @@ class SensorTableFiller {
   insertRows(sensor) {
     let row = this.sensorTable.insertRow(-1);
     row.insertCell(0).innerText = sensor.ID;
-    row.insertCell(1).innerText = sensor.MAC_ADDRESS;
+    row.insertCell(1).innerText = sensor.MAC_ADDRESS.toUpperCase();
     this.buildLocationEntry(sensor, row);
   }
 
