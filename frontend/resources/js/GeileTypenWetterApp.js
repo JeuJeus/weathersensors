@@ -111,7 +111,7 @@ class GeileTypenWetterApp {
 
   mapValuesOfData(data) {
     const timestamps = data.sensorData.map(
-        (e) => new Date(parseInt(e.TIMESTAMP)).toLocaleString('de-DE'),
+      (e) => new Date(parseFloat(e.TIMESTAMP) * 1000).toLocaleString('de-DE'),
     );
     const temperature = data.sensorData.map(
         (e) => e.TEMPERATURE,

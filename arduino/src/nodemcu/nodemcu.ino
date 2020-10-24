@@ -24,7 +24,7 @@ struct sensorData {
 Adafruit_BME280 bme; // I2C
 ESP8266WiFiMulti WiFiMulti;
 WiFiUDP udp;
-EasyNTPClient ntpClient(udp, "pool.ntp.org", (2*60*60)); // CEST = GMT/UTC + 2:00
+EasyNTPClient ntpClient(udp, "pool.ntp.org");
 
 const unsigned long DELAY_TIME_NO_SENSOR_FOUND = 1000*5;
 const unsigned long DELAY_TIME_REST_SEND       = 1000*60*5;
@@ -84,7 +84,7 @@ float assureTimestampWhenNoConnection(int positionInCache,int cacheLength, int t
     } while (now == 0);
     //"Cache" is based on FIFO where each element is $(DELAY_TIME_REST_SEND) minutes of age apart
     int ageMinutes = (cacheLength-positionInCache)*5;
-    return (now - (ageMinutes * 60 * 1000));
+    return (now - (ageMinutes * 60));
 }
 
 void sendCachedData(){
