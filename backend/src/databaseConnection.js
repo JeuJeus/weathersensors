@@ -61,10 +61,10 @@ async function getSensorById(db, SENSOR_ID) {
 }
 
 async function assignSensorIDByMACIfNotExists(db, MACADDRESS) {
-  const sql = 'INSERT INTO SENSOR (MAC_ADDRESS, LOCATION) ' +
-    'VALUES (?, ?)' +
-    'EXCEPT SELECT MAC_ADDRESS, LOCATION FROM SENSOR WHERE MAC_ADDRESS = ?';
-  const params = [MACADDRESS, '', MACADDRESS];
+  const sql = 'INSERT INTO SENSOR (MAC_ADDRESS) ' +
+      'VALUES (?)' +
+      'EXCEPT SELECT MAC_ADDRESS FROM SENSOR WHERE MAC_ADDRESS = ?';
+  const params = [MACADDRESS, MACADDRESS];
   db.all(sql, params);
   console.log(`${new Date().toISOString()} - RECEIVED MACADDRESS [${MACADDRESS}]`);
   return getSensorIDByMAC(db, MACADDRESS);
