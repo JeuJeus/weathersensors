@@ -5,6 +5,7 @@ const app = require('express')();
 const basicAuth = require('express-basic-auth');
 const path = require('path');
 const rfs = require('rotating-file-stream');
+const favicon = require('serve-favicon');
 
 const stream = rfs.createStream('log/frontend.log', {
   size: '10M',
@@ -26,6 +27,7 @@ app.use(bodyParser.json({
 }));
 app.use('/resources', express.static(path.join(__dirname, 'resources')));
 app.use(logger);
+app.use(favicon(path.join(__dirname, 'resources', 'favicon.ico')));
 
 httpServer.listen(3344, (err) => {
   if (err) {
