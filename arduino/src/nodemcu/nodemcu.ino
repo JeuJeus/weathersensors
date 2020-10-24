@@ -33,6 +33,7 @@ const unsigned long DELAY_TIME_REST_SEND       = 1000*60*5;
 
 char macAddress[MAC_ADDRESS_LENGTH];
 
+//TODO IS THIS ONLY FILLED WHEN NO CONNECTION OR ON 5XX TOO?
 LinkedList<struct sensorData> dataList = LinkedList<struct sensorData>();
 
 void setup() {
