@@ -1,4 +1,4 @@
-// TODO CHANGE DB.ALL TO UNIQUE RESPONSE WHERE NEEDED
+// TODO CHANGE DB.ALL TO UNIQUE RESPONSE WHERE NEEDED PR
 const fs = require('fs');
 const util = require('util');
 const sqlite3 = require('sqlite3').verbose();
@@ -94,7 +94,7 @@ async function getSensorDataById(db, SENSOR_ID) {
 }
 
 async function insertWeatherData(db, weatherData) {
-  // TODO MAKE SURE THE SAME COMBINATION OF SENSOR ID AND TIMESTAMP CANT BE INSERTED
+  // TODO MAKE SURE THE SAME COMBINATION OF SENSOR ID AND TIMESTAMP CANT BE INSERTED JB
   const sql = 'INSERT INTO SENSOR_DATA (SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY) ' +
       'VALUES (?, ?, ?, ?, ?)';
   const params = [weatherData.ID, weatherData.TIMESTAMP, weatherData.TEMPERATURE, weatherData.AIRPRESSURE, weatherData.HUMIDITY];

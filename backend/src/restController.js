@@ -31,7 +31,7 @@ app.use(bodyParser.json({
   limit: '100kb',
   type: 'application/json',
 }));
-// TODO SET ME ACCORDING TO DEPLOYMENT PLANS
+// TODO SET ME ACCORDING TO DEPLOYMENT PLANS LATA BIT*H
 app.use(cors({origin: '*'}));
 
 httpServer.listen(3000, (err) => {
@@ -97,7 +97,7 @@ app.get('/sensor/id/:SENSOR_ID', async function(req, res) {
 });
 
 // ############### POST REQUESTS ###############
-// TODO EXTRACT THESE TWO TO SERVICE CLASS
+// TODO EXTRACT THESE TWO TO SERVICE CLASS JF(-Kennedy)
 function validateSensorDataInBody() {
   return [
     check('MACADDRESS').isMACAddress(),
