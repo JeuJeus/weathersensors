@@ -30,7 +30,7 @@ describe('-- HELPER TESTS -- ', () => {
     //here index = timestamp
     const dataToFilter = testData.createTimeFilterTestData(100);
     it('with timerange 7-23', () => {
-      let filteredTestData = helper.filterDateRange(dataToFilter, 7, 23);
+      let filteredTestData = helper.filterTimeRange(dataToFilter, 7, 23);
       filteredTestData.forEach((x, i) => {
         expect(filteredTestData[i].TIMESTAMP).to.equal(7 + i);
         expect(filteredTestData[filteredTestData.length - 1].TIMESTAMP).to.equal(23);
@@ -38,7 +38,7 @@ describe('-- HELPER TESTS -- ', () => {
     });
     it('with timerange bigger than array size', () => {
       expect(dataToFilter.length).to.be.lessThan(1000);
-      let filteredTestData = helper.filterDateRange(dataToFilter, 0, 1000);
+      let filteredTestData = helper.filterTimeRange(dataToFilter, 0, 1000);
       filteredTestData.forEach((x, i) => {
         expect(filteredTestData[i].TIMESTAMP).to.equal(i);
       });
@@ -46,7 +46,7 @@ describe('-- HELPER TESTS -- ', () => {
     });
     it('with start- and endvalues not in array', () => {
       expect(dataToFilter.length).to.be.lessThan(1000);
-      let filteredTestData = helper.filterDateRange(dataToFilter, -100, 1000);
+      let filteredTestData = helper.filterTimeRange(dataToFilter, -100, 1000);
       filteredTestData.forEach((x, i) => {
         expect(filteredTestData[i].TIMESTAMP).to.equal(i);
       });

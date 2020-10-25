@@ -7,7 +7,13 @@ function reduceElementsToMaxSize(elements, maxSize) {
     elements[Math.floor(i * (origSize + Math.floor(origSize / maxSize)) / maxSize)]);
 }
 
-function filterDateRange(elements, startTimeStamp, endTimestamp) {
+function filterTimeRangeByPresentParameters(sensorData, query) {
+  let startTime = query.timerange_start ? query.timerange_start : 0;
+  let endTime = query.timerange_end ? query.timerange_end : Date.now();
+  return filterTimeRange(sensorData, startTime, endTime);
+}
+
+function filterTimeRange(elements, startTimeStamp, endTimestamp) {
   return elements.filter(function(dataEntry) {
     return dataEntry.TIMESTAMP >= startTimeStamp &&
       dataEntry.TIMESTAMP <= endTimestamp;
@@ -16,5 +22,6 @@ function filterDateRange(elements, startTimeStamp, endTimestamp) {
 
 module.exports = {
   'reduceElementsToMaxSize': reduceElementsToMaxSize,
-  'filterDateRange': filterDateRange,
+  'filterTimeRange': filterTimeRange,
+  'filterTimeRangeByPresentParameters': filterTimeRangeByPresentParameters,
 };
