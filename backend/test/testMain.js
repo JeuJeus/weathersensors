@@ -124,7 +124,7 @@ describe('-- REST CONTROLLER -- ', () => {
           .post('/weatherData')
           .send({
               MACADDRESS: 'f4:cf:a2:d1:49:3e',
-              TIMESTAMP: '1',
+              TIMESTAMP: Date.now(),
               TEMPERATURE: '20.930000',
               AIRPRESSURE: '1008.037476',
               HUMIDITY: '50.763672',

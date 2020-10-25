@@ -2,6 +2,7 @@ const dbConnection = require('./databaseConnection');
 const db = dbConnection.openDb();
 
 async function getIdFromMacaddress(db, MACADDRESS) {
+  // TODO STREAM WRITE INSTEAD OF CONSOLE LOG
   console.log(`${new Date().toISOString()} - RECEIVED MACADDRESS [${MACADDRESS}]`);
   await dbConnection.assignSensorIDByMACIfNotExists(db, MACADDRESS);
   return dbConnection.getSensorIDByMAC(db, MACADDRESS);

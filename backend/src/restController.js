@@ -97,6 +97,7 @@ app.get('/sensor/id/:SENSOR_ID', async function(req, res) {
 });
 
 // ############### POST REQUESTS ###############
+// TODO EXTRACT THESE TWO TO SERVICE CLASS
 function validateSensorDataInBody() {
   return [
     check('MACADDRESS').isMACAddress(),

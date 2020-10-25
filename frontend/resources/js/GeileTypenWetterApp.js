@@ -24,11 +24,9 @@ class GeileTypenWetterApp {
 
     this.serverURI = serverURI;
     this.updateInterval = updateInterval;
-
   }
 
   init() {
-
     this.yAxisToggleButton.addEventListener('click', this.yAxisStartToggle.bind(this), false);
 
     this.granularityInput.addEventListener('keydown', this.granularityOnChange.bind(this, this.granularityInput), false);
@@ -111,8 +109,9 @@ class GeileTypenWetterApp {
 
   mapValuesOfData(data) {
     const timestamps = data.sensorData.map(
-      //factor 1000 is needed here in order to convert from unix based on seconds to unix timestamp based on milliseconds
-      (e) => new Date(parseFloat(e.TIMESTAMP) * 1000).toLocaleString('de-DE'),
+        // TODO EVENTUALLY CHANGE DB STRUCTURE MAYBE IF WE WANT TO ACCOMMODATE FOR LONGER TIMESTAMPS
+        // factor 1000 is needed here in order to convert from unix based on seconds to unix timestamp based on milliseconds
+        (e) => new Date(parseFloat(e.TIMESTAMP) * 1000).toLocaleString('de-DE'),
     );
     const temperature = data.sensorData.map(
         (e) => e.TEMPERATURE,
