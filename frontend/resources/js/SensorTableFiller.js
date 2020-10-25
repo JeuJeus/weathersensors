@@ -23,41 +23,42 @@ class SensorTableFiller {
   createInputGroupWithButton(sensor) {
     const inputContainerDiv = document.createElement('div');
     inputContainerDiv.classList.add('input-group');
-    inputContainerDiv.appendChild(this.createInputElement(sensor.LOCATION, sensor.ID));
-    inputContainerDiv.appendChild(this.createContainerDivWithButton(sensor.ID));
+    inputContainerDiv.classList.add('location-input-group');
+    const inputElement = this.createInputElement(sensor.LOCATION, sensor.ID);
+    inputContainerDiv.appendChild(inputElement);
+    inputContainerDiv.appendChild(this.createContainerDivWithButton(sensor.ID, inputElement));
     return inputContainerDiv;
   }
 
   createInputElement(sensorLocation, sensorId) {
     const inputElement = document.createElement('input');
     inputElement.type = 'text';
-    inputElement.id = 'inputLocation';
     inputElement.classList.add('form-control');
     inputElement.classList.add('locationEntry');
     inputElement.value = sensorLocation;
     inputElement.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
-        this.postUpdateSensorLocation(sensorId);
+        this.postUpdateSensorLocation(sensorId, inputElement, e);
       }
     });
     return inputElement;
   }
 
-  createContainerDivWithButton(sensorId) {
+  createContainerDivWithButton(sensorId, inputElement) {
     const inputContainerDivButton = document.createElement('div');
     inputContainerDivButton.classList.add('input-group-append');
-    inputContainerDivButton.appendChild(this.createButtonElementWithEventListener(sensorId));
+    inputContainerDivButton.appendChild(this.createButtonElementWithEventListener(sensorId, inputElement));
     return inputContainerDivButton;
   }
 
-  createButtonElementWithEventListener(sensorId) {
+  createButtonElementWithEventListener(sensorId, inputElement) {
     const buttonElement = document.createElement('button');
     buttonElement.type = 'submit';
     buttonElement.classList.add('btn');
     buttonElement.classList.add('btn-secondary');
     buttonElement.innerText = 'OK';
     buttonElement.addEventListener('click',
-        this.postUpdateSensorLocation.bind(this, sensorId), false);
+        this.postUpdateSensorLocation.bind(this, sensorId, inputElement), false);
     return buttonElement;
   }
 
@@ -69,10 +70,9 @@ class SensorTableFiller {
     });
   }
 
-  postUpdateSensorLocation(id) {
-    // TODO CHANGE WAY OF RETRIEVING CURRENT VALUE PR
-    const location = $('.locationEntry').eq(id - 1).val();
-    const apiToken = $('#api-token').val();
+  postUpdateSensorLocation(id, inputElement, event) {
+    const location = inputElement.value;
+    const apiToken = document.querySelector('#api-token').value;
     $.ajax({
       type: 'POST',
       url: this.serverURI + '/updateSensorLocation',
