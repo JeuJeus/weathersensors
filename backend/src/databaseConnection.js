@@ -58,7 +58,7 @@ async function getSensorById(db, SENSOR_ID) {
       'FROM SENSOR ' +
       'WHERE ID = ?';
   const params = [SENSOR_ID];
-  return db.all(sql, params);
+  return db.get(sql, params);
 }
 
 async function assignSensorIDByMACIfNotExists(db, MACADDRESS) {
@@ -66,7 +66,7 @@ async function assignSensorIDByMACIfNotExists(db, MACADDRESS) {
       'VALUES (?)' +
       'EXCEPT SELECT MAC_ADDRESS FROM SENSOR WHERE MAC_ADDRESS = ?';
   const params = [MACADDRESS, MACADDRESS];
-  db.all(sql, params);
+  db.run(sql, params);
   return getSensorIDByMAC(db, MACADDRESS);
 }
 
@@ -75,7 +75,7 @@ async function getSensorIDByMAC(db, MACADDRESS) {
       'FROM SENSOR ' +
       'WHERE MAC_ADDRESS = ?';
   const params = [MACADDRESS];
-  return db.all(sql, params);
+  return db.get(sql, params);
 }
 
 async function getSensorData(db) {

@@ -28,7 +28,7 @@ async function getIdFromMacaddress(db, MACADDRESS) {
 
 async function insertWeatherData(db, weatherData) {
   const result = await getIdFromMacaddress(db, weatherData.MACADDRESS);
-  weatherData.ID = result[0].ID;
+  weatherData.ID = result.ID;
   return dbConnection.insertWeatherData(db, weatherData);
 }
 

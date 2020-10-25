@@ -28,7 +28,7 @@ describe('-- HELPER TESTS -- ', () => {
 });
 
 describe('-- REST CONTROLLER -- ', () => {
-  const stubSensorData = [{
+  const stubSensorsData = [{
     SENSOR_ID: faker.random.number(),
     TIMESTAMP: new Date().toISOString(),
     TEMPERATURE: faker.random.float(),
@@ -36,7 +36,7 @@ describe('-- REST CONTROLLER -- ', () => {
     HUMIDITY: faker.random.float(),
 
   }];
-  const stubSensor = [{
+  const stubSensors = [{
     ID: faker.random.number(),
     MAC_ADRESS: faker.internet.mac(),
     LOCATION: faker.address.city(),
@@ -44,22 +44,23 @@ describe('-- REST CONTROLLER -- ', () => {
 
   chai.use(chaiHttp);
 
-  sinon.stub(dbConnection, 'getSensors').returns(stubSensor);
-  sinon.stub(dbConnection, 'getSensorData').returns(stubSensorData);
-  sinon.stub(dbConnection, 'getSensorDataById').returns(stubSensorData);
-  sinon.stub(dbConnection, 'getSensorById').returns(stubSensor);
+  // Every time the following functions in restController get called, they are mocked here with random values.
+  sinon.stub(dbConnection, 'getSensors').returns(stubSensors);
+  sinon.stub(dbConnection, 'getSensorData').returns(stubSensorsData);
+  sinon.stub(dbConnection, 'getSensorDataById').returns(stubSensorsData);
+  sinon.stub(dbConnection, 'getSensorById').returns(stubSensors);
 
   sinon.stub(dbConnection, 'insertWeatherData');
 
   describe('when get /weatherData', () => {
     it('should return valid data when calling get', () => {
       chai.request('http://localhost:3000')
-        .get('/weatherData')
-        .end((err, res) => {
-          res.should.have.status(200);
-          expect(res.body.sensorData[0]).to.deep.equal(stubSensorData[0]);
-          expect(res.body.sensors[0]).to.deep.equal(stubSensor[0]);
-        });
+          .get('/weatherData')
+          .end((err, res) => {
+            res.should.have.status(200);
+            expect(res.body.sensorData[0]).to.deep.equal(stubSensorsData[0]);
+            expect(res.body.sensors[0]).to.deep.equal(stubSensors[0]);
+          });
     });
   });
 
@@ -69,7 +70,7 @@ describe('-- REST CONTROLLER -- ', () => {
           .get('/sensorData/id/1')
           .end((err, res) => {
             res.should.have.status(200);
-            expect(res.body.sensorData[0]).to.deep.equal(stubSensorData[0]);
+            expect(res.body.sensorData[0]).to.deep.equal(stubSensorsData[0]);
           });
     });
     it('should throw error when calling without valid id', () => {
@@ -80,13 +81,13 @@ describe('-- REST CONTROLLER -- ', () => {
           });
     });
     it('should reduce granularity when giving param', () => {
-      sinon.stub(helper, 'reduceElementsToMaxSize').returns(stubSensorData);
+      sinon.stub(helper, 'reduceElementsToMaxSize').returns(stubSensorsData);
       chai.request('http://localhost:3000')
           .get('/sensorData/id/1')
           .query({granularity: 250})
           .end((err, res) => {
             res.should.have.status(200);
-            expect(res.body.sensorData[0]).to.deep.equal(stubSensorData[0]);
+            expect(res.body.sensorData[0]).to.deep.equal(stubSensorsData[0]);
           });
     });
   });
@@ -97,7 +98,7 @@ describe('-- REST CONTROLLER -- ', () => {
           .get('/sensors')
           .end((err, res) => {
             res.should.have.status(200);
-            expect(res.body.sensors[0]).to.deep.equal(stubSensor[0]);
+            expect(res.body.sensors[0]).to.deep.equal(stubSensors[0]);
           });
     });
   });
@@ -108,7 +109,7 @@ describe('-- REST CONTROLLER -- ', () => {
           .get('/sensor/id/1')
           .end((err, res) => {
             res.should.have.status(200);
-            expect(res.body.sensor).to.deep.equal(stubSensor[0]);
+            expect(res.body.sensor[0]).to.deep.equal(stubSensors[0]);
           });
     });
     it('should return 404 when id not found or wrong', () => {
@@ -125,11 +126,11 @@ describe('-- REST CONTROLLER -- ', () => {
       chai.request('http://localhost:3000')
           .post('/weatherData')
           .send({
-              MACADDRESS: 'f4:cf:a2:d1:49:3e',
-              TIMESTAMP: Date.now(),
-              TEMPERATURE: '20.930000',
-              AIRPRESSURE: '1008.037476',
-              HUMIDITY: '50.763672',
+            MACADDRESS: 'f4:cf:a2:d1:49:3e',
+            TIMESTAMP: Date.now(),
+            TEMPERATURE: '20.930000',
+            AIRPRESSURE: '1008.037476',
+            HUMIDITY: '50.763672',
           })
           .end((err, res) => {
             res.should.have.status(200);
@@ -153,39 +154,39 @@ describe('-- REST CONTROLLER -- ', () => {
 
   describe('it should validate sensor when renaming with POST Request', () => {
     it('should be renamed when posting valid data', () => {
-        chai.request('http://localhost:3000')
-            .post('/updateSensorLocation')
-            .send({
-                API_TOKEN: 'aGllckv2bm50ZUlocmVXZXJidW5nU3RlaGVu',
-                ID: 1,
-                LOCATION: 'Paderboring',
-            })
-            .end((err, res) => {
-                res.should.have.status(200);
-            });
+      chai.request('http://localhost:3000')
+          .post('/updateSensorLocation')
+          .send({
+            API_TOKEN: 'aGllckv2bm50ZUlocmVXZXJidW5nU3RlaGVu',
+            ID: 1,
+            LOCATION: 'Paderboring',
+          })
+          .end((err, res) => {
+            res.should.have.status(200);
+          });
     });
     it('should return 400 when posting invalid data', () => {
-        chai.request('http://localhost:3000')
-            .post('/updateSensorLocation')
-            .send({
-                API_TOKEN: 'c2FhYWFpaWlpdGVuYmFjaGVy',
-                ID: 'test',
-                LOCATION: 1,
-            })
-            .end((err, res) => {
-                res.should.have.status(400);
-            });
+      chai.request('http://localhost:3000')
+          .post('/updateSensorLocation')
+          .send({
+            API_TOKEN: 'c2FhYWFpaWlpdGVuYmFjaGVy',
+            ID: 'test',
+            LOCATION: 1,
+          })
+          .end((err, res) => {
+            res.should.have.status(400);
+          });
     });
     it('should return 400 when missing authentication', () => {
-        chai.request('http://localhost:3000')
-            .post('/updateSensorLocation')
-            .send({
-                ID: 'test',
-                LOCATION: 1,
-            })
-            .end((err, res) => {
-                res.should.have.status(400);
-            });
+      chai.request('http://localhost:3000')
+          .post('/updateSensorLocation')
+          .send({
+            ID: 'test',
+            LOCATION: 1,
+          })
+          .end((err, res) => {
+            res.should.have.status(400);
+          });
     });
   });
 });

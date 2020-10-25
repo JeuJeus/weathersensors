@@ -83,11 +83,9 @@ app.get('/sensors', async function(req, res) {
 });
 app.get('/sensor/id/:SENSOR_ID', async function(req, res) {
   res.set('Access-Control-Allow-Origin', '*'); // Security not needed xD
-  const response = {
-    'sensor': [],
-  };
   if (validIdForRequest(req)) {
-    response.sensor = (await dbConnection.getSensorById(db, req.params.SENSOR_ID))[0];
+    const response = {};
+    response.sensor = (await dbConnection.getSensorById(db, req.params.SENSOR_ID));
     res.status(200).send(response);
   } else {
     res.status(400).send();
