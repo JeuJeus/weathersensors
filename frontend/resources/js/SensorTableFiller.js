@@ -70,7 +70,7 @@ class SensorTableFiller {
   }
 
   postUpdateSensorLocation(id) {
-    // TODO CHANGE WAY OF RETRIEVING CURRENT VALUE
+    // TODO CHANGE WAY OF RETRIEVING CURRENT VALUE PR
     const location = $('.locationEntry').eq(id - 1).val();
     const apiToken = $('#api-token').val();
     $.ajax({

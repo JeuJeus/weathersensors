@@ -39,7 +39,6 @@ class GeileTypenWetterApp {
   createChart(chartCanvasName, data, timestamps, tempValues, humidValues, airPressValues, tempColor, airPressColor, humidColor) {
     const chart = document.getElementById(chartCanvasName).getContext('2d');
 
-    // TODO REFACTOR ME INTO OWN CLASS?
     return new Chart(chart, {
       type: 'line',
       data: {
@@ -109,7 +108,7 @@ class GeileTypenWetterApp {
 
   mapValuesOfData(data) {
     const timestamps = data.sensorData.map(
-        // TODO EVENTUALLY CHANGE DB STRUCTURE MAYBE IF WE WANT TO ACCOMMODATE FOR LONGER TIMESTAMPS
+        // TODO MAYBE TRY TO INSERT TIMESTAMP * 1000 into DB
         // factor 1000 is needed here in order to convert from unix based on seconds to unix timestamp based on milliseconds
         (e) => new Date(parseFloat(e.TIMESTAMP) * 1000).toLocaleString('de-DE'),
     );
