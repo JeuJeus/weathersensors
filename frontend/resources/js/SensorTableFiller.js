@@ -56,8 +56,6 @@ class SensorTableFiller {
     buttonElement.classList.add('btn');
     buttonElement.classList.add('btn-secondary');
     buttonElement.innerText = 'OK';
-    //TODO ALSO DO THIS WITH ENTER ON INPUT
-    //TODO MAYBE EXTRACT EVENT LISTENER CREATION TO OWN FUNCTION
     buttonElement.addEventListener('click',
         this.postUpdateSensorLocation.bind(this, sensorId), false);
     return buttonElement;
