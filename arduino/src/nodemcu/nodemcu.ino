@@ -27,10 +27,9 @@ ESP8266WiFiMulti WiFiMulti;
 WiFiUDP udp;
 EasyNTPClient ntpClient(udp, "pool.ntp.org");
 
-// TODO INITIAL DELAY
 const unsigned long DELAY_TIME_NO_SENSOR_FOUND = 1000*5;
 const unsigned long DELAY_TIME_REST_SEND       = 1000*60*5;
-
+const unsigned long DELAY_TIME_INITIAL_CONNECT = 1000*15;
 char macAddress[MAC_ADDRESS_LENGTH];
 
 LinkedList<struct sensorData> dataList = LinkedList<struct sensorData>();
@@ -54,6 +53,8 @@ void setup() {
     Serial.println();
 
     getMacAddress(macAddress, MAC_ADDRESS_LENGTH);
+    WiFiMulti.run();
+    delay(DELAY_TIME_INITIAL_CONNECT);
 }
 
 
