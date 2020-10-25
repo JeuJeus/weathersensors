@@ -23,18 +23,23 @@ class SensorTableFiller {
   createInputGroupWithButton(sensor) {
     let inputContainerDiv = document.createElement('div');
     inputContainerDiv.classList.add('input-group');
-    inputContainerDiv.appendChild(this.createInputElement(sensor.LOCATION));
+    inputContainerDiv.appendChild(this.createInputElement(sensor.LOCATION, sensor.ID));
     inputContainerDiv.appendChild(this.createContainerDivWithButton(sensor.ID));
     return inputContainerDiv;
   }
 
-  createInputElement(sensorLocation) {
-    let inputElement = document.createElement('input');
+  createInputElement(sensorLocation, sensorId) {
+    const inputElement = document.createElement('input');
     inputElement.type = 'text';
     inputElement.id = 'inputLocation';
     inputElement.classList.add('form-control');
     inputElement.classList.add('locationEntry');
     inputElement.value = sensorLocation;
+    inputElement.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        this.postUpdateSensorLocation(sensorId);
+      }
+    });
     return inputElement;
   }
 
