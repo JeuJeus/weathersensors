@@ -7,7 +7,7 @@
 #include <EasyNTPClient.h>
 #include <WiFiUdp.h>
 // ###################### CONFIG ##########################################
-//TODO FÜR AGABE ÄNDERN
+//TODO FÜR ABGABE ÄNDERN
 #define SERVER_TO_CONNECT "http://awe2-api.jeujeus.de/weatherData"
 #define SSID "$SSID-2.4ghz!"
 #define WIFI_PASSWORD "$PASSWORD"
@@ -27,12 +27,12 @@ ESP8266WiFiMulti WiFiMulti;
 WiFiUDP udp;
 EasyNTPClient ntpClient(udp, "pool.ntp.org");
 
+// TODO INITIAL DELAY
 const unsigned long DELAY_TIME_NO_SENSOR_FOUND = 1000*5;
 const unsigned long DELAY_TIME_REST_SEND       = 1000*60*5;
 
 char macAddress[MAC_ADDRESS_LENGTH];
 
-//TODO IS THIS ONLY FILLED WHEN NO CONNECTION OR ON 5XX TOO?
 LinkedList<struct sensorData> dataList = LinkedList<struct sensorData>();
 
 void setup() {
@@ -44,7 +44,6 @@ void setup() {
     unsigned status = bme.begin(0x76);
     while (!status) {
         Serial.println("Could not find a valid BME280 sensor at 0x");
-        // todo make this shit work. Everytime sensor is not available, nodemcu crashed or w/e instead of going into this loop
         Serial.println(bme.sensorID());
         delay(DELAY_TIME_NO_SENSOR_FOUND);
         status = bme.begin(0x76);
@@ -128,6 +127,7 @@ boolean processHttpResponse(HTTPClient *http, int httpCode){
     Serial.printf("[HTTP] POST... code: %d\n", httpCode);
 
     // print response
+    // MOVED_PERMANENTLY IS OKAY BECAUSE OF PROXY
     if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY || httpCode == HTTP_CODE_BAD_REQUEST) {
       String payload = http->getString();
       Serial.println(payload);
