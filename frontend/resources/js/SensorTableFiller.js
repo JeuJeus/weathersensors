@@ -77,20 +77,28 @@ class SensorTableFiller {
       type: 'POST',
       url: this.serverURI + '/updateSensorLocation',
       data: JSON.stringify(
-          {
-            API_TOKEN: apiToken,
-            ID: id,
-            LOCATION: location,
-          }),
-      success: function (data) {
-        alert(data);
+        {
+          API_TOKEN: apiToken,
+          ID: id,
+          LOCATION: location,
+        }),
+      success: function(data) {
+        showAndDismissAlert('success', 'Saved Successfully!');
       },
-      failure: function (data) {
-        alert(data);
+      failure: function(data) {
+        showAndDismissAlert('danger', 'Error Encountered');
       },
       contentType: 'application/json',
     });
   }
+}
+
+function showAndDismissAlert(type, message) {
+  const htmlAlert = '<div class="alert alert-' + type + '">' + message + '</div>';
+  $('.alert-messages').prepend(htmlAlert);
+  $('.alert-messages .alert').first().hide().fadeIn(200).delay(2000).fadeOut(1000, function() {
+    $(this).remove();
+  });
 }
 
 module.exports = {
