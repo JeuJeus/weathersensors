@@ -1,4 +1,3 @@
-// TODO CHANGE DB.ALL TO UNIQUE RESPONSE WHERE NEEDED PR
 const fs = require('fs');
 const util = require('util');
 const sqlite3 = require('sqlite3').verbose();
