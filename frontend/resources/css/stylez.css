@@ -35,10 +35,6 @@ a.nav-item.active, .btn:hover a {
     font-size: 1.5rem;
 }
 
-.mt-4, .my-4 {
-    margin-top: 0em !important;
-}
-
 .inputMargin {
     margin-right: 5em;
 }
