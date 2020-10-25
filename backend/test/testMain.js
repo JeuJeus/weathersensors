@@ -123,11 +123,11 @@ describe('-- REST CONTROLLER -- ', () => {
       chai.request('http://localhost:3000')
           .post('/weatherData')
           .send({
-            MACADDRESS: 'f4:cf:a2:d1:49:3e',
-            TIMESTAMP: '0',
-            TEMPERATURE: '20.930000',
-            AIRPRESSURE: '1008.037476',
-            HUMIDITY: '50.763672',
+              MACADDRESS: 'f4:cf:a2:d1:49:3e',
+              TIMESTAMP: '1',
+              TEMPERATURE: '20.930000',
+              AIRPRESSURE: '1008.037476',
+              HUMIDITY: '50.763672',
           })
           .end((err, res) => {
             res.should.have.status(200);
@@ -151,39 +151,39 @@ describe('-- REST CONTROLLER -- ', () => {
 
   describe('it should validate sensor when renaming with POST Request', () => {
     it('should be renamed when posting valid data', () => {
-      chai.request('http://localhost:3000')
-        .post('/updateSensorLocation')
-        .send({
-          API_TOKEN: 'aGllckv2bm50ZUlocmVXZXJidW5nU3RlaGVu',
-          ID: 1,
-          LOCATION: 'Paderboring',
-        })
-        .end((err, res) => {
-          res.should.have.status(200);
-        });
+        chai.request('http://localhost:3000')
+            .post('/updateSensorLocation')
+            .send({
+                API_TOKEN: 'aGllckv2bm50ZUlocmVXZXJidW5nU3RlaGVu',
+                ID: 1,
+                LOCATION: 'Paderboring',
+            })
+            .end((err, res) => {
+                res.should.have.status(200);
+            });
     });
     it('should return 400 when posting invalid data', () => {
-      chai.request('http://localhost:3000')
-        .post('/updateSensorLocation')
-        .send({
-          API_TOKEN: 'c2FhYWFpaWlpdGVuYmFjaGVy',
-          ID: 'test',
-          LOCATION: 1,
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-        });
+        chai.request('http://localhost:3000')
+            .post('/updateSensorLocation')
+            .send({
+                API_TOKEN: 'c2FhYWFpaWlpdGVuYmFjaGVy',
+                ID: 'test',
+                LOCATION: 1,
+            })
+            .end((err, res) => {
+                res.should.have.status(400);
+            });
     });
     it('should return 400 when missing authentication', () => {
-      chai.request('http://localhost:3000')
-        .post('/updateSensorLocation')
-        .send({
-          ID: 'test',
-          LOCATION: 1,
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-        });
+        chai.request('http://localhost:3000')
+            .post('/updateSensorLocation')
+            .send({
+                ID: 'test',
+                LOCATION: 1,
+            })
+            .end((err, res) => {
+                res.should.have.status(400);
+            });
     });
   });
 });

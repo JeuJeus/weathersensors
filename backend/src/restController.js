@@ -1,4 +1,5 @@
 const dbConnection = require('./databaseConnection');
+const dataValidator = require('./dataValidator');
 const express = require('express');
 const bodyParser = require('body-parser');
 const http = require('http');
@@ -30,7 +31,7 @@ app.use(bodyParser.json({
   limit: '100kb',
   type: 'application/json',
 }));
-//TODO SET ME ACCORDING TO DEPLOYMENT PLANS
+// TODO SET ME ACCORDING TO DEPLOYMENT PLANS
 app.use(cors({origin: '*'}));
 
 httpServer.listen(3000, (err) => {
@@ -122,7 +123,7 @@ function errorParsingPostBody(req, res, errors) {
 app.post('/weatherData', validateSensorDataInBody(), function(req, res) {
   const errors = validationResult(req);
   if (errors.isEmpty()) {
-    dbConnection.insertWeatherData(db, req.body);
+    dataValidator.insertWeatherData(req.body);
   } else {
     return errorParsingPostBody(req, res, errors);
   }

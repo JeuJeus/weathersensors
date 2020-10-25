@@ -66,7 +66,6 @@ async function assignSensorIDByMACIfNotExists(db, MACADDRESS) {
       'EXCEPT SELECT MAC_ADDRESS FROM SENSOR WHERE MAC_ADDRESS = ?';
   const params = [MACADDRESS, MACADDRESS];
   db.all(sql, params);
-  console.log(`${new Date().toISOString()} - RECEIVED MACADDRESS [${MACADDRESS}]`);
   return getSensorIDByMAC(db, MACADDRESS);
 }
 
@@ -94,11 +93,9 @@ async function getSensorDataById(db, SENSOR_ID) {
 }
 
 async function insertWeatherData(db, weatherData) {
-  // TODO REFACTOR INSERT LAYER
-  const SENSOR_ID = await assignSensorIDByMACIfNotExists(db, weatherData.MACADDRESS);
   const sql = 'INSERT INTO SENSOR_DATA (SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY) ' +
-    'VALUES (?, ?, ?, ?, ?)';
-  const params = [SENSOR_ID[0].ID, weatherData.TIMESTAMP, weatherData.TEMPERATURE, weatherData.AIRPRESSURE, weatherData.HUMIDITY];
+      'VALUES (?, ?, ?, ?, ?)';
+  const params = [weatherData.ID, weatherData.TIMESTAMP, weatherData.TEMPERATURE, weatherData.AIRPRESSURE, weatherData.HUMIDITY];
   db.run(sql, params);
 }
 
@@ -118,4 +115,6 @@ module.exports = {
   'closeDb': closeDb,
   'getSensorById': getSensorById,
   'updateSensorLocation': updateSensorLocation,
+  'assignSensorIDByMACIfNotExists': assignSensorIDByMACIfNotExists,
+  'getSensorIDByMAC': getSensorIDByMAC,
 };
