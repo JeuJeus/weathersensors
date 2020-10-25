@@ -49,15 +49,17 @@ describe('-- REST CONTROLLER -- ', () => {
   sinon.stub(dbConnection, 'getSensorDataById').returns(stubSensorData);
   sinon.stub(dbConnection, 'getSensorById').returns(stubSensor);
 
+  sinon.stub(dbConnection, 'insertWeatherData');
+
   describe('when get /weatherData', () => {
     it('should return valid data when calling get', () => {
       chai.request('http://localhost:3000')
-          .get('/weatherData')
-          .end((err, res) => {
-            res.should.have.status(200);
-            expect(res.body.sensorData[0]).to.deep.equal(stubSensorData[0]);
-            expect(res.body.sensors[0]).to.deep.equal(stubSensor[0]);
-          });
+        .get('/weatherData')
+        .end((err, res) => {
+          res.should.have.status(200);
+          expect(res.body.sensorData[0]).to.deep.equal(stubSensorData[0]);
+          expect(res.body.sensors[0]).to.deep.equal(stubSensor[0]);
+        });
     });
   });
 

@@ -1,13 +1,11 @@
 const dbConnection = require('./databaseConnection');
 const dataValidator = require('./dataValidator');
-const express = require('express');
 const bodyParser = require('body-parser');
 const http = require('http');
 const helper = require('./helper');
 const app = require('express')();
-const basicAuth = require('express-basic-auth');
 const atob = require('atob');
-const {check, validationResult} = require('express-validator');
+const {validationResult} = require('express-validator');
 const rfs = require('rotating-file-stream');
 const cors = require('cors');
 const stream = rfs.createStream('log/backend.log', {
@@ -97,41 +95,23 @@ app.get('/sensor/id/:SENSOR_ID', async function(req, res) {
 });
 
 // ############### POST REQUESTS ###############
-// TODO EXTRACT THESE TWO TO SERVICE CLASS JF(-Kennedy)
-function validateSensorDataInBody() {
-  return [
-    check('MACADDRESS').isMACAddress(),
-    check('TIMESTAMP').isAlphanumeric(),
-    check('TEMPERATURE').isFloat(),
-    check('AIRPRESSURE').isFloat(),
-    check('HUMIDITY').isFloat(),
-  ];
-}
-
-function validateSensorLocation() {
-  return [
-    check('API_TOKEN').equals('aGllckv2bm50ZUlocmVXZXJidW5nU3RlaGVu'),
-    check('ID').isInt(),
-    check('LOCATION').isString(),
-  ];
-}
 
 function errorParsingPostBody(req, res, errors) {
   stream.write(`${new Date().toISOString()} - POST REQUEST PARSING BODY FAILED FROM [${req.connection.remoteAddress}]\n`);
   return res.status(400).json({errors: errors.array()});
 }
 
-app.post('/weatherData', validateSensorDataInBody(), function(req, res) {
+app.post('/weatherData', dataValidator.validateSensorDataInBody(), function(req, res) {
   const errors = validationResult(req);
   if (errors.isEmpty()) {
-    dataValidator.insertWeatherData(req.body);
+    dataValidator.insertWeatherData(db, req.body);
   } else {
     return errorParsingPostBody(req, res, errors);
   }
   res.send(`${atob('QWxsZSB2b24gdW5zIGVtcGZhbmdlbmVuIFdldHRlcmRhdGVuIHdlcmRlbiBuYWNoIC9kZXYvbnVsbCBnZXBpcGVkLiBBbGxlcyB3YXMgc2llIGltIEZyb250ZW5kIHNlaGVuIGlzdCBmYWtlIHVuZCB3aXJkIGdlbmVyaWVydCwgZGFzIHdhciB3ZW5pZ2VyIEF1ZndhbmQu')}`);
 });
 
-app.post('/updateSensorLocation', validateSensorLocation(), function(req, res) {
+app.post('/updateSensorLocation', dataValidator.validateSensorLocation(), function(req, res) {
   const errors = validationResult(req);
   if (errors.isEmpty()) {
     dbConnection.updateSensorLocation(db, req.body);
