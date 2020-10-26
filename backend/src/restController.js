@@ -68,7 +68,7 @@ app.get('/sensorData/id/:SENSOR_ID', async function(req, res) {
   if (validIdForRequest(req)) {
     response.sensorData = await dbConnection.getSensorDataById(db, req.params.SENSOR_ID);
     if (req.query.timerange_start || req.query.timerange_end) {
-      response.sensorData = helper.filterTimeRangeByPresentParameters(req.query, response.sensorData);
+      response.sensorData = helper.filterTimeRangeByPresentParameters(response.sensorData, req.query);
     }
     if (req.query.granularity) {
       response.sensorData = helper.reduceElementsToMaxSize(response.sensorData, req.query.granularity);
