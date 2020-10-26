@@ -71,6 +71,7 @@ class GeileTypenWetterApp {
   }
 
   createDateTimePicker(dateTimeRangePicker) {
+    //TODO RESTRICT AVAILABLE RANGE TO AVAILABLE DATA?
     this.rangePicker = $(`input[name=${dateTimeRangePicker}]`).daterangepicker({
       opens: 'center',
       startDate: this.pickerStart,
