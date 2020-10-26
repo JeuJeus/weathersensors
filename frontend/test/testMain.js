@@ -9,12 +9,16 @@ const JSDOM_OPTIONS = {
   // runScripts: 'dangerously',
 };
 
+async function setJSDom() {
+  const x = await JSDOM.fromFile('static/index.html', JSDOM_OPTIONS);
+  global.window = x.window;
+  global.document = x.window.document;
+}
 describe('-- APP TESTS -- ', () => {
-  const x = JSDOM.fromFile('static/index.html', JSDOM_OPTIONS)
-    .then((dom) => {
-      global.window = dom.window;
-      global.document = dom.window.document;
-    });
+  before(async () => {
+    await setJSDom();
+  });
+
   describe('reading dom elements from html file', () => {
     it('global.document working', () => {
       expect(document.querySelector('p')).to.not.equal(undefined);
