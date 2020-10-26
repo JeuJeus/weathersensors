@@ -4,6 +4,5 @@ const App = require('./GeileTypenWetterApp');
 const app = new App.GeileTypenWetterApp(c.TEMPERATURE_COLOR, c.AIRPRESSURE_COLOR, c.HUMIDITY_COLOR, c.SERVER_URI, c.UPDATE_INTERVAL,
   '#granularity', '#yAxisToggleButton', 'sensorPlotting',
   'sensorPlottingLocation', 'temperatureNow', 'humidityNow',
-  'airPressureNow', 'sensorForChartDropdown', '#yAxisToggleButton',
-  'sensorPlottingLocation', 'temperatureNow', 'humidityNow', 'airPressureNow', 'sensorForChartDropdown');
+  'airPressureNow', 'sensorForChartDropdown', 'dateTimeRange');
 app.init();

@@ -1,7 +1,7 @@
 class GeileTypenWetterApp {
   constructor(temperatureColor, airPressureColor, humidityColor, serverURI, updateInterval,
-      granularityInputSelector, yAxisToggleSelector, sensorPlottingSelector, sensorPlotLocationSelector, temperatureNowSelector,
-      humidityNowSelector, airPressureNowSelector, sensorDropdownSelector) {
+    granularityInputSelector, yAxisToggleSelector, sensorPlottingSelector, sensorPlotLocationSelector, temperatureNowSelector,
+    humidityNowSelector, airPressureNowSelector, sensorDropdownSelector, rangePickerSelector) {
     // DOM - Elements
     this.granularityInput = document.querySelector(granularityInputSelector);
     this.yAxisToggleButton = document.querySelector(yAxisToggleSelector);
@@ -24,6 +24,11 @@ class GeileTypenWetterApp {
 
     this.serverURI = serverURI;
     this.updateInterval = updateInterval;
+
+    this.rangePickerSelector = rangePickerSelector;
+    this.rangePicker = undefined;
+    this.pickerStart = undefined;
+    this.pickerEnd = undefined;
   }
 
   init() {
@@ -34,6 +39,31 @@ class GeileTypenWetterApp {
     this.createChartsForSensor(this.sensorToPlot, this.granularity, this.serverURI);
     this.updateSensorsDropdown(this.granularity, this.serverURI);
     setInterval(this.updateDataOnPage.bind(this), this.updateInterval);
+  }
+
+  extractStartAndEndFromTimestamps(timestamps) {
+    this.pickerStart = timestamps[0];
+    this.pickerEnd = timestamps[timestamps.length - 1];
+  }
+
+  createDateTimePicker(dateTimeRangePicker) {
+    this.rangePicker = $(`input[name=${dateTimeRangePicker}]`).daterangepicker({
+      opens: 'center',
+      startDate: this.pickerStart,
+      endDate: this.pickerEnd,
+      timePicker: true,
+      locale: {
+        format: 'DD.MM.YY hh:mm',
+      },
+    }, function(start, end, label) {
+      //todo update data by query
+      console.log(`A new date selection was made - ${start}-${end}`);
+    });
+  }
+
+  updateRangePicker() {
+    this.rangePicker.data('daterangepicker').setStartDate(this.pickerStart);
+    this.rangePicker.data('daterangepicker').setEndDate(this.pickerEnd);
   }
 
   createChart(chartCanvasName, data, timestamps, tempValues, humidValues, airPressValues, tempColor, airPressColor, humidColor) {
@@ -141,8 +171,11 @@ class GeileTypenWetterApp {
         data: airPressure,
       };
 
+      this.extractStartAndEndFromTimestamps(timestamps);
+      this.createDateTimePicker(this.rangePickerSelector);
+
       this.unifiedChart = this.createChart('Sensor Data', data, timestamps, tempValues, humidValues, airPressValues,
-          this.temperatureColor, this.airpressureColor, this.humidityColor);
+        this.temperatureColor, this.airpressureColor, this.humidityColor);
       $.get(serverURI + '/sensor/id/' + sensorToPlot, (data) => {
         this.setValuesToBeDisplayed(data.sensor, temperature.slice(-1)[0], humidity.slice(-1)[0], airPressure.slice(-1)[0]);
       });
@@ -168,6 +201,9 @@ class GeileTypenWetterApp {
   updateCharts(sensorToPlot, granularity, serverURI) {
     $.get(serverURI + '/sensorData/id/' + sensorToPlot, {'granularity': granularity}, (data) => {
       const {timestamps, temperature, humidity, airPressure} = this.mapValuesOfData(data);
+
+      this.extractStartAndEndFromTimestamps(timestamps);
+      this.updateRangePicker();
 
       this.updateChart(this.unifiedChart, timestamps, temperature, humidity, airPressure);
 
