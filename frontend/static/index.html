@@ -85,15 +85,18 @@
                 <input class="form-control inputMargin" id="granularity" name="granularity" type="text" value="50">
             </div>
         </div>
-        <div class="col text-center col-12 col-sm-8 col-md-4 mt-0">
+        <div class="col text-center col-12 col-sm-8 col-md-5 mt-0">
             <div class="input-group buttonMargin">
                 <div class="input-group-prepend">
                     <div class="input-group-text">Range <i class="leftSpace fas fa-calendar-alt"></i></div>
                 </div>
-                <input name="dateTimeRange" id="dateTimeRange" type="text"/>
+                <input class="bg-pink" id="dateTimeRange" name="dateTimeRange" type="text"/>
+                <div class="input-group-append hidden" id="resetRangeButton">
+                    <button type="submit"><i class="fas fa-calendar-times"></i></button>
+                </div>
             </div>
         </div>
-        <div class="col text-center col-12 col-sm-8 col-md-3 mt-0">
+        <div class="col text-center col-12 col-sm-8 col-md-2 mt-0">
             <div class="buttonMargin">
                 <button class="btn btn-outline-dark btn-nav" id="yAxisToggleButton" type="button">Toggle Y-Axis Start
                 </button>

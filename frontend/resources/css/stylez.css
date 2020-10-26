@@ -101,6 +101,10 @@ input[type="text"] {
     background-color: rgba(0, 204, 109, 0.7);
 }
 
+.bg-pink {
+    background-color: #e57fb7 !important;
+}
+
 #chartOptions {
     background-color: rgba(186, 185, 185, 1);
     margin-left: -10px;

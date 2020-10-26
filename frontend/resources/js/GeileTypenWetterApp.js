@@ -30,15 +30,15 @@ class GeileTypenWetterApp {
   pickerStart;
   pickerEnd;
 
-  constructor(serverURI, rangePickerSelector) {
+  constructor(serverURI) {
     this.serverURI = serverURI;
-    this.rangePickerSelector = rangePickerSelector;
   }
 
   init() {
     this.granularity = this.granularityInput.value;
 
     this.yAxisToggleButton.addEventListener('click', this.yAxisStartToggle.bind(this), false);
+    this.rangeResetButton.addEventListener('click', this.resetRangePicker.bind(this), false);
     this.granularityInput.addEventListener('keydown', this.granularityOnChange.bind(this, this.granularityInput), false);
 
     this.createChartsForSensor(this.sensorToPlot, this.granularity, this.serverURI);
@@ -47,7 +47,7 @@ class GeileTypenWetterApp {
   }
 
   setDomElements(granularityInputSelector, yAxisToggleSelector, sensorPlottingSelector, sensorPlotLocationSelector, temperatureNowSelector,
-                  humidityNowSelector, airPressureNowSelector, sensorDropdownSelector){
+                 humidityNowSelector, airPressureNowSelector, sensorDropdownSelector, rangeResetButton, rangePickerSelector) {
     this.granularityInput = document.querySelector(granularityInputSelector);
     this.yAxisToggleButton = document.querySelector(yAxisToggleSelector);
     this.sensorPlotting = document.querySelector(sensorPlottingSelector);
@@ -56,6 +56,8 @@ class GeileTypenWetterApp {
     this.humidityNow = document.querySelector(humidityNowSelector);
     this.airPressureNow = document.querySelector(airPressureNowSelector);
     this.sensorSelectDropdown = document.querySelector(sensorDropdownSelector);
+    this.rangeResetButton = document.querySelector(rangeResetButton)
+    this.rangePickerSelector = document.querySelector(rangePickerSelector);
   }
 
   extractStartAndEndFromTimestamps(timestamps) {
@@ -84,12 +86,26 @@ class GeileTypenWetterApp {
       },
     }, (start, end, label) => {
       this.updateChartsByPickedRange(start, end);
+      this.toggleRangeSelectionActive();
     });
+  }
+
+  toggleRangeSelectionActive() {
+    console.log(this.rangePickerSelector);
+    this.rangeResetButton.classList.toggle('hidden');
+    this.rangePickerSelector.classList.toggle('bg-pink');
   }
 
   updateRangePicker() {
     this.rangePicker.data('daterangepicker').setStartDate(this.pickerStart);
     this.rangePicker.data('daterangepicker').setEndDate(this.pickerEnd);
+  }
+
+  resetRangePicker() {
+    this.pickerStart = undefined;
+    this.pickerEnd = undefined;
+    this.updateDataOnPage();
+    this.toggleRangeSelectionActive();
   }
 
   createChart(chartCanvasName, data, timestamps, tempValues, humidValues, airPressValues, tempColor, airPressColor, humidColor) {
