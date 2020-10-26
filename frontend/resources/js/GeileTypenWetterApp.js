@@ -62,10 +62,9 @@ class GeileTypenWetterApp {
       timePicker: true,
       locale: {
         format: 'DD.MM.YY hh:mm',
-      }, function(start, end, label) {
-        console.log('schuuuurr');
-        this.updateChartsByPickedRange(start, end);
       },
+    }, (start, end, label) => {
+      this.updateChartsByPickedRange(start, end);
     });
   }
 
