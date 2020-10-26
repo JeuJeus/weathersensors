@@ -233,7 +233,7 @@ class GeileTypenWetterApp {
     let query = {};
     query['granularity'] = granularity;
     if (isAssigned(timeRangeStart)) {
-      query['timerange_start'] = moment(timeRangeStart, 'DD.MM.YYYY, hh:mm:ss').unix();
+      query['timerange_start'] = moment(timeRangeStart, 'DD.MM.YYYY, HH:mm:ss').unix();
     }
     if (isAssigned(timeRangeEnd)) {
       query['timerange_end'] = moment(timeRangeEnd, 'DD.MM.YYYY, HH:mm:ss').unix();
