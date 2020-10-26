@@ -207,14 +207,13 @@ class GeileTypenWetterApp {
   }
 
   createUpdateQuery(granularity, timeRangeStart, timeRangeEnd) {
-    let query = {
-      'granularity': granularity,
-    };
-    if (!isUnassigned(timeRangeStart)) {
-      query.timerange_start = timeRangeStart;
+    let query = {};
+    query['granularity'] = granularity;
+    if (isAssigned(timeRangeStart)) {
+      query['timerange_start'] = moment(timeRangeStart, 'DD.MM.YYYY, hh:mm:ss').unix();
     }
-    if (!isUnassigned(timeRangeEnd)) {
-      query.timerange_end = timeRangeEnd;
+    if (isAssigned(timeRangeEnd)) {
+      query['timerange_end'] = moment(timeRangeEnd, 'DD.MM.YYYY, hh:mm:ss').unix();
     }
     return query;
   }
@@ -289,7 +288,7 @@ function isInt(value) {
   return /^\d+$/.test(value);
 }
 
-function isUnassigned(varToCheck) {
+function isAssigned(varToCheck) {
   return ((typeof (varToCheck) !== 'undefined') && (varToCheck !== null));
 }
 
