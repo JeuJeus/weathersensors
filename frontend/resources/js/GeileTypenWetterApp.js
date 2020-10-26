@@ -47,7 +47,7 @@ class GeileTypenWetterApp {
   }
 
   setDomElements(granularityInputSelector, yAxisToggleSelector, sensorPlottingSelector, sensorPlotLocationSelector, temperatureNowSelector,
-    humidityNowSelector, airPressureNowSelector, sensorDropdownSelector, resetRangeButton, dateTimeRangePicker) {
+    humidityNowSelector, airPressureNowSelector, sensorDropdownSelector, resetRangeButton) {
     this.granularityInput = document.querySelector(granularityInputSelector);
     this.yAxisToggleButton = document.querySelector(yAxisToggleSelector);
     this.sensorPlotting = document.querySelector(sensorPlottingSelector);
