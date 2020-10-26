@@ -1,4 +1,4 @@
-class SensorTableFiller {
+class AdminApp {
   constructor(serverURI) {
     this.serverURI = serverURI;
     this.sensorTable = document.getElementById('sensorTable');
@@ -102,5 +102,5 @@ function showAndDismissAlert(type, message) {
 }
 
 module.exports = {
-  'SensorTableFiller': SensorTableFiller,
+  'AdminApp': AdminApp,
 };

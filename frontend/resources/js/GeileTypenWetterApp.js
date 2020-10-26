@@ -1,3 +1,5 @@
+const controller = require('./GeileTypenWetterAppController');
+
 class GeileTypenWetterApp {
   // DOM - Elements
   granularityInput = document.createElement('input');
@@ -8,6 +10,7 @@ class GeileTypenWetterApp {
   humidityNow = document.createElement('h3');
   airPressureNow = document.createElement('h3');
   sensorSelectDropdown = document.createElement('h3');
+  chartCanvasElement = document.createElement('canvas');
 
   // current state
   granularity = 50;
@@ -25,13 +28,14 @@ class GeileTypenWetterApp {
   updateInterval = 1000 * 60;
 
   // datepicker
-  rangePicker;
+  dateTimeRangePickerElement = document.createElement('input');
+  dateTimeRangePicker;
   pickerStart;
   pickerEnd;
+  resetRangeButton = document.createElement('button');
 
-  constructor(serverURI, dateTimeRangePicker) {
+  constructor(serverURI) {
     this.serverURI = serverURI;
-    this.dateTimeRangePicker = dateTimeRangePicker;
   }
 
   init() {
@@ -47,7 +51,7 @@ class GeileTypenWetterApp {
   }
 
   setDomElements(granularityInputSelector, yAxisToggleSelector, sensorPlottingSelector, sensorPlotLocationSelector, temperatureNowSelector,
-    humidityNowSelector, airPressureNowSelector, sensorDropdownSelector, resetRangeButton) {
+    humidityNowSelector, airPressureNowSelector, sensorDropdownSelector, resetRangeButtonSelector, chartCanvasSelector, dateTimeRangePickerSelector) {
     this.granularityInput = document.querySelector(granularityInputSelector);
     this.yAxisToggleButton = document.querySelector(yAxisToggleSelector);
     this.sensorPlotting = document.querySelector(sensorPlottingSelector);
@@ -56,8 +60,9 @@ class GeileTypenWetterApp {
     this.humidityNow = document.querySelector(humidityNowSelector);
     this.airPressureNow = document.querySelector(airPressureNowSelector);
     this.sensorSelectDropdown = document.querySelector(sensorDropdownSelector);
-    this.resetRangeButton = document.querySelector(resetRangeButton);
-
+    this.resetRangeButton = document.querySelector(resetRangeButtonSelector);
+    this.chartCanvasElement = document.querySelector(chartCanvasSelector);
+    this.dateTimeRangePickerElement = document.querySelector(dateTimeRangePickerSelector);
   }
 
   extractStartAndEndFromTimestamps(timestamps) {
@@ -71,9 +76,9 @@ class GeileTypenWetterApp {
     this.updateCharts(this.sensorToPlot, this.granularity, this.pickerStart, this.pickerEnd, this.serverURI);
   }
 
-  createDateTimePicker(dateTimeRangePicker, resetRangeButton) {
+  createDateTimePicker(dateTimeRangePickerElement, resetRangeButton) {
     //TODO check whether Max and Min Values are possible (doable but dynamic setting may be to difficult for the purpose)
-    this.rangePicker = $(`${dateTimeRangePicker}`).daterangepicker({
+    return $(dateTimeRangePickerElement).daterangepicker({
       opens: 'center',
       startDate: this.pickerStart,
       endDate: this.pickerEnd,
@@ -86,29 +91,29 @@ class GeileTypenWetterApp {
       },
     }, (start, end, label) => {
       this.updateChartsByPickedRange(start, end);
-      this.toggleRangeSelectionActive(dateTimeRangePicker, resetRangeButton);
+      this.toggleRangeSelectionActive(dateTimeRangePickerElement, resetRangeButton);
     });
   }
 
-  toggleRangeSelectionActive(dateTimeRangePicker, resetRangeButton) {
-    document.querySelector(dateTimeRangePicker).classList.toggle('bg-pink');
+  toggleRangeSelectionActive(dateTimeRangePickerElement, resetRangeButton) {
+    dateTimeRangePickerElement.classList.toggle('bg-pink');
     resetRangeButton.classList.toggle('hidden');
   }
 
   updateRangePicker() {
-    this.rangePicker.data('daterangepicker').setStartDate(this.pickerStart);
-    this.rangePicker.data('daterangepicker').setEndDate(this.pickerEnd);
+    this.dateTimeRangePicker.data('daterangepicker').setStartDate(this.pickerStart);
+    this.dateTimeRangePicker.data('daterangepicker').setEndDate(this.pickerEnd);
   }
 
   resetRangePicker() {
     this.pickerStart = undefined;
     this.pickerEnd = undefined;
     this.updateDataOnPage();
-    this.toggleRangeSelectionActive(this.dateTimeRangePicker, this.resetRangeButton);
+    this.toggleRangeSelectionActive(this.dateTimeRangePickerElement, this.resetRangeButton);
   }
 
-  createChart(chartCanvasName, data, timestamps, tempValues, humidValues, airPressValues, tempColor, airPressColor, humidColor) {
-    const chart = document.getElementById(chartCanvasName).getContext('2d');
+  createChart(chartCanvasElement, data, timestamps, tempValues, humidValues, airPressValues, tempColor, airPressColor, humidColor) {
+    const chart = chartCanvasElement.getContext('2d');
 
     return new Chart(chart, {
       type: 'line',
@@ -177,27 +182,9 @@ class GeileTypenWetterApp {
     });
   }
 
-  mapValuesOfData(data) {
-    const timestamps = data.sensorData.map(
-      // TODO MAYBE TRY TO INSERT TIMESTAMP * 1000 into DB
-      // factor 1000 is needed here in order to convert from unix based on seconds to unix timestamp based on milliseconds
-      (e) => new Date(parseFloat(e.TIMESTAMP) * 1000).toLocaleString('de-DE'),
-    );
-    const temperature = data.sensorData.map(
-      (e) => e.TEMPERATURE,
-    );
-    const humidity = data.sensorData.map(
-      (e) => e.HUMIDITY,
-    );
-    const airPressure = data.sensorData.map(
-      (e) => e.AIRPRESSURE,
-    );
-    return {timestamps, temperature, airPressure, humidity};
-  }
-
   createChartsForSensor(sensorToPlot, granularity, serverURI) {
-    $.get(serverURI + '/sensorData/id/' + sensorToPlot, {'granularity': granularity}, (data) => {
-      const {timestamps, temperature, humidity, airPressure} = this.mapValuesOfData(data);
+    controller.getSensorDataFromServer(sensorToPlot, granularity, undefined, undefined, serverURI).then((data) => {
+      const {timestamps, temperature, humidity, airPressure} = controller.mapValuesOfData(data);
 
       const tempValues = {
         label: 'Temperature',
@@ -213,11 +200,11 @@ class GeileTypenWetterApp {
       };
 
       this.extractStartAndEndFromTimestamps(timestamps);
-      this.createDateTimePicker(this.dateTimeRangePicker, this.resetRangeButton);
+      this.dateTimeRangePicker = this.createDateTimePicker(this.dateTimeRangePickerElement, this.resetRangeButton);
 
-      this.unifiedChart = this.createChart('Sensor Data', data, timestamps, tempValues, humidValues, airPressValues,
-        this.temperatureColor, this.airpressureColor, this.humidityColor);
-      $.get(serverURI + '/sensor/id/' + sensorToPlot, (data) => {
+      this.unifiedChart = this.createChart(this.chartCanvasElement, data, timestamps, tempValues, humidValues, airPressValues,
+          this.temperatureColor, this.airpressureColor, this.humidityColor);
+      controller.getSensorFromServer(sensorToPlot, serverURI).then((data) => {
         this.setValuesToBeDisplayed(data.sensor, temperature.slice(-1)[0], humidity.slice(-1)[0], airPressure.slice(-1)[0]);
       });
     });
@@ -239,37 +226,24 @@ class GeileTypenWetterApp {
     chart.update();
   }
 
-  createUpdateQuery(granularity, timeRangeStart, timeRangeEnd) {
-    let query = {};
-    query['granularity'] = granularity;
-    if (isAssigned(timeRangeStart)) {
-      query['timerange_start'] = moment(timeRangeStart, 'DD.MM.YYYY, HH:mm:ss').unix();
-    }
-    if (isAssigned(timeRangeEnd)) {
-      query['timerange_end'] = moment(timeRangeEnd, 'DD.MM.YYYY, HH:mm:ss').unix();
-    }
-    return query;
-  }
-
   updateCharts(sensorToPlot, granularity, timeRangeStart, timeRangeEnd, serverURI) {
     //TODO FIX ME THIS BREAKS AUTOUPDATE
-    let updateQuery = this.createUpdateQuery(granularity, timeRangeStart, timeRangeEnd);
-    $.get(serverURI + '/sensorData/id/' + sensorToPlot, updateQuery, (data) => {
-      const {timestamps, temperature, humidity, airPressure} = this.mapValuesOfData(data);
+    controller.getSensorDataFromServer(sensorToPlot, granularity, timeRangeStart, timeRangeEnd, serverURI).then((data) => {
+      const {timestamps, temperature, humidity, airPressure} = controller.mapValuesOfData(data);
 
       this.extractStartAndEndFromTimestamps(timestamps);
       this.updateRangePicker();
 
       this.updateChart(this.unifiedChart, timestamps, temperature, humidity, airPressure);
 
-      $.get(serverURI + '/sensor/id/' + sensorToPlot, (data) => {
+      controller.getSensorFromServer(sensorToPlot, serverURI).then((data) => {
         this.setValuesToBeDisplayed(data.sensor, temperature.slice(-1)[0], humidity.slice(-1)[0], airPressure.slice(-1)[0]);
       });
     });
   }
 
   updateSensorsDropdown(granularity, pickerStart, pickerEnd, serverURI) {
-    $.get(serverURI + '/sensors/', (data) => {
+    controller.getSensorsFromServer(serverURI).then((data) => {
       this.sensorSelectDropdown.querySelectorAll('*').forEach((n) => n.remove());
 
       data.sensors.forEach((s) => {
@@ -330,10 +304,6 @@ function enterKeyPressed(e) {
 
 function isInt(value) {
   return /^\d+$/.test(value);
-}
-
-function isAssigned(varToCheck) {
-  return ((typeof (varToCheck) !== 'undefined') && (varToCheck !== null));
 }
 
 // ######################################################################
