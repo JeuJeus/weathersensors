@@ -10,9 +10,9 @@ const JSDOM_OPTIONS = {
 };
 
 async function setJSDom() {
-  const x = await JSDOM.fromFile('static/index.html', JSDOM_OPTIONS);
-  global.window = x.window;
-  global.document = x.window.document;
+  const dom = await JSDOM.fromFile('static/index.html', JSDOM_OPTIONS);
+  global.window = dom.window;
+  global.document = dom.window.document;
 }
 describe('-- APP TESTS -- ', () => {
   before(async () => {
