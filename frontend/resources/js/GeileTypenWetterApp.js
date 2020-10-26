@@ -47,8 +47,6 @@ class GeileTypenWetterApp {
   }
 
   updateChartsByPickedRange(start, end) {
-    console.log('before' + this.pickerStart + this.pickerEnd);
-    console.log('here' + start + end);
     this.pickerStart = start;
     this.pickerEnd = end;
     this.updateCharts(this.sensorToPlot, this.granularity, this.pickerStart, this.pickerEnd, this.serverURI);
