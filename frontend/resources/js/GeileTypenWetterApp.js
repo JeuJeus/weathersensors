@@ -1,25 +1,25 @@
 class GeileTypenWetterApp {
   // DOM - Elements
-  granularityInput;
-  yAxisToggleButton;
-  sensorPlotting;
-  sensorPlottingLocation;
-  temperatureNow;
-  humidityNow;
-  airPressureNow;
-  sensorSelectDropdown;
+  granularityInput = document.createElement('input');
+  yAxisToggleButton = document.createElement('button');
+  sensorPlotting = document.createElement('h3');
+  sensorPlottingLocation = document.createElement('span');
+  temperatureNow = document.createElement('h3');
+  humidityNow = document.createElement('h3');
+  airPressureNow = document.createElement('h3');
+  sensorSelectDropdown = document.createElement('h3');
 
   // current state
-  granularity;
+  granularity = 50;
   sensorToPlot = 1;
   sensors = [];
   sensorData = [];
   unifiedChart;
 
   // config
-  temperatureColor;
-  humidityColor;
-  airpressureColor;
+  temperatureColor = 'red';
+  humidityColor = 'blue';
+  airpressureColor = 'green';
 
   serverURI = 'localhost:3000';
   updateInterval = 1000 * 60;
@@ -30,12 +30,7 @@ class GeileTypenWetterApp {
   pickerStart;
   pickerEnd;
 
-  constructor(serverURI, granularityInputSelector, yAxisToggleSelector, sensorPlottingSelector, sensorPlotLocationSelector,
-              temperatureNowSelector, humidityNowSelector, airPressureNowSelector, sensorDropdownSelector, rangePickerSelector) {
-
-    this.initDomElements(granularityInputSelector, yAxisToggleSelector, sensorPlottingSelector, sensorPlotLocationSelector,
-        temperatureNowSelector, humidityNowSelector, airPressureNowSelector, sensorDropdownSelector);
-
+  constructor(serverURI, rangePickerSelector) {
     this.serverURI = serverURI;
     this.rangePickerSelector = rangePickerSelector;
   }
@@ -51,7 +46,7 @@ class GeileTypenWetterApp {
     setInterval(this.updateDataOnPage.bind(this), this.updateInterval);
   }
 
-  initDomElements(granularityInputSelector, yAxisToggleSelector, sensorPlottingSelector, sensorPlotLocationSelector, temperatureNowSelector,
+  setDomElements(granularityInputSelector, yAxisToggleSelector, sensorPlottingSelector, sensorPlotLocationSelector, temperatureNowSelector,
                   humidityNowSelector, airPressureNowSelector, sensorDropdownSelector){
     this.granularityInput = document.querySelector(granularityInputSelector);
     this.yAxisToggleButton = document.querySelector(yAxisToggleSelector);
