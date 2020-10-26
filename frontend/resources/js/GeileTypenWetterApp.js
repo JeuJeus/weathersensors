@@ -21,6 +21,7 @@ class GeileTypenWetterApp {
   humidityColor;
   airpressureColor;
 
+  //TODO FIX ME @PR WIESO IST DAS HIER?
   serverURI = 'localhost';
   updateInterval = 1000 * 60;
 
