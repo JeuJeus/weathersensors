@@ -21,8 +21,7 @@ class GeileTypenWetterApp {
   humidityColor;
   airpressureColor;
 
-  //TODO FIX ME @PR WIESO IST DAS HIER?
-  serverURI = 'localhost';
+  serverURI = 'localhost:3000';
   updateInterval = 1000 * 60;
 
   // datepicker
