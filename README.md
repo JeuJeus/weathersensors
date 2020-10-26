@@ -24,4 +24,7 @@ ohne Docker Registries (e.g. Docker.io) in Anspruch nehmen zu müssen.
 #### Frontend StartCommand:
 ```docker run -p 3344:3344 --name awe2-frontend -it awe2/frontend:beta```
 
+## Easter Eggs
+There are no Easter Eggs in our Code. We are serious programmers like Kazuhisa Hashimoto from Konami.
+
 
