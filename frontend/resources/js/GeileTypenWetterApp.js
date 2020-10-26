@@ -55,12 +55,12 @@ class GeileTypenWetterApp {
                   humidityNowSelector, airPressureNowSelector, sensorDropdownSelector){
     this.granularityInput = document.querySelector(granularityInputSelector);
     this.yAxisToggleButton = document.querySelector(yAxisToggleSelector);
-    this.sensorPlotting = document.getElementById(sensorPlottingSelector);
-    this.sensorPlottingLocation = document.getElementById(sensorPlotLocationSelector);
-    this.temperatureNow = document.getElementById(temperatureNowSelector);
-    this.humidityNow = document.getElementById(humidityNowSelector);
-    this.airPressureNow = document.getElementById(airPressureNowSelector);
-    this.sensorSelectDropdown = document.getElementById(sensorDropdownSelector);
+    this.sensorPlotting = document.querySelector(sensorPlottingSelector);
+    this.sensorPlottingLocation = document.querySelector(sensorPlotLocationSelector);
+    this.temperatureNow = document.querySelector(temperatureNowSelector);
+    this.humidityNow = document.querySelector(humidityNowSelector);
+    this.airPressureNow = document.querySelector(airPressureNowSelector);
+    this.sensorSelectDropdown = document.querySelector(sensorDropdownSelector);
   }
 
   extractStartAndEndFromTimestamps(timestamps) {
@@ -76,7 +76,7 @@ class GeileTypenWetterApp {
 
   createDateTimePicker(dateTimeRangePicker) {
     //TODO RESTRICT AVAILABLE RANGE TO AVAILABLE DATA?
-    this.rangePicker = $(`input[name=${dateTimeRangePicker}]`).daterangepicker({
+    this.rangePicker = $(`${dateTimeRangePicker}`).daterangepicker({
       opens: 'center',
       startDate: this.pickerStart,
       endDate: this.pickerEnd,

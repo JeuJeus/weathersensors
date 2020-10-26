@@ -35,9 +35,9 @@ describe('-- APP TESTS -- ', () => {
   describe('creating our App', () => {
     it('creates the App in node which has correct SERVER_URI', () => {
       const app = new App.GeileTypenWetterApp(c.SERVER_URI,
-          '#granularity', '#yAxisToggleButton', 'sensorPlotting',
-          'sensorPlottingLocation', 'temperatureNow', 'humidityNow',
-          'airPressureNow', 'sensorForChartDropdown', 'dateTimeRange');
+          '#granularity', '#yAxisToggleButton', '#sensorPlotting',
+          '#sensorPlottingLocation', '#temperatureNow', '#humidityNow',
+          '#airPressureNow', '#sensorForChartDropdown', '#dateTimeRange');
       app.init();
       app.setColors(c.TEMPERATURE_COLOR, c.AIRPRESSURE_COLOR, c.HUMIDITY_COLOR);
       app.setUpdateInterval(c.UPDATE_INTERVAL);
