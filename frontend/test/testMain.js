@@ -1,6 +1,7 @@
 const expect = require('chai').expect;
 const {JSDOM} = require('jsdom'); // no idea why curly braces needed
 const App = require('../resources/js/GeileTypenWetterApp');
+const c = require('../resources/js/Constants');
 App.constants = require('../resources/js/Constants');
 global.$ = require('jquery-jsdom');
 
@@ -33,12 +34,14 @@ describe('-- APP TESTS -- ', () => {
 
   describe('creating our App', () => {
     it('creates the App in node which has correct SERVER_URI', () => {
-      const app = new App.GeileTypenWetterApp(App.constants.TEMPERATURE_COLOR, App.constants.AIRPRESSURE_COLOR, App.constants.HUMIDITY_COLOR, App.constants.SERVER_URI, App.constants.UPDATE_INTERVAL,
+      const app = new App.GeileTypenWetterApp(App.constants.SERVER_URI,
           '#granularity', '#yAxisToggleButton', 'sensorPlotting',
           'sensorPlottingLocation', 'temperatureNow', 'humidityNow',
           'airPressureNow', 'sensorForChartDropdown', '#yAxisToggleButton',
           'sensorPlottingLocation', 'temperatureNow', 'humidityNow', 'airPressureNow', 'sensorForChartDropdown');
       app.init();
+      app.setColors(c.TEMPERATURE_COLOR, c.AIRPRESSURE_COLOR, c.HUMIDITY_COLOR);
+      app.setUpdateInterval(c.UPDATE_INTERVAL);
       expect(app.serverURI).to.deep.equal(App.constants.SERVER_URI);
     });
   });

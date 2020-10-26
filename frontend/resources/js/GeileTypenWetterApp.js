@@ -1,7 +1,31 @@
 class GeileTypenWetterApp {
-  constructor(temperatureColor, airPressureColor, humidityColor, serverURI, updateInterval,
-    granularityInputSelector, yAxisToggleSelector, sensorPlottingSelector, sensorPlotLocationSelector, temperatureNowSelector,
-    humidityNowSelector, airPressureNowSelector, sensorDropdownSelector, rangePickerSelector) {
+  // DOM - Elements
+  granularityInput;
+  yAxisToggleButton;
+  sensorPlotting;
+  sensorPlottingLocation;
+  temperatureNow;
+  humidityNow;
+  airPressureNow;
+  sensorSelectDropdown;
+
+  // current state
+  granularity;
+  sensorToPlot;
+  sensors = [];
+  sensorData = [];
+  unifiedChart;
+
+  // config
+  temperatureColor;
+  humidityColor;
+  airpressureColor;
+
+  serverURI = 'localhost';
+  updateInterval = 1000 * 60;
+  constructor(serverURI,
+      granularityInputSelector, yAxisToggleSelector, sensorPlottingSelector, sensorPlotLocationSelector, temperatureNowSelector,
+      humidityNowSelector, airPressureNowSelector, sensorDropdownSelector, rangePickerSelector) {
     // DOM - Elements
     this.granularityInput = document.querySelector(granularityInputSelector);
     this.yAxisToggleButton = document.querySelector(yAxisToggleSelector);
@@ -16,14 +40,8 @@ class GeileTypenWetterApp {
     this.granularity = this.granularityInput.value;
     this.sensorToPlot = 1;
 
-    this.unifiedChart = undefined;
     // config
-    this.temperatureColor = temperatureColor;
-    this.humidityColor = humidityColor;
-    this.airpressureColor = airPressureColor;
-
     this.serverURI = serverURI;
-    this.updateInterval = updateInterval;
 
     this.rangePickerSelector = rangePickerSelector;
     this.rangePicker = undefined;
@@ -272,13 +290,23 @@ class GeileTypenWetterApp {
     this.sensorToPlot = ID;
     this.updateCharts(this.sensorToPlot, granularity, timeRangeStart, timeRangeEnd, serverURI);
   }
+
+  setColors(temperatureColor, airPressureColor, humidityColor){
+    this.temperatureColor = temperatureColor;
+    this.humidityColor = humidityColor;
+    this.airpressureColor = airPressureColor;
+  }
+
+  setUpdateInterval(updateInterval){
+    this.updateInterval = updateInterval;
+  }
 }
 
 // ######################################################################
 
 // static functions
 function enterKeyPressed(e) {
-  return (e.keyCode ? e.keyCode : e.which) === 13;
+  return e.key === 'Enter';
 }
 
 function isInt(value) {
