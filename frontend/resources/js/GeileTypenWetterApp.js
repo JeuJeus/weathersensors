@@ -243,6 +243,7 @@ class GeileTypenWetterApp {
   }
 
   updateCharts(sensorToPlot, granularity, timeRangeStart, timeRangeEnd, serverURI) {
+    //TODO FIX ME THIS BREAKS AUTOUPDATE
     let updateQuery = this.createUpdateQuery(granularity, timeRangeStart, timeRangeEnd);
     $.get(serverURI + '/sensorData/id/' + sensorToPlot, updateQuery, (data) => {
       const {timestamps, temperature, humidity, airPressure} = this.mapValuesOfData(data);
