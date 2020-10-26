@@ -81,8 +81,11 @@ class GeileTypenWetterApp {
       startDate: this.pickerStart,
       endDate: this.pickerEnd,
       timePicker: true,
+      timePicker24Hour: true,
+      applyButtonClasses: 'btn-green',
+      cancelButtonClasses: 'btn-pink',
       locale: {
-        format: 'DD.MM.YY hh:mm',
+        format: 'DD.MM.YY HH:mm',
       },
     }, (start, end, label) => {
       this.updateChartsByPickedRange(start, end);
@@ -233,7 +236,7 @@ class GeileTypenWetterApp {
       query['timerange_start'] = moment(timeRangeStart, 'DD.MM.YYYY, hh:mm:ss').unix();
     }
     if (isAssigned(timeRangeEnd)) {
-      query['timerange_end'] = moment(timeRangeEnd, 'DD.MM.YYYY, hh:mm:ss').unix();
+      query['timerange_end'] = moment(timeRangeEnd, 'DD.MM.YYYY, HH:mm:ss').unix();
     }
     return query;
   }
