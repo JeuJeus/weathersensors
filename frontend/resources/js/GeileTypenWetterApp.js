@@ -37,13 +37,21 @@ class GeileTypenWetterApp {
     this.granularityInput.addEventListener('keydown', this.granularityOnChange.bind(this, this.granularityInput), false);
 
     this.createChartsForSensor(this.sensorToPlot, this.granularity, this.serverURI);
-    this.updateSensorsDropdown(this.granularity, this.serverURI);
+    this.updateSensorsDropdown(this.granularity, this.pickerStart, this.pickerEnd, this.serverURI);
     setInterval(this.updateDataOnPage.bind(this), this.updateInterval);
   }
 
   extractStartAndEndFromTimestamps(timestamps) {
     this.pickerStart = timestamps[0];
     this.pickerEnd = timestamps[timestamps.length - 1];
+  }
+
+  updateChartsByPickedRange(start, end) {
+    console.log('before' + this.pickerStart + this.pickerEnd);
+    console.log('here' + start + end);
+    this.pickerStart = start;
+    this.pickerEnd = end;
+    this.updateCharts(this.sensorToPlot, this.granularity, this.pickerStart, this.pickerEnd, this.serverURI);
   }
 
   createDateTimePicker(dateTimeRangePicker) {
@@ -54,10 +62,10 @@ class GeileTypenWetterApp {
       timePicker: true,
       locale: {
         format: 'DD.MM.YY hh:mm',
+      }, function(start, end, label) {
+        console.log('schuuuurr');
+        this.updateChartsByPickedRange(start, end);
       },
-    }, function(start, end, label) {
-      //todo update data by query
-      console.log(`A new date selection was made - ${start}-${end}`);
     });
   }
 
@@ -138,18 +146,18 @@ class GeileTypenWetterApp {
 
   mapValuesOfData(data) {
     const timestamps = data.sensorData.map(
-        // TODO MAYBE TRY TO INSERT TIMESTAMP * 1000 into DB
-        // factor 1000 is needed here in order to convert from unix based on seconds to unix timestamp based on milliseconds
-        (e) => new Date(parseFloat(e.TIMESTAMP) * 1000).toLocaleString('de-DE'),
+      // TODO MAYBE TRY TO INSERT TIMESTAMP * 1000 into DB
+      // factor 1000 is needed here in order to convert from unix based on seconds to unix timestamp based on milliseconds
+      (e) => new Date(parseFloat(e.TIMESTAMP) * 1000).toLocaleString('de-DE'),
     );
     const temperature = data.sensorData.map(
-        (e) => e.TEMPERATURE,
+      (e) => e.TEMPERATURE,
     );
     const humidity = data.sensorData.map(
-        (e) => e.HUMIDITY,
+      (e) => e.HUMIDITY,
     );
     const airPressure = data.sensorData.map(
-        (e) => e.AIRPRESSURE,
+      (e) => e.AIRPRESSURE,
     );
     return {timestamps, temperature, airPressure, humidity};
   }
@@ -198,8 +206,22 @@ class GeileTypenWetterApp {
     chart.update();
   }
 
-  updateCharts(sensorToPlot, granularity, serverURI) {
-    $.get(serverURI + '/sensorData/id/' + sensorToPlot, {'granularity': granularity}, (data) => {
+  createUpdateQuery(granularity, timeRangeStart, timeRangeEnd) {
+    let query = {
+      'granularity': granularity,
+    };
+    if (!isUnassigned(timeRangeStart)) {
+      query.timerange_start = timeRangeStart;
+    }
+    if (!isUnassigned(timeRangeEnd)) {
+      query.timerange_end = timeRangeEnd;
+    }
+    return query;
+  }
+
+  updateCharts(sensorToPlot, granularity, timeRangeStart, timeRangeEnd, serverURI) {
+    let updateQuery = this.createUpdateQuery(granularity, timeRangeStart, timeRangeEnd);
+    $.get(serverURI + '/sensorData/id/' + sensorToPlot, updateQuery, (data) => {
       const {timestamps, temperature, humidity, airPressure} = this.mapValuesOfData(data);
 
       this.extractStartAndEndFromTimestamps(timestamps);
@@ -213,7 +235,7 @@ class GeileTypenWetterApp {
     });
   }
 
-  updateSensorsDropdown(granularity, serverURI) {
+  updateSensorsDropdown(granularity, pickerStart, pickerEnd, serverURI) {
     $.get(serverURI + '/sensors/', (data) => {
       this.sensorSelectDropdown.querySelectorAll('*').forEach((n) => n.remove());
 
@@ -221,7 +243,7 @@ class GeileTypenWetterApp {
         const sensorLink = document.createElement('a');
         sensorLink.classList.add('dropdown-item');
         sensorLink.textContent = `${s.ID} - ${s.LOCATION}`;
-        sensorLink.onclick = this.sensorLinkOnClick.bind(this, parseInt(s.ID), granularity, serverURI);
+        sensorLink.onclick = this.sensorLinkOnClick.bind(this, parseInt(s.ID), granularity, pickerStart, pickerEnd, serverURI);
         this.sensorSelectDropdown.append(sensorLink);
       });
     });
@@ -239,8 +261,8 @@ class GeileTypenWetterApp {
   }
 
   updateDataOnPage() {
-    this.updateCharts(this.sensorToPlot, this.granularity, this.serverURI);
-    this.updateSensorsDropdown(this.granularity, this.serverURI);
+    this.updateCharts(this.sensorToPlot, this.granularity, this.pickerStart, this.pickerEnd, this.serverURI);
+    this.updateSensorsDropdown(this.granularity, this.pickerStart, this.pickerEnd, this.serverURI);
   }
 
   yAxisStartToggle() {
@@ -250,9 +272,9 @@ class GeileTypenWetterApp {
     this.unifiedChart.update();
   }
 
-  sensorLinkOnClick(ID, granularity, serverURI) {
+  sensorLinkOnClick(ID, granularity, timeRangeStart, timeRangeEnd, serverURI) {
     this.sensorToPlot = ID;
-    this.updateCharts(this.sensorToPlot, granularity, serverURI);
+    this.updateCharts(this.sensorToPlot, granularity, timeRangeStart, timeRangeEnd, serverURI);
   }
 }
 
@@ -265,6 +287,10 @@ function enterKeyPressed(e) {
 
 function isInt(value) {
   return /^\d+$/.test(value);
+}
+
+function isUnassigned(varToCheck) {
+  return ((typeof (varToCheck) !== 'undefined') && (varToCheck !== null));
 }
 
 // ######################################################################
