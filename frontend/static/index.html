@@ -68,7 +68,7 @@
     </article>
 
     <div class="row borderRadius" id="chartOptions">
-        <div class="col text-center col-12 col-sm-8 col-md-4 mt-0">
+        <div class="col text-center col-12 col-sm-8 col-md-2 mt-0">
             <div class="dropdown buttonMargin">
                 <button class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" type="button">
                     Select Sensor
@@ -77,15 +77,23 @@
                 </div>
             </div>
         </div>
-        <div class="col text-center col-12 col-sm-8 col-md-4 mt-0">
-                <div class="input-group buttonMargin">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">Granularity <i class="leftSpace fas fa-braille"></i></div>
-                    </div>
-                    <input class="form-control inputMargin" id="granularity" name="granularity" type="text" value="50">
+        <div class="col text-center col-12 col-sm-8 col-md-3 mt-0">
+            <div class="input-group buttonMargin">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Granularity <i class="leftSpace fas fa-braille"></i></div>
                 </div>
+                <input class="form-control inputMargin" id="granularity" name="granularity" type="text" value="50">
+            </div>
         </div>
-        <div class="col text-center col-12 col-sm-8 col-md-4 mt-0">
+        <div class="col text-center col-12 col-sm-8 col-md-5 mt-0">
+            <div class="input-group buttonMargin">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Range <i class="leftSpace fas fa-calendar-alt"></i></div>
+                </div>
+                <input name="dateTimeRange" type="text"/>
+            </div>
+        </div>
+        <div class="col text-center col-12 col-sm-8 col-md-2 mt-0">
             <div class="buttonMargin">
                 <button class="btn btn-outline-dark btn-nav" id="yAxisToggleButton" type="button">Toggle Y-Axis Start
                 </button>
@@ -97,8 +105,6 @@
 <div class="container chartz">
     <canvas class="chart" height="600" id="Sensor Data" width="1000"></canvas>
 </div>
-
-<input name="dateTimeRange" type="text" value="01/01/2018 - 01/15/2018"/>
 
 </body>
 
