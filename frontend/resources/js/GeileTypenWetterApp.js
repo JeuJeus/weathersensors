@@ -11,7 +11,7 @@ class GeileTypenWetterApp {
 
   // current state
   granularity;
-  sensorToPlot;
+  sensorToPlot = 1;
   sensors = [];
   sensorData = [];
   unifiedChart;
@@ -23,10 +23,36 @@ class GeileTypenWetterApp {
 
   serverURI = 'localhost';
   updateInterval = 1000 * 60;
-  constructor(serverURI,
-      granularityInputSelector, yAxisToggleSelector, sensorPlottingSelector, sensorPlotLocationSelector, temperatureNowSelector,
-      humidityNowSelector, airPressureNowSelector, sensorDropdownSelector, rangePickerSelector) {
-    // DOM - Elements
+
+  // datepicker
+  rangePickerSelector;
+  rangePicker;
+  pickerStart;
+  pickerEnd;
+
+  constructor(serverURI, granularityInputSelector, yAxisToggleSelector, sensorPlottingSelector, sensorPlotLocationSelector,
+              temperatureNowSelector, humidityNowSelector, airPressureNowSelector, sensorDropdownSelector, rangePickerSelector) {
+
+    this.initDomElements(granularityInputSelector, yAxisToggleSelector, sensorPlottingSelector, sensorPlotLocationSelector,
+        temperatureNowSelector, humidityNowSelector, airPressureNowSelector, sensorDropdownSelector);
+
+    this.serverURI = serverURI;
+    this.rangePickerSelector = rangePickerSelector;
+  }
+
+  init() {
+    this.granularity = this.granularityInput.value;
+
+    this.yAxisToggleButton.addEventListener('click', this.yAxisStartToggle.bind(this), false);
+    this.granularityInput.addEventListener('keydown', this.granularityOnChange.bind(this, this.granularityInput), false);
+
+    this.createChartsForSensor(this.sensorToPlot, this.granularity, this.serverURI);
+    this.updateSensorsDropdown(this.granularity, this.pickerStart, this.pickerEnd, this.serverURI);
+    setInterval(this.updateDataOnPage.bind(this), this.updateInterval);
+  }
+
+  initDomElements(granularityInputSelector, yAxisToggleSelector, sensorPlottingSelector, sensorPlotLocationSelector, temperatureNowSelector,
+                  humidityNowSelector, airPressureNowSelector, sensorDropdownSelector){
     this.granularityInput = document.querySelector(granularityInputSelector);
     this.yAxisToggleButton = document.querySelector(yAxisToggleSelector);
     this.sensorPlotting = document.getElementById(sensorPlottingSelector);
@@ -35,28 +61,6 @@ class GeileTypenWetterApp {
     this.humidityNow = document.getElementById(humidityNowSelector);
     this.airPressureNow = document.getElementById(airPressureNowSelector);
     this.sensorSelectDropdown = document.getElementById(sensorDropdownSelector);
-
-    // current state
-    this.granularity = this.granularityInput.value;
-    this.sensorToPlot = 1;
-
-    // config
-    this.serverURI = serverURI;
-
-    this.rangePickerSelector = rangePickerSelector;
-    this.rangePicker = undefined;
-    this.pickerStart = undefined;
-    this.pickerEnd = undefined;
-  }
-
-  init() {
-    this.yAxisToggleButton.addEventListener('click', this.yAxisStartToggle.bind(this), false);
-
-    this.granularityInput.addEventListener('keydown', this.granularityOnChange.bind(this, this.granularityInput), false);
-
-    this.createChartsForSensor(this.sensorToPlot, this.granularity, this.serverURI);
-    this.updateSensorsDropdown(this.granularity, this.pickerStart, this.pickerEnd, this.serverURI);
-    setInterval(this.updateDataOnPage.bind(this), this.updateInterval);
   }
 
   extractStartAndEndFromTimestamps(timestamps) {
