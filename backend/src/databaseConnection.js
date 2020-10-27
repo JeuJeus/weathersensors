@@ -101,7 +101,6 @@ async function getWeatherDataByIdAndTimestamp(db, id, timestamp) {
 }
 
 async function insertWeatherData(db, weatherData) {
-  // TODO MAKE SURE THE SAME COMBINATION OF SENSOR ID AND TIMESTAMP CANT BE INSERTED JB
   const sql = 'INSERT INTO SENSOR_DATA (SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY) ' +
       'VALUES (?, ?, ?, ?, ?)';
   const params = [weatherData.ID, weatherData.TIMESTAMP, weatherData.TEMPERATURE, weatherData.AIRPRESSURE, weatherData.HUMIDITY];
