@@ -88,8 +88,28 @@ a.nav-item.active, .btn:hover a {
 input[type="text"] {
     width: 55%;
     text-align: center;
+    border: 1px solid #343a40;
+    border-radius: 0 5px 5px 0;
+}
+
+.input-group#dateRangeDiv {
+    margin-left: 45px;
+}
+
+.bg-pink {
+    background-color: #e57fb7 !important;
+    border-radius: 0 !important;
+}
+
+.input-group-append {
     border-radius: 0 5px 5px 0;
     border: 1px solid #343a40;
+}
+
+.input-group-append button {
+    border: none;
+    margin: 1px !important;
+    border-radius: 0 3px 3px 0;
 }
 
 #airPressureNowSection > div, .btn-green {
@@ -101,9 +121,6 @@ input[type="text"] {
     background-color: rgba(0, 204, 109, 0.7);
 }
 
-.bg-pink {
-    background-color: #e57fb7 !important;
-}
 
 #chartOptions {
     background-color: rgba(186, 185, 185, 1);
