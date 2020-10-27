@@ -228,6 +228,7 @@ class GeileTypenWetterApp {
 
   updateCharts(sensorToPlot, granularity, timeRangeStart, timeRangeEnd, serverURI) {
     //TODO BUG: WHEN A TIMERANGE IS FIRST SELECTED ALL IS FINE; IF YOU THEN SELECT A DIFFERENT TIMERANGE INSTEAD OF RESETTING IT STILL RESETS
+    //TODO BUG: WHEN LOADING PAGE WITH EMPTY DB RANGE IS SELECTED BREAKS AUTOUPDATE
     controller.getSensorDataFromServer(sensorToPlot, granularity, timeRangeStart, timeRangeEnd, serverURI).then((data) => {
       const {timestamps, temperature, humidity, airPressure} = controller.mapValuesOfData(data);
 
