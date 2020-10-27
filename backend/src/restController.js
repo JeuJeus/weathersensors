@@ -104,16 +104,23 @@ function errorParsingPostBody(req, res, errors) {
   return res.status(400).json({errors: errors.array()});
 }
 
-app.post('/weatherData', dataValidator.validateSensorDataInBody(), function(req, res) {
+function errorDuplicateValue(req, res, error) {
+  stream.write(`${new Date().toISOString()} - POST REQUEST ATTEMPTED TO INSERT DUPLICATE VALUE FROM [${req.connection.remoteAddress}]\n`);
+  return res.status(400).json({errors: error.message});
+}
+
+app.post('/weatherData', dataValidator.validateSensorDataInBody(), async function (req, res) {
   const errors = validationResult(req);
   if (errors.isEmpty()) {
-    dataValidator.insertWeatherData(db, req.body);
+    const dbErrors = await dataValidator.insertWeatherData(db, req.body);
+    if (dbErrors !== undefined) {
+      return errorDuplicateValue(req, res, dbErrors);
+    }
   } else {
     return errorParsingPostBody(req, res, errors);
   }
   res.send(`${atob('QWxsZSB2b24gdW5zIGVtcGZhbmdlbmVuIFdldHRlcmRhdGVuIHdlcmRlbiBuYWNoIC9kZXYvbnVsbCBnZXBpcGVkLiBBbGxlcyB3YXMgc2llIGltIEZyb250ZW5kIHNlaGVuIGlzdCBmYWtlIHVuZCB3aXJkIGdlbmVyaWVydCwgZGFzIHdhciB3ZW5pZ2VyIEF1ZndhbmQu')}`);
 });
-
 app.post('/updateSensorLocation', dataValidator.validateSensorLocation(), function(req, res) {
   const errors = validationResult(req);
   if (errors.isEmpty()) {

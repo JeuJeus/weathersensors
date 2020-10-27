@@ -92,6 +92,14 @@ async function getSensorDataById(db, SENSOR_ID) {
   return db.all(sql, params);
 }
 
+async function getWeatherDataByIdAndTimestamp(db, id, timestamp) {
+  const sql = 'SELECT SENSOR_ID, TIMESTAMP ' +
+      'FROM SENSOR_DATA ' +
+      'WHERE SENSOR_ID = ? AND TIMESTAMP = ?';
+  const params = [id, timestamp];
+  return db.get(sql, params);
+}
+
 async function insertWeatherData(db, weatherData) {
   // TODO MAKE SURE THE SAME COMBINATION OF SENSOR ID AND TIMESTAMP CANT BE INSERTED JB
   const sql = 'INSERT INTO SENSOR_DATA (SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY) ' +
@@ -118,4 +126,5 @@ module.exports = {
   'updateSensorLocation': updateSensorLocation,
   'assignSensorIDByMACIfNotExists': assignSensorIDByMACIfNotExists,
   'getSensorIDByMAC': getSensorIDByMAC,
+  'getWeatherDataByIdAndTimestamp': getWeatherDataByIdAndTimestamp,
 };

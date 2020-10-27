@@ -29,7 +29,14 @@ async function getIdFromMacaddress(db, MACADDRESS) {
 async function insertWeatherData(db, weatherData) {
   const result = await getIdFromMacaddress(db, weatherData.MACADDRESS);
   weatherData.ID = result.ID;
-  return dbConnection.insertWeatherData(db, weatherData);
+  const dbresult = await assureUniqueWeatherData(db, weatherData);
+  if (dbresult === undefined) {
+    return await dbConnection.insertWeatherData(db, weatherData);
+  } else return new Error('Duplicate value: ' + weatherData.ID + ' & ' + weatherData.TIMESTAMP + ' already exist in DB');
+}
+
+async function assureUniqueWeatherData(db, weatherData) {
+  return await dbConnection.getWeatherDataByIdAndTimestamp(db, weatherData.ID, weatherData.TIMESTAMP);
 }
 
 module.exports = {
