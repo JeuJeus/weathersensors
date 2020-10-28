@@ -16,7 +16,8 @@ a.nav-item.active, .btn:hover a {
 /*CHARTS*/
 
 .buttonMargin {
-    margin: 1.5em 1em;
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
 }
 
 .chartz {
@@ -86,14 +87,10 @@ a.nav-item.active, .btn:hover a {
 }
 
 input[type="text"] {
-    width: 55%;
+    width: 65%;
     text-align: center;
     border: 1px solid #343a40;
     border-radius: 0 5px 5px 0;
-}
-
-.input-group#dateRangeDiv {
-    margin-left: 45px;
 }
 
 .bg-pink {
@@ -135,4 +132,7 @@ div.alert-messages {
     left: 25%;
     right: 25%;
     z-index: 7000;
+}
+#sensorSelectButton{
+    width: 100%;
 }
