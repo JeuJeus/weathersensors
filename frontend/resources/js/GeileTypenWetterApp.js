@@ -102,10 +102,10 @@ class GeileTypenWetterApp {
   toggleRangeSelectionActive(rangeEnabled, dateTimeRangePickerElement, resetRangeButton) {
     if (rangeEnabled) {
       dateTimeRangePickerElement.classList.add('bg-pink');
-      resetRangeButton.classList.add('disabled');
+      resetRangeButton.disabled = false;
     } else {
       dateTimeRangePickerElement.classList.remove('bg-pink');
-      resetRangeButton.classList.remove('disabled');
+      resetRangeButton.disabled = true;
     }
   }
 
