@@ -1,4 +1,5 @@
 const controller = require('./GeileTypenWetterAppController');
+const rp = require('./AppDateTimePicker');
 
 class GeileTypenWetterApp {
   // DOM - Elements
@@ -43,14 +44,21 @@ class GeileTypenWetterApp {
     this.granularity = this.granularityInput.value;
 
     this.yAxisToggleButton.addEventListener('click', this.yAxisStartToggle.bind(this), false);
-    this.resetRangeButton.addEventListener('click', this.resetRangePicker.bind(this), false);
+    this.resetRangeButton.addEventListener('click', rp.resetRangePicker.bind(this), false);
     this.granularityInput.addEventListener('keydown', this.granularityOnChange.bind(this, this.granularityInput), false);
 
     this.createChartsForSensor(this.sensorToPlot, this.granularity, this.serverURI);
     this.updateSensorsDropdown(this.granularity, this.rangeEnabled, this.pickerStart, this.pickerEnd, this.serverURI);
     setInterval(this.updateDataOnPage.bind(this), this.updateInterval);
 
-    this.dateTimeRangePicker = this.createDateTimePicker(this.dateTimeRangePickerElement, this.resetRangeButton);
+    this.dateTimeRangePicker = rp.createDateTimePicker(this.pickerStart, this.pickerEnd, this.dateTimeRangePickerElement);
+
+    this.dateTimeRangePicker.on("apply.daterangepicker", (e, picker) => {
+      this.rangeEnabled = true;
+      rp.toggleRangeSelectionActive(this.dateTimeRangePickerElement, this.resetRangeButton);
+      rp.updateRangePicker(this.dateTimeRangePicker);
+      this.updateChartsByPickedRange(picker.startDate, picker.endDate);
+    });
   }
 
   setDomElements(granularityInputSelector, yAxisToggleSelector, sensorPlottingSelector, sensorPlotLocationSelector, temperatureNowSelector,
@@ -77,49 +85,6 @@ class GeileTypenWetterApp {
     this.pickerStart = start;
     this.pickerEnd = end;
     this.updateCharts(this.sensorToPlot, this.granularity, this.rangeEnabled, this.pickerStart, this.pickerEnd, this.serverURI);
-  }
-
-  createDateTimePicker(dateTimeRangePickerElement, resetRangeButton) {
-    //TODO check whether Max and Min Values are possible (doable but dynamic setting may be to difficult for the purpose)
-    return $(dateTimeRangePickerElement).daterangepicker({
-      opens: 'center',
-      startDate: this.pickerStart,
-      endDate: this.pickerEnd,
-      timePicker: true,
-      timePicker24Hour: true,
-      applyButtonClasses: 'btn-green',
-      cancelButtonClasses: 'btn-pink',
-      locale: {
-        format: 'DD.MM.YY HH:mm',
-      },
-    }, (start, end) => {
-      this.rangeEnabled = true;
-      this.toggleRangeSelectionActive(this.rangeEnabled, dateTimeRangePickerElement, resetRangeButton);
-      this.updateChartsByPickedRange(start, end);
-    });
-  }
-
-  toggleRangeSelectionActive(rangeEnabled, dateTimeRangePickerElement, resetRangeButton) {
-    if (rangeEnabled) {
-      dateTimeRangePickerElement.classList.add('bg-pink');
-      resetRangeButton.classList.add('disabled');
-    } else {
-      dateTimeRangePickerElement.classList.remove('bg-pink');
-      resetRangeButton.classList.remove('disabled');
-    }
-  }
-
-  updateRangePicker() {
-    this.dateTimeRangePicker.data('daterangepicker').setStartDate(this.pickerStart);
-    this.dateTimeRangePicker.data('daterangepicker').setEndDate(this.pickerEnd);
-  }
-
-  resetRangePicker() {
-    this.pickerStart = undefined;
-    this.pickerEnd = undefined;
-    this.rangeEnabled = false;
-    this.updateDataOnPage();
-    this.toggleRangeSelectionActive(this.rangeEnabled, this.dateTimeRangePickerElement, this.resetRangeButton);
   }
 
   createChart(chartCanvasElement, data, timestamps, tempValues, humidValues, airPressValues, tempColor, airPressColor, humidColor) {
@@ -240,7 +205,7 @@ class GeileTypenWetterApp {
       const {timestamps, temperature, humidity, airPressure} = controller.mapValuesOfData(data);
 
       this.extractStartAndEndFromTimestamps(timestamps);
-      this.updateRangePicker();
+      rp.updateRangePicker(this.dateTimeRangePicker);
 
       this.updateChart(this.unifiedChart, timestamps, temperature, humidity, airPressure);
 
