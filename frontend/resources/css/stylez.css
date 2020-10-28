@@ -133,6 +133,7 @@ div.alert-messages {
     right: 25%;
     z-index: 7000;
 }
-#sensorSelectButton{
+#sensorSelectButton, #yAxisToggleButton{
     width: 100%;
 }
+
