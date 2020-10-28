@@ -18,7 +18,12 @@ class GeileTypenWetterApp {
   granularity = 50;
   sensorToPlot = 1;
   sensors = [];
-  sensorData = [];
+  sensorData = {
+    timestamps: [],
+    temperature: [],
+    humidity: [],
+    airPressure: []
+  };
   unifiedChart;
 
   // config
@@ -42,19 +47,17 @@ class GeileTypenWetterApp {
     this.granularity = this.granularityInput.value;
 
     this.yAxisToggleButton.addEventListener('click', () => {ac.yAxisStartToggle(this.unifiedChart)}, false);
-    this.resetRangeButton.addEventListener('click', () => {this.dateTimeRangePicker.reset(); this.updateDataOnPage()}, false);
+    this.resetRangeButton.addEventListener('click',  this.resetRangeButtonOnClick.bind(this), false);
     this.granularityInput.addEventListener('keydown', this.granularityOnChange.bind(this, this.granularityInput), false);
 
     this.unifiedChart = ac.createChart(this.chartCanvasElement, this.temperatureColor, this.airpressureColor, this.humidityColor);
-    this.updateUnitfiedChart(this.sensorToPlot, this.granularity,false, undefined, undefined, this.serverURI);
-
 
     this.dateTimeRangePicker = new rp.AppDateTimePicker(this.dateTimeRangePickerElement, this.resetRangeButton, () => {
-      this.updateUnitfiedChart(this.sensorToPlot, this.granularity, this.dateTimeRangePicker.enabled, this.dateTimeRangePicker.start, this.dateTimeRangePicker.end, this.serverURI)
+      this.updateUI();
     });
 
-    this.updateSensorsDropdown(this.granularity, this.dateTimeRangePicker.enabled, this.dateTimeRangePicker.start, this.dateTimeRangePicker.end, this.serverURI);
-    setInterval(this.updateDataOnPage.bind(this), this.updateInterval);
+    setInterval(this.updateUI.bind(this), this.updateInterval);
+    this.updateUI();
   }
 
   setDomElements(granularityInputSelector, yAxisToggleSelector, sensorPlottingSelector, sensorPlotLocationSelector, temperatureNowSelector,
@@ -85,54 +88,65 @@ class GeileTypenWetterApp {
     this.airPressureNow.innerText = airPressNow.toFixed(2) + 'mbar';
   }
 
-  updateUnitfiedChart(sensorToPlot, granularity, rangeEnabled, timeRangeStart, timeRangeEnd, serverURI) {
-    controller.getSensorDataFromServer(sensorToPlot, granularity, rangeEnabled, timeRangeStart, timeRangeEnd, serverURI).then((data) => {
-      const {timestamps, temperature, humidity, airPressure} = controller.mapValuesOfData(data);
+  async updateUnifiedChart(sensorToPlot, granularity, rangeEnabled, timeRangeStart, timeRangeEnd, serverURI) {
+    await this.updateSensorData(sensorToPlot, granularity, rangeEnabled, timeRangeStart, timeRangeEnd, serverURI);
 
-      this.setPickerRangeFromTimestamps(timestamps);
-      this.dateTimeRangePicker.update();
+    this.setPickerRangeFromTimestamps(this.sensorData.timestamps);
+    this.dateTimeRangePicker.update();
 
-      ac.updateChart(this.unifiedChart, timestamps, temperature, humidity, airPressure);
+    ac.updateChart(this.unifiedChart, this.sensorData.timestamps, this.sensorData.temperature, this.sensorData.humidity, this.sensorData.airPressure);
 
-      controller.getSensorFromServer(sensorToPlot, serverURI).then((data) => {
-        this.updateLatestValues(data.sensor, temperature.slice(-1)[0], humidity.slice(-1)[0], airPressure.slice(-1)[0]);
-      });
-    });
+    const sensor = (await controller.getSensorFromServer(sensorToPlot, serverURI)).sensor;
+    this.updateLatestValues(sensor, this.sensorData.temperature.slice(-1)[0], this.sensorData.humidity.slice(-1)[0], this.sensorData.airPressure.slice(-1)[0]);
   }
 
-  updateSensorsDropdown(granularity, rangeEnabled, pickerStart, pickerEnd, serverURI) {
-    controller.getSensorsFromServer(serverURI).then((data) => {
-      this.sensorSelectDropdown.querySelectorAll('*').forEach((n) => n.remove());
+  async updateSensorsDropdown(serverURI) {
+    await this.updateSensors(serverURI);
+    this.sensorSelectDropdown.querySelectorAll('*').forEach((n) => n.remove());
 
-      data.sensors.forEach((s) => {
-        const sensorLink = document.createElement('a');
-        sensorLink.classList.add('dropdown-item');
-        sensorLink.textContent = `${s.ID} - ${s.LOCATION}`;
-        sensorLink.onclick = this.sensorLinkOnClick.bind(this, parseInt(s.ID));
-        this.sensorSelectDropdown.append(sensorLink);
-      });
+    this.sensors.forEach((s) => {
+      const sensorLink = document.createElement('a');
+      sensorLink.classList.add('dropdown-item');
+      sensorLink.textContent = `${s.ID} - ${s.LOCATION}`;
+      sensorLink.onclick = this.sensorLinkOnClick.bind(this, parseInt(s.ID));
+      this.sensorSelectDropdown.append(sensorLink);
     });
+
   }
 
+  updateUI() {
+    this.updateUnifiedChart(this.sensorToPlot, this.granularity, this.dateTimeRangePicker.enabled, this.dateTimeRangePicker.start, this.dateTimeRangePicker.end, this.serverURI);
+    this.updateSensorsDropdown(this.serverURI);
+  }
+
+  async updateSensorData(sensorToPlot, granularity, rangeEnabled, timeRangeStart, timeRangeEnd, serverURI){
+    this.sensorData = controller.mapValuesOfData(await controller.getSensorDataFromServer(sensorToPlot, granularity, rangeEnabled, timeRangeStart, timeRangeEnd, serverURI));
+  }
+
+  async updateSensors(serverURI){
+    this.sensors = (await controller.getSensorsFromServer(serverURI)).sensors;
+  }
+
+//  ###### event listeners ######
   granularityOnChange(input, e) {
     if (enterKeyPressed(e) && isInt(input.value)) {
       e.preventDefault();
       const newGranularity = parseInt(input.value);
       if (newGranularity !== this.granularity && newGranularity > 1) {
         this.granularity = parseInt(input.value, 10);
-        this.updateDataOnPage(this.sensorToPlot, this.granularity, this.serverURI);
+        this.updateUI(this.sensorToPlot, this.granularity, this.serverURI);
       }
     }
   }
 
-  updateDataOnPage() {
-    this.updateUnitfiedChart(this.sensorToPlot, this.granularity, this.dateTimeRangePicker.enabled, this.dateTimeRangePicker.start, this.dateTimeRangePicker.end, this.serverURI);
-    this.updateSensorsDropdown(this.granularity, this.dateTimeRangePicker.enabled, this.dateTimeRangePicker.start, this.dateTimeRangePicker.end, this.serverURI);
+  resetRangeButtonOnClick(){
+    this.dateTimeRangePicker.reset();
+    this.updateUI()
   }
 
   sensorLinkOnClick(ID) {
     this.sensorToPlot = ID;
-    this.updateUnitfiedChart(this.sensorToPlot, this.granularity, this.dateTimeRangePicker.enabled, this.dateTimeRangePicker.start, this.dateTimeRangePicker.end, this.serverURI);
+    this.updateUI();
   }
 
   setColors(temperatureColor, airPressureColor, humidityColor) {
