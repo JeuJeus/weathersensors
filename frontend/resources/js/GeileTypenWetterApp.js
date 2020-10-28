@@ -3,6 +3,7 @@ const rp = require('./AppDateTimePicker');
 const ac = require('./AppChart');
 
 class GeileTypenWetterApp {
+  // TODO FIXME EVERYTHING switch sensors bricks daterange
   // DOM - Elements
   granularityInput = document.createElement('input');
   yAxisToggleButton = document.createElement('button');
