@@ -87,7 +87,6 @@ a.nav-item.active, .btn:hover a {
 }
 
 input[type="text"] {
-    width: 65%;
     text-align: center;
     border: 1px solid #343a40;
     border-radius: 0 5px 5px 0;
