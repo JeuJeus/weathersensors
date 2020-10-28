@@ -21,9 +21,14 @@ function createDateTimePicker(pickerStart, pickerEnd, dateTimeRangePickerElement
     });
 }
 
-function toggleRangeSelectionActive(dateTimeRangePickerElement, resetRangeButton) {
-    dateTimeRangePickerElement.classList.toggle('bg-pink');
-    resetRangeButton.classList.toggle('disabled');
+function toggleRangeSelectionActive(rangeEnabled, dateTimeRangePickerElement, resetRangeButton) {
+    if (rangeEnabled) {
+        dateTimeRangePickerElement.classList.add('bg-pink');
+        resetRangeButton.disabled = false;
+    } else {
+        dateTimeRangePickerElement.classList.remove('bg-pink');
+        resetRangeButton.disabled = true;
+    }
 }
 
 function updateRangePicker(rangepicker) {
@@ -36,7 +41,7 @@ function resetRangePicker() {
     this.pickerEnd = undefined;
     this.rangeEnabled = false;
     this.updateDataOnPage();
-    toggleRangeSelectionActive(this.dateTimeRangePickerElement, this.resetRangeButton);
+    toggleRangeSelectionActive(this.rangeEnabled, this.dateTimeRangePickerElement, this.resetRangeButton);
 }
 
 module.exports = {

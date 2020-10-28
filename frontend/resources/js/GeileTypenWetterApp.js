@@ -55,7 +55,7 @@ class GeileTypenWetterApp {
 
     this.dateTimeRangePicker.on("apply.daterangepicker", (e, picker) => {
       this.rangeEnabled = true;
-      rp.toggleRangeSelectionActive(this.dateTimeRangePickerElement, this.resetRangeButton);
+      rp.toggleRangeSelectionActive(this.rangeEnabled ,this.dateTimeRangePickerElement, this.resetRangeButton);
       rp.updateRangePicker(this.dateTimeRangePicker);
       this.updateChartsByPickedRange(picker.startDate, picker.endDate);
     });
