@@ -53,11 +53,11 @@ class GeileTypenWetterApp {
     this.unifiedChart = ac.createChart(this.chartCanvasElement, this.temperatureColor, this.airpressureColor, this.humidityColor);
 
     this.dateTimeRangePicker = new rp.AppDateTimePicker(this.dateTimeRangePickerElement, this.resetRangeButton, () => {
-      this.updateUI();
+      this.update();
     });
 
-    setInterval(this.updateUI.bind(this), this.updateInterval);
-    this.updateUI();
+    setInterval(this.update.bind(this), this.updateInterval);
+    this.update();
   }
 
   setDomElements(granularityInputSelector, yAxisToggleSelector, sensorPlottingSelector, sensorPlotLocationSelector, temperatureNowSelector,
@@ -75,11 +75,6 @@ class GeileTypenWetterApp {
     this.dateTimeRangePickerElement = document.querySelector(dateTimeRangePickerSelector);
   }
 
-  setPickerRangeFromTimestamps(timestamps) {
-    this.dateTimeRangePicker.start = timestamps[0];
-    this.dateTimeRangePicker.end = timestamps[timestamps.length - 1];
-  }
-
   updateLatestValues(sensor, tempNow, humidNow, airPressNow) {
     this.sensorPlotting.innerText = sensor.ID;
     this.sensorPlottingLocation.innerText = sensor.LOCATION ? sensor.LOCATION : '';
@@ -88,20 +83,7 @@ class GeileTypenWetterApp {
     this.airPressureNow.innerText = airPressNow.toFixed(2) + 'mbar';
   }
 
-  async updateUnifiedChart(sensorToPlot, granularity, rangeEnabled, timeRangeStart, timeRangeEnd, serverURI) {
-    await this.updateSensorData(sensorToPlot, granularity, rangeEnabled, timeRangeStart, timeRangeEnd, serverURI);
-
-    this.setPickerRangeFromTimestamps(this.sensorData.timestamps);
-    this.dateTimeRangePicker.update();
-
-    ac.updateChart(this.unifiedChart, this.sensorData.timestamps, this.sensorData.temperature, this.sensorData.humidity, this.sensorData.airPressure);
-
-    const sensor = (await controller.getSensorFromServer(sensorToPlot, serverURI)).sensor;
-    this.updateLatestValues(sensor, this.sensorData.temperature.slice(-1)[0], this.sensorData.humidity.slice(-1)[0], this.sensorData.airPressure.slice(-1)[0]);
-  }
-
-  async updateSensorsDropdown(serverURI) {
-    await this.updateSensors(serverURI);
+  async updateSensorsDropdown() {
     this.sensorSelectDropdown.querySelectorAll('*').forEach((n) => n.remove());
 
     this.sensors.forEach((s) => {
@@ -111,20 +93,30 @@ class GeileTypenWetterApp {
       sensorLink.onclick = this.sensorLinkOnClick.bind(this, parseInt(s.ID));
       this.sensorSelectDropdown.append(sensorLink);
     });
-
   }
 
-  updateUI() {
-    this.updateUnifiedChart(this.sensorToPlot, this.granularity, this.dateTimeRangePicker.enabled, this.dateTimeRangePicker.start, this.dateTimeRangePicker.end, this.serverURI);
-    this.updateSensorsDropdown(this.serverURI);
+  updateDateTimeRangePicker() {
+    if (!this.dateTimeRangePicker.enabled){
+      this.dateTimeRangePicker.start = this.sensorData.timestamps[0];
+      this.dateTimeRangePicker.end = this.sensorData.timestamps[this.sensorData.timestamps.length - 1];
+    }
+    this.dateTimeRangePicker.update();
   }
 
-  async updateSensorData(sensorToPlot, granularity, rangeEnabled, timeRangeStart, timeRangeEnd, serverURI){
-    this.sensorData = controller.mapValuesOfData(await controller.getSensorDataFromServer(sensorToPlot, granularity, rangeEnabled, timeRangeStart, timeRangeEnd, serverURI));
+  async update() {
+    this.sensorData = controller.mapValuesOfData(await controller.getSensorDataFromServer(this.sensorToPlot, this.granularity,
+        this.dateTimeRangePicker.enabled, this.dateTimeRangePicker.start, this.dateTimeRangePicker.end, this.serverURI));
+    this.sensors = (await controller.getSensorsFromServer(this.serverURI)).sensors;
+    const sensor = (await controller.getSensorFromServer(this.sensorToPlot, this.serverURI)).sensor;
+    this.updateUI(sensor);
   }
 
-  async updateSensors(serverURI){
-    this.sensors = (await controller.getSensorsFromServer(serverURI)).sensors;
+   updateUI(sensor) {
+    this.updateDateTimeRangePicker();
+    this.updateLatestValues(sensor, this.sensorData.temperature.slice(-1)[0], this.sensorData.humidity.slice(-1)[0], this.sensorData.airPressure.slice(-1)[0]);
+    ac.updateChart(this.unifiedChart, this.sensorData.timestamps, this.sensorData.temperature, this.sensorData.humidity, this.sensorData.airPressure);
+
+    this.updateSensorsDropdown();
   }
 
 //  ###### event listeners ######
@@ -134,21 +126,22 @@ class GeileTypenWetterApp {
       const newGranularity = parseInt(input.value);
       if (newGranularity !== this.granularity && newGranularity > 1) {
         this.granularity = parseInt(input.value, 10);
-        this.updateUI(this.sensorToPlot, this.granularity, this.serverURI);
+        this.update(this.sensorToPlot, this.granularity, this.serverURI);
       }
     }
   }
 
-  resetRangeButtonOnClick(){
+  resetRangeButtonOnClick() {
     this.dateTimeRangePicker.reset();
-    this.updateUI()
+    this.update()
   }
 
   sensorLinkOnClick(ID) {
     this.sensorToPlot = ID;
-    this.updateUI();
+    this.update();
   }
 
+  // ### setters to override default values ### //
   setColors(temperatureColor, airPressureColor, humidityColor) {
     this.temperatureColor = temperatureColor;
     this.humidityColor = humidityColor;

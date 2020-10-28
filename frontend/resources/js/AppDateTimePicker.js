@@ -1,4 +1,3 @@
-//TODO check if autoupdate removes timerange which has been set already
 class AppDateTimePicker{
     picker;
     domElement;
@@ -63,9 +62,6 @@ class AppDateTimePicker{
         }, onChange);
     }
 }
-
-
-
 
 module.exports = {
     AppDateTimePicker: AppDateTimePicker,
