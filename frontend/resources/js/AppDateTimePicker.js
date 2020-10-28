@@ -5,7 +5,7 @@ class AppDateTimePicker{
     start;
     end;
     resetButton;
-    ACTIVE_COLOR_CLASS;
+    ACTIVE_COLOR_CLASS = 'bg-pink';
 
     constructor(domElement, resetButton, callBackOnChange) {
         this.domElement = domElement;
@@ -13,14 +13,9 @@ class AppDateTimePicker{
         this.start = undefined;
         this.end = undefined;
         this.resetButton = resetButton;
-        this.ACTIVE_COLOR_CLASS = 'bg-pink';
         this.picker = this.createDateTimePicker(this.domElement, this.start, this.end, callBackOnChange);
     }
 
-
-    init (callBackOnChange){
-
-    }
     toggleRangeSelectionActive() {
         if (this.enabled) {
             this.domElement.classList.add(this.ACTIVE_COLOR_CLASS);
@@ -32,8 +27,8 @@ class AppDateTimePicker{
     }
 
     update() {
-        this.picker.data('daterangepicker').setStartDate(this.pickerStart);
-        this.picker.data('daterangepicker').setEndDate(this.pickerEnd);
+        this.picker.data('daterangepicker').setStartDate(this.start);
+        this.picker.data('daterangepicker').setEndDate(this.end);
     }
 
     reset() {
@@ -66,7 +61,6 @@ class AppDateTimePicker{
             },
         }, onChange);
     }
-
 }
 
 

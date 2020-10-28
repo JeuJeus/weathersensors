@@ -46,11 +46,11 @@ class GeileTypenWetterApp {
     this.granularityInput.addEventListener('keydown', this.granularityOnChange.bind(this, this.granularityInput), false);
 
     this.unifiedChart = ac.createChart(this.chartCanvasElement, this.temperatureColor, this.airpressureColor, this.humidityColor);
-    this.updateCharts(this.sensorToPlot, this.granularity,false, undefined, undefined, this.serverURI);
+    this.updateUnitfiedChart(this.sensorToPlot, this.granularity,false, undefined, undefined, this.serverURI);
 
 
     this.dateTimeRangePicker = new rp.AppDateTimePicker(this.dateTimeRangePickerElement, this.resetRangeButton, () => {
-      this.updateCharts(this.sensorToPlot, this.granularity, this.dateTimeRangePicker.enabled, this.dateTimeRangePicker.start, this.dateTimeRangePicker.end, this.serverURI)
+      this.updateUnitfiedChart(this.sensorToPlot, this.granularity, this.dateTimeRangePicker.enabled, this.dateTimeRangePicker.start, this.dateTimeRangePicker.end, this.serverURI)
     });
 
     this.updateSensorsDropdown(this.granularity, this.dateTimeRangePicker.enabled, this.dateTimeRangePicker.start, this.dateTimeRangePicker.end, this.serverURI);
@@ -85,7 +85,7 @@ class GeileTypenWetterApp {
     this.airPressureNow.innerText = airPressNow.toFixed(2) + 'mbar';
   }
 
-  updateCharts(sensorToPlot, granularity, rangeEnabled, timeRangeStart, timeRangeEnd, serverURI) {
+  updateUnitfiedChart(sensorToPlot, granularity, rangeEnabled, timeRangeStart, timeRangeEnd, serverURI) {
     controller.getSensorDataFromServer(sensorToPlot, granularity, rangeEnabled, timeRangeStart, timeRangeEnd, serverURI).then((data) => {
       const {timestamps, temperature, humidity, airPressure} = controller.mapValuesOfData(data);
 
@@ -108,7 +108,7 @@ class GeileTypenWetterApp {
         const sensorLink = document.createElement('a');
         sensorLink.classList.add('dropdown-item');
         sensorLink.textContent = `${s.ID} - ${s.LOCATION}`;
-        sensorLink.onclick = this.sensorLinkOnClick.bind(this, parseInt(s.ID), granularity, rangeEnabled, pickerStart, pickerEnd, serverURI);
+        sensorLink.onclick = this.sensorLinkOnClick.bind(this, parseInt(s.ID));
         this.sensorSelectDropdown.append(sensorLink);
       });
     });
@@ -126,13 +126,13 @@ class GeileTypenWetterApp {
   }
 
   updateDataOnPage() {
-    this.updateCharts(this.sensorToPlot, this.granularity, this.dateTimeRangePicker.enabled, this.dateTimeRangePicker.start, this.dateTimeRangePicker.end, this.serverURI);
+    this.updateUnitfiedChart(this.sensorToPlot, this.granularity, this.dateTimeRangePicker.enabled, this.dateTimeRangePicker.start, this.dateTimeRangePicker.end, this.serverURI);
     this.updateSensorsDropdown(this.granularity, this.dateTimeRangePicker.enabled, this.dateTimeRangePicker.start, this.dateTimeRangePicker.end, this.serverURI);
   }
 
-  sensorLinkOnClick(ID, granularity, rangeEnabled, timeRangeStart, timeRangeEnd, serverURI) {
+  sensorLinkOnClick(ID) {
     this.sensorToPlot = ID;
-    this.updateCharts(this.sensorToPlot, granularity, rangeEnabled, timeRangeStart, timeRangeEnd, serverURI);
+    this.updateUnitfiedChart(this.sensorToPlot, this.granularity, this.dateTimeRangePicker.enabled, this.dateTimeRangePicker.start, this.dateTimeRangePicker.end, this.serverURI);
   }
 
   setColors(temperatureColor, airPressureColor, humidityColor) {
