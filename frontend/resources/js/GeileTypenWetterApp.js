@@ -30,6 +30,7 @@ class GeileTypenWetterApp {
   // datepicker
   dateTimeRangePickerElement = document.createElement('input');
   dateTimeRangePicker;
+  rangeEnabled = false;
   pickerStart;
   pickerEnd;
   resetRangeButton = document.createElement('button');
@@ -46,8 +47,10 @@ class GeileTypenWetterApp {
     this.granularityInput.addEventListener('keydown', this.granularityOnChange.bind(this, this.granularityInput), false);
 
     this.createChartsForSensor(this.sensorToPlot, this.granularity, this.serverURI);
-    this.updateSensorsDropdown(this.granularity, this.pickerStart, this.pickerEnd, this.serverURI);
+    this.updateSensorsDropdown(this.granularity, this.rangeEnabled, this.pickerStart, this.pickerEnd, this.serverURI);
     setInterval(this.updateDataOnPage.bind(this), this.updateInterval);
+
+    this.dateTimeRangePicker = this.createDateTimePicker(this.dateTimeRangePickerElement, this.resetRangeButton);
   }
 
   setDomElements(granularityInputSelector, yAxisToggleSelector, sensorPlottingSelector, sensorPlotLocationSelector, temperatureNowSelector,
@@ -66,8 +69,6 @@ class GeileTypenWetterApp {
   }
 
   extractStartAndEndFromTimestamps(timestamps) {
-    //TODO BUG: this bricks autoreload no data selected = selected, because set automatically
-    //some way to intercept this would be to toggle a boolean if range should be used in restcall
     this.pickerStart = timestamps[0];
     this.pickerEnd = timestamps[timestamps.length - 1];
   }
@@ -75,7 +76,7 @@ class GeileTypenWetterApp {
   updateChartsByPickedRange(start, end) {
     this.pickerStart = start;
     this.pickerEnd = end;
-    this.updateCharts(this.sensorToPlot, this.granularity, this.pickerStart, this.pickerEnd, this.serverURI);
+    this.updateCharts(this.sensorToPlot, this.granularity, this.rangeEnabled, this.pickerStart, this.pickerEnd, this.serverURI);
   }
 
   createDateTimePicker(dateTimeRangePickerElement, resetRangeButton) {
@@ -91,15 +92,21 @@ class GeileTypenWetterApp {
       locale: {
         format: 'DD.MM.YY HH:mm',
       },
-    }, (start, end, label) => {
+    }, (start, end) => {
+      this.rangeEnabled = true;
+      this.toggleRangeSelectionActive(this.rangeEnabled, dateTimeRangePickerElement, resetRangeButton);
       this.updateChartsByPickedRange(start, end);
-      this.toggleRangeSelectionActive(dateTimeRangePickerElement, resetRangeButton);
     });
   }
 
-  toggleRangeSelectionActive(dateTimeRangePickerElement, resetRangeButton) {
-    dateTimeRangePickerElement.classList.toggle('bg-pink');
-    resetRangeButton.classList.toggle('disabled');
+  toggleRangeSelectionActive(rangeEnabled, dateTimeRangePickerElement, resetRangeButton) {
+    if (rangeEnabled) {
+      dateTimeRangePickerElement.classList.add('bg-pink');
+      resetRangeButton.classList.add('disabled');
+    } else {
+      dateTimeRangePickerElement.classList.remove('bg-pink');
+      resetRangeButton.classList.remove('disabled');
+    }
   }
 
   updateRangePicker() {
@@ -110,8 +117,9 @@ class GeileTypenWetterApp {
   resetRangePicker() {
     this.pickerStart = undefined;
     this.pickerEnd = undefined;
+    this.rangeEnabled = false;
     this.updateDataOnPage();
-    this.toggleRangeSelectionActive(this.dateTimeRangePickerElement, this.resetRangeButton);
+    this.toggleRangeSelectionActive(this.rangeEnabled, this.dateTimeRangePickerElement, this.resetRangeButton);
   }
 
   createChart(chartCanvasElement, data, timestamps, tempValues, humidValues, airPressValues, tempColor, airPressColor, humidColor) {
@@ -185,7 +193,7 @@ class GeileTypenWetterApp {
   }
 
   createChartsForSensor(sensorToPlot, granularity, serverURI) {
-    controller.getSensorDataFromServer(sensorToPlot, granularity, undefined, undefined, serverURI).then((data) => {
+    controller.getSensorDataFromServer(sensorToPlot, granularity, false, undefined, undefined, serverURI).then((data) => {
       const {timestamps, temperature, humidity, airPressure} = controller.mapValuesOfData(data);
 
       const tempValues = {
@@ -202,10 +210,9 @@ class GeileTypenWetterApp {
       };
 
       this.extractStartAndEndFromTimestamps(timestamps);
-      this.dateTimeRangePicker = this.createDateTimePicker(this.dateTimeRangePickerElement, this.resetRangeButton);
 
       this.unifiedChart = this.createChart(this.chartCanvasElement, data, timestamps, tempValues, humidValues, airPressValues,
-          this.temperatureColor, this.airpressureColor, this.humidityColor);
+        this.temperatureColor, this.airpressureColor, this.humidityColor);
       controller.getSensorFromServer(sensorToPlot, serverURI).then((data) => {
         this.setValuesToBeDisplayed(data.sensor, temperature.slice(-1)[0], humidity.slice(-1)[0], airPressure.slice(-1)[0]);
       });
@@ -228,9 +235,8 @@ class GeileTypenWetterApp {
     chart.update();
   }
 
-  updateCharts(sensorToPlot, granularity, timeRangeStart, timeRangeEnd, serverURI) {
-    //TODO BUG: WHEN A TIMERANGE IS FIRST SELECTED ALL IS FINE; IF YOU THEN SELECT A DIFFERENT TIMERANGE INSTEAD OF RESETTING IT STILL RESETS
-    controller.getSensorDataFromServer(sensorToPlot, granularity, timeRangeStart, timeRangeEnd, serverURI).then((data) => {
+  updateCharts(sensorToPlot, granularity, rangeEnabled, timeRangeStart, timeRangeEnd, serverURI) {
+    controller.getSensorDataFromServer(sensorToPlot, granularity, rangeEnabled, timeRangeStart, timeRangeEnd, serverURI).then((data) => {
       const {timestamps, temperature, humidity, airPressure} = controller.mapValuesOfData(data);
 
       this.extractStartAndEndFromTimestamps(timestamps);
@@ -244,7 +250,7 @@ class GeileTypenWetterApp {
     });
   }
 
-  updateSensorsDropdown(granularity, pickerStart, pickerEnd, serverURI) {
+  updateSensorsDropdown(granularity, rangeEnabled, pickerStart, pickerEnd, serverURI) {
     controller.getSensorsFromServer(serverURI).then((data) => {
       this.sensorSelectDropdown.querySelectorAll('*').forEach((n) => n.remove());
 
@@ -252,7 +258,7 @@ class GeileTypenWetterApp {
         const sensorLink = document.createElement('a');
         sensorLink.classList.add('dropdown-item');
         sensorLink.textContent = `${s.ID} - ${s.LOCATION}`;
-        sensorLink.onclick = this.sensorLinkOnClick.bind(this, parseInt(s.ID), granularity, pickerStart, pickerEnd, serverURI);
+        sensorLink.onclick = this.sensorLinkOnClick.bind(this, parseInt(s.ID), granularity, rangeEnabled, pickerStart, pickerEnd, serverURI);
         this.sensorSelectDropdown.append(sensorLink);
       });
     });
@@ -270,8 +276,8 @@ class GeileTypenWetterApp {
   }
 
   updateDataOnPage() {
-    this.updateCharts(this.sensorToPlot, this.granularity, this.pickerStart, this.pickerEnd, this.serverURI);
-    this.updateSensorsDropdown(this.granularity, this.pickerStart, this.pickerEnd, this.serverURI);
+    this.updateCharts(this.sensorToPlot, this.granularity, this.rangeEnabled, this.pickerStart, this.pickerEnd, this.serverURI);
+    this.updateSensorsDropdown(this.granularity, this.rangeEnabled, this.pickerStart, this.pickerEnd, this.serverURI);
   }
 
   yAxisStartToggle() {
@@ -281,18 +287,18 @@ class GeileTypenWetterApp {
     this.unifiedChart.update();
   }
 
-  sensorLinkOnClick(ID, granularity, timeRangeStart, timeRangeEnd, serverURI) {
+  sensorLinkOnClick(ID, granularity, rangeEnabled, timeRangeStart, timeRangeEnd, serverURI) {
     this.sensorToPlot = ID;
-    this.updateCharts(this.sensorToPlot, granularity, timeRangeStart, timeRangeEnd, serverURI);
+    this.updateCharts(this.sensorToPlot, granularity, rangeEnabled, timeRangeStart, timeRangeEnd, serverURI);
   }
 
-  setColors(temperatureColor, airPressureColor, humidityColor){
+  setColors(temperatureColor, airPressureColor, humidityColor) {
     this.temperatureColor = temperatureColor;
     this.humidityColor = humidityColor;
     this.airpressureColor = airPressureColor;
   }
 
-  setUpdateInterval(updateInterval){
+  setUpdateInterval(updateInterval) {
     this.updateInterval = updateInterval;
   }
 }

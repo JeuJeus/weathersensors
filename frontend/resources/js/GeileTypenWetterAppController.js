@@ -16,8 +16,8 @@ function mapValuesOfData(data) {
   return {timestamps, temperature, airPressure, humidity};
 }
 
-async function getSensorDataFromServer(sensorToPlot, granularity, timeRangeStart, timeRangeEnd, serverURI) {
-  const updateQuery = createQuery(granularity, timeRangeStart, timeRangeEnd);
+async function getSensorDataFromServer(sensorToPlot, granularity, rangeEnabled, timeRangeStart, timeRangeEnd, serverURI) {
+  const updateQuery = createQuery(granularity, rangeEnabled, timeRangeStart, timeRangeEnd);
   return await $.get(serverURI + '/sensorData/id/' + sensorToPlot, updateQuery);
 }
 
@@ -29,14 +29,16 @@ async function getSensorsFromServer(serverURI) {
   return await $.get(serverURI + '/sensors/');
 }
 
-function createQuery(granularity, timeRangeStart, timeRangeEnd) {
+function createQuery(granularity, rangeEnabled, timeRangeStart, timeRangeEnd) {
   const query = {};
   query['granularity'] = granularity;
-  if (isAssigned(timeRangeStart)) {
-    query['timerange_start'] = moment(timeRangeStart, 'DD.MM.YYYY, HH:mm:ss').unix();
-  }
-  if (isAssigned(timeRangeEnd)) {
-    query['timerange_end'] = moment(timeRangeEnd, 'DD.MM.YYYY, HH:mm:ss').unix();
+  if (rangeEnabled) {
+    if (isAssigned(timeRangeStart)) {
+      query['timerange_start'] = moment(timeRangeStart, 'DD.MM.YYYY, HH:mm:ss').unix();
+    }
+    if (isAssigned(timeRangeEnd)) {
+      query['timerange_end'] = moment(timeRangeEnd, 'DD.MM.YYYY, HH:mm:ss').unix();
+    }
   }
   return query;
 }
