@@ -1,3 +1,4 @@
+const Chart = require('./chartjs/chart.min');
 
 function updateChart(chart, timestamps, temperature, humidity, airPressure) {
     chart.data.labels = timestamps;

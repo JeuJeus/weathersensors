@@ -1,3 +1,4 @@
+const moment = require('./moment/moment.min');
 function mapValuesOfData(data) {
   const timestamps = data.sensorData.map(
       // TODO MAYBE TRY TO INSERT TIMESTAMP * 1000 into DB

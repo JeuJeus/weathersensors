@@ -1,3 +1,5 @@
+require('./daterangepicker/daterangepicker.min');
+
 class AppDateTimePicker{
     picker;
     domElement;
