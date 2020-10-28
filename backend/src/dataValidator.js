@@ -20,8 +20,6 @@ function validateSensorLocation() {
 }
 
 async function getIdFromMacaddress(db, MACADDRESS) {
-  // TODO STREAM WRITE INSTEAD OF CONSOLE LOG AND ONLY LOG WHEN NEW MACADDRESS JB
-  console.log(`${new Date().toISOString()} - RECEIVED MACADDRESS [${MACADDRESS}]`);
   await dbConnection.assignSensorIDByMACIfNotExists(db, MACADDRESS);
   return dbConnection.getSensorIDByMAC(db, MACADDRESS);
 }
