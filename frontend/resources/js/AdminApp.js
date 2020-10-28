@@ -16,7 +16,6 @@ class AdminApp {
   }
 
   buildLocationEntry(sensor, row) {
-    // TODO MAYBE REFACTOR INTO OWN STATIC CLASS
     row.insertCell(2).appendChild(this.createInputGroupWithButton(sensor));
   }
 
