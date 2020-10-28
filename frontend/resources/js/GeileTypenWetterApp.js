@@ -48,13 +48,9 @@ class GeileTypenWetterApp {
     this.unifiedChart = ac.createChart(this.chartCanvasElement, this.temperatureColor, this.airpressureColor, this.humidityColor);
     this.updateCharts(this.sensorToPlot, this.granularity,false, undefined, undefined, this.serverURI);
 
-    this.dateTimeRangePicker = new rp.AppDateTimePicker(this.dateTimeRangePickerElement, this.resetRangeButton);
 
-    this.dateTimeRangePicker.picker.on("apply.daterangepicker", (e, picker) => {
-      this.dateTimeRangePicker.enabled = true;
-      this.dateTimeRangePicker.toggleRangeSelectionActive();
-      this.dateTimeRangePicker.update();
-      this.updateChartsByPickedRange(picker.startDate, picker.endDate);
+    this.dateTimeRangePicker = new rp.AppDateTimePicker(this.dateTimeRangePickerElement, this.resetRangeButton, () => {
+      this.updateCharts(this.sensorToPlot, this.granularity, this.dateTimeRangePicker.enabled, this.dateTimeRangePicker.start, this.dateTimeRangePicker.end, this.serverURI)
     });
 
     this.updateSensorsDropdown(this.granularity, this.dateTimeRangePicker.enabled, this.dateTimeRangePicker.start, this.dateTimeRangePicker.end, this.serverURI);
@@ -79,12 +75,6 @@ class GeileTypenWetterApp {
   setPickerRangeFromTimestamps(timestamps) {
     this.dateTimeRangePicker.start = timestamps[0];
     this.dateTimeRangePicker.end = timestamps[timestamps.length - 1];
-  }
-
-  updateChartsByPickedRange(start, end) {
-    this.dateTimeRangePicker.start = start;
-    this.dateTimeRangePicker.end = end;
-    this.updateCharts(this.sensorToPlot, this.granularity, this.dateTimeRangePicker.enabled, this.dateTimeRangePicker.start, this.dateTimeRangePicker.end, this.serverURI);
   }
 
   updateLatestValues(sensor, tempNow, humidNow, airPressNow) {
