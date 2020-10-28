@@ -8,10 +8,11 @@ function updateChart(chart, timestamps, temperature, humidity, airPressure) {
 }
 
 function yAxisStartToggle(chart) {
-    chart.unifiedChart.options.scales.yAxes.forEach((yAxis) => {
+    console.log(chart);
+    chart.options.scales.yAxes.forEach((yAxis) => {
         yAxis.ticks.beginAtZero = !yAxis.ticks.beginAtZero;
     });
-    this.unifiedChart.update();
+    chart.update();
 }
 
 function createChart(canvas, tempColor, airPressColor, humidColor) {
