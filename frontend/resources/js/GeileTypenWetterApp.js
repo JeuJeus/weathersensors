@@ -31,9 +31,6 @@ class GeileTypenWetterApp {
   // datepicker
   dateTimeRangePickerElement = document.createElement('input');
   dateTimeRangePicker;
-  rangeEnabled = false;
-  pickerStart;
-  pickerEnd;
   resetRangeButton = document.createElement('button');
 
   constructor(serverURI) {
@@ -44,21 +41,22 @@ class GeileTypenWetterApp {
     this.granularity = this.granularityInput.value;
 
     this.yAxisToggleButton.addEventListener('click', this.yAxisStartToggle.bind(this), false);
-    this.resetRangeButton.addEventListener('click', rp.resetRangePicker.bind(this), false);
+    this.resetRangeButton.addEventListener('click', () => {this.dateTimeRangePicker.reset(); this.updateDataOnPage()}, false);
     this.granularityInput.addEventListener('keydown', this.granularityOnChange.bind(this, this.granularityInput), false);
 
     this.createChartsForSensor(this.sensorToPlot, this.granularity, this.serverURI);
-    this.updateSensorsDropdown(this.granularity, this.rangeEnabled, this.pickerStart, this.pickerEnd, this.serverURI);
-    setInterval(this.updateDataOnPage.bind(this), this.updateInterval);
 
-    this.dateTimeRangePicker = rp.createDateTimePicker(this.pickerStart, this.pickerEnd, this.dateTimeRangePickerElement);
+    this.dateTimeRangePicker = new rp.AppDateTimePicker(this.dateTimeRangePickerElement, this.resetRangeButton);
 
-    this.dateTimeRangePicker.on("apply.daterangepicker", (e, picker) => {
-      this.rangeEnabled = true;
-      rp.toggleRangeSelectionActive(this.rangeEnabled ,this.dateTimeRangePickerElement, this.resetRangeButton);
-      rp.updateRangePicker(this.dateTimeRangePicker);
+    this.dateTimeRangePicker.picker.on("apply.daterangepicker", (e, picker) => {
+      this.dateTimeRangePicker.enabled = true;
+      this.dateTimeRangePicker.toggleRangeSelectionActive();
+      this.dateTimeRangePicker.update();
       this.updateChartsByPickedRange(picker.startDate, picker.endDate);
     });
+
+    this.updateSensorsDropdown(this.granularity, this.dateTimeRangePicker.enabled, this.dateTimeRangePicker.start, this.dateTimeRangePicker.end, this.serverURI);
+    setInterval(this.updateDataOnPage.bind(this), this.updateInterval);
   }
 
   setDomElements(granularityInputSelector, yAxisToggleSelector, sensorPlottingSelector, sensorPlotLocationSelector, temperatureNowSelector,
@@ -77,14 +75,14 @@ class GeileTypenWetterApp {
   }
 
   extractStartAndEndFromTimestamps(timestamps) {
-    this.pickerStart = timestamps[0];
-    this.pickerEnd = timestamps[timestamps.length - 1];
+    this.dateTimeRangePicker.start = timestamps[0];
+    this.dateTimeRangePicker.end = timestamps[timestamps.length - 1];
   }
 
   updateChartsByPickedRange(start, end) {
-    this.pickerStart = start;
-    this.pickerEnd = end;
-    this.updateCharts(this.sensorToPlot, this.granularity, this.rangeEnabled, this.pickerStart, this.pickerEnd, this.serverURI);
+    this.dateTimeRangePicker.start = start;
+    this.dateTimeRangePicker.end = end;
+    this.updateCharts(this.sensorToPlot, this.granularity, this.dateTimeRangePicker.enabled, this.dateTimeRangePicker.start, this.dateTimeRangePicker.end, this.serverURI);
   }
 
   createChart(chartCanvasElement, data, timestamps, tempValues, humidValues, airPressValues, tempColor, airPressColor, humidColor) {
@@ -205,7 +203,7 @@ class GeileTypenWetterApp {
       const {timestamps, temperature, humidity, airPressure} = controller.mapValuesOfData(data);
 
       this.extractStartAndEndFromTimestamps(timestamps);
-      rp.updateRangePicker(this.dateTimeRangePicker);
+      this.dateTimeRangePicker.update();
 
       this.updateChart(this.unifiedChart, timestamps, temperature, humidity, airPressure);
 
@@ -241,8 +239,8 @@ class GeileTypenWetterApp {
   }
 
   updateDataOnPage() {
-    this.updateCharts(this.sensorToPlot, this.granularity, this.rangeEnabled, this.pickerStart, this.pickerEnd, this.serverURI);
-    this.updateSensorsDropdown(this.granularity, this.rangeEnabled, this.pickerStart, this.pickerEnd, this.serverURI);
+    this.updateCharts(this.sensorToPlot, this.granularity, this.dateTimeRangePicker.enabled, this.dateTimeRangePicker.start, this.dateTimeRangePicker.end, this.serverURI);
+    this.updateSensorsDropdown(this.granularity, this.dateTimeRangePicker.enabled, this.dateTimeRangePicker.start, this.dateTimeRangePicker.end, this.serverURI);
   }
 
   yAxisStartToggle() {

@@ -1,16 +1,52 @@
 class AppDateTimePicker{
     picker;
+    domElement;
     enabled;
     start;
     end;
+    resetButton;
+    ACTIVE_COLOR_CLASS;
+
+    constructor(domElement, resetButton) {
+        this.domElement = domElement;
+        this.picker = createDateTimePicker(domElement, resetButton);
+        this.enabled = false;
+        this.start = undefined;
+        this.end = undefined;
+        this.resetButton = resetButton;
+        this.ACTIVE_COLOR_CLASS = 'bg-pink';
+    }
+
+    toggleRangeSelectionActive() {
+        if (this.enabled) {
+            this.domElement.classList.add(this.ACTIVE_COLOR_CLASS);
+            this.resetButton.disabled = false;
+        } else {
+            this.domElement.classList.remove(this.ACTIVE_COLOR_CLASS);
+            this.resetButton.disabled = true;
+        }
+    }
+
+    update() {
+        this.picker.data('daterangepicker').setStartDate(this.pickerStart);
+        this.picker.data('daterangepicker').setEndDate(this.pickerEnd);
+    }
+
+    reset() {
+        this.pickerStart = undefined;
+        this.pickerEnd = undefined;
+        this.enabled = false;
+        this.toggleRangeSelectionActive();
+    }
+
 }
 
-function createDateTimePicker(pickerStart, pickerEnd, dateTimeRangePickerElement) {
+function createDateTimePicker(domElement) {
     //TODO check whether Max and Min Values are possible (doable but dynamic setting may be to difficult for the purpose)
-    return $(dateTimeRangePickerElement).daterangepicker({
+    return $(domElement).daterangepicker({
         opens: 'center',
-        startDate: pickerStart,
-        endDate: pickerEnd,
+        startDate: undefined,
+        endDate: undefined,
         timePicker: true,
         timePicker24Hour: true,
         applyButtonClasses: 'btn-green',
@@ -21,33 +57,8 @@ function createDateTimePicker(pickerStart, pickerEnd, dateTimeRangePickerElement
     });
 }
 
-function toggleRangeSelectionActive(rangeEnabled, dateTimeRangePickerElement, resetRangeButton) {
-    if (rangeEnabled) {
-        dateTimeRangePickerElement.classList.add('bg-pink');
-        resetRangeButton.disabled = false;
-    } else {
-        dateTimeRangePickerElement.classList.remove('bg-pink');
-        resetRangeButton.disabled = true;
-    }
-}
-
-function updateRangePicker(rangepicker) {
-    rangepicker.data('daterangepicker').setStartDate(this.pickerStart);
-    rangepicker.data('daterangepicker').setEndDate(this.pickerEnd);
-}
-
-function resetRangePicker() {
-    this.pickerStart = undefined;
-    this.pickerEnd = undefined;
-    this.rangeEnabled = false;
-    this.updateDataOnPage();
-    toggleRangeSelectionActive(this.rangeEnabled, this.dateTimeRangePickerElement, this.resetRangeButton);
-}
 
 module.exports = {
     AppDateTimePicker: AppDateTimePicker,
     createDateTimePicker: createDateTimePicker,
-    toggleRangeSelectionActive: toggleRangeSelectionActive,
-    updateRangePicker: updateRangePicker,
-    resetRangePicker: resetRangePicker
 };
