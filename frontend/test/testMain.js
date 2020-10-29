@@ -1,25 +1,14 @@
 const expect = require('chai').expect;
-const {JSDOM} = require('jsdom'); // no idea why curly braces needed
+const {JSDOM} = require('jsdom');
+const jsdom = require('jsdom-global')();
 const App = require('../resources/js/GeileTypenWetterApp');
 const c = require('../resources/js/Constants');
-App.constants = require('../resources/js/Constants');
-global.$ = require('jquery-jsdom');
 
-const JSDOM_OPTIONS = {
-  // resources: 'usable',
-  // runScripts: 'dangerously',
-};
+global.window = window;
+global.$ = require('jquery');
+global.jQuery = $;
 
-async function setJSDom() {
-  const dom = await JSDOM.fromFile('static/index.html', JSDOM_OPTIONS);
-  global.window = dom.window;
-  global.document = dom.window.document;
-  window.HTMLCanvasElement.prototype.getContext = () => {};
-}
 describe('-- APP TESTS -- ', () => {
-  before(async () => {
-    await setJSDom();
-  });
 
   describe('reading dom elements from html file', () => {
     it('global.document working', () => {
@@ -39,7 +28,7 @@ describe('-- APP TESTS -- ', () => {
       app.setColors(c.TEMPERATURE_COLOR, c.AIRPRESSURE_COLOR, c.HUMIDITY_COLOR);
       app.setUpdateInterval(c.UPDATE_INTERVAL);
       app.init();
-      expect(app.serverURI).to.deep.equal(App.constants.SERVER_URI);
+      expect(app.serverURI).to.deep.equal(c.SERVER_URI);
     });
   });
 });
