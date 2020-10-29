@@ -78,12 +78,12 @@ a.nav-item.active, .btn:hover a {
     margin-right: 0.5em;
 }
 
-#sensorNowSection > div, .yellowTrafficLight {
+#sensorNowSection > div {
     background-color: rgba(214, 210, 68, 0.5);
     border-radius: 5px;
 }
 
-#temperatureNowSection > div, .btn-pink, .redTrafficLight {
+#temperatureNowSection > div, .btn-pink {
     background-color: rgba(204, 0, 112, 0.5);
     border-radius: 5px;
 }

@@ -108,9 +108,9 @@ class GeileTypenWetterApp {
     const differenceInMinutes = Math.floor(nowSeconds - timestamp) / 60;
     if (differenceInMinutes < (this.sendIntervalEsp * 2)) {//under 10 minutes -> everything good = green
       return 'greenTrafficLight';
-    } else if ((this.sendIntervalEsp * 2) <= differenceInMinutes <= (this.sendIntervalEsp * 4)) {//10-20minutes -> ok = yellow
+    } else if ((this.sendIntervalEsp * 2) <= differenceInMinutes && differenceInMinutes <= (this.sendIntervalEsp * 4)) {//10-20minutes -> ok = yellow
       return 'yellowTrafficLight';
-    } else if ((this.sendIntervalEsp * 4) < differenceInMinutes) {//older than 20 minutes -> not ok = red
+    } else {//older than 20 minutes OR broken -> not ok = red
       return 'redTrafficLight';
     }
   }
