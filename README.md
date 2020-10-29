@@ -6,7 +6,7 @@ Diese senden die gesammelten Daten an einen zentralen Server, welcher die Daten 
 
 
 ## Deployment 
-### eps8266
+### esp8266
 tba TODO add me
 Hier ist insbesondere auf die korrekte Anpassung des Wertes ```SERVER_TO_CONNECT``` zu achten.
 
