@@ -9,7 +9,6 @@ function updateChart(chart, timestamps, temperature, humidity, airPressure) {
 }
 
 function yAxisStartToggle(chart) {
-    console.log(chart);
     chart.options.scales.yAxes.forEach((yAxis) => {
         yAxis.ticks.beginAtZero = !yAxis.ticks.beginAtZero;
     });
