@@ -33,8 +33,8 @@ replace ```$PATH_TO_DATABASE``` with the location you want to store the backends
 ## Easter Eggs
 There are no Easter Eggs in our Code. We are serious programmers like Kazuhisa Hashimoto from Konami.
 
----
-Build Status:
+
+## Build Status:
 
 ![CI Frontend](https://github.com/JeuJeus/awe2-wettersensoren/workflows/Test%20Frontend/badge.svg) 
 ![Test Backend](https://github.com/JeuJeus/awe2-wettersensoren/workflows/Test%20Backend/badge.svg)
