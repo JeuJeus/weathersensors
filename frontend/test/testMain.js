@@ -25,7 +25,7 @@ describe('-- APP TESTS -- ', () => {
   describe('creating our App', () => {
     it('creates the App in node which has correct SERVER_URI', () => {
       const app = new App.GeileTypenWetterApp(c.SERVER_URI);
-      app.setColors(c.TEMPERATURE_COLOR, c.AIRPRESSURE_COLOR, c.HUMIDITY_COLOR);
+      app.setColors(c.TEMPERATURE_COLOR, c.AIRPRESSURE_COLOR, c.HUMIDITY_COLOR, c.SENSOR_COLOR);
       app.setUpdateInterval(c.UPDATE_INTERVAL);
       app.init();
       expect(app.serverURI).to.deep.equal(c.SERVER_URI);

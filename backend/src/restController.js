@@ -78,6 +78,7 @@ app.get('/sensorData/id/:SENSOR_ID', async function(req, res) {
     res.status(400).send();
   }
 });
+
 app.get('/sensors', async function(req, res) {
   res.set('Access-Control-Allow-Origin', '*'); // Security not needed xD
   const response = {
@@ -86,6 +87,7 @@ app.get('/sensors', async function(req, res) {
   response.sensors = await dbConnection.getSensors(db);
   res.send(response);
 });
+
 app.get('/sensor/id/:SENSOR_ID', async function(req, res) {
   res.set('Access-Control-Allow-Origin', '*'); // Security not needed xD
   if (validIdForRequest(req)) {

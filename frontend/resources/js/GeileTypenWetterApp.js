@@ -34,6 +34,7 @@ class GeileTypenWetterApp {
 
   serverURI = 'localhost:3000';
   updateInterval = 1000 * 60;
+  sendIntervalEsp = 5;
 
   // datepicker
   dateTimeRangePickerElement = document.createElement('input');
@@ -92,12 +93,36 @@ class GeileTypenWetterApp {
       sensorLink.classList.add('dropdown-item');
       sensorLink.textContent = `${s.ID} - ${s.LOCATION}`;
       sensorLink.onclick = this.sensorLinkOnClick.bind(this, parseInt(s.ID));
-      this.sensorSelectDropdown.append(sensorLink);
+      this.sensorSelectDropdown.append(this.setLastUpdatedStatusForDropdownItem(s, sensorLink));
     });
   }
 
+  setLastUpdatedStatusForDropdownItem(s, sensorLink) {
+    const color = this.getTrafficLightBasedOnUpdateAge(s.LAST_UPDATE);
+    sensorLink.prepend(this.createLastUpdatedDot(color));
+    return sensorLink;
+  }
+
+  getTrafficLightBasedOnUpdateAge(timestamp) {
+    const nowSeconds = Math.floor(Date.now() / 1000);
+    const differenceInMinutes = Math.floor(nowSeconds - timestamp) / 60;
+    if (differenceInMinutes < (this.sendIntervalEsp * 2)) {//under 10 minutes -> everything good = green
+      return 'greenTrafficLight';
+    } else if ((this.sendIntervalEsp * 2) <= differenceInMinutes <= (this.sendIntervalEsp * 4)) {//10-20minutes -> ok = yellow
+      return 'yellowTrafficLight';
+    } else if ((this.sendIntervalEsp * 4) < differenceInMinutes) {//older than 20 minutes -> not ok = red
+      return 'redTrafficLight';
+    }
+  }
+
+  createLastUpdatedDot(color) {
+    const dot = document.createElement('i');
+    dot.classList.add('fas', 'fa-circle', color);
+    return dot;
+  }
+
   updateDateTimeRangePicker() {
-    if (!this.dateTimeRangePicker.enabled){
+    if (!this.dateTimeRangePicker.enabled) {
       this.dateTimeRangePicker.start = this.sensorData.timestamps[0];
       this.dateTimeRangePicker.end = this.sensorData.timestamps[this.sensorData.timestamps.length - 1];
     }

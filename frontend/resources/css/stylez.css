@@ -63,12 +63,27 @@ a.nav-item.active, .btn:hover a {
     height: 100%;
 }
 
-#sensorNowSection > div {
+.greenTrafficLight {
+    color: rgba(0, 204, 109, 0.5);
+    margin-right: 0.5em;
+}
+
+.yellowTrafficLight {
+    color: rgba(214, 210, 68, 0.5);
+    margin-right: 0.5em;
+}
+
+.redTrafficLight {
+    color: rgba(204, 0, 112, 0.5);
+    margin-right: 0.5em;
+}
+
+#sensorNowSection > div, .yellowTrafficLight {
     background-color: rgba(214, 210, 68, 0.5);
     border-radius: 5px;
 }
 
-#temperatureNowSection > div, .btn-pink {
+#temperatureNowSection > div, .btn-pink, .redTrafficLight {
     background-color: rgba(204, 0, 112, 0.5);
     border-radius: 5px;
 }
