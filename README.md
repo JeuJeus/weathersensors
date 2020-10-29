@@ -13,7 +13,7 @@ Diese senden die gesammelten Daten an einen zentralen Server, welcher die Daten 
 tba TODO add me
 Hier ist insbesondere auf die korrekte Anpassung des Wertes ```SERVER_TO_CONNECT``` zu achten.
 
-### backend & frontend+
+### backend & frontend
 Backend sowie Frontend werden mithilfe von Docker deployed. 
 Die Images dafür lassen sich in den jeweiligen Modulen mit Hilfe der ```buildImageandTar.sh``` Skripts bauen.
 Diese bauen die Images und stellen diese in der lokalen Dockerumgebung zum Start bereit.
