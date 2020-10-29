@@ -1,8 +1,11 @@
-# awe2-wettersensoren
+# Uniprojekt "Wettersensoren" <img src="frontend/resources/img/logo.png?" height="48" width="48">
+## Anwendungsentwicklung 2 - FHDW Paderborn 
 
 Im Zuge dieses Projektes werden Arduinos mit einem Temperatur, Luftdruck und Feuchtigkeitssensor ausgestattet.
 Diese senden die gesammelten Daten an einen zentralen Server, welcher die Daten verwaltet. 
 Über einen Webserver lassen sich diese Daten visualisiert abrufen.
+
+## ![Live Version](https://awe2.jeujeus.de)
 
 
 ## Deployment 
@@ -30,4 +33,8 @@ replace ```$PATH_TO_DATABASE``` with the location you want to store the backends
 ## Easter Eggs
 There are no Easter Eggs in our Code. We are serious programmers like Kazuhisa Hashimoto from Konami.
 
+---
+Build Status:
 
+![CI Frontend](https://github.com/JeuJeus/awe2-wettersensoren/workflows/Test%20Frontend/badge.svg) 
+![Test Backend](https://github.com/JeuJeus/awe2-wettersensoren/workflows/Test%20Backend/badge.svg)
