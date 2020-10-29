@@ -14,6 +14,7 @@ async function setJSDom() {
   const dom = await JSDOM.fromFile('static/index.html', JSDOM_OPTIONS);
   global.window = dom.window;
   global.document = dom.window.document;
+  window.HTMLCanvasElement.prototype.getContext = () => {};
 }
 describe('-- APP TESTS -- ', () => {
   before(async () => {
