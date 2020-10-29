@@ -180,6 +180,7 @@ describe('-- REST CONTROLLER -- ', () => {
     });
 
       it('should return error when posting duplicate data', () => {
+          //TODO FIX ME @JB
           const timestamp = Date.now();
           chai.request('http://localhost:3000')
               .post('/weatherData')
