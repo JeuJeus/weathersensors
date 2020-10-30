@@ -34,7 +34,7 @@ class GeileTypenWetterApp {
 
   serverURI = 'localhost:3000';
   updateInterval = 1000 * 60;
-  sendIntervalEsp = 5;
+  sendIntervalESPMinutes = 5;
 
   // datepicker
   dateTimeRangePickerElement = document.createElement('input');
@@ -98,26 +98,29 @@ class GeileTypenWetterApp {
   }
 
   setLastUpdatedStatusForDropdownItem(s, sensorLink) {
-    const color = this.getTrafficLightBasedOnUpdateAge(s.LAST_UPDATE);
+    const color = this.getTrafficLightClassBasedOnUpdateAge(s.LAST_UPDATE);
     sensorLink.prepend(this.createLastUpdatedDot(color));
     return sensorLink;
   }
 
-  getTrafficLightBasedOnUpdateAge(timestamp) {
+  getTrafficLightClassBasedOnUpdateAge(timestamp) {
+    let color;
     const nowSeconds = Math.floor(Date.now() / 1000);
     const differenceInMinutes = Math.floor(nowSeconds - timestamp) / 60;
-    if (differenceInMinutes < (this.sendIntervalEsp * 2)) {//under 10 minutes -> everything good = green
-      return 'greenTrafficLight';
-    } else if ((this.sendIntervalEsp * 2) <= differenceInMinutes && differenceInMinutes <= (this.sendIntervalEsp * 4)) {//10-20minutes -> ok = yellow
-      return 'yellowTrafficLight';
-    } else {//older than 20 minutes OR broken -> not ok = red
-      return 'redTrafficLight';
+    if (differenceInMinutes < (this.sendIntervalESPMinutes * 2)) {
+      color = {class: 'greenTrafficLight', tooltip: `sensor is active`};
+    } else if ((this.sendIntervalESPMinutes * 2) <= differenceInMinutes && differenceInMinutes <= (this.sendIntervalESPMinutes * 4)) {
+      color = {class: 'yellowTrafficLight', tooltip: `sensor is inactive for ${this.sendIntervalESPMinutes*2} - ${this.sendIntervalESPMinutes*4} minutes`};
+    } else {
+      color = {class: 'redTrafficLight', tooltip: `sensor is inactive for > ${this.sendIntervalESPMinutes*4} minutes`};
     }
+    return color;
   }
 
   createLastUpdatedDot(color) {
     const dot = document.createElement('i');
-    dot.classList.add('fas', 'fa-circle', color);
+    dot.classList.add('fas', 'fa-circle', color.class);
+    dot.title = color.tooltip;
     return dot;
   }
 

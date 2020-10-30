@@ -63,19 +63,21 @@ a.nav-item.active, .btn:hover a {
     height: 100%;
 }
 
+.greenTrafficLight, .yellowTrafficLight, .redTrafficLight{
+    cursor:url('../img/p.png'), auto;
+    margin-right: 0.5em;
+}
+
 .greenTrafficLight {
     color: rgba(0, 204, 109, 0.5);
-    margin-right: 0.5em;
 }
 
 .yellowTrafficLight {
     color: rgba(214, 210, 68, 0.5);
-    margin-right: 0.5em;
 }
 
 .redTrafficLight {
     color: rgba(204, 0, 112, 0.5);
-    margin-right: 0.5em;
 }
 
 #sensorNowSection > div {
