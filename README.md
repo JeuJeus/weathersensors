@@ -5,8 +5,17 @@ Im Zuge dieses Projektes werden Arduinos mit einem Temperatur, Luftdruck und Feu
 Diese senden die gesammelten Daten an einen zentralen Server, welcher die Daten verwaltet. 
 Über einen Webserver lassen sich diese Daten visualisiert abrufen.
 
-## ![Live Version](https://awe2.jeujeus.de)
+## Features:
+- Sammeln von Wetterdaten von 'n' verschiedenen Sensoren
+- Sensoraktivitätsindikator zur Übersicht aktiver Sensoren
+- Auswahl des zu plottenden Sensors
+- abgesichertes Admininterface zur Verwaltung der Sensoren
+- graphische Darstellung der Temperatur-, Luftfeuchtigkeits- und Luftdruckverläufe
+- frei wählbare Granularität der Darstellung
+- frei wählbarer anzuzeigender Zeitraum
+- schnell Übersicht der jeweils letzen Werte
 
+## ![Live Version](https://awe2.jeujeus.de)
 
 ## Deployment 
 ### esp8266
