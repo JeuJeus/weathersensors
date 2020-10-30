@@ -1,7 +1,7 @@
 # Uniprojekt "Wettersensoren" <img src="frontend/resources/img/logo.png?" height="48" width="48">
 ## Anwendungsentwicklung 2 - FHDW Paderborn 
 
-Im Zuge dieses Projektes werden Arduinos mit einem Temperatur, Luftdruck und Feuchtigkeitssensor ausgestattet.
+Im Zuge dieses Projektes werden NodeMCU ESP8266 mit BME280 Sensoren (Temperatur, Luftdruck und Feuchtigkeitssensor) ausgestattet.
 Diese senden die gesammelten Daten an einen zentralen Server, welcher die Daten verwaltet. 
 Über einen Webserver lassen sich diese Daten visualisiert abrufen.
 
