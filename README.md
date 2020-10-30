@@ -71,7 +71,7 @@ replace ```$PATH_TO_DATABASE``` with the location you want to store the backends
 
 
 ## Easter Eggs
-There are no Easter Eggs in our Code. We are serious programmers like Kazuhisa Hashimoto from Konami.
+There are no Easter Eggs in our Code. We are serious programmers like Kazuhisa Hashimoto from Julius Figge Enterprises.
 
 
 ## Build Status:
