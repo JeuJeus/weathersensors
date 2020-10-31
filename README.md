@@ -61,6 +61,14 @@ Darüber hinaus werden im root-Ordner tar-Bälle mit den jeweiligen Images hinte
 Für diesen Schritt haben wir uns entscheiden um die Images einfach auf einem Server verfügbar zu machen
 ohne Docker Registries (e.g. Docker.io) in Anspruch nehmen zu müssen.
 
+### Docker Deployment unter Windows
+Das Projekt kann mithilfe der WSL 2 und Docker for Windows deployed werden.
+Für die Vorbereitung muss zunächst eine WSL 2 eingerichtet werden. (Eine Anleitung für die Einrichtung der WSL 2 kann hier gefunden werden: https://docs.microsoft.com/en-us/windows/wsl/install-win10)
+Danach kann Docker for Windows mit den WSL 2-Komponenten installiert werden. (Eine Anleitung für die Installation von Docker for Windows mit WSL 2-Komponenten kann hier gefunden werden: https://docs.docker.com/docker-for-windows/wsl/)
+Nachdem Docker for Windows bereitgestellt wurde kann die ausgewählte Linux Distribution in der WSL gestartet werden. Es ist sicherzustellen, dass npm installiert ist, beispielsweise mit dem Befehl ```npm --version```.
+Der Befehl ```docker run hello-world``` erlaubt die Überprüfung ob alles korrekt installiert wurde. 
+Mithilfe des Skripts ```buildImageandTar.sh``` können wie oben genannt im Projektverzeichnis die Images für das Front- und Backend gebaut werden. Nach der Ausführung des Skripts sind in Docker for Windows unter Images sowohl das Frontend als auch das Backend aufgeführt. Die folgenden beiden Kommandos erlauben das deployen der Container über das WSL-Terminal. 
+
 #### Backend StartCommand:
 ```docker run -p 3333:3333 -v $PATH_TO_DATABASE: /usr/src/app/db --name awe2-backend -it awe2/backend:beta```
 
