@@ -53,7 +53,7 @@ Die exakten Geräte sind:
 - AZDelivery GY-BME280 
 
 
-### backend & frontend
+### Docker Skript und Image-Speicherung
 Backend sowie Frontend werden mithilfe von Docker deployed. 
 Die Images dafür lassen sich in den jeweiligen Modulen mit Hilfe der ```buildImageandTar.sh``` Skripts bauen.
 Diese bauen die Images und stellen diese in der lokalen Dockerumgebung zum Start bereit.
@@ -63,13 +63,17 @@ ohne Docker Registries (e.g. Docker.io) in Anspruch nehmen zu müssen.
 
 ### Docker Deployment unter Windows
 Das Projekt kann mithilfe der WSL 2 und Docker for Windows deployed werden.
-Für die Vorbereitung muss zunächst eine WSL 2 eingerichtet werden. (Eine Anleitung für die Einrichtung der WSL 2 kann hier gefunden werden: https://docs.microsoft.com/en-us/windows/wsl/install-win10)
+Für die Vorbereitung muss zunächst eine WSL 2 eingerichtet werden. (Eine Anleitung für die Einrichtung der WSL 2 kann [hier](https://docs.microsoft.com/en-us/windows/wsl/install-win10) gefunden werden.
 
-Danach kann Docker for Windows mit den WSL 2-Komponenten installiert werden. (Eine Anleitung für die Installation von Docker for Windows mit WSL 2-Komponenten kann hier gefunden werden: https://docs.docker.com/docker-for-windows/wsl/)
+Danach kann Docker for Windows mit den WSL 2-Komponenten installiert werden. (Eine Anleitung für die Installation von Docker for Windows mit WSL 2-Komponenten  [hier](https://docs.docker.com/docker-for-windows/wsl/) gefunden werden.
 
 Nachdem Docker for Windows bereitgestellt wurde kann die ausgewählte Linux Distribution in der WSL gestartet werden. Es ist sicherzustellen, dass npm installiert ist, beispielsweise mit dem Befehl ```npm --version```. Der Befehl ```docker run hello-world``` erlaubt die Überprüfung ob Docker korrekt installiert wurde. 
 
-Mithilfe des Skripts ```buildImageandTar.sh``` können wie oben genannt im Projektverzeichnis die Images für das Front- und Backend gebaut werden. Nach der Ausführung des Skripts sind in Docker for Windows unter Images sowohl das Frontend als auch das Backend aufgeführt. Die folgenden beiden Kommandos erlauben das deployen der Container über das WSL-Terminal. 
+Mithilfe des Skripts ```buildImageandTar.sh``` können wie oben genannt im Projektverzeichnis die Images für das Front- und Backend gebaut werden. Nach der Ausführung des Skripts sind in Docker for Windows unter Images sowohl das Frontend als auch das Backend aufgeführt. Die beiden unten genannten Befehle erlauben das deployen der Container über das WSL-Terminal. 
+
+###Docker Deployment unter Linux
+
+In Linux kann Docker mithilfe von ```sudo apt install docker``` bereitgestellt werden. Danach kann zunächst das oben genannte Imaging-Skript ausgeführt werden und dann mit den unten genannten Befehlen der Container deployed werden.
 
 #### Backend StartCommand:
 ```docker run -p 3333:3333 -v $PATH_TO_DATABASE: /usr/src/app/db --name awe2-backend -it awe2/backend:beta```
