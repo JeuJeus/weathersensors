@@ -22,7 +22,7 @@ describe('-- APP TESTS -- ', () => {
   });
 
   describe('creating our App', () => {
-    it('creates the App in node which has correct SERVER_URI', (done) => {
+    it('should the App in node with correct SERVER_URI', (done) => {
       const app = new App.GeileTypenWetterApp(c.SERVER_URI);
       app.setColors(c.TEMPERATURE_COLOR, c.AIRPRESSURE_COLOR, c.HUMIDITY_COLOR, c.SENSOR_COLOR);
       app.setUpdateInterval(c.UPDATE_INTERVAL);
@@ -31,4 +31,24 @@ describe('-- APP TESTS -- ', () => {
       done();
     });
   });
+
+  describe('app-methods', () => {
+    it('should return correct trafficLightColors', (done) => {
+      const app = new App.GeileTypenWetterApp(c.SERVER_URI);
+      app.sendIntervalESPMinutes = 5;
+      app.init();
+      const nowSeconds = Date.now() / 1000;
+      const secondsOneHourAgo = nowSeconds - 60 * 60;
+      const secondsFiveteenMinutesAgo = nowSeconds - 60 * 15;
+      const colorRed = app.getTrafficLightClassBasedOnUpdateAge(secondsOneHourAgo);
+      const colorYellow = app.getTrafficLightClassBasedOnUpdateAge(secondsFiveteenMinutesAgo);
+      const colorGreen = app.getTrafficLightClassBasedOnUpdateAge(nowSeconds);
+
+      expect(colorRed.class).to.deep.equal(c.TRAFFIC_LIGHT_CLASSES.RED);
+      expect(colorYellow.class).to.deep.equal(c.TRAFFIC_LIGHT_CLASSES.YELLOW);
+      expect(colorGreen.class).to.deep.equal(c.TRAFFIC_LIGHT_CLASSES.GREEN);
+      done();
+    });
+  });
+
 });
