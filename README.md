@@ -18,7 +18,7 @@ Diese senden die gesammelten Daten an einen zentralen Server, welcher die Daten 
 ## ![Live Version](https://awe2.jeujeus.de)
 
 ## Deployment 
-### esp8266
+### ESP8266
 Zur Erfassung der Wetterdaten wird ein BME280 Sensor verwendet, welcher von einem Board mit ESP8266 Mikrocontroller
 und NodeMCU 1.0 Betriebssystem angesteuert wird. Auf diesem Mikrocontroller kann der Sourcecode ``nodemcu.ino`` ausgeführt werden.
 Zum Kompilieren sollte die Arduino IDE verwendet werden, in der zuvor die Treiber für den ESP8266 installiert werden müssen.
@@ -33,7 +33,6 @@ Darüber hinaus müssen folgende Bibliotheken über die integrierte Bibliotheksv
 |EasyNTPClient (by Harsha Alva)|1.1.0|
 |LinkedList (by Ivan Seidel)|1.2.3|
  
-
 Bevor der Quellcode kompiliert wird, müssen die folgenden Konstanten auf die lokalen Gegebenheiten angepasst werden:
 - ``SERVER_TO_CONNECT``
 - ``SSID`` 
@@ -52,8 +51,7 @@ Die exakten Geräte sind:
 - AZDelivery NodeMCU Lua Lolin V3 Module ESP8266 ESP-12F WIFI 
 - AZDelivery GY-BME280 
 
-
-### Docker Skript und Image-Speicherung
+### Backend und Frontend
 Backend sowie Frontend werden mithilfe von Docker deployed. 
 Die Images dafür lassen sich in den jeweiligen Modulen mit Hilfe der ```buildImageandTar.sh``` Skripts bauen.
 Diese bauen die Images und stellen diese in der lokalen Dockerumgebung zum Start bereit.
@@ -61,24 +59,20 @@ Darüber hinaus werden im root-Ordner tar-Bälle mit den jeweiligen Images hinte
 Für diesen Schritt haben wir uns entscheiden um die Images einfach auf einem Server verfügbar zu machen
 ohne Docker Registries (e.g. Docker.io) in Anspruch nehmen zu müssen.
 
-### Docker Deployment unter Windows
+#### Deployment Voraussetzungen unter Windows
 Das Projekt kann mithilfe der WSL 2 und Docker for Windows deployed werden.
-Für die Vorbereitung muss zunächst eine WSL 2 eingerichtet werden. (Eine Anleitung für die Einrichtung der WSL 2 kann [hier](https://docs.microsoft.com/en-us/windows/wsl/install-win10) gefunden werden.
+Für die Vorbereitung muss zunächst eine WSL 2 eingerichtet werden (Link zur Anleitung: [hier](https://docs.microsoft.com/en-us/windows/wsl/install-win10)).
+Danach kann Docker for Windows mit den WSL 2-Komponenten installiert werden (Link zur Anleitung: [hier](https://docs.docker.com/docker-for-windows/wsl/)).
+Nachdem Docker for Windows bereitgestellt wurde kann die ausgewählte Linux Distribution in der WSL gestartet werden. 
+Danach sind in der WSL die Schritte für Linux auszuführen.
 
-Danach kann Docker for Windows mit den WSL 2-Komponenten installiert werden. (Eine Anleitung für die Installation von Docker for Windows mit WSL 2-Komponenten  [hier](https://docs.docker.com/docker-for-windows/wsl/) gefunden werden.
-
-Nachdem Docker for Windows bereitgestellt wurde kann die ausgewählte Linux Distribution in der WSL gestartet werden. Es ist sicherzustellen, dass npm installiert ist, beispielsweise mit dem Befehl ```npm --version```. Der Befehl ```docker run hello-world``` erlaubt die Überprüfung ob Docker korrekt installiert wurde. 
-
-Mithilfe des Skripts ```buildImageandTar.sh``` können wie oben genannt im Projektverzeichnis die Images für das Front- und Backend gebaut werden. Nach der Ausführung des Skripts sind in Docker for Windows unter Images sowohl das Frontend als auch das Backend aufgeführt. Die beiden unten genannten Befehle erlauben das deployen der Container über das WSL-Terminal. 
-
-###Docker Deployment unter Linux
-
-In Linux kann Docker mithilfe von ```sudo apt install docker``` bereitgestellt werden. Danach kann zunächst das oben genannte Imaging-Skript ausgeführt werden und dann mit den unten genannten Befehlen der Container deployed werden.
+#### Deployment Voraussetzungen unter Linux
+In Linux sind Docker sowie Node und npm durch den Distribution-spezifischen Package Manager zu installieren. 
 
 #### Backend StartCommand:
-```docker run -p 3333:3333 -v $PATH_TO_DATABASE: /usr/src/app/db --name awe2-backend -it awe2/backend:beta```
+```docker run -p 3333:3333 -v $PATH_TO_DATABASE:/usr/src/app/db --name awe2-backend -it awe2/backend:beta```
 
-replace ```$PATH_TO_DATABASE``` with the location you want to store the backends database on your system.
+```$PATH_TO_DATABASE``` ist zu ersetzen mit dem Ordner, in welchem die Datenbank auf dem Host-System gespeichert werden soll.
 
 #### Frontend StartCommand:
 ```docker run -p 3344:3344 --name awe2-frontend -it awe2/frontend:beta```
