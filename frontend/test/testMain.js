@@ -9,7 +9,6 @@ global.$ = require('jquery');
 global.jQuery = $;
 
 describe('-- APP TESTS -- ', () => {
-
   describe('reading dom elements from html file', () => {
     it('global.document working', () => {
       expect(document.querySelector('p')).to.not.equal(undefined);
@@ -23,12 +22,13 @@ describe('-- APP TESTS -- ', () => {
   });
 
   describe('creating our App', () => {
-    it('creates the App in node which has correct SERVER_URI', () => {
+    it('creates the App in node which has correct SERVER_URI', (done) => {
       const app = new App.GeileTypenWetterApp(c.SERVER_URI);
       app.setColors(c.TEMPERATURE_COLOR, c.AIRPRESSURE_COLOR, c.HUMIDITY_COLOR, c.SENSOR_COLOR);
       app.setUpdateInterval(c.UPDATE_INTERVAL);
       app.init();
       expect(app.serverURI).to.deep.equal(c.SERVER_URI);
+      done();
     });
   });
 });
