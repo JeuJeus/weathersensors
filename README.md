@@ -20,10 +20,10 @@ Diese senden die gesammelten Daten an einen zentralen Server, welcher die Daten 
 ## Deployment 
 ### esp8266
 Zur Erfassung der Wetterdaten wird ein BME280 Sensor verwendet, welcher von einem Board mit ESP8266 Mikrocontroller
-und NodeMCU 1.0 Betriebssystem angesteuert wird. Auf diesem Mikrocontroller kann der Sourcecode nodemcu.ino ausgeführt werden.
+und NodeMCU 1.0 Betriebssystem angesteuert wird. Auf diesem Mikrocontroller kann der Sourcecode ``nodemcu.ino`` ausgeführt werden.
 Zum Kompilieren sollte die Arduino IDE verwendet werden, in der zuvor die Treiber für den ESP8266 installiert werden müssen.
-Dazu muss in den Voreinstellungen folgende Boardverwalter-URL hinzugefügt werden: "http://arduino.esp8266.com/stable/package_esp8266com_index.json".
-Darüber hinaus müssen folgende Bibliotheken über die integriete Bibliotheksverwaltung installiert werden:
+Dazu muss in den Voreinstellungen folgende Boardverwalter-URL hinzugefügt werden: ``http://arduino.esp8266.com/stable/package_esp8266com_index.json``.
+Darüber hinaus müssen folgende Bibliotheken über die integrierte Bibliotheksverwaltung installiert werden:
 
 |Bibliothek|Version|
 |---|---|
@@ -35,9 +35,9 @@ Darüber hinaus müssen folgende Bibliotheken über die integriete Bibliotheksve
  
 
 Bevor der Quellcode kompiliert wird, müssen die folgenden Konstanten auf die lokalen Gegebenheiten angepasst werden:
-- SERVER_TO_CONNECT
-- SSID 
-- WIFI_PASSWORD 
+- ``SERVER_TO_CONNECT``
+- ``SSID`` 
+- ``WIFI_PASSWORD`` 
 
 Der BME280 Sensor und der ESP8266 müssen folgendermaßen verbunden werden:
 
@@ -50,7 +50,7 @@ Der BME280 Sensor und der ESP8266 müssen folgendermaßen verbunden werden:
 
 Die exakten Geräte sind:
 - AZDelivery NodeMCU Lua Lolin V3 Module ESP8266 ESP-12F WIFI 
-- AZDelivery GY-BME280 Barometrischer Sensor für Temperatur, Luftfeuchtigkeit und Luftdruck
+- AZDelivery GY-BME280 
 
 
 ### backend & frontend
