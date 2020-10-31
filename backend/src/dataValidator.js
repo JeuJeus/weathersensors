@@ -5,9 +5,9 @@ function validateSensorDataInBody() {
   return [
     check('MACADDRESS').isMACAddress(),
     check('TIMESTAMP').isAlphanumeric(),
-    check('TEMPERATURE').isFloat(),
-    check('AIRPRESSURE').isFloat(),
-    check('HUMIDITY').isFloat(),
+    check('TEMPERATURE').isFloat({min: -100, max: 100}),
+    check('AIRPRESSURE').isFloat({min: 0}),
+    check('HUMIDITY').isFloat({min: 0, max: 100}),
   ];
 }
 
