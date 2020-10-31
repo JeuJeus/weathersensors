@@ -55,7 +55,7 @@ Die exakten Geräte sind:
 Backend sowie Frontend werden mithilfe von Docker deployed. 
 Die Images dafür lassen sich in den jeweiligen Modulen mit Hilfe der ```buildImageandTar.sh``` Skripts bauen.
 Diese bauen die Images und stellen diese in der lokalen Dockerumgebung zum Start bereit.
-Darüber hinaus werden im root-Ordner tar-Bälle mit den jeweiligen Images hinterlegt.
+Darüber hinaus werden im Projekt-Root-Ordner tar-Bälle mit den jeweiligen Images hinterlegt.
 Für diesen Schritt haben wir uns entscheiden um die Images einfach auf einem Server verfügbar zu machen
 ohne Docker Registries (e.g. Docker.io) in Anspruch nehmen zu müssen.
 
@@ -69,12 +69,12 @@ Danach sind in der WSL die Schritte für Linux auszuführen.
 #### Deployment Voraussetzungen unter Linux
 In Linux sind Docker sowie Node und npm durch den Distribution-spezifischen Package Manager zu installieren. 
 
-#### Backend StartCommand:
+#### Backend Start-Command:
 ```docker run -p 3333:3333 -v $PATH_TO_DATABASE:/usr/src/app/db --name awe2-backend -it awe2/backend:beta```
 
 ```$PATH_TO_DATABASE``` ist zu ersetzen mit dem Ordner, in welchem die Datenbank auf dem Host-System gespeichert werden soll.
 
-#### Frontend StartCommand:
+#### Frontend Start-Command:
 ```docker run -p 3344:3344 --name awe2-frontend -it awe2/frontend:beta```
 
 
