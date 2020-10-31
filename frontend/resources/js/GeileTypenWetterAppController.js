@@ -18,8 +18,8 @@ function mapValuesOfData(data) {
 }
 
 async function getSensorDataFromServer(sensorToPlot, granularity, rangeEnabled, timeRangeStart, timeRangeEnd, serverURI) {
-  const updateQuery = createQuery(granularity, rangeEnabled, timeRangeStart, timeRangeEnd);
-  return await $.get(serverURI + '/sensorData/id/' + sensorToPlot, updateQuery);
+  const query = createQuery(granularity, rangeEnabled, timeRangeStart, timeRangeEnd);
+  return await $.get(serverURI + '/sensorData/id/' + sensorToPlot, query);
 }
 
 async function getSensorFromServer(sensorToPlot, serverURI) {
