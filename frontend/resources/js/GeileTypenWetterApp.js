@@ -47,6 +47,7 @@ class GeileTypenWetterApp {
   }
 
   init() {
+    this.granularityInput.value = this.granularity;
     this.yAxisToggleButton.addEventListener('click', () => {ac.yAxisStartToggle(this.unifiedChart)}, false);
     this.resetRangeButton.addEventListener('click',  this.resetRangeButtonOnClick.bind(this), false);
     this.granularityInput.addEventListener('keydown', this.granularityOnChange.bind(this, this.granularityInput), false);
