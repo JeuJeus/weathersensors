@@ -108,7 +108,7 @@ class GeileTypenWetterApp {
     const nowSeconds = Math.floor(Date.now() / 1000);
     const differenceInMinutes = Math.floor(nowSeconds - timestamp) / 60;
     if (differenceInMinutes < (this.sendIntervalESPMinutes * 2)) {
-      color = {class: 'greenTrafficLight', tooltip: `sensor is active`};
+      color = {class: 'greenTrafficLight', tooltip: `Sensor is active`};
     } else if ((this.sendIntervalESPMinutes * 2) <= differenceInMinutes && differenceInMinutes <= (this.sendIntervalESPMinutes * 4)) {
       color = {
         class: 'yellowTrafficLight',
