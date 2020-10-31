@@ -112,10 +112,13 @@ class GeileTypenWetterApp {
     } else if ((this.sendIntervalESPMinutes * 2) <= differenceInMinutes && differenceInMinutes <= (this.sendIntervalESPMinutes * 4)) {
       color = {
         class: 'yellowTrafficLight',
-        tooltip: `sensor is inactive for ${Math.floor(differenceInMinutes)} minutes`
+        tooltip: `Sensor has been inactive for ${Math.floor(differenceInMinutes)} minutes`
       };
     } else {
-      color = {class: 'redTrafficLight', tooltip: `sensor is inactive for ${Math.floor(differenceInMinutes)} minutes`};
+      color = {
+        class: 'redTrafficLight',
+        tooltip: `Sensor has been inactive for ${Math.floor(differenceInMinutes)} minutes`
+      };
     }
     return color;
   }
