@@ -13,7 +13,7 @@ class GeileTypenWetterApp {
   temperatureNow = document.createElement('h3');
   humidityNow = document.createElement('h3');
   airPressureNow = document.createElement('h3');
-  sensorSelectDropdown = document.createElement('h3');
+  sensorSelectDropdown = document.createElement('div');
   chartCanvasElement = document.createElement('canvas');
 
   // current state
@@ -46,7 +46,7 @@ class GeileTypenWetterApp {
     this.serverURI = serverURI;
   }
 
-  init() {
+  async init() {
     this.granularityInput.value = this.granularity;
     this.yAxisToggleButton.addEventListener('click', () => {ac.yAxisStartToggle(this.unifiedChart)}, false);
     this.resetRangeButton.addEventListener('click',  this.resetRangeButtonOnClick.bind(this), false);
@@ -59,7 +59,7 @@ class GeileTypenWetterApp {
     });
 
     setInterval(this.update.bind(this), this.updateInterval);
-    this.update();
+    await this.update();
   }
 
   setDomElements(granularityInputSelector, yAxisToggleSelector, sensorPlottingSelector, sensorPlotLocationSelector, temperatureNowSelector,

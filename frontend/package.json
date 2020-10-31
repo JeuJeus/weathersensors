@@ -25,10 +25,13 @@
     "jsdom-global": "^3.0.2",
     "canvas": "^2.6.1",
     "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "eslint": "^7.11.0",
     "eslint-config-google": "^0.14.0",
     "jquery-jsdom": "^1.0.0",
     "jsdom": "^16.4.0",
-    "mocha": "^8.2.0"
+    "mocha": "^8.2.0",
+    "sinon": "^9.2.0",
+    "faker": "^5.1.0"
   }
 }
