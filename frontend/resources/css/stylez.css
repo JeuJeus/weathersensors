@@ -64,7 +64,7 @@ a.nav-item.active, .btn:hover a {
 }
 
 .greenTrafficLight, .yellowTrafficLight, .redTrafficLight{
-    cursor:url('../img/p.png'), auto;
+    cursor: pointer;
     margin-right: 0.5em;
 }
 
