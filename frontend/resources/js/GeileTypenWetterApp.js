@@ -1,6 +1,7 @@
 const controller = require('./GeileTypenWetterAppController');
 const rp = require('./AppDateTimePicker');
 const ac = require('./AppChart');
+const constants = require('./constants');
 
 class GeileTypenWetterApp {
   // TODO FIXME EVERYTHING switch sensors bricks daterange
@@ -107,16 +108,18 @@ class GeileTypenWetterApp {
     let color;
     const nowSeconds = Math.floor(Date.now() / 1000);
     const differenceInMinutes = Math.floor(nowSeconds - timestamp) / 60;
+
     if (differenceInMinutes < (this.sendIntervalESPMinutes * 2)) {
-      color = {class: 'greenTrafficLight', tooltip: `Sensor is active`};
+      color = {class: constants.TRAFFIC_LIGHT_CLASSES.GREEN,
+        tooltip: `Sensor is active`};
     } else if ((this.sendIntervalESPMinutes * 2) <= differenceInMinutes && differenceInMinutes <= (this.sendIntervalESPMinutes * 4)) {
       color = {
-        class: 'yellowTrafficLight',
+        class: constants.TRAFFIC_LIGHT_CLASSES.YELLOW,
         tooltip: `Sensor has been inactive for ${Math.floor(differenceInMinutes)} minutes`
       };
     } else {
       color = {
-        class: 'redTrafficLight',
+        class: constants.TRAFFIC_LIGHT_CLASSES.RED,
         tooltip: `Sensor has been inactive for ${Math.floor(differenceInMinutes)} minutes`
       };
     }
