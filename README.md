@@ -6,6 +6,7 @@ Diese senden die gesammelten Daten an einen zentralen Server, welcher die Daten 
 Über einen Webserver lassen sich diese Daten visualisiert abrufen.
 
 ### Build Status: ![CI Frontend](https://github.com/JeuJeus/awe2-wettersensoren/workflows/Test%20Frontend/badge.svg) ![Test Backend](https://github.com/JeuJeus/awe2-wettersensoren/workflows/Test%20Backend/badge.svg)
+### ![Live Version](https://awe2.jeujeus.de)
 
 ## Features:
 - Sammeln von Wetterdaten von 'n' verschiedenen Sensoren
@@ -16,8 +17,6 @@ Diese senden die gesammelten Daten an einen zentralen Server, welcher die Daten 
 - frei wählbare Granularität der Darstellung
 - frei wählbarer anzuzeigender Zeitraum
 - schnell Übersicht der jeweils letzen Werte
-
-## ![Live Version](https://awe2.jeujeus.de)
 
 ## Deployment 
 ### ESP8266
