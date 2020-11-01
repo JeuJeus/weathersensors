@@ -5,6 +5,8 @@ Im Zuge dieses Projektes werden NodeMCU ESP8266 mit BME280 Sensoren (Temperatur,
 Diese senden die gesammelten Daten an einen zentralen Server, welcher die Daten verwaltet. 
 Über einen Webserver lassen sich diese Daten visualisiert abrufen.
 
+### Build Status: ![CI Frontend](https://github.com/JeuJeus/awe2-wettersensoren/workflows/Test%20Frontend/badge.svg) ![Test Backend](https://github.com/JeuJeus/awe2-wettersensoren/workflows/Test%20Backend/badge.svg)
+
 ## Features:
 - Sammeln von Wetterdaten von 'n' verschiedenen Sensoren
 - Sensoraktivitätsindikator zur Übersicht aktiver Sensoren
@@ -80,9 +82,3 @@ In Linux sind Docker sowie Node und npm durch den Distribution-spezifischen Pack
 
 ## Easter Eggs
 There are no Easter Eggs in our Code. We are serious programmers like Kazuhisa Hashimoto from Julius Figge Enterprises.
-
-
-## Build Status:
-
-![CI Frontend](https://github.com/JeuJeus/awe2-wettersensoren/workflows/Test%20Frontend/badge.svg) 
-![Test Backend](https://github.com/JeuJeus/awe2-wettersensoren/workflows/Test%20Backend/badge.svg)
