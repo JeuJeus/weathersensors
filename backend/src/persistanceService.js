@@ -21,24 +21,24 @@ function validateSensorLocation() {
 
 async function getIdFromMacaddress(db, MACADDRESS) {
   await dbConnection.assignSensorIDByMACIfNotExists(db, MACADDRESS);
-  return dbConnection.getSensorIDByMAC(db, MACADDRESS);
+  return dbConnection.getSensorByMACAddress(db, MACADDRESS);
 }
 
 async function insertWeatherData(db, weatherData) {
   const result = await getIdFromMacaddress(db, weatherData.MACADDRESS);
   weatherData.ID = result.ID;
-  const dbresult = await assureUniqueWeatherData(db, weatherData);
+  const dbresult = await getWeatherDataByIdAndTimestamp(db, weatherData);
   if (dbresult === undefined) {
     return await dbConnection.insertWeatherData(db, weatherData);
   } else return new Error('Duplicate value: ' + weatherData.ID + ' & ' + weatherData.TIMESTAMP + ' already exist in DB');
 }
 
-async function assureUniqueWeatherData(db, weatherData) {
+async function getWeatherDataByIdAndTimestamp(db, weatherData) {
   return await dbConnection.getWeatherDataByIdAndTimestamp(db, weatherData.ID, weatherData.TIMESTAMP);
 }
 
 module.exports = {
-  'validateSensorDataInBody': validateSensorDataInBody,
-  'validateSensorLocation': validateSensorLocation,
-  'insertWeatherData': insertWeatherData,
+  validateSensorDataInBody,
+  validateSensorLocation,
+  insertWeatherData,
 };

@@ -70,10 +70,10 @@ async function assignSensorIDByMACIfNotExists(db, MACADDRESS) {
       'EXCEPT SELECT MAC_ADDRESS FROM SENSOR WHERE MAC_ADDRESS = ?';
   const params = [MACADDRESS, MACADDRESS];
   db.run(sql, params);
-  return getSensorIDByMAC(db, MACADDRESS);
+  return getSensorByMACAddress(db, MACADDRESS);
 }
 
-async function getSensorIDByMAC(db, MACADDRESS) {
+async function getSensorByMACAddress(db, MACADDRESS) {
   const sql = 'SELECT ID, MAC_ADDRESS, LOCATION ' +
       'FROM SENSOR ' +
       'WHERE MAC_ADDRESS = ?';
@@ -128,6 +128,6 @@ module.exports = {
   'getSensorById': getSensorById,
   'updateSensorLocation': updateSensorLocation,
   'assignSensorIDByMACIfNotExists': assignSensorIDByMACIfNotExists,
-  'getSensorIDByMAC': getSensorIDByMAC,
+  'getSensorByMACAddress': getSensorByMACAddress,
   'getWeatherDataByIdAndTimestamp': getWeatherDataByIdAndTimestamp,
 };

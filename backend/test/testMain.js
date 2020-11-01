@@ -77,8 +77,12 @@ describe('-- REST CONTROLLER -- ', () => {
   sinon.stub(dbConnection, 'getSensorData').returns(stubSensorsData);
   sinon.stub(dbConnection, 'getSensorDataById').returns(stubSensorsData);
   sinon.stub(dbConnection, 'getSensorById').returns(stubSensors);
+  sinon.stub(dbConnection, 'getSensorByMACAddress').returns(stubSensors);
 
   sinon.stub(dbConnection, 'insertWeatherData');
+  sinon.stub(dbConnection, 'assignSensorIDByMACIfNotExists');
+
+  sinon.stub(dbConnection, 'updateSensorLocation');
 
   describe('when get /weatherData', () => {
     it('should return valid data when calling get', () => {
