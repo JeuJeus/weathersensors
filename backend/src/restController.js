@@ -134,7 +134,7 @@ app.post('/updateSensorLocation', persistanceService.validateSensorLocation(), f
   const errors = validationResult(req);
   if (errors.isEmpty()) {
     dbConnection.updateSensorLocation(db, req.body);
-    logWrite('INFO', `SENSOR [${req.body.ID}] WAS UPDATED BY [${req.connection.remoteAddress}]`);
+    logWrite('INFO', `LOCATION OF SENSOR [${req.body.ID}] WAS UPDATED BY [${req.connection.remoteAddress}]`);
   } else {
     return errorParsingPostBody(req, res, errors);
   }
