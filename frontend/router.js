@@ -13,10 +13,11 @@ const stream = rfs.createStream('log/frontend.log', {
   compress: 'gzip',
   teeToStdout: true,
 });
+const as24hours = {hour12: false};
 
 const httpServer = http.createServer(app);
 const logger = function(req, res, next) {
-  stream.write(`${new Date().toLocaleString('de-DE')} - INFO: GOT REQUEST TO [${req.originalUrl}] FROM [${req.ip}]\n`);
+  stream.write(`${new Date().toLocaleString('de-DE', as24hours)} - INFO: GOT REQUEST TO [${req.originalUrl}] FROM [${req.ip}]\n`);
   next(); // Passing the request to the next handler in the stack.
 };
 
@@ -31,9 +32,9 @@ app.use(favicon(path.join(__dirname, 'resources', 'favicon.ico')));
 
 httpServer.listen(3344, (err) => {
   if (err) {
-    stream.write(`${new Date().toLocaleString('de-DE')} - ERROR: [${err}]\n`);
+    stream.write(`${new Date().toLocaleString('de-DE', as24hours)} - ERROR: [${err}]\n`);
   }
-  stream.write(`${new Date().toLocaleString('de-DE')} - INFO: FRONTEND STARTED\n`);
+  stream.write(`${new Date().toLocaleString('de-DE', as24hours)} - INFO: FRONTEND STARTED\n`);
   process.on('SIGINT', cleanup);
   process.on('SIGTERM', cleanup);
 });
@@ -55,6 +56,6 @@ app.get('/admin', auth, function (req, res) {
 });
 
 function cleanup() {
-  stream.write(`${new Date().toLocaleString('de-DE')} - INFO: FRONTEND SHUTTING DOWN\n`);
+  stream.write(`${new Date().toLocaleString('de-DE', as24hours)} - INFO: FRONTEND SHUTTING DOWN\n`);
   process.exit(1);
 }

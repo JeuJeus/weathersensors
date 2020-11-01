@@ -8,18 +8,21 @@ const atob = require('atob');
 const {validationResult} = require('express-validator');
 const rfs = require('rotating-file-stream');
 const cors = require('cors');
+
 const stream = rfs.createStream('log/backend.log', {
   size: '10M',
   interval: '1d',
   compress: 'gzip',
   teeToStdout: true,
 });
+const as24hours = {hour12: false};
+
 
 const httpServer = http.createServer(app);
 const db = dbConnection.openDb();
 
 const logger = function(req, res, next) {
-  stream.write(`${new Date().toLocaleString('de-DE')} - INFO: GOT REQUEST TO [${req.originalUrl}] FROM [${req.ip}]\n`);
+  stream.write(`${new Date().toLocaleString('de-DE', twentyFourHoursOption)} - INFO: GOT REQUEST TO [${req.originalUrl}] FROM [${req.ip}]\n`);
   next(); // Passing the request to the next handler in the stack.
 };
 app.use(logger);
@@ -34,9 +37,9 @@ app.use(cors({origin: '*'}));
 
 httpServer.listen(3000, (err) => {
   if (err) {
-    stream.write(`${new Date().toLocaleString('de-DE')} - ERROR: [${err}]\n`);
+    stream.write(`${new Date().toLocaleString('de-DE', as24hours)} - ERROR: [${err}]\n`);
   }
-  stream.write(`${new Date().toLocaleString('de-DE')} - INFO: BACKEND STARTED\n`);
+  stream.write(`${new Date().toLocaleString('de-DE', as24hours)} - INFO: BACKEND STARTED\n`);
   process.on('SIGINT', cleanup);
   process.on('SIGTERM', cleanup);
 });
@@ -102,12 +105,12 @@ app.get('/sensor/id/:SENSOR_ID', async function(req, res) {
 // ############### POST REQUESTS ###############
 
 function errorParsingPostBody(req, res, errors) {
-  stream.write(`${new Date().toLocaleString('de-DE')} - ERROR: POST REQUEST PARSING BODY FAILED FROM [${req.connection.remoteAddress}], REQUEST BODY: ${JSON.stringify(req.body)}\n`);
+  stream.write(`${new Date().toLocaleString('de-DE', as24hours)} - ERROR: POST REQUEST PARSING BODY FAILED FROM [${req.connection.remoteAddress}], REQUEST BODY: ${JSON.stringify(req.body)}\n`);
   return res.status(400).json({errors: errors.array()});
 }
 
 function errorDuplicateValue(req, res, error) {
-  stream.write(`${new Date().toLocaleString('de-DE')} - ERROR: POST REQUEST ATTEMPTED TO INSERT DUPLICATE VALUE FROM [${req.connection.remoteAddress}], REQUEST BODY: ${JSON.stringify(req.body)}\n`);
+  stream.write(`${new Date().toLocaleString('de-DE', as24hours)} - ERROR: POST REQUEST ATTEMPTED TO INSERT DUPLICATE VALUE FROM [${req.connection.remoteAddress}], REQUEST BODY: ${JSON.stringify(req.body)}\n`);
   return res.status(400).json({errors: error.message});
 }
 
@@ -127,7 +130,7 @@ app.post('/updateSensorLocation', dataValidator.validateSensorLocation(), functi
   const errors = validationResult(req);
   if (errors.isEmpty()) {
     dbConnection.updateSensorLocation(db, req.body);
-    stream.write(`${new Date().toLocaleString('de-DE')} - INFO: SENSOR [${req.body.ID}] WAS UPDATED BY [${req.connection.remoteAddress}]\n`);
+    stream.write(`${new Date().toLocaleString('de-DE', as24hours)} - INFO: SENSOR [${req.body.ID}] WAS UPDATED BY [${req.connection.remoteAddress}]\n`);
   } else {
     return errorParsingPostBody(req, res, errors);
   }
@@ -136,7 +139,7 @@ app.post('/updateSensorLocation', dataValidator.validateSensorLocation(), functi
 
 
 function cleanup() {
-  stream.write(`${new Date().toLocaleString('de-DE')} - INFO: BACKEND SHUTTING DOWN\n`);
+  stream.write(`${new Date().toLocaleString('de-DE', as24hours)} - INFO: BACKEND SHUTTING DOWN\n`);
   dbConnection.closeDb(db);
   process.exit(1);
 }
