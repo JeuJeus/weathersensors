@@ -1,4 +1,4 @@
-# Uniprojekt "Wettersensoren" <img src="frontend/resources/img/logo.png?" height="48" width="48">
+# Uniprojekt "Wettersensoren" <img src="frontend/resources/img/logo.png?" height="30" width="30">
 ## Anwendungsentwicklung 2 - FHDW Paderborn 
 
 Im Zuge dieses Projektes werden NodeMCU ESP8266 mit BME280 Sensoren (Temperatur, Luftdruck und Feuchtigkeitssensor) ausgestattet.
@@ -81,4 +81,4 @@ In Linux sind Docker sowie Node und npm durch den Distribution-spezifischen Pack
 
 
 ## Easter Eggs
-There are no Easter Eggs in our Code. We are serious programmers like Kazuhisa Hashimoto from Konami.
+There are no Easter Eggs in our Code. We are serious programmers like Kazuhisa Hashimoto from Julius Figge Enterprises.
