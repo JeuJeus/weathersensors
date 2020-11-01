@@ -1,7 +1,7 @@
 const controller = require('./GeileTypenWetterAppController');
 const rp = require('./AppDateTimePicker');
 const ac = require('./AppChart');
-const constants = require('./constants');
+const constants = require('./Constants');
 
 class GeileTypenWetterApp {
   // TODO FIXME EVERYTHING switch sensors bricks daterange
