@@ -35,7 +35,7 @@ app.use(bodyParser.json({
   limit: '100kb',
   type: 'application/json',
 }));
-// TODO SET ME ACCORDING TO DEPLOYMENT PLANS LATA BIT*H
+
 app.use(cors({origin: '*'}));
 
 httpServer.listen(3000, (err) => {

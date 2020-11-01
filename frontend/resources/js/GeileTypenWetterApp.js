@@ -4,7 +4,6 @@ const ac = require('./AppChart');
 const constants = require('./Constants');
 
 class GeileTypenWetterApp {
-  // TODO FIXME EVERYTHING switch sensors bricks daterange
   // DOM - Elements
   granularityInput = document.createElement('input');
   yAxisToggleButton = document.createElement('button');

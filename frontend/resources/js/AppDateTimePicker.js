@@ -41,7 +41,6 @@ class AppDateTimePicker{
     }
 
     createDateTimePicker(domElement, start, end, callBackOnChange) {
-        //TODO check whether Max and Min Values are possible (doable but dynamic setting may be to difficult for the purpose)
         const onChange = (start, end) => {
             this.enabled = true;
             this.toggleRangeSelectionActive();
