@@ -13,6 +13,9 @@ global.window = window;
 global.$ = require('jquery');
 global.jQuery = $;
 
+const wastedApp = new App.GeileTypenWetterApp(c.SERVER_URI);
+wastedApp.init();
+
 const stubSensorsData = {'sensorData': [{
   SENSOR_ID: faker.random.number(),
   TIMESTAMP: new Date().toISOString(),
