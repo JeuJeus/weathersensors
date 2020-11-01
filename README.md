@@ -71,12 +71,12 @@ Danach sind in der WSL die Schritte für Linux auszuführen.
 In Linux sind Docker sowie Node und npm durch den Distribution-spezifischen Package Manager zu installieren. 
 
 #### Backend Start-Command:
-```docker run -p 3333:3333 -v $PATH_TO_DATABASE:/usr/src/app/db --name awe2-backend -it awe2/backend:beta```
+```docker run -p 3333:3333 -v $PATH_TO_DATABASE:/usr/src/app/db --name awe2-backend -it awe2/backend:abgabe```
 
 ```$PATH_TO_DATABASE``` ist zu ersetzen mit dem Ordner, in welchem die Datenbank auf dem Host-System gespeichert werden soll.
 
 #### Frontend Start-Command:
-```docker run -p 3344:3344 --name awe2-frontend -it awe2/frontend:beta```
+```docker run -p 3344:3344 --name awe2-frontend -it awe2/frontend:abgabe```
 
 
 ## Easter Eggs
