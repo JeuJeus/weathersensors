@@ -83,7 +83,7 @@ async function getSensorByMACAddress(db, MACADDRESS) {
 
 async function getSensorData(db) {
   const sql = 'SELECT SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY ' +
-    'FROM SENSOR_DATA' +
+    'FROM SENSOR_DATA ' +
     'ORDER BY SENSOR_ID, TIMESTAMP';
   const params = [];
   return db.all(sql, params);
@@ -92,7 +92,7 @@ async function getSensorData(db) {
 async function getSensorDataById(db, SENSOR_ID) {
   const sql = 'SELECT SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY ' +
     'FROM SENSOR_DATA ' +
-    'WHERE SENSOR_ID = ?' +
+    'WHERE SENSOR_ID = ? ' +
     'ORDER BY TIMESTAMP';
   const params = [SENSOR_ID];
   return db.all(sql, params);

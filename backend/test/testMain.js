@@ -66,7 +66,7 @@ describe('-- REST CONTROLLER -- ', () => {
   }];
   const stubSensorInsertData = {
     MACADDRESS: 'aa:bb:cc:dd:ee:ff',
-    TIMESTAMP: '1230166400',
+    TIMESTAMP: '1604248997',
     TEMPERATURE: '20.0',
     AIRPRESSURE: '1000.0',
     HUMIDITY: '50.0',
@@ -88,13 +88,13 @@ describe('-- REST CONTROLLER -- ', () => {
   checkForDuplicateStub
     .withArgs(sinon.match.any,
       stubSensorInsertData.ID,
-      stubSensorInsertData.TIMESTAMP)
+      stubSensorInsertData.TIMESTAMP * 1000)
     .onCall(0)
     .returns(undefined);
   checkForDuplicateStub
     .withArgs(sinon.match.any,
       stubSensorInsertData.ID,
-      stubSensorInsertData.TIMESTAMP)
+      stubSensorInsertData.TIMESTAMP * 1000)
     .onCall(1)
     .returns(stubSensorsData);
 
@@ -202,8 +202,6 @@ describe('-- REST CONTROLLER -- ', () => {
     });
 
       it('should return error when posting duplicate data', () => {
-
-        const timestamp = Date.now();
         chai.request('http://localhost:3000')
           .post('/weatherData')
           .send(stubSensorInsertData)
