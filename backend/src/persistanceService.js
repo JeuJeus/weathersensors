@@ -19,13 +19,8 @@ function validateSensorLocation() {
   ];
 }
 
-async function getIdFromMacaddress(db, MACADDRESS) {
-  await dbConnection.assignSensorIDByMACIfNotExists(db, MACADDRESS);
-  return dbConnection.getSensorByMACAddress(db, MACADDRESS);
-}
-
 async function insertWeatherData(db, weatherData) {
-  const result = await getIdFromMacaddress(db, weatherData.MACADDRESS);
+  const result = await dbConnection.assignSensorIDByMACIfNotExists(db, weatherData.MACADDRESS);
   weatherData.ID = result.ID;
   const dbresult = await getWeatherDataByIdAndTimestamp(db, weatherData);
   if (dbresult === undefined) {
