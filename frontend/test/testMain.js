@@ -58,21 +58,20 @@ describe('-- APP TESTS -- ', () => {
   });
 
   describe('creating our App', () => {
-    it('should the App in node with correct SERVER_URI', (done) => {
+    it('should the App in node with correct SERVER_URI', async () => {
       const app = new App.GeileTypenWetterApp(c.SERVER_URI);
       app.setColors(c.TEMPERATURE_COLOR, c.AIRPRESSURE_COLOR, c.HUMIDITY_COLOR, c.SENSOR_COLOR);
       app.setUpdateInterval(c.UPDATE_INTERVAL);
-      app.init();
+      await app.init();
       expect(app.serverURI).to.deep.equal(c.SERVER_URI);
-      done();
     });
   });
 
   describe('app-methods', () => {
-    it('should return correct trafficLightColors', (done) => {
+    it('should return correct trafficLightColors', async () => {
       const app = new App.GeileTypenWetterApp(c.SERVER_URI);
       app.sendIntervalESPMinutes = 5;
-      app.init();
+      await app.init();
       const nowSeconds = Date.now() / 1000;
       const secondsOneHourAgo = nowSeconds - 60 * 60;
       const secondsFiveteenMinutesAgo = nowSeconds - 60 * 15;
@@ -83,7 +82,6 @@ describe('-- APP TESTS -- ', () => {
       expect(colorRed.class).to.deep.equal(c.TRAFFIC_LIGHT_CLASSES.RED);
       expect(colorYellow.class).to.deep.equal(c.TRAFFIC_LIGHT_CLASSES.YELLOW);
       expect(colorGreen.class).to.deep.equal(c.TRAFFIC_LIGHT_CLASSES.GREEN);
-      done();
     });
 
     it('should have sensors', async () => {
