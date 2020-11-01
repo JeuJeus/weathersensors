@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 rm ../awe2frontend.tar
 npm install
 npm run browserify

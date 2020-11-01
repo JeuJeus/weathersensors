@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 rm ../awe2backend.tar
 npm install
 rm db/data.db
