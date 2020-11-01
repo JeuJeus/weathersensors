@@ -54,6 +54,7 @@ Die exakten Geräte sind:
 
 ### Backend und Frontend
 Backend sowie Frontend werden mithilfe von Docker deployed. 
+Im Frontend ist hierzu die Backend Url in der Klasse ``Constants.js`` die Variable ``SERVER_URI`` angepasst werden.
 Die Images dafür lassen sich in den jeweiligen Modulen mit Hilfe der ```buildImageandTar.sh``` Skripts bauen.
 Diese bauen die Images und stellen diese in der lokalen Dockerumgebung zum Start bereit.
 Darüber hinaus werden im Projekt-Root-Ordner tar-Bälle mit den jeweiligen Images hinterlegt.
@@ -71,7 +72,7 @@ Danach sind in der WSL die Schritte für Linux auszuführen.
 In Linux sind Docker sowie Node und npm durch den Distribution-spezifischen Package Manager zu installieren. 
 
 #### Backend Start-Command:
-```docker run -p 3333:3333 -v $PATH_TO_DATABASE:/usr/src/app/db --name awe2-backend -it awe2/backend:abgabe```
+```docker run -p 3000:3000 -v $PATH_TO_DATABASE:/usr/src/app/db --name awe2-backend -it awe2/backend:abgabe```
 
 ```$PATH_TO_DATABASE``` ist zu ersetzen mit dem Ordner, in welchem die Datenbank auf dem Host-System gespeichert werden soll.
 
