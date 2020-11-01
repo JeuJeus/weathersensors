@@ -37,67 +37,70 @@
 </nav>
 
 <div class="container chartz">
-    <article class="row" id="nowValues">
-        <section class="col-12 col-sm-6 col-md-3 mt-3" id="sensorNowSection">
+    <article class="row" id="current-value-display">
+        <section class="col-12 col-sm-6 col-md-3 mt-3" id="current-value-section">
             <div class="text-center">
-                <p class="sensorNaming">Sensor <i class="fas fa-microchip"></i></p>
-                <h3 id="sensorPlotting" class="m-0">NaN</h3>
-                <small><span id="sensorPlottingLocation"></span></small>
+                <p class="property-name">Sensor <i class="fas fa-microchip"></i></p>
+                <h3 class="m-0" id="sensor-id-text">NaN</h3>
+                <small><span id="sensor-location-text"></span></small>
             </div>
         </section>
-        <section class="col-12 col-sm-6 col-md-3 mt-3" id="temperatureNowSection">
+        <section class="col-12 col-sm-6 col-md-3 mt-3" id="temperature-current-value-section">
             <div class="text-center">
-                <p class="sensorNaming">Temperature <i class="fas fa-thermometer-quarter"></i></p>
-                <h3 id="temperatureNow">NaN</h3>
+                <p class="property-name">Temperature <i class="fas fa-thermometer-quarter"></i></p>
+                <h3 id="temperature-current-value">NaN</h3>
             </div>
         </section>
-        <section class="col-12 col-sm-6 col-md-3 mt-3" id="humidityNowSection">
+        <section class="col-12 col-sm-6 col-md-3 mt-3" id="humidity-current-value-section">
             <div class="text-center">
-                <p class="sensorNaming">Humidity <i class="fas fa-tint"></i></p>
-                <h3 id="humidityNow">NaN</h3>
+                <p class="property-name">Humidity <i class="fas fa-tint"></i></p>
+                <h3 id="humidity-current-value">NaN</h3>
             </div>
         </section>
-        <section class="col-12 col-sm-6 col-md-3 mt-3" id="airPressureNowSection">
+        <section class="col-12 col-sm-6 col-md-3 mt-3" id="airpressure-current-value-section">
             <div class="text-center">
-                <p class="sensorNaming">Air Pressure <i class="fas fa-wind"></i></p>
-                <h3 id="airPressureNow">NaN</h3>
+                <p class="property-name">Air Pressure <i class="fas fa-wind"></i></p>
+                <h3 id="airpressure-current-value">NaN</h3>
             </div>
         </section>
     </article>
 
-    <div class="row borderRadius" id="chartOptions">
+    <div class="row borderRadius" id="chart-options">
         <div class="col col-12 col-sm-6 col-lg-2 mt-0 my-auto">
-            <div class="dropdown buttonMargin">
-                <button class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" type="button" id="sensorSelectButton">
+            <div class="dropdown button-margin">
+                <button class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" id="sensor-select-button"
+                        type="button">
                     Select Sensor
                 </button>
-                <div class="dropdown-menu buttonMargin" id="sensorForChartDropdown">
+                <div class="dropdown-menu button-margin" id="sensor-dropdown">
                 </div>
             </div>
         </div>
         <div class="col col-12 col-sm-6 col-lg-3 mt-0 my-auto">
-            <div class="input-group buttonMargin">
+            <div class="input-group button-margin">
                 <div class="input-group-prepend">
                     <div class="input-group-text">Granularity <i class="leftSpace fas fa-braille"></i></div>
                 </div>
-                <input class="form-control inputMargin" id="granularity" name="granularity" type="text">
+                <input class="form-control" id="granularity-input" name="granularity" type="text">
             </div>
         </div>
         <div class="col col-12 col-sm-9 col-lg-5 offset mt-0 my-auto">
-            <div class="input-group buttonMargin" id="dateRangeDiv">
+            <div class="input-group button-margin" id="date-range-div">
                 <div class="input-group-prepend">
                     <div class="input-group-text">Range <i class="leftSpace fas fa-calendar-alt"></i></div>
                 </div>
-                <input class="form-control" id="dateTimeRange" name="dateTimeRange" type="text"/>
+                <input class="form-control" id="date-time-range-picker" name="date-time-range-picker" type="text"/>
                 <div class="input-group-append">
-                    <button disabled id="resetRangeButton" type="submit"><i class="fas fa-calendar-times"></i>
+                    <button disabled id="reset-range-button" name="reset-range-button" type="submit"><i
+                            class="fas fa-calendar-times"></i>
                     </button>
                 </div>
             </div>
         </div>
         <div class="col col-12 col-sm-3 col-lg-2 mt-0 my-auto">
-            <div class="buttonMargin">
-                <button class="btn btn-outline-dark btn-nav" id="yAxisToggleButton" type="button">Toggle Y-Axis</button>
+            <div class="button-margin">
+                <button class="btn btn-outline-dark btn-nav" id="y-axis-toggle-button" type="button">Toggle Y-Axis
+                </button>
             </div>
         </div>
     </div>

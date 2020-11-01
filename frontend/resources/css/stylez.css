@@ -15,26 +15,16 @@ a.nav-item.active, .btn:hover a {
 
 /*CHARTS*/
 
-.buttonMargin {
+.button-margin {
     margin-top: 0.75em;
     margin-bottom: 0.75em;
 }
 
-.chartz {
+.chartz, .chart {
     margin-top: 2em;
     margin-bottom: 2em;
 }
 
-.chart {
-    margin-top: 2em;
-}
-
-.funIcon {
-    margin-left: -2.25rem;
-    z-index: 2;
-    color: black;
-    font-size: 1.5rem;
-}
 
 .input-group-text {
     background-color: #bab9b9;
@@ -49,17 +39,17 @@ a.nav-item.active, .btn:hover a {
     border-radius: 5px;
 }
 
-.sensorNaming {
+.property-name {
     margin-top: 0.2em;
     margin-bottom: 0.4em;
     padding-top: 0.5em;
 }
 
-#nowValues > section {
+#current-value-display > section {
     padding: 0 0.3rem;
 }
 
-#nowValues > section > div {
+#current-value-display > section > div {
     height: 100%;
 }
 
@@ -80,12 +70,12 @@ a.nav-item.active, .btn:hover a {
     color: rgba(204, 0, 112, 0.5);
 }
 
-#sensorNowSection > div {
+#current-value-section > div {
     background-color: rgba(214, 210, 68, 0.5);
     border-radius: 5px;
 }
 
-#temperatureNowSection > div, .btn-pink {
+#temperature-current-value-section > div, .btn-pink {
     background-color: rgba(204, 0, 112, 0.5);
     border-radius: 5px;
 }
@@ -94,12 +84,12 @@ a.nav-item.active, .btn:hover a {
     background-color: rgba(204, 0, 112, 0.7);
 }
 
-#humidityNowSection > div, .daterangepicker td.active {
+#humidity-current-value-section > div, .date-time-range-picker td.active {
     background-color: rgba(0, 39, 191, 0.5);
     border-radius: 5px;
 }
 
-.daterangepicker td.active:hover {
+.date-time-range-picker td.active:hover {
     background-color: rgba(0, 39, 191, 0.6);
 }
 
@@ -125,7 +115,7 @@ input[type="text"] {
     border-radius: 0 3px 3px 0;
 }
 
-#airPressureNowSection > div, .btn-green {
+#airpressure-current-value-section > div, .btn-green {
     background-color: rgba(0, 204, 109, 0.5);
     border-radius: 5px;
 }
@@ -135,7 +125,7 @@ input[type="text"] {
 }
 
 
-#chartOptions {
+#chart-options {
     background-color: rgba(186, 185, 185, 1);
     margin-left: -10px;
     margin-right: -10px;
@@ -149,7 +139,8 @@ div.alert-messages {
     right: 25%;
     z-index: 7000;
 }
-#sensorSelectButton, #yAxisToggleButton{
+
+#sensor-select-button, #y-axis-toggle-button {
     width: 100%;
 }
 
