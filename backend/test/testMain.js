@@ -64,33 +64,53 @@ describe('-- REST CONTROLLER -- ', () => {
     HUMIDITY: faker.random.float(),
 
   }];
+  const stubSensorInsertData = {
+    MACADDRESS: 'aa:bb:cc:dd:ee:ff',
+    TIMESTAMP: '1230166400',
+    TEMPERATURE: '20.0',
+    AIRPRESSURE: '1000.0',
+    HUMIDITY: '50.0',
+  };
   const stubSensors = [{
     ID: faker.random.number(),
     MAC_ADRESS: faker.internet.mac(),
     LOCATION: faker.address.city(),
   }];
-
   chai.use(chaiHttp);
 
-  // Every time the following functions in restController get called, they are mocked here with random values.
   sinon.stub(dbConnection, 'getSensors').returns(stubSensors);
   sinon.stub(dbConnection, 'getSensorData').returns(stubSensorsData);
   sinon.stub(dbConnection, 'getSensorDataById').returns(stubSensorsData);
   sinon.stub(dbConnection, 'getSensorById').returns(stubSensors);
   sinon.stub(dbConnection, 'getSensorByMACAddress').returns(stubSensors);
+
+  const checkForDuplicateStub = sinon.stub(dbConnection, 'getWeatherDataByIdAndTimestamp');
+  checkForDuplicateStub
+    .withArgs(sinon.match.any,
+      stubSensorInsertData.ID,
+      stubSensorInsertData.TIMESTAMP)
+    .onCall(0)
+    .returns(undefined);
+  checkForDuplicateStub
+    .withArgs(sinon.match.any,
+      stubSensorInsertData.ID,
+      stubSensorInsertData.TIMESTAMP)
+    .onCall(1)
+    .returns(stubSensorsData);
+
   sinon.stub(dbConnection, 'assignSensorIDByMACIfNotExists').returns(stubSensors);
   sinon.stub(dbConnection, 'insertWeatherData');
   sinon.stub(dbConnection, 'updateSensorLocation');
 
   describe('when get /weatherData', () => {
     it('should return valid data when calling get', () => {
-        chai.request('http://localhost:3000')
-            .get('/weatherData')
-            .end((err, res) => {
-                res.should.have.status(200);
-                expect(res.body.sensorData[0]).to.deep.equal(stubSensorsData[0]);
-                expect(res.body.sensors[0]).to.deep.equal(stubSensors[0]);
-            });
+      chai.request('http://localhost:3000')
+        .get('/weatherData')
+        .end((err, res) => {
+          res.should.have.status(200);
+          expect(res.body.sensorData[0]).to.deep.equal(stubSensorsData[0]);
+          expect(res.body.sensors[0]).to.deep.equal(stubSensors[0]);
+        });
     });
   });
 
@@ -182,32 +202,20 @@ describe('-- REST CONTROLLER -- ', () => {
     });
 
       it('should return error when posting duplicate data', () => {
-          //TODO FIX ME @JB
-          const timestamp = Date.now();
-          chai.request('http://localhost:3000')
-              .post('/weatherData')
-              .send({
-                  MACADDRESS: 'aa:bb:cc:dd:ee:ff',
-                  TIMESTAMP: timestamp,
-                  TEMPERATURE: '20.0',
-                  AIRPRESSURE: '1000.0',
-                  HUMIDITY: '50.0',
-              })
-              .end((err, res) => {
-                  res.should.have.status(200);
-              });
-          chai.request('http://localhost:3000')
-              .post('/weatherData')
-              .send({
-                  MACADDRESS: 'aa:bb:cc:dd:ee:ff',
-                  TIMESTAMP: timestamp,
-                  TEMPERATURE: '21.0',
-                  AIRPRESSURE: '1001.0',
-                  HUMIDITY: '51.0',
-              })
-              .end((err, res) => {
-                  res.should.have.status(400);
-              });
+
+        const timestamp = Date.now();
+        chai.request('http://localhost:3000')
+          .post('/weatherData')
+          .send(stubSensorInsertData)
+          .end((err, res) => {
+            res.should.have.status(200);
+          });
+        chai.request('http://localhost:3000')
+          .post('/weatherData')
+          .send(stubSensorInsertData)
+          .end((err, res) => {
+            res.should.have.status(400);
+          });
       });
   });
 
