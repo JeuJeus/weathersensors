@@ -9,7 +9,6 @@ function ensureDbDirSync(dirpath) {
     if (err.code !== 'EEXIST') throw err;
   }
 }
-//TODO ADD ORDER BY FOR EVERY QUERY WHERE DATA ORDER IS RELEVANT
 function openDb() {
   ensureDbDirSync('db');
   const db = new sqlite3.Database('./db/data.db');
@@ -51,7 +50,8 @@ async function getSensors(db) {
     'FROM SENSOR S ' +
     'JOIN SENSOR_DATA SD ' +
     'ON S.ID = SD.SENSOR_ID ' +
-    'GROUP BY S.ID, S.MAC_ADDRESS, S.LOCATION';
+    'GROUP BY S.ID, S.MAC_ADDRESS, S.LOCATION ' +
+    'ORDER BY S.ID';
   const params = [];
   return db.all(sql, params);
 }
@@ -83,15 +83,17 @@ async function getSensorByMACAddress(db, MACADDRESS) {
 
 async function getSensorData(db) {
   const sql = 'SELECT SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY ' +
-      'FROM SENSOR_DATA';
+    'FROM SENSOR_DATA' +
+    'ORDER BY SENSOR_ID, TIMESTAMP';
   const params = [];
   return db.all(sql, params);
 }
 
 async function getSensorDataById(db, SENSOR_ID) {
   const sql = 'SELECT SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY ' +
-      'FROM SENSOR_DATA ' +
-      'WHERE SENSOR_ID = ?';
+    'FROM SENSOR_DATA ' +
+    'WHERE SENSOR_ID = ?' +
+    'ORDER BY TIMESTAMP';
   const params = [SENSOR_ID];
   return db.all(sql, params);
 }
