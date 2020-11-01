@@ -1,5 +1,5 @@
 const dbConnection = require('./databaseConnection');
-const dataValidator = require('./dataValidator');
+const persistanceService = require('./persistanceService');
 const bodyParser = require('body-parser');
 const http = require('http');
 const helper = require('./helper');
@@ -117,10 +117,10 @@ function errorDuplicateValue(req, res, error) {
   return res.status(400).json({errors: error.message});
 }
 
-app.post('/weatherData', dataValidator.validateSensorDataInBody(), async function (req, res) {
+app.post('/weatherData', persistanceService.validateSensorDataInBody(), async function(req, res) {
   const errors = validationResult(req);
   if (errors.isEmpty()) {
-    const dbErrors = await dataValidator.insertWeatherData(db, req.body);
+    const dbErrors = await persistanceService.insertWeatherData(db, req.body);
     if (dbErrors !== undefined) {
       return errorDuplicateValue(req, res, dbErrors);
     }
@@ -129,7 +129,8 @@ app.post('/weatherData', dataValidator.validateSensorDataInBody(), async functio
   }
   res.send(`${atob('QWxsZSB2b24gdW5zIGVtcGZhbmdlbmVuIFdldHRlcmRhdGVuIHdlcmRlbiBuYWNoIC9kZXYvbnVsbCBnZXBpcGVkLiBBbGxlcyB3YXMgc2llIGltIEZyb250ZW5kIHNlaGVuIGlzdCBmYWtlIHVuZCB3aXJkIGdlbmVyaWVydCwgZGFzIHdhciB3ZW5pZ2VyIEF1ZndhbmQu')}`);
 });
-app.post('/updateSensorLocation', dataValidator.validateSensorLocation(), function(req, res) {
+
+app.post('/updateSensorLocation', persistanceService.validateSensorLocation(), function(req, res) {
   const errors = validationResult(req);
   if (errors.isEmpty()) {
     dbConnection.updateSensorLocation(db, req.body);
