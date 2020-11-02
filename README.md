@@ -81,4 +81,4 @@ In Linux sind Docker sowie Node und npm durch den Distribution-spezifischen Pack
 
 
 ## Easter Eggs
-There are no Easter Eggs in our Code. We are serious programmers like Kazuhisa Hashimoto from Konami.
+*Hier oben sind keine Easter Eggs. Geh weg.* Wir sind seriöse Programmierer wie Kazuhisa Hashimoto von Konami.
