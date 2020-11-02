@@ -54,12 +54,15 @@ Die exakten Geräte sind:
 
 ### Backend und Frontend
 Backend sowie Frontend werden mithilfe von Docker deployed. 
-Im Frontend ist hierzu die Backend Url in der Klasse ``Constants.js`` die Variable ``SERVER_URI`` angepasst werden.
+Im Frontend ist hierzu die Backend Url in der Klasse ``Constants.js`` die Variable ``SERVER_URI`` anzupassen.
 Die Images dafür lassen sich in den jeweiligen Modulen mit Hilfe der ```buildImageandTar.sh``` Skripts bauen.
 Diese bauen die Images und stellen diese in der lokalen Dockerumgebung zum Start bereit.
 Darüber hinaus werden im Projekt-Root-Ordner tar-Bälle mit den jeweiligen Images hinterlegt.
 Für diesen Schritt haben wir uns entscheiden um die Images einfach auf einem Server verfügbar zu machen
 ohne Docker Registries (e.g. Docker.io) in Anspruch nehmen zu müssen.
+
+Der Standard Admin-Zugang ist ``admin:$PASSWORD``
+Das Passwort für den Admin Zugang - in Form der Variable ``$PASSWORD`` in ``router.js`` - ist gegebenermaßen zu ersetzen.
 
 #### Deployment Voraussetzungen unter Windows
 Das Projekt kann mithilfe der WSL 2 und Docker for Windows deployed werden.
@@ -78,7 +81,3 @@ In Linux sind Docker sowie Node und npm durch den Distribution-spezifischen Pack
 
 #### Frontend Start-Command:
 ```docker run -p 3344:3344 --name awe2-frontend -it awe2/frontend:abgabe```
-
-
-## Easter Eggs
-*Hier oben sind keine Easter Eggs. Geh weg.* Wir sind seriöse Programmierer wie Kazuhisa Hashimoto von Konami.
