@@ -33,10 +33,10 @@ function createQuery(granularity, rangeEnabled, timeRangeStart, timeRangeEnd) {
   query['granularity'] = granularity;
   if (rangeEnabled) {
     if (isAssigned(timeRangeStart)) {
-      query['timerange_start'] = moment(timeRangeStart, 'DD.MM.YYYY, HH:mm:ss').unix();
+      query['timerange_start'] = moment(timeRangeStart, 'DD.MM.YYYY, HH:mm:ss').unix()*1000;
     }
     if (isAssigned(timeRangeEnd)) {
-      query['timerange_end'] = moment(timeRangeEnd, 'DD.MM.YYYY, HH:mm:ss').unix();
+      query['timerange_end'] = moment(timeRangeEnd, 'DD.MM.YYYY, HH:mm:ss').unix()*1000;
     }
   }
   return query;
