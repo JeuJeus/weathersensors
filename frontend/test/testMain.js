@@ -79,9 +79,9 @@ describe('-- APP TESTS -- ', () => {
       const app = new App.GeileTypenWetterApp(c.SERVER_URI);
       app.sendIntervalESPMinutes = 5;
       await app.init();
-      const nowSeconds = Date.now() / 1000;
-      const secondsOneHourAgo = nowSeconds - 60 * 60;
-      const secondsFiveteenMinutesAgo = nowSeconds - 60 * 15;
+      const nowSeconds = Date.now();
+      const secondsOneHourAgo = nowSeconds - (1000 * 60 * 60);
+      const secondsFiveteenMinutesAgo = nowSeconds - (1000 * 60 * 15);
       const colorRed = app.getTrafficLightClassBasedOnUpdateAge(secondsOneHourAgo);
       const colorYellow = app.getTrafficLightClassBasedOnUpdateAge(secondsFiveteenMinutesAgo);
       const colorGreen = app.getTrafficLightClassBasedOnUpdateAge(nowSeconds);
