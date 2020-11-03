@@ -102,34 +102,24 @@ class GeileTypenWetterApp {
     return sensorLink;
   }
 
-  createLastUpdateDate(differenceInMinutes) {
-    //TODO FIX MY CALCULATION
-    let lastUpdate = new Date();
-    lastUpdate.setMinutes(-differenceInMinutes);
-    return lastUpdate.toLocaleString('de-DE');
-  }
-
   getTrafficLightClassBasedOnUpdateAge(timestamp) {
-    let color;
-    const nowMilliSeconds = Date.now();
-    const differenceInMinutes = Math.floor(Math.floor((nowMilliSeconds - timestamp) / 1000) / 60);
+    const differenceInMinutes = Math.floor((Date.now() - timestamp) / 1000 / 60);
     if (differenceInMinutes < (this.sendIntervalESPMinutes * 2)) {
-      color = {
+      return {
         class: constants.TRAFFIC_LIGHT_CLASSES.GREEN,
         tooltip: `Sensor is active`,
       };
     } else if ((this.sendIntervalESPMinutes * 2) <= differenceInMinutes && differenceInMinutes <= (this.sendIntervalESPMinutes * 4)) {
-      color = {
+      return {
         class: constants.TRAFFIC_LIGHT_CLASSES.YELLOW,
-        tooltip: `Sensor was last seen ${this.createLastUpdateDate(differenceInMinutes)}`,
+        tooltip: `Sensor was last seen ${new Date(timestamp).toLocaleString('de-DE')}`,
       };
     } else {
-      color = {
+      return {
         class: constants.TRAFFIC_LIGHT_CLASSES.RED,
-        tooltip: `Sensor was last seen ${this.createLastUpdateDate(differenceInMinutes)}`,
+        tooltip: `Sensor was last seen ${new Date(timestamp).toLocaleString('de-DE')}`,
       };
     }
-    return color;
   }
 
   createLastUpdatedDot(color) {
