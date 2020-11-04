@@ -172,6 +172,7 @@ class GeileTypenWetterApp {
 
   sensorLinkOnClick(ID) {
     this.sensorToPlot = ID;
+    this.dateTimeRangePicker.reset();
     this.update();
   }
 
