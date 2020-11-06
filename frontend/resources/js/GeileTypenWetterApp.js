@@ -16,7 +16,7 @@ class GeileTypenWetterApp {
   chartCanvasElement = document.createElement('canvas');
 
   // current state
-  granularity = 50;
+  granularity = 100;
   sensorToPlot = 1;
   sensors = [];
   sensorData = {
