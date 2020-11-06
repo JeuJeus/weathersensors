@@ -174,10 +174,14 @@ class GeileTypenWetterApp {
 
 
   assureDateRangeNotEmptyElseResetAndAlert() {
-    //TODO this introduces bug : infinite loop when no data in database available -> how to catch
     if (this.sensorData.timestamps.length === 0) {
-      alert.showAndDismissAlert('danger', 'No Data Points for selected range found - Range was reset!');
-      this.resetRangeButtonOnClick();
+      if (!this.dateTimeRangePicker.enabled) {
+        //should not occure -> sensor should not be in database without data
+        alert.showAndDismissAlert('danger', 'No Data Points found in Database for Sensor!');
+      } else {
+        alert.showAndDismissAlert('danger', 'No Data Points for selected range found - Range was reset!');
+        this.resetRangeButtonOnClick();
+      }
     }
   }
 
