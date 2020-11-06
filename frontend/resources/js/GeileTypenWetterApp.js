@@ -2,6 +2,8 @@ const controller = require('./GeileTypenWetterAppController');
 const rp = require('./AppDateTimePicker');
 const ac = require('./AppChart');
 const constants = require('./Constants');
+const alert = require('./Alert');
+
 
 class GeileTypenWetterApp {
   // DOM - Elements
@@ -79,9 +81,9 @@ class GeileTypenWetterApp {
   updateLatestValues(sensor, tempNow, humidNow, airPressNow) {
     this.sensorPlotting.innerText = sensor.ID;
     this.sensorPlottingLocation.innerText = sensor.LOCATION ? sensor.LOCATION : '';
-    this.temperatureNow.innerText = tempNow.toFixed(2) + '°C';
-    this.humidityNow.innerText = humidNow.toFixed(2) + '%';
-    this.airPressureNow.innerText = airPressNow.toFixed(2) + 'mbar';
+    this.temperatureNow.innerText = tempNow ? tempNow.toFixed(2) + '°C' : '';
+    this.humidityNow.innerText = humidNow ? humidNow.toFixed(2) + '%' : '';
+    this.airPressureNow.innerText = airPressNow ? airPressNow.toFixed(2) + 'mbar' : '';
   }
 
   async updateSensorsDropdown() {
@@ -167,13 +169,22 @@ class GeileTypenWetterApp {
 
   resetRangeButtonOnClick() {
     this.dateTimeRangePicker.reset();
-    this.update()
+    this.update();
   }
 
-  sensorLinkOnClick(ID) {
+
+  assureDateRangeNotEmptyElseResetAndAlert() {
+    //TODO this introduces bug : infinite loop when no data in database available -> how to catch
+    if (this.sensorData.timestamps.length === 0) {
+      alert.showAndDismissAlert('danger', 'No Data Points for selected range found - Range was reset!');
+      this.resetRangeButtonOnClick();
+    }
+  }
+
+  async sensorLinkOnClick(ID) {
     this.sensorToPlot = ID;
-    this.dateTimeRangePicker.reset();
-    this.update();
+    await this.update();
+    this.assureDateRangeNotEmptyElseResetAndAlert();
   }
 
   // ### setters to override default values ### //
