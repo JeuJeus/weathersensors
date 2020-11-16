@@ -27,8 +27,8 @@ describe('-- HELPER TESTS -- ', () => {
 
     it('should assure keeping last element', () => {
       let reduced = helper.reduceElementsWhilstAssuringKeepLastElement(testD, testD.length / 2);
-      expect(reduced.length).to.deep.equal(testD.length / 2);
-      expect(reduced[reduced.length]).to.deep.equal(testD[testD.length]);
+      expect(reduced.length).to.deep.equal(Math.round(testD.length / 2));
+      expect(reduced[reduced.length - 1]).to.deep.equal(testD[testD.length - 1]);
     });
   });
 

@@ -2,9 +2,9 @@
 
 function reduceElementsWhilstAssuringKeepLastElement(elements, maxSize) {
 //  this is needed for large quantities of elements -> in order to keep latest timestamp for big live view
-  let lastElement = elements.pop();
+  let lastElement = elements[elements.length - 1];
   let reducedElements = reduceElementsToMaxSize(elements, maxSize);
-  reducedElements[reducedElements.length] = lastElement;
+  reducedElements[reducedElements.length - 1] = lastElement;
   return reducedElements;
 }
 
