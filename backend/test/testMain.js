@@ -24,6 +24,12 @@ describe('-- HELPER TESTS -- ', () => {
     it('with valid maxSize', () => {
       expect(helper.reduceElementsToMaxSize(testD, testD.length / 2).length).to.deep.equal(testD.length / 2);
     });
+
+    it('should assure keeping last element', () => {
+      let reduced = helper.reduceElementsWhilstAssuringKeepLastElement(testD, testD.length / 2);
+      expect(reduced.length).to.deep.equal(testD.length / 2);
+      expect(reduced[reduced.length]).to.deep.equal(testD[testD.length]);
+    });
   });
 
   describe('it should filter data points by begin and endtimestamp', () => {

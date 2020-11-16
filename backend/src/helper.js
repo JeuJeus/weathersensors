@@ -1,5 +1,13 @@
 // *** helper / utility  functions *** //
 
+function reduceElementsWhilstAssuringKeepLastElement(elements, maxSize) {
+//  this is needed for large quantities of elements -> in order to keep latest timestamp for big live view
+  let lastElement = elements.pop();
+  let reducedElements = reduceElementsToMaxSize(elements, maxSize);
+  reducedElements[reducedElements.length] = lastElement;
+  return reducedElements;
+}
+
 function reduceElementsToMaxSize(elements, maxSize) {
   if (elements.length <= maxSize) return elements;
   const origSize = elements.length;
@@ -24,4 +32,5 @@ module.exports = {
   'reduceElementsToMaxSize': reduceElementsToMaxSize,
   'filterTimeRange': filterTimeRange,
   'filterTimeRangeByPresentParameters': filterTimeRangeByPresentParameters,
+  'reduceElementsWhilstAssuringKeepLastElement': reduceElementsWhilstAssuringKeepLastElement,
 };
