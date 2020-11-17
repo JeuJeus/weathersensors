@@ -5,3 +5,110 @@
 
 \anhangsverzeichnis
 
+\anhang{Schnittstellen}\label{Anhang:Schnittstellen}
+
+\subanhang{Antwort GET-Request auf /weatherData}
+\begin{figure}[bht]
+    \begin{lstlisting}[caption=Antwort GET-Request /weatherData, label=list:getWeatherData]
+		{"sensors":[
+			{"ID":1,
+				"MAC_ADDRESS":"e0:98:06:86:23:bc",
+				"LOCATION":"Julius (Paderborn)",
+				"LAST_UPDATE":1605628770000
+			},
+			{"ID":2,
+				"MAC_ADDRESS":"68:c6:3a:88:c0:cd",
+				"LOCATION":"Jonathan (nun auch nach alledem in Paderborn)",
+				"LAST_UPDATE":1605357215000
+			},
+			{"ID":3,
+				"MAC_ADDRESS":"f4:cf:a2:d1:49:3e",
+				"LOCATION":"Philipp (Paderborn)",
+				"LAST_UPDATE":1605628927000
+			}
+			],
+		"sensorData":[
+			{"SENSOR_ID":1,
+				"TIMESTAMP":1604251064000,
+				"TEMPERATURE":21.610001,
+				"AIRPRESSURE":996.586426,
+				"HUMIDITY":60.304688
+			},
+			{"SENSOR_ID":1,
+				"TIMESTAMP":1604251364000,
+				"TEMPERATURE":21.610001,
+				"AIRPRESSURE":996.608887,
+				"HUMIDITY":60.868164
+			}
+			]
+		}
+    \end{lstlisting}
+\end{figure}
+
+\pagebreak
+
+\subanhang{Antwort GET-Request auf /sensorData/id/1}
+\begin{figure}[bht]
+    \begin{lstlisting}[caption=Antwort GET-Request /sensorData/id/1, label=list:getSensorData1]
+		{"sensorData":[
+			{"SENSOR_ID":1,
+				"TIMESTAMP":1604251064000,
+				"TEMPERATURE":21.610001,
+				"AIRPRESSURE":996.586426,
+				"HUMIDITY":60.304688
+			},
+			{"SENSOR_ID":1,
+				"TIMESTAMP":1604251364000,
+				"TEMPERATURE":21.610001,
+				"AIRPRESSURE":996.608887,
+				"HUMIDITY":60.868164
+			},
+			{"SENSOR_ID":1,
+				"TIMESTAMP":1604251666000,
+				"TEMPERATURE":21.610001,
+				"AIRPRESSURE":996.680603,
+				"HUMIDITY":60.949219
+			}
+			]
+		}
+    \end{lstlisting}
+\end{figure}
+
+\pagebreak
+
+\subanhang{Antwort GET-Request auf /sensors}
+\begin{figure}[bht]
+    \begin{lstlisting}[caption=Antwort GET-Request /sensors, label=list:getSensors]
+	{"sensors":[
+		{"ID":1,
+			"MAC_ADDRESS":"e0:98:06:86:23:bc",
+			"LOCATION":"Julius (Paderborn)",
+			"LAST_UPDATE":1605629371000
+		},
+		{"ID":2,
+			"MAC_ADDRESS":"68:c6:3a:88:c0:cd",
+			"LOCATION":"Jonathan (nun auch nach alledem in Paderborn)",
+			"LAST_UPDATE":1605357215000
+		},
+		{"ID":3,
+			"MAC_ADDRESS":"f4:cf:a2:d1:49:3e",
+			"LOCATION":"Philipp (Paderborn)",
+			"LAST_UPDATE":1605629652000
+		}
+	]
+}
+    \end{lstlisting}
+\end{figure}
+
+\subanhang{Antwort GET-Request auf /sensor/id/1}
+\begin{figure}[bht]
+    \begin{lstlisting}[caption=Antwort GET-Request /sensor/id/1, label=list:getSensor]
+	{
+		"sensor": {
+			"ID": 1,
+			"MAC_ADDRESS": "e0:98:06:86:23:bc",
+			"LOCATION": "Julius (Paderborn)"
+		}
+	}
+    \end{lstlisting}
+\end{figure}

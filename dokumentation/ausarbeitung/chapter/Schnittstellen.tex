@@ -1,6 +1,71 @@
- %!TEX root = ../Thesis.tex
+%!TEX root = ../Thesis.tex
+
+
 \section{Schnittstellen}
 
-%Die Anwendung ist über eine REST-API erreichbar. Alle Antworten sind im JSON-Format.
 Das Backend unserer Anwendung verfügt über eine REST-API. Diese wird zur Kommunikation des Backends mit den jeweiligen Wettersensoren, sowie zur Kommunikation des Frontends mit dem Backend verwendet.
+
+\subsection{Schnittstellenbeschreibung REST-API}
+Die Schnittstelle stellt folgende Services bereit:
+
+\begin{itemize}
+    \item \textsl{HTTP-Methode}: GET
+    \subitem \textsl{Relativer Pfad}: \textbf{/weatherData}
+    \subitem \textsl{Antwort}: JSON-Object mit zwei Arrays.
+    Das erste beinhaltet alle Sensoren, das zweite alle verfügbaren Sensordaten.\footnote{Für beinhaltete Datentypen siehe \cref{Datenbankmodell}}%TODO FIX REF
+    \subitem \textsl{Beispielantwort}: siehe Anhang \ref{Anhang:Schnittstellen}
+\end{itemize}
+
+\begin{itemize}
+    \item \textsl{HTTP-Methode}: GET
+    \subitem \textsl{Relativer Pfad}: \textbf{/sensorData/id/:SENSOR\_ID}
+    \subitem \textsl{Antwort}: JSON-Object mit Wetterdaten für gewählten Sensor
+    \subitem \textsl{Parameter}: \begin{itemize}
+                                     \item URL-Encoded: \textit{ID} - ID des gewünschten Sensor
+                                     \item (optional) Query:    \textit{timerange\_start} - Mindestzeitstempel der Sensordaten.
+                                     \item (optional) Query:    \textit{timerange\_end} - Höchstzeitstempel der Sensordaten.
+                                     \item (optional) Query: \textit{granularity} - Menge der zurückzugebenden Datenpunkte
+    \end{itemize}
+    \subitem \textsl{Beispielantwort}: siehe Anhang \ref{Anhang:Schnittstellen}
+\end{itemize}
+
+\begin{itemize}
+    \item \textsl{HTTP-Methode}: GET
+    \subitem \textsl{Relativer Pfad}: \textbf{/sensors}
+    \subitem \textsl{Antwort}: JSON-Object welches alle Sensoren beinhaltet.
+    \subitem \textsl{Beispielantwort}: siehe Anhang \ref{Anhang:Schnittstellen}
+\end{itemize}
+
+\begin{itemize}
+    \item \textsl{HTTP-Methode}: GET
+    \subitem \textsl{Relativer Pfad}: \textbf{/sensor/id/:SENSOR\_ID}
+    \subitem \textsl{Antwort}: JSON-Object welches die Informationen über einen ausgewählten Sensor beinhaltet.
+    \subitem \textsl{Parameter}: \begin{itemize}
+                                     \item URL-Encoded: \textit{ID} - ID des gewünschten Sensor
+    \end{itemize}
+    \subitem \textsl{Beispielantwort}: siehe Anhang \ref{Anhang:Schnittstellen}
+\end{itemize}
+
+\begin{itemize}
+    \item \textsl{HTTP-Methode}: POST
+    \subitem \textsl{Relativer Pfad}: \textbf{/weatherData/}
+    \subitem \textsl{Inhalt}: JSON-Object welches Sensordaten beinhaltet.\footnote{Für beinhaltete Daten siehe \cref{Datenbankmodell}}%TODO FIX REF
+    \subitem \textsl{Antwort bei Erfolg}: HTTP-Status 200, String der erfolgreiche Speicherung bestätigt
+    \subitem \textsl{Antwort bei Fehlern}:\begin{itemize}
+                                              \item \textit{Duplizierter Inhalt}: HTTP-Status 400, Fehlermeldungen und Errors
+                                              \item \textit{Fehler beim Parsen des Bodies}: HTTP-Status 400, Fehlermeldungen und Errors
+    \end{itemize}
+\end{itemize}
+
+\begin{itemize}
+    \item \textsl{HTTP-Methode}: POST
+    \subitem \textsl{Relativer Pfad}: \textbf{/updateSensorLocation/}
+    \subitem \textsl{Inhalt}: JSON-Object welches aktualisierten Ort für über ID identifizierten Sensor beinhaltet.
+    \subitem \textsl{Absicherung}: Dieser Endpoint kann nur durch mitsenden eines API-Tokens genutzt werden.\footnote{Dieser steht nur dem Admin zur Verfügung und ist genauer unter \cref{Security} spezifiziert.}
+    \subitem \textsl{Antwort bei Erfolg}: HTTP-Status 200, String der erfolgreiche Speicherung bestätigt
+    \subitem \textsl{Antwort bei Fehlern}:\begin{itemize}
+                                              \item \textit{Fehler beim Parsen des Bodies}: HTTP-Status 400, Fehlermeldungen und Errors
+    \end{itemize}
+\end{itemize}
+
 
