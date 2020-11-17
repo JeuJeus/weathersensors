@@ -77,7 +77,7 @@ app.get('/sensorData/id/:SENSOR_ID', async function(req, res) {
       response.sensorData = helper.filterTimeRangeByPresentParameters(response.sensorData, req.query);
     }
     if (req.query.granularity) {
-      response.sensorData = helper.reduceElementsToMaxSize(response.sensorData, req.query.granularity);
+      response.sensorData = helper.reduceElementsWhilstAssuringKeepLastElement(response.sensorData, req.query.granularity);
     }
     res.status(200).send(response);
   } else {
