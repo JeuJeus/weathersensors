@@ -1,0 +1,76 @@
+ %!TEX root = ../Thesis.tex
+\section{Installation}
+
+\subsection{ESP8266}
+Zur Erfassung der Wetterdaten wird ein BME280 Sensor verwendet, welcher von einem Board mit ESP8266 Mikrocontroller und NodeMCU 1.0 Firmware angesteuert wird. Auf diesem Mikrocontroller kann der Sourcecode \textit{nodemcu.ino} ausgeführt werden. Zum Kompilieren sollte die Arduino IDE verwendet werden, in der zuvor die Treiber für den ESP8266 installiert werden müssen. Dazu muss in den Voreinstellungen folgende Boardverwalter-URL hinzugefügt werden: \textit{\href{http://arduino.esp8266.com/stable/package\_esp8266com\_index.json}{Boardverwalter-URL}}. Darüber hinaus müssen folgende Bibliotheken über die integrierte Bibliotheksverwaltung installiert werden:
+
+\begin{tabular}{|l|c|}
+	\hline
+\textbf{Bibliothek}	& \textbf{Version} \\
+	\hline
+WiFi (by Arduino)	& 1.2.7 \\
+	\hline
+Adafruit BME280 Library (by Adafruit)	& 2.1.1 \\
+	\hline
+Adafruit Unified Sensor (by Adafruit)	& 1.1.4 \\
+	\hline
+EasyNTPClient (by Harsha Alva)	& 1.1.0 \\
+	\hline
+LinkedList (by Ivan Seidel)	& 1.2.3 \\
+	\hline
+\end{tabular}
+
+Bevor der Quellcode kompiliert wird, müssen die folgenden Konstanten auf die lokalen Gegebenheiten angepasst werden:
+
+\begin{itemize}
+	\item \textit{SERVER\_TO\_CONNECT}
+	\item \textit{SSID}
+	\item \textit{WIFI\_PASSWORD}
+\end{itemize}
+
+Der BME280 Sensor und der ESP8266 müssen folgendermaßen verbunden werden:
+
+\begin{tabular}{|l|l|}
+	\hline
+\textbf{ESP8266 Pin}	& \textbf{BME280}  \\
+	\hline
+	3.3V & VIN \\
+	\hline
+	G & GND \\
+	\hline
+	D1 & SCL \\
+	\hline
+	D2 & SDA \\
+	\hline
+\end{tabular}
+
+Die exakten Geräte sind:
+
+\begin{itemize}
+	\item AZDelivery NodeMCU Lua Lolin V3 Module ESP8266 ESP-12F WIFI
+	\item AZDelivery GY-BME280
+\end{itemize}
+
+\subsection{Backend und Frontend}
+
+Backend sowie Frontend werden mithilfe von Docker deployed. Im Frontend ist hierzu die Backend Url in der Klasse \textit{Constants.js} die Variable \textit{SERVER\_URI} anzupassen. Die Images dafür lassen sich in den jeweiligen Modulen mit Hilfe der \textit{buildImageandTar.sh} Skripts bauen. Diese bauen die Images und stellen diese in der lokalen Dockerumgebung zum Start bereit. Darüber hinaus werden im Projekt-Root-Ordner tar-Bälle mit den jeweiligen Images hinterlegt. Für diesen Schritt haben wir uns entscheiden um die Images einfach auf einem Server verfügbar zu machen ohne Docker Registries (e.g. Docker.io) in Anspruch nehmen zu müssen.
+
+Der Standard Admin-Zugang ist \textit{admin:\$PASSWORD} Das Passwort für den Admin Zugang - in Form der Variable \textit{\$PASSWORD} in \textit{router.js} - ist gegebenermaßen zu ersetzen.
+
+\textbf{Deployment Voraussetzungen unter Windows}
+
+Das Projekt kann mithilfe der WSL 2 und Docker for Windows deployed werden. Für die Vorbereitung muss zunächst eine WSL 2 eingerichtet werden (Link zur Anleitung: \href{https://docs.microsoft.com/en-us/windows/wsl/install-win10}{hier}). Danach kann Docker for Windows mit den WSL 2-Komponenten installiert werden (Link zur Anleitung: \href{https://docs.docker.com/docker-for-windows/wsl/}{hier}). Nachdem Docker for Windows bereitgestellt wurde kann die ausgewählte Linux Distribution in der WSL gestartet werden. Danach sind in der WSL die Schritte für Linux auszuführen.
+
+\textbf{Deployment Voraussetzungen unter Linux}
+
+In Linux sind Docker sowie Node und npm durch den Distribution-spezifischen Package Manager zu installieren.
+
+\textbf{Backend Start-Command:}
+
+\textit{docker run -p 3000:3000 -v \$PATH\_TO\_DATABASE:/usr/src/app/db --name awe2-backend -it awe2/backend:abgabe}
+
+\textit{\$PATH\_TO\_DATABASE} ist zu ersetzen mit dem Ordner, in welchem die Datenbank auf dem Host-System gespeichert werden soll.
+
+\textbf{Frontend Start-Command:}
+
+\textit{docker run -p 3344:3344 --name awe2-frontend -it awe2/frontend:abgabe}
