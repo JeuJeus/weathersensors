@@ -1,0 +1,243 @@
+%!TEX root = ../Thesis.tex
+%% Basierend auf TeXnicCenter-Vorlage von Mark Müller
+%%                      Willi Nüßer
+%%                      Waldemar Penner
+%%                      Ulrich Reus
+%%                      Frank Plass
+%%                      Oliver Tribeß
+%%                      Daniel Hintze
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Wählen Sie die Optionen aus, indem Sie % vor der Option entfernen
+% Dokumentation des KOMA-Script-Packets: scrguide
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Optionen zum Layout des Artikels                                  %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[%
+paper=A4,         % alle weiteren Papierformat einstellbar
+fontsize=11pt,    % Schriftgröße (12pt, 11pt (Standard))
+BCOR12mm,         % Bindekorrektur, bspw. 1 cm
+DIV14,            % breiter Satzspiegel
+parskip=half*,    % Absatzformatierung s. scrguide 3.1
+headsepline,      % Trennline zum Seitenkopf
+%footsepline,     % Trennline zum Seitenfuß
+%normalheadings,  % Überschriften etwas kleiner (smallheadings)
+listof=totoc,     % Tabellen & Abbildungsverzeichnis ins Inhaltsverzeichnis
+%bibtotoc,        % Literaturverzeichnis im Inhalt
+%draft            % Überlangen Zeilen in Ausgabe gekennzeichnet
+footinclude=false,% Fußzeile in die Satzspiegelberechnung einbeziehen
+headinclude=true, % Kopfzeile in die Satzspiegelberechnung einbeziehen
+final             % draft beschleunigt die Kompilierung
+]
+{scrartcl}
+
+%\setuptoc{toc}{totoc} % Inhaltsverzeichnis ins Inhaltsverzeichnis
+
+% Neue Deutsche Rechtschreibung und Deutsche Standardtexte
+\usepackage[ngerman]{babel}
+
+% Umlaute können verwendet werden
+\usepackage[utf8]{inputenc}
+
+% Echte Umlaute
+\usepackage[T1]{fontenc}
+
+% Latin Modern Font, Type1-Schriftart für nicht-englische Texte
+\usepackage{lmodern}
+
+% 1/2-zeiliger Zeilenabstand
+\usepackage[onehalfspacing]{setspace}
+
+% Für die Defenition eigener Kopf- und Fußzeilen
+\usepackage{fancyhdr}
+
+% Für die Verwendung von Grafiken
+\usepackage[pdftex]{graphicx}
+
+% Bessere Tabellen
+\usepackage{tabularx}
+
+% Für die Befehle \toprule, \midrule und \bottomrule, z.B. in Tabellen
+\usepackage{booktabs}
+
+% Erlaubt die Benutzung von Farben
+\usepackage{color}
+
+% Verbessertes URL-Handling mit \url{http://...}
+\usepackage{url}
+
+% Listen ohne Abstände \begin{compactlist}...\end{compactlist}
+\usepackage{paralist}
+
+% Ausgabe der aktuellen Uhrzeit für die Draft-Versionen
+\usepackage{datetime}
+
+% Deutsche Anführungszeichen
+\usepackage[babel,german=quotes]{csquotes}
+
+% Konfiguration der Abbildungs- und Tabellenbezeichnungen
+\usepackage[format=hang, font={footnotesize, sf}, labelfont=bf, justification=raggedright,singlelinecheck=false]{caption}
+
+% Verbessert die Lesbarkeit durch Mikrotypografie
+\usepackage[activate={true,nocompatibility},final,tracking=true,kerning=true,spacing=true,factor=1100,stretch=10,shrink=10]{microtype}
+
+% Zitate und Quellenverzeichnis
+\usepackage[
+bibstyle=authoryear,
+citestyle=authoryear-fhdw,
+firstinits=false,         % false = Vornamen werden ausgeschrieben
+natbib=true,
+urldate=long,             % "besucht am" - Datum
+%url=false,
+date=long,
+dashed=false,
+maxcitenames=3,           % max. Anzahl Autorennamen in Zitaten
+maxbibnames=99,           % max. Anzahl Autorennamen im Quellenverzeichnis
+%backend=bibtex           % Ggf. für ältere Distributionen bibtex verwenden
+backend=biber
+]{biblatex}
+
+%Namen nach Schema "Nachname, Vorname" für alle Autoren
+\DeclareNameAlias{sortname}{last-first}
+
+%benutze "et al." statt "u.a."
+\DefineBibliographyStrings{ngerman}{
+andothers = {{et\,al\adddot}},
+}
+
+% Bibliograpthy
+\bibliography{library/library}
+
+% Keine Einrückung bei einem neuen Absatz
+\parindent 0pt
+
+% Ebenentiefe der Nummerierung
+\setcounter{secnumdepth}{3}
+
+% Gliederungstiefe im Inhaltsverzeichnis
+\setcounter{tocdepth}{3}
+
+% Tabellen- und Abbildungsverzeichnis mit Bezeichnung:
+\usepackage[titles]{tocloft}
+
+% Sourcecode-Listings
+\usepackage{listings}
+
+% Bestimmte Warnungen unterdrücken
+% siehe http://tex.stackexchange.com/questions/51867/koma-warning-about-toc
+\usepackage{scrhack}
+
+%% http://tex.stackexchange.com/questions/126839/how-to-add-a-colon-after-listing-label
+\makeatletter
+\begingroup\let\newcounter\@gobble\let\setcounter\@gobbletwo
+\globaldefs\@ne \let\c@loldepth\@ne
+\newlistof{listings}{lol}{\lstlistlistingname}
+\endgroup
+\let\l@lstlisting\l@listings
+\makeatother
+
+\renewcommand*\cftfigpresnum{Abbildung~}
+\renewcommand*\cfttabpresnum{Tabelle~}
+\renewcommand*\cftlistingspresnum{Listing~}
+\renewcommand{\cftfigaftersnum}{:}
+\renewcommand{\cfttabaftersnum}{:}
+\renewcommand{\cftlistingsaftersnum}{:}
+\settowidth{\cftfignumwidth}{\cftfigpresnum 99~\cftfigaftersnum}
+\settowidth{\cfttabnumwidth}{\cfttabpresnum 99~\cftfigaftersnum}
+\settowidth{\cftlistingsnumwidth}{\cftlistingspresnum 99~\cftfigaftersnum}
+\setlength{\cfttabindent}{1.5em}
+\setlength{\cftfigindent}{1.5em}
+\setlength{\cftlistingsindent}{1.5em}
+
+\renewcommand\lstlistlistingname{Listingverzeichnis}
+
+% Style für Kopf- und Fußzeilenfelder
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\leftmark}
+\fancyfoot[R]{\thepage}
+\renewcommand{\sectionmark}[1]{\markboth{#1}{#1}}
+\fancypagestyle{plain}{}
+
+% Macro für Quellenangaben unter Abbildungen und Tabellen
+\newcommand{\source}[1]{{\vspace{-1mm}\\\footnotesize\textsf{\textbf{Quelle:}} \textsf{#1}\par}}
+
+% Anpassungen der Formatierung an Eclipse-Aussehen
+% http://jevopi.blogspot.de/2010/03/nicely-formatted-listings-in-latex-with.html
+%\definecolor{sh_comment}{rgb}{0.12, 0.38, 0.18 } %adjusted, in Eclipse: {0.25, 0.42, 0.30 } = #3F6A4D
+%\definecolor{sh_keyword}{rgb}{0.37, 0.08, 0.25}  % #5F1441
+%\definecolor{sh_string}{rgb}{0.06, 0.10, 0.98} % #101AF9
+% Für Druckausgabe sollte alles schwarz sein
+\definecolor{sh_comment}{rgb}{0.0, 0.0, 0.0 }
+\definecolor{sh_keyword}{rgb}{0.0, 0.0, 0.0 }
+\definecolor{sh_string}{rgb}{0.0, 0.0, 0.0 }
+
+\lstset{ %
+language=Java,
+basicstyle=\small\ttfamily,
+fontadjust,
+xrightmargin=1mm,
+xleftmargin=5mm,
+tabsize=2,
+columns=flexible,
+showstringspaces=false,
+rulesepcolor=\color{black},
+showspaces=false,showtabs=false,tabsize=2,
+stringstyle=\color{sh_string},
+keywordstyle=\color{sh_keyword}\bfseries,
+commentstyle=\color{sh_comment}\itshape,
+captionpos=t,
+lineskip=-0.3em
+}
+
+%\makeatletter
+%\def\l@lstlisting#1#2{\@dottedtocline{1}{0em}{1.5em}{\lstlistingname\space{#1}}{#2}}
+%\makeatother
+
+% Anhangsverzeichnis
+\usepackage[nohints]{minitoc} %Anhangsverzeichnis
+
+\makeatletter
+\newcounter{fktnr}\setcounter{fktnr}{0}
+\newcounter{subfktnr}[fktnr]\setcounter{subfktnr}{0}
+
+\renewcommand\thesubfktnr{\arabic{fktnr}.\arabic{subfktnr}}
+\newcounter{anhangcounter}
+\newcommand{\blatt}{\stepcounter{anhangcounter}}
+
+\newcommand{\anhang}[1]{\setcounter{anhangcounter}{0}\refstepcounter{fktnr}
+\addcontentsline{fk}{subsection}{Anhang~\thefktnr: \hspace*{1em}#1}
+\subsection*{{Anhang~\thefktnr \hspace*{1em} #1 \hspace*{-1em}}}
+}
+
+\newcommand{\subanhang}[1]{\setcounter{anhangcounter}{0}\refstepcounter{subfktnr}
+\addcontentsline{fk}{subsubsection}{Anhang~\thesubfktnr: \hspace*{1em}#1}
+\subsubsection*{{Anhang~\thesubfktnr \hspace*{1em} #1 \hspace*{-1em}}}
+}
+
+\newcommand{\anhangsverzeichnis}{\mtcaddsection{\subsection*{Anhangsverzeichnis \@mkboth{FKT}{FKT}}}\@starttoc{fk}\newpage}
+
+% Links im PDF
+\usepackage[pdfpagemode={UseOutlines}, plainpages=false,breaklinks=true,pdfpagelabels]{hyperref}
+
+% Abkürzungsverzeichnis
+\usepackage[acronym,         % create list of acronyms
+nonumberlist,
+toc,
+section,
+nomain,          % don't need main glossary for this example
+hyperfirst=false,% don't hyperlink first use
+sanitize=none    % switch off sanitization as description
+]{glossaries}
+\newglossarystyle{mylist}{%
+\glossarystyle{long}% base this style on the list style
+\renewcommand*{\glossaryentryfield}[5]{%
+\glsentryitem{##1}\textbf{##2} & ##3 \\}%
+}
+
+% Verbessert das Referenzieren von Kapiteln, Abbildungen etc.
+\usepackage[german,capitalise]{cleveref}
+
+\input{config/Abkuerzungen}
+\makeglossaries\makeglossaries

@@ -1,0 +1,136 @@
+\input{config/Config}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Parameter - Hier auf die eigene Arbeit anpassen
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\dokumententyp}{Schriftliche Ausarbeitung}
+\newcommand{\abgabedatum}{\today}
+\newcommand{\ort}{Paderborn}
+\newcommand{\koorperationsunternehmen}{\enquote{Geile Typen GmbH}}
+\newcommand{\dokumententitel}{Dokumentation Anwendung \enquote{Wettersensoren}\\ im Rahmen des Moduls \enquote{AWE2}}
+\newcommand{\dokumentenautor}{Jonathan Brockhausen, Philipp Röring, Julius Figge}
+\newcommand{\dokumentenautoradress}{}
+\newcommand{\dokumentenpruefer}{Florian Wortmann}
+\newcommand{\studiengang}{Angewandte Informatik B.Sc.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\hypersetup{
+colorlinks=false,
+pdfborder={0 0 0},
+pdftitle=\dokumententitel,
+pdfauthor=\dokumentenautor
+}
+
+\begin{document}
+
+    % Römische Seitennummerierung
+    \pagenumbering{Roman}
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %% Titelseite
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    \input{chapter/Titelseite}
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %% Draft-Einstellungen
+    %%
+    %% Für die finale Version auskommentieren!
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %    \fancyhead[L]{\color{red} Stand: \today~-~\currenttime}
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %% Verzeichnisse
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+    % Sperrvermerk
+    %\include{chapter/Sperrvermerk}
+
+    % Inhaltsverzeichnis
+    \tableofcontents
+
+    % Abkürzungsverzeichnis
+    \printglossary[type=\acronymtype, style=mylist, title=Abkürzungsverzeichnis, toctitle=Abkürzungsverzeichnis]\newpage
+    \setcounter{table}{0} % printglossary erzeugt eine Tabelle, die die Nummerierung der "echten" Tabellen durcheinander bringt.
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Verzeichnisse
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    % Abbildungsverzeichnis
+    \fancyhead[R]{\listfigurename}
+    \listoffigures\newpage
+
+    % Tabellenverzeichnis
+    \fancyhead[R]{\listtablename}
+    \listoftables\newpage
+
+    % Quelltextverzeichnis
+    \fancyhead[R]{\lstlistlistingname}
+    \lstlistoflistings\newpage
+
+    % Kapitelüberschriften für den Arbeitstext
+    \fancyhead[R]{\leftmark}
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %% Inhalt
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    % Arabische Seitennummerierung
+    \pagenumbering{arabic}
+
+    % CONTENT
+    % (Gliederung)
+    % (Pflichtenheft???)
+    % Fachkonzept (z.B. fachliche Grundlagen, Abläufe, Use-Cases, GUI-Konzept, Datenmodell, etc.)
+    % Projektplan
+    % Technisches Konzept (z.B. Architekturen, Objektmodell, E/R-Modell, etc.)
+    % Implementierung (z.B. verwendete Bibliotheken, Konzepte, Schnittstellen, etc.)
+    % Test (z.B. Komponententest, Integrationstest, Performancetest, Testplan, Testergebnisse, etc. )
+    % Projektmanagement(z.B. Projektplan, Soll/Ist-Vergleich, Ressourcenzuordnung)
+    % Bewertung und Fazit
+    % (Quellenverzeichnis)
+    % Anhang
+
+    %\include{chapter/Installation}
+
+    %\include{chapter/Fachkonzept}
+
+    %\include{chapter/ERD-Schema}
+
+    %\include{chapter/Projekt-Architektur}
+
+    %\include{chapter/Ablaeufe}
+
+    %\include{chapter/Schnittstellen}
+
+    %\include{chapter/Security}
+
+    %\include{chapter/Test}
+
+    %\include{chapter/Use-Cases}
+
+    %\include{chapter/GUI-Konzept}
+
+    %\include{chapter/Projektplanung}
+
+    %\include{chapter/Schlussbetrachtung}
+
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %% Anhang
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    \include{chapter/Anhang}
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    \include{chapter/Quellenverzeichnis}
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\end{document}
