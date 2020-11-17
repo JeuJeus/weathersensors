@@ -4,21 +4,29 @@
 \subsection{ESP8266}
 Zur Erfassung der Wetterdaten wird ein BME280 Sensor verwendet, welcher von einem Board mit ESP8266 Mikrocontroller und NodeMCU 1.0 Firmware angesteuert wird. Auf diesem Mikrocontroller kann der Sourcecode \textit{nodemcu.ino} ausgeführt werden. Zum Kompilieren sollte die Arduino IDE verwendet werden, in der zuvor die Treiber für den ESP8266 installiert werden müssen. Dazu muss in den Voreinstellungen folgende Boardverwalter-URL hinzugefügt werden: \textit{\href{http://arduino.esp8266.com/stable/package\_esp8266com\_index.json}{Boardverwalter-URL}}. Darüber hinaus müssen folgende Bibliotheken über die integrierte Bibliotheksverwaltung installiert werden:
 
-\begin{tabular}{|l|c|}
-	\hline
-\textbf{Bibliothek}	& \textbf{Version} \\
-	\hline
-WiFi (by Arduino)	& 1.2.7 \\
-	\hline
-Adafruit BME280 Library (by Adafruit)	& 2.1.1 \\
-	\hline
-Adafruit Unified Sensor (by Adafruit)	& 1.1.4 \\
-	\hline
-EasyNTPClient (by Harsha Alva)	& 1.1.0 \\
-	\hline
-LinkedList (by Ivan Seidel)	& 1.2.3 \\
-	\hline
-\end{tabular}
+\begin{table}[hbt]
+	\centering
+	\begin{minipage}[t]{.5\textwidth}
+		\caption{Verwendete Arduino-Bibliotheken}
+		\begin{tabular}{|l|c|}
+			\hline
+			\textbf{Bibliothek}	& \textbf{Version} \\
+			\hline
+			WiFi (by Arduino)	& 1.2.7 \\
+			\hline
+			Adafruit BME280 Library (by Adafruit)	& 2.1.1 \\
+			\hline
+			Adafruit Unified Sensor (by Adafruit)	& 1.1.4 \\
+			\hline
+			EasyNTPClient (by Harsha Alva)	& 1.1.0 \\
+			\hline
+			LinkedList (by Ivan Seidel)	& 1.2.3 \\
+			\hline
+		\end{tabular}
+	\source{Eigene Darstellung}
+\label{tab:usedArduinoLibs}
+\end{minipage}
+\end{table}
 
 Bevor der Quellcode kompiliert wird, müssen die folgenden Konstanten auf die lokalen Gegebenheiten angepasst werden:
 
@@ -30,19 +38,27 @@ Bevor der Quellcode kompiliert wird, müssen die folgenden Konstanten auf die lo
 
 Der BME280 Sensor und der ESP8266 müssen folgendermaßen verbunden werden:
 
-\begin{tabular}{|l|l|}
-	\hline
-\textbf{ESP8266 Pin}	& \textbf{BME280}  \\
-	\hline
-	3.3V & VIN \\
-	\hline
-	G & GND \\
-	\hline
-	D1 & SCL \\
-	\hline
-	D2 & SDA \\
-	\hline
-\end{tabular}
+\begin{table}[hbt]
+	\centering
+	\begin{minipage}[t]{.5\textwidth}
+		\caption{Pin Layout für Verbindung ESP mit BME}
+	\begin{tabular}{|l|l|}
+		\hline
+		\textbf{ESP8266 Pin}	& \textbf{BME280}  \\
+		\hline
+		3.3V & VIN \\
+		\hline
+		G & GND \\
+		\hline
+		D1 & SCL \\
+		\hline
+		D2 & SDA \\
+		\hline
+	\end{tabular}
+	\\\source{Eigene Darstellung}
+\label{tab:espBmePinout}
+\end{minipage}
+\end{table}
 
 Die exakten Geräte sind:
 
@@ -53,7 +69,7 @@ Die exakten Geräte sind:
 
 \subsection{Backend und Frontend}
 
-Backend sowie Frontend werden mithilfe von Docker deployed. Im Frontend ist hierzu die Backend Url in der Klasse \textit{Constants.js} die Variable \textit{SERVER\_URI} anzupassen. Die Images dafür lassen sich in den jeweiligen Modulen mit Hilfe der \textit{buildImageandTar.sh} Skripts bauen. Diese bauen die Images und stellen diese in der lokalen Dockerumgebung zum Start bereit. Darüber hinaus werden im Projekt-Root-Ordner tar-Bälle mit den jeweiligen Images hinterlegt. Für diesen Schritt haben wir uns entscheiden um die Images einfach auf einem Server verfügbar zu machen ohne Docker Registries (e.g. Docker.io) in Anspruch nehmen zu müssen.
+Backend sowie Frontend werden mithilfe von Docker deployed. Im Frontend ist hierzu die Backend Url in der Klasse \textit{Constants.js} die Variable \textit{SERVER\_URI} anzupassen. Die Images dafür lassen sich in den jeweiligen Modulen mit Hilfe der \textit{buildImageandTar.sh} Skripts bauen. Diese bauen die Images und stellen diese in der lokalen Dockerumgebung zum Start bereit. Darüber hinaus werden im Projekt-Root-Ordner tar-Bälle mit den jeweiligen Images hinterlegt. Für diesen Schritt haben wir uns entscheiden um die Images einfach auf einem Server verfügbar zu machen ohne Docker Registries (z.B. Docker.io) in Anspruch nehmen zu müssen.
 
 Der Standard Admin-Zugang ist \textit{admin:\$PASSWORD} Das Passwort für den Admin Zugang - in Form der Variable \textit{\$PASSWORD} in \textit{router.js} - ist gegebenermaßen zu ersetzen.
 
