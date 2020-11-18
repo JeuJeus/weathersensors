@@ -1,8 +1,8 @@
  %!TEX root = ../Thesis.tex
 \section{Installation}
 
-\subsection{ESP8266}
-Zur Erfassung der Wetterdaten wird ein BME280 Sensor verwendet, welcher von einem Board mit ESP8266 Mikrocontroller und NodeMCU 1.0 Firmware angesteuert wird. Auf diesem Mikrocontroller kann der Sourcecode \textit{nodemcu.ino} ausgeführt werden. Zum Kompilieren sollte die Arduino IDE verwendet werden, in der zuvor die Treiber für den ESP8266 installiert werden müssen. Dazu muss in den Voreinstellungen folgende Boardverwalter-URL hinzugefügt werden: \textit{\href{http://arduino.esp8266.com/stable/package\_esp8266com\_index.json}{Boardverwalter-URL}}. Darüber hinaus müssen folgende Bibliotheken über die integrierte Bibliotheksverwaltung installiert werden:
+\subsection*{ESP8266}
+ Zur Erfassung der Wetterdaten wird ein BME280 Sensor verwendet, welcher von einem Board mit ESP8266 Mikrocontroller und NodeMCU 1.0 Firmware angesteuert wird. Auf diesem Mikrocontroller kann der Sourcecode \textit{nodemcu.ino} ausgeführt werden. Zum Kompilieren sollte die Arduino IDE verwendet werden, in der zuvor die Treiber für den ESP8266 installiert werden müssen. Dazu muss in den Voreinstellungen folgende Boardverwalter-URL hinzugefügt werden: \textit{\href{http://arduino.esp8266.com/stable/package\_esp8266com\_index.json}{Boardverwalter-URL}}. Darüber hinaus müssen folgende Bibliotheken über die integrierte Bibliotheksverwaltung installiert werden:
 
 \begin{table}[hbt]
 	\centering
@@ -67,7 +67,7 @@ Die exakten Geräte sind:
 	\item AZDelivery GY-BME280
 \end{itemize}
 
-\subsection{Backend und Frontend}
+ \subsection*{Backend und Frontend}
 
 Backend sowie Frontend werden mithilfe von Docker deployed. Im Frontend ist hierzu die Backend Url in der Klasse \textit{Constants.js} die Variable \textit{SERVER\_URI} anzupassen. Die Images dafür lassen sich in den jeweiligen Modulen mit Hilfe der \textit{buildImageandTar.sh} Skripts bauen. Diese bauen die Images und stellen diese in der lokalen Dockerumgebung zum Start bereit. Darüber hinaus werden im Projekt-Root-Ordner tar-Bälle mit den jeweiligen Images hinterlegt. Für diesen Schritt haben wir uns entscheiden um die Images einfach auf einem Server verfügbar zu machen ohne Docker Registries (z.B. Docker.io) in Anspruch nehmen zu müssen.
 
