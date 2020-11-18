@@ -112,3 +112,57 @@
 	}
     \end{lstlisting}
 \end{figure}
+
+\pagebreak
+
+\anhang{Logdaten}\label{anhang:logdaten}
+\textbf{Anmerkung:} Aus Datenschutzgründen sind alle IP-Adressen im Folgenden zensiert.
+\subanhang{Beispielhafter Logauszug Backend}
+\begin{figure}[bht]
+    \begin{lstlisting}[caption=Beispielhafter Logauszug Backend, label=list:logBackend]
+		18.11.2020, 09:41:09 - ERROR :
+			POST REQUEST PARSING BODY FAILED FROM [$ZENSIERTE_IP_ADRESSE], REQUEST BODY: {
+				"MACADDRESS":"68:c6:3a:88:c0:cd",
+				"TIMESTAMP":"1605692160",
+				"TEMPERATURE":-143.25,
+				"AIRPRESSURE":1185.736206,
+				"HUMIDITY":100
+			}
+
+		INSERT INTO SENSOR (MAC_ADDRESS, LOCATION)
+			VALUES (?, "") EXCEPT
+				SELECT MAC_ADDRESS, LOCATION FROM SENSOR WHERE MAC_ADDRESS = ?
+
+		18.11.2020, 09:41:25 - INFO :
+			GOT REQUEST TO [/weatherData] FROM [$ZENSIERTE_IP_ADRESSE]
+
+		18.11.2020, 09:41:42 - INFO :
+			GOT REQUEST TO [/sensorData/id/1?granularity=100] FROM [$ZENSIERTE_IP_ADRESSE]
+
+		18.11.2020, 09:41:43 - INFO :
+			GOT REQUEST TO [/sensors/] FROM [$ZENSIERTE_IP_ADRESSE]
+
+		18.11.2020, 09:41:44 - INFO :
+			GOT REQUEST TO [/sensor/id/1] FROM [$ZENSIERTE_IP_ADRESSE]
+    \end{lstlisting}
+\end{figure}
+
+\subanhang{Beispielhafter Logauszug Frontend}
+\begin{figure}[bht]
+    \begin{lstlisting}[caption=Beispielhafter Logauszug Frontend, label=list:logFrontend]
+		16.11.2020, 11:00:34 - INFO :
+			FRONTEND STARTED
+
+		16.11.2020, 11:08:58 - INFO :
+			GOT REQUEST TO [/] FROM [$ZENSIERTE_IP_ADRESSE]
+
+		16.11.2020, 11:09:54 - INFO :
+			GOT REQUEST TO [/] FROM [$ZENSIERTE_IP_ADRESSE]
+
+		16.11.2020, 11:09:54 - INFO :
+			GOT REQUEST TO [/favicon.ico] FROM [$ZENSIERTE_IP_ADRESSE]
+
+		16.11.2020, 12:50:18 - INFO :
+			GOT REQUEST TO [/robots.txt] FROM [$ZENSIERTE_IP_ADRESSE]
+    \end{lstlisting}
+\end{figure}
