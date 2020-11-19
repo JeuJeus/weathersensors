@@ -1,8 +1,14 @@
 %!TEX root = ../Thesis.tex
+
+
 \section{Installation}\label{Installation}
 
 \subsection{ESP8266}\label{ESP}
-Zur Erfassung der Wetterdaten wird ein BME280 Sensor verwendet, welcher von einem Board mit ESP8266 Mikrocontroller und NodeMCU 1.0 Firmware angesteuert wird. Auf diesem Mikrocontroller kann der Sourcecode \textit{nodemcu.ino} ausgeführt werden. Zum Kompilieren sollte die Arduino IDE verwendet werden, in der zuvor die Treiber für den ESP8266 installiert werden müssen. Dazu muss in den Voreinstellungen folgende Boardverwalter-URL hinzugefügt werden: \textit{\href{http://arduino.esp8266.com/stable/package\_esp8266com\_index.json}{Boardverwalter-URL}}. Darüber hinaus müssen folgende Bibliotheken über die integrierte Bibliotheksverwaltung installiert werden:
+Zur Erfassung der Wetterdaten wird ein BME280 Sensor verwendet, welcher von einem Board mit ESP8266 Mikrocontroller und NodeMCU 1.0 Firmware angesteuert wird.
+Auf diesem Mikrocontroller kann der Sourcecode \textit{nodemcu.ino} ausgeführt werden.
+Zum Kompilieren sollte die Arduino IDE verwendet werden, in der zuvor die Treiber für den ESP8266 installiert werden müssen.
+Dazu muss in den Voreinstellungen folgende Boardverwalter-URL hinzugefügt werden: \textit{\href{http://arduino.esp8266.com/stable/package\_esp8266com\_index.json}{Boardverwalter-URL}}.
+Darüber hinaus müssen folgende Bibliotheken über die integrierte Bibliotheksverwaltung installiert werden:
 
 \begin{table}[hbt]
     \centering
@@ -10,7 +16,7 @@ Zur Erfassung der Wetterdaten wird ein BME280 Sensor verwendet, welcher von eine
         \caption{Verwendete Arduino-Bibliotheken}
         \begin{tabular}{|l|c|}
             \hline
-            \textbf{Bibliothek}                       & \textbf{Version} \\
+            \textbf{Bibliothek}                   & \textbf{Version} \\
             \hline
             WiFi (by Arduino)                     & 1.2.7            \\
             \hline
@@ -63,19 +69,28 @@ Der BME280 Sensor und der ESP8266 müssen folgendermaßen verbunden werden:
 Die exakten Geräte sind:
 
 \begin{itemize}
-	\item AZDelivery NodeMCU Lua Lolin V3 Module ESP8266 ESP-12F WIFI
-	\item AZDelivery GY-BME280
+    \item AZDelivery NodeMCU Lua Lolin V3 Module ESP8266 ESP-12F WIFI
+    \item AZDelivery GY-BME280
 \end{itemize}
 
 \subsection{Backend und Frontend}
 
-Backend sowie Frontend werden mithilfe von Docker deployed. Im Frontend ist hierzu die Backend Url in der Klasse \textit{Constants.js} die Variable \textit{SERVER\_URI} anzupassen. Die Images dafür lassen sich in den jeweiligen Modulen mit Hilfe der \textit{buildImageandTar.sh} Skripts bauen. Diese bauen die Images und stellen diese in der lokalen Dockerumgebung zum Start bereit. Darüber hinaus werden im Projekt-Root-Ordner tar-Bälle mit den jeweiligen Images hinterlegt. Für diesen Schritt haben wir uns entscheiden um die Images einfach auf einem Server verfügbar zu machen ohne Docker Registries (z.B. Docker.io) in Anspruch nehmen zu müssen.
+Backend sowie Frontend werden mithilfe von Docker deployed.
+Im Frontend ist hierzu die Backend Url in der Klasse \textit{Constants.js} die Variable \textit{SERVER\_URI} anzupassen.
+Die Images dafür lassen sich in den jeweiligen Modulen mit Hilfe der \textit{buildImageandTar.sh} Skripts bauen.
+Diese bauen die Images und stellen diese in der lokalen Dockerumgebung zum Start bereit.
+Darüber hinaus werden im Projekt-Root-Ordner tar-Bälle mit den jeweiligen Images hinterlegt.
+Für diesen Schritt haben wir uns entscheiden um die Images einfach auf einem Server verfügbar zu machen ohne Docker Registries (z.B. Docker.io) in Anspruch nehmen zu müssen.
 
 Der Standard Admin-Zugang ist \textit{admin:\$PASSWORD} Das Passwort für den Admin Zugang - in Form der Variable \textit{\$PASSWORD} in \textit{router.js} - ist gegebenermaßen zu ersetzen.
 
 \textbf{Deployment Voraussetzungen unter Windows}
 
-Das Projekt kann mithilfe der WSL 2 und Docker for Windows deployed werden. Für die Vorbereitung muss zunächst eine WSL 2 eingerichtet werden (Link zur Anleitung: \href{https://docs.microsoft.com/en-us/windows/wsl/install-win10}{hier}). Danach kann Docker for Windows mit den WSL 2-Komponenten installiert werden (Link zur Anleitung: \href{https://docs.docker.com/docker-for-windows/wsl/}{hier}). Nachdem Docker for Windows bereitgestellt wurde kann die ausgewählte Linux Distribution in der WSL gestartet werden. Danach sind in der WSL die Schritte für Linux auszuführen.
+Das Projekt kann mithilfe der WSL 2 und Docker for Windows deployed werden.
+Für die Vorbereitung muss zunächst eine WSL 2 eingerichtet werden (Link zur Anleitung: \href{https://docs.microsoft.com/en-us/windows/wsl/install-win10}{hier}).
+Danach kann Docker for Windows mit den WSL 2-Komponenten installiert werden (Link zur Anleitung: \href{https://docs.docker.com/docker-for-windows/wsl/}{hier}).
+Nachdem Docker for Windows bereitgestellt wurde kann die ausgewählte Linux Distribution in der WSL gestartet werden.
+Danach sind in der WSL die Schritte für Linux auszuführen.
 
 \textbf{Deployment Voraussetzungen unter Linux}
 
