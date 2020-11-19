@@ -229,12 +229,63 @@ Neben dieser Darstellung welche nach erfolgreicher Änderung des Sensorstandorte
 Diese ist in Rot gehalten und zeigt Fehler auf.
 
 \begin{figure}[h!!]
-    \centering
-    \begin{minipage}[t]{1\textwidth}
-        \caption{Informationsmeldung\pagebreak
-        (finale GUI)}
-        \includegraphics[width=1\textwidth]{img/popup.png}\\
-        \source{Eigene Darstellung}
-        \label{fig:datumsauswahl}
-    \end{minipage}
+	\centering
+	\begin{minipage}[t]{1\textwidth}
+		\caption{Informationsmeldung\pagebreak
+		(finale GUI)}
+		\includegraphics[width=1\textwidth]{img/popup.png}\\
+		\source{Eigene Darstellung}
+		\label{fig:datumsauswahl}
+	\end{minipage}
 \end{figure}
+
+\pagebreak
+
+\anhang{Soll-Ist-Vergleich}
+\label{anh:sollist}
+
+\begin{table}[]
+	\begin{tabular}{|l|l|l|}
+		\hline
+		\textbf{Anforderung}                                      & \textbf{Einstufung} & \textbf{Status}                  \\ \hline
+		\begin{tabular}[c]{@{}l@{}}
+			Es soll ein System zur dezentralen Erfassung von Daten \\ erstellt werden\\ Folgende Daten sollen erfasst werden: \\ Temperatur, Luftdruck, Luftfeuchtigkeit
+		\end{tabular} & Muss & Erledigt \\ \hline
+		Jedes Erfassungssystem ist ein Ort oder Raum fest verbunden & Muss & Erledigt \\ \hline
+		\begin{tabular}[c]{@{}l@{}}
+			Es gibt einen Server auf dem die Daten abgelegt werden\\ Server und Erfassungssystem müssen nicht im selben Intranet sein
+		\end{tabular} & Muss & Erledigt \\ \hline
+		\begin{tabular}[c]{@{}l@{}}
+			Im Falle einer Kommunikationsunterbrechung werden die Daten \\ lokal gespeichert\\ Die Daten werden in diesem Fall übertragen sobald die Verbindung \\ wieder aufgebaut wird
+		\end{tabular} & Kann & Erledigt \\ \hline
+		\begin{tabular}[c]{@{}l@{}}
+			Die Kommunikation soll mit minimalem Energieaufwand \\ durchgeführt werden
+		\end{tabular} & Kann & Erledigt \\ \hline
+		\begin{tabular}[c]{@{}l@{}}
+			Die Erfassungsgeräte können auch über einen mobilen Hotspot \\ Daten an den Server senden
+		\end{tabular}               & Kann               & Erledigt \\ \hline
+		\begin{tabular}[c]{@{}l@{}}
+			Die Daten sollen von einem beliebigen Ort mit Internetanschluss \\ abgerufen werden
+		\end{tabular}               & Muss               & Erledigt \\ \hline
+		Die Daten sollen grafisch dargestellt werden               & Muss               & Erledigt \\ \hline
+		\begin{tabular}[c]{@{}l@{}}
+			In der Darstellung der Daten können bestimmte Datentypen oder \\ einzelne Erfassungsysteme ausgewählt werden
+		\end{tabular}               & Kann               & Erledigt \\ \hline
+		Die Granularität der Daten ist variabel einstellbar               & Muss               & Erledigt \\ \hline
+		\begin{tabular}[c]{@{}l@{}}
+			Alle angeschlossenen Geräte sollen für einen Administrator \\ auf einer Plattform sichtbar sein
+		\end{tabular}               & Muss               & Erledigt \\ \hline
+		Mehrere Erfassungssystem pro Server sind möglich               & Muss               & Erledigt \\ \hline
+		\begin{tabular}[c]{@{}l@{}}
+			Ein Erfassungssystem kann mit verschiedenen \\ Servern kommunizieren
+		\end{tabular}               & Kann               & Erledigt \\ \hline
+		\begin{tabular}[c]{@{}l@{}}
+			Es ist möglich zu sehen, wann der Sensor das letzte Mal \\ Daten gesendet hat
+		\end{tabular}               & Bonus               & Erledigt \\ \hline
+		Es ist möglich eine Wetterprognose anzuzeigen               & Bonus               & \begin{tabular}[c]{@{}l@{}}
+																								Nicht\\ erledigt
+		\end{tabular}               \\ \hline
+	\end{tabular}
+	\caption[Anforderungen]{Anforderungen (nach \cite{Wortmann.2020}, eigene Darstellung)}
+\end{table}
+
