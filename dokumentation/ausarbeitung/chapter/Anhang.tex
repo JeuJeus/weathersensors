@@ -166,3 +166,75 @@
 			GOT REQUEST TO [/robots.txt] FROM [$ZENSIERTE_IP_ADRESSE]
     \end{lstlisting}
 \end{figure}
+
+\anhang{GUI}
+
+\subanhang{Finales GUI Design}\label{gui-fertig}
+
+Hier wird mit Blick auf den Prototypen sichtbar, wie geringfügig die Änderungen gegenüber diesem ausgefallen sind.
+
+\begin{figure}[h!!]
+    \centering
+    \begin{minipage}[t]{1\textwidth}
+        \caption{Finale GUI}
+        \includegraphics[width=1\textwidth]{img/gui-fertig.png}\\
+        \source{Eigene Darstellung}
+        \label{fig:finale-gui}
+    \end{minipage}
+\end{figure}
+
+\pagebreak
+
+\subanhang{Datumsauswahl}\label{datumsauswahl}
+
+Die Datums- sowie Zeitauswahl beruht auf der Library \enquote{Date Range Picker}\footnote{\cite{daterangepicker.2020}}.
+Diese ermöglicht eine einfache, ohne Anleitung verständliche, Auswahl des anzuzeigenden Zeitbereiches.
+Auch hier wurden die Farben durch unsere Pastell-Farb-Palette angepasst.
+
+\begin{figure}[h!!]
+    \centering
+    \begin{minipage}[t]{1\textwidth}
+        \caption{Datumsauswahl Popup (finale GUI)}
+        \includegraphics[width=1\textwidth]{img/datumsauswahl.png}\\
+        \source{Eigene Darstellung}
+        \label{fig:datumsauswahl}
+    \end{minipage}
+\end{figure}
+
+\pagebreak
+
+\subanhang{Admininterface}\label{admininterface}
+
+Das Admininterface wurde einfach gehalten und greift wie die Hauptseite auf \enquote{Font-Awesome}\footnote{\cite{fontawesome}} für die Icons zurück.
+Alle zur Verfügung stehenden Sensoren werden hier innerhalb einer Tabelle aufgelistet, der Standort des Sensors lässt sich einfach durch ein Inputfeld mit zugehörigem Button anpassen.
+Bei erfolgreicher Eingabe wird eine positive Rückmeldung eingeblendet.
+Diese findet sich beispielhaft in Anhang \ref{popup}.
+
+\begin{figure}[h!!]
+    \centering
+    \begin{minipage}[t]{1\textwidth}
+        \caption{Admininterface (finale GUI)}
+        \includegraphics[width=1\textwidth]{img/admin.png}\\
+        \source{Eigene Darstellung}
+        \label{fig:admin}
+    \end{minipage}
+\end{figure}
+
+\pagebreak
+
+\subanhang{Informationsmeldungen}\label{popup}
+
+Diese Einblendung wird zur Information des Nutzers angezeigt.
+Neben dieser Darstellung welche nach erfolgreicher Änderung des Sensorstandortes eingeblendet wird, existiert eine \enquote{Error}-Version.
+Diese ist in Rot gehalten und zeigt Fehler auf.
+
+\begin{figure}[h!!]
+    \centering
+    \begin{minipage}[t]{1\textwidth}
+        \caption{Informationsmeldung\pagebreak
+        (finale GUI)}
+        \includegraphics[width=1\textwidth]{img/popup.png}\\
+        \source{Eigene Darstellung}
+        \label{fig:datumsauswahl}
+    \end{minipage}
+\end{figure}
