@@ -1,7 +1,6 @@
 {
   "name": "frontend",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.6",
   "main": "index.js",
   "scripts": {
     "test": "(cd resources/js && browserify AppCaller.js -o frontend.js && browserify AdminAppCaller.js -o frontend-admin.js) & mocha --exit",

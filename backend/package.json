@@ -1,7 +1,6 @@
 {
   "name": "backend",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.6",
   "main": "index.js",
   "scripts": {
     "test": "mocha --exit",
