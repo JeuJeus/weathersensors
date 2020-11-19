@@ -1,37 +1,51 @@
 %!TEX root = ../Thesis.tex
 \section{Schlussbetrachtung}\label{Schlussbetrachtung}
 
-\subsubsection{Bewertung}
-Alle Muss-Features wurden erfolgreich implementiert. Auch die meisten Kann-Features wurden umgesetzt. Lediglich die
+\subsection{Bewertung}\label{subsec:bewertung}
+Alle Muss-Features wurden erfolgreich implementiert.
+Auch die meisten Kann-Features wurden umgesetzt. Lediglich die
 Wetterprognose wurde nicht entwickelt, da sie nach weiterer Recherche aus den gewonnenen Daten zu ungenau gewesen wäre.
-Alle Features wurden gemäß der Projektplanung fristgerecht fertiggestellt. Sämtliche Deadlines konnten insbesonders
-durch den frühen Projektstart eingehalten werden. Dies bezieht sich auf einzelne Teilaufgaben sowie das Gesamtprojekt.
+Alle Features wurden gemäß der Projektplanung fristgerecht fertiggestellt.
+Sämtliche Deadlines konnten insbesonders durch den frühen Projektstart eingehalten werden.
+Dies bezieht sich auf einzelne Teilaufgaben sowie das Gesamtprojekt.
+Durch erste Erfahrungen der Entwickler mit JavaScript verlief der Einstieg in eine produktive Entwicklung zügig.
+\\
+Leider wurde das Team durch die exklusiv digitale Kommunikation - bedingt durch die anhaltende Corona-Pandemie - in der
+Zusammenarbeit etwas gebremst.
+Auch die - sonst übliche - hervorragende Arbeitsatmosphäre wurde dadurch verschlechtert.
 \\
 Die letzten Releases der Anwendung liefen über einen Zeitraum von über vier Wochen stabil auf dem Produktivsystem mit
-einer Uptime von 100\%. Darüber hinaus gab es keine Fehler in den automatischen sowie manuellen Tests des Front- und
-Backends.
+einer Uptime von 100\%.
+Darüber hinaus gab es keine Fehler in den automatischen sowie manuellen Tests des Front- und Backends.
 \\
-Die Qualität der erstellten Anwendung wird von den Entwicklern selbst folgendermaßen eingeschätzt:
+Die Qualität der erstellten Anwendung wird von den Entwicklern selbst folgendermaßen eingeschätzt (1-10 Punkte):
 \begin{longtable}{|p{0.14\textwidth}|p{0.15\textwidth}|p{0.09\textwidth}|p{0.15\textwidth}|p{0.17\textwidth}|p{0.15\textwidth}|}
 	\caption{Bewertung der Anwendung}\\
 	\hline
 	Änderbarkeit & Benutzbarkeit & Effizienz & Funktionalität & Übertragbarkeit & Zuverlässigkeit\\
 	\hline
-	7 & 8 & 8 & 8 & 9 & 9 \\
+	7 & 8 & 9 & 8 & 9 & 9 \\
 	\hline
 \end{longtable}
-Die Bewertung richtet sich nach ISO/IEC 9126. Es folgt eine kurze Erläuterung der einzelnen Bewertungen.
-Der am schlechtesten bewertete Punkt ist die Änderbarkeit. Diese ist auf die verwendete JavaScript Programmiersprache
-zurückzuführen. Diese ist aufgrund ihrer schwachen Typisierung und inkonsistenten Implementierung anfällig für
-Unübersichtlichkeit bei wachsenden Anwendungen. Sie wird jedoch für mehr als ausreichend für das Projekt in der jetzigen
-Größe angesehen. Im Gegensatz dazu bietet sie zusammen mit Node.js, dem standardmäßigen Non-Blocking-IO sowie
-Asynchronität eine sehr gute Effizienz für parallele Aufgaben, wie das -in diesem Fall- bereitstellen eines Webservers.
+Die Bewertung richtet sich nach ISO/IEC 9126.
+Es folgt eine kurze Erläuterung der einzelnen Bewertungen.
+Das am schlechtesten bewertete Kriterium ist die Änderbarkeit.
+Diese ist auf die verwendete JavaScript Programmiersprache zurückzuführen.
+Diese ist aufgrund ihrer schwachen Typisierung und inkonsistenten Implementierung anfällig für Unübersichtlichkeit bei wachsenden Anwendungen.
+Sie wird jedoch für mehr als ausreichend für das Projekt in der aktuellen Größe angesehen.
+Im Gegensatz dazu bietet sie zusammen mit Node.js, dem standardmäßigen Non-Blocking-IO sowie
+Asynchronität eine sehr gute Effizienz für parallele Aufgaben, wie das - in diesem Fall - bereitstellen eines Webservers.
 Die Fehleranfälligkeit von JavaScript wurde durch automatisierte Tests möglichst ausgeglichen, wodurch die hohe Zuverlässigkeit
-entstanden ist. Die Übertragbarkeit wird als sehr hoch eingeschätzt, da die Anwendung als Docker Image auf sämtlichen modernen
+entstanden ist.
+Die Übertragbarkeit wird als sehr hoch eingeschätzt, da die Anwendung als Docker Image auf sämtlichen modernen
 Serverumgebungen problemlos installiert werden kann.
 Die Funktionalität und Benutzbarkeit entstammen unserer subjektiven Einschätzung durch manuelle Tests sowie der von
 dritten Testpersonen.
+\\
 
 
 
-\subsubsection{Fazit}
+\subsection{Fazit}\label{subsec:fazit}
+Im Soll-ist Vergleich ist zu sehen, dass die Produktivität innerhalb des Projekts hervorragend war. Das Team bietet somit eine
+gute Grundlage für weitere Zusammenarbeiten. Es wird gehofft, dass zukünftig wieder eine persönliches Zusammentreffen möglich ist,
+um auch mal auf den gemeinsamen Erfolg einen Bölkstoff zischen zu können.
