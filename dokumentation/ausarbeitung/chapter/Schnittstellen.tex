@@ -9,7 +9,7 @@ Die Schnittstelle stellt folgende Services bereit:
     \item \textsl{HTTP-Methode}: GET
     \subitem \textsl{Relativer Pfad}: \textbf{/weatherData}
     \subitem \textsl{Antwort}: JSON-Object mit zwei Arrays.
-    Das erste beinhaltet alle Sensoren, das zweite alle verfügbaren Sensordaten.\footnote{Für beinhaltete Datentypen siehe \cref{Datenbankmodell}}%TODO FIX REF
+    Das erste beinhaltet alle Sensoren, das zweite alle verfügbaren Sensordaten.\footnote{Für beinhaltete Datentypen siehe \cref{er-diagramm}}
     \subitem \textsl{Beispielantwort}: siehe Anhang \ref{Anhang:Schnittstellen}
 \end{itemize}
 
@@ -46,7 +46,7 @@ Die Schnittstelle stellt folgende Services bereit:
 \begin{itemize}
     \item \textsl{HTTP-Methode}: POST
     \subitem \textsl{Relativer Pfad}: \textbf{/weatherData/}
-    \subitem \textsl{Inhalt}: JSON-Object welches Sensordaten beinhaltet.\footnote{Für beinhaltete Daten siehe \cref{Datenbankmodell}}%TODO FIX REF
+    \subitem \textsl{Inhalt}: JSON-Object welches Sensordaten beinhaltet.\footnote{Für beinhaltete Daten siehe \cref{er-diagramm}}
     \subitem \textsl{Antwort bei Erfolg}: HTTP-Status 200, String der erfolgreiche Speicherung bestätigt
     \subitem \textsl{Antwort bei Fehlern}:\begin{itemize}
                                               \item \textit{Duplizierter Inhalt}: HTTP-Status 400, Fehlermeldungen und Errors
