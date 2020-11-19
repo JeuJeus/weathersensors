@@ -1,3 +1,4 @@
+%!TEX root = ../Thesis.tex
 \section{Fachkonzept}
 In diesem Kapitel werden die im Projekt eingesetzten Technologien beschrieben.\\
 \begin{figure}[h]
@@ -15,7 +16,7 @@ Bei der Auswahl der Libraries wurde hierbei beachtet, möglichst auf den Anwendu
 Ein geringer Energieverbrauch wird in der Programmierung besonders beachtet. Dadurch ist die Funktionalität auf das wesentliche beschränkt während trotzdem eine zuverlässige Funktionsweise gewährleistet wird. Wenn der Mikrocontroller keine Verbindung zum angegebenen WLAN-Netzwerk herstellen kann oder der Server nicht erreichbar ist, werden die Daten gecached und versandt, sobald eine Verbindung hergestellt werden kann.\\
 Der Mikrocontroller wird in der Arduino IDE in C++ programmiert.
 
-\subsection{Zentraler Server}
+\subsection{Zentraler Server}%TODO auf frech an dieser Stelle Zentraler Server ~ Backend -> für konstistente Benennung sorgen am Ende
 Auf dem zentralen Server wird das Backend des Projekts bereitgestellt. Das Backend ist in JavaScript geschrieben und verwendet eine SQLite-Datenbank für die Speicherung der Daten. Für die Kommunikation zu den Sensoren und dem Frontend ist eine REST-API vorhanden, die in \autoref{Schnittstellen} näher erläutert wird.\\
 Das Projekt nutzt node.js Version 14.4 und SQLite-Version 3.\\
 Sowohl das Backend als auch das Frontend sind für das Deployment in Docker vorgesehen. Hierbei ist eine örtliche Trennung möglich, das Frontend kann auf jeden Server zugreifen, der die API dieses Projekts bereitstellt.

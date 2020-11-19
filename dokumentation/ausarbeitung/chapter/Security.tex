@@ -1,12 +1,10 @@
 %!TEX root = ../Thesis.tex
-
-
 \section{Security}\label{Security}
 Im folgenden werden getroffene (Design)-Entscheidungen in Bezug auf die Sicherheit unserer Anwendung erläutert.
 Dabei werden besonders relevante Stellen hervorgehoben und erklärt.
 Die Erläuterung ist aufgeteilt in die Bestandteile unserer Anwendung.
 
-\textbf{ESP8266}
+\subsection{ESP8266}
 
 %- WLAN Hardcoded Designentscheidung -> vernunft -> gezielte Platzierung ESP
 Die \textit{Wlan Zugangsdaten} werden beim flashen unserer Anwendung auf den ESP übertragen und sind ab diesem Punkt fest / \enquote{hardcoded}.
@@ -21,7 +19,7 @@ Um aufgrund der Corona-Situation eine Zusammenarbeit zu ermöglichen wurde die A
 Grundsätzlich ist dies aber kein notwendigerweise geplanter Einsatzzweck.
 Diese Entscheidung wird im folgenden Absatz weiter erläutert.
 
-\textbf{Backend}
+\subsection{Backend}
 
 %- keine Absicherung anderer Endpoints -> interne und keine öffentliche Nutzung vorgesehen
 Durch die Ausrichtung auf eine interne und nicht öffentliche Nutzung (beispielhaft in einem internen Unternehmensnetzwerk) haben wir entschieden, dass eine grundlegende Absicherung des \textit{Sensordaten Endpoints} ausreichend ist.
@@ -43,7 +41,7 @@ Diese ist auf 10 Megabyte Größe begrenzt und wird täglich gewechselt.
 Alte Dateien werden komprimiert gespeichert.
 Auszüge hiervon finden sich im Anhang \ref{anhang:logdaten}.
 
-\textbf{Frontend}
+\subsection{Frontend}
 
 %- Logging verwendet Siehe Anhang \ref{anhang:logdaten}
 Das Frontend-Modul verwendet die Selbe \textit{Logging Konfiguration} wie das Backend.
@@ -53,14 +51,14 @@ Erwähnenswert ist hier insbesondere das \textit{Admin-Interface}.
 Der Zugang hierzu kann erst nach erfolgreichem Login mit Hilfe von Basic-Authentication erfolgen.
 Da im Admin-Interface nur die Funktionalität der Festlegung des Sensorstandortes verfügbar ist, ist diese Lösung die effektivste und sinnvollste zur Gewährleistung der Sicherheit.
 
-\textbf{Github}
+\subsection{Github}
 
 %- Dependencies Check auf CVE / Updates -> Notification
 Im Zuge der Versionsverwaltung unseres Projektes werden alle Module, wie von uns explizit konfiguriert, \textit{automatisiert auf Sicherheitslücken} überprüft.
 Sollte durch Github eine Sicherheitslücke in Libraries oder Code gefunden werden, so werden wir als Entwickler benachrichtigt.
 Mit dieser Maßnahme lassen sich potentielle Sicherheitslücken schnell und automatisiert finden und einfach beheben.\\
 
-\textbf{Deployment}
+\subsection{Deployment}
 
 %- Live Deployment vorgesehen hinter zusätzlichem Proxy welcher Traffic filtert und überwacht, sowie ggf. Fail2Ban o.ä. bereitstellt.
 Das Deployment unserer Anwendung ist mit Hilfe von Docker realisiert.
