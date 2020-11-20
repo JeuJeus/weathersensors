@@ -3,28 +3,33 @@ Für das Projekt werden zahlreiche Projektmanagementtools eingesetzt.
 Diese werden in diesem Kapitel erläutert.
 \subsection*{Trello}
 Für das Projektmanagement wird Trello genutzt.
-Trello ist die führende Online-Plattform für Kanban.%TODO was dieses kanban
+Trello ist die führende Online-Plattform für Kanban\footnote{vgl. \cite{atlassian}}.
 Aufgrund der Struktur der Gruppe und des Projektumfangs bietet sich Kanban als Projektmanangementmethode an.
 Die Features werden als Arbeitspakete in Karten aufgeteilt und zugewiesen.
 Zusätzliche Karten werden angelegt, um organisatorische Features, Karten für Bugfixes und Randaufgaben (wie Refactoring) erweitert.
 Der Vorteil von Trello und Kanban für das Projekt sind besonders aufgrund der Corona-Situation gegeben, da es auch ohne ausführliche Besprechungen ermöglicht einzusehen, welches Gruppenmitglied aktuell an welchem Arbeitspaket arbeitet und welche Arbeitspakete vor der Vervollständigung stehen.
 Die drei üblichen Kanban-Bereiche \enquote{Neu}, \enquote{In Arbeit} und \enquote{Fertig} werden hierbei in Anlehnung an agile Softwareentwicklung in die folgenden Bereiche erweitert:
 \begin{itemize}
-    \item \textbf{Nicht im Backlog}: In diesen Bereich kann auch außerhalb von einem Meeting jedes Gruppenmitglied Karten hinzufügen, die für sinnvoll erachtet werden.
-    \item \textbf{Backlog}: Dieser Bereich beinhaltet alle Karten, die zur Bearbeitung anstehen. Karten in diesem Bereich werden in der Regel bei einem Meeting einem oder mehreren Gruppenmitgliedern zugewiesen.%TODO und entstammen dem Feld nicht im Backlog -> priorisierung, für aktuellen "Sprint" relevante Karten
-    \item \textbf{In Arbeit}: In diesen Bereich werden Karten geschoben, die aktuell bearbeitet werden.%TODO limit auf 2 Karten p.p.
-    \item \textbf{In Prüfung}: Nach der Fertigstellung einer Karte werden die entwickelten Features vom gesamten Team im nächsten Meeting überprüft. Dadurch stellen wir eine hohe Code-Qualität sicher und können bei Bedarf Karten für Bugfixes oder Refactoring in das Backlog schieben. Arbeitspakete bleiben hier bis zur Fertigstellung aller verwandten Bugfixes.%TODO satzende
+    \item \textbf{Nicht im Backlog}: In diesen Bereich kann auch außerhalb von einem Meeting jedes Gruppenmitglied Karten hinzufügen, die für sinnvoll erachtet werden. Karten in diesem Bereich werden beim folgenden Meeting diskutiert und gegebenenfalls ins Backlog geschoben.
+    \item \textbf{Backlog}: Dieser Bereich beinhaltet alle Karten, die zur Bearbeitung anstehen. Karten in diesem Bereich werden in der Regel bei einem Meeting einem oder mehreren Gruppenmitgliedern zugewiesen.
+    \item \textbf{In Arbeit}: In diesen Bereich werden Karten geschoben, die aktuell bearbeitet werden.
+    \item \textbf{In Prüfung}: Nach der Fertigstellung einer Karte werden die entwickelten Features vom gesamten Team im nächsten Meeting überprüft. Dadurch stellen wir eine hohe Code-Qualität sicher und können bei Bedarf Karten für Bugfixes oder Refactoring in das Backlog schieben. Arbeitspakete bleiben hier bis zur Fertigstellung aller verwandten Bugfixes.
     \item \textbf{Fertig}: Nach der erfolgreichen Review werden alle fertiggestellten und auf ihre korrekte Funktionsweise überprüften Arbeitspakete in diesen Bereich geschoben.
 \end{itemize}
 \subsection*{Projektmanagement}
-Durch diese Struktur ergeben sich fast automatisch auch an agile Entwicklung angelehnte Sprints.%TODO -> fast automatisch ~> explizit gewählt? kommt besser oder?
+Durch diese Struktur wurde sich explizit auch für an agile Entwicklung angelehnte Sprints entschieden.
 Auf eine strikte Festlegung auf eine agiles Umfeld wie beispielsweise Scrum wurde jedoch bewusst verzichtet.
 Der Grund hierfür ist die kurze Entwicklungsdauer im Semester und die geringe Gruppengröße.
-Die Sprints waren dadurch in der Regel nur wenige Tage lang. \\%TODO wie wäre es mit einer Woche was eine legitime Sprintlänge ist?
-Für das Projekt wurde zunächst ein Prototyp nach dem Rapid-Prototyping-Prinzip entwickelt.%TODO Quelle?
-Hierfür wurden die essentiellen Funktionen bereits in der ersten Woche umgesetzt, und damit eine rudimentäre Basis geschaffen, die in den folgenden Sprints um die zusätzlichen Features erweitert wurde.%TODO evt. eingehen auf vertikal durchexerziert funktional
+Die Sprints waren dadurch in der Regel nur wenige Tage lang. \\
+Für das Projekt wurde zunächst ein Prototyp nach dem Rapid-Prototyping-Prinzip\footnote{vgl. \cite{krypczyk.2019}} entwickelt.
+Hierfür wurden die essentiellen Funktionen bereits in der ersten Woche umgesetzt, und damit eine rudimentäre Basis geschaffen, die in den folgenden Sprints um die zusätzlichen Features erweitert wurde.
 In der nächsten Projektphase wurde der Code refactored und Fehler die teilweise noch aus dem Prototyp stammten behoben.
 Durch diese Projektplanung konnte das Projekt bereits einen Monat nach Beginn für feature-complete erklärt werden.
-Danach wurden nur noch später entdeckte Fehler behoben und die Dokumentation begonnen.%TODO Später entdeckte Fehler = schlecht, "letzer Schliff/Detailanpassungen = gut"?Alle im Projekt gesetzten Deadlines konnten erreicht oder sogar unterboten worden.
+Danach wurden nur noch später entdeckte Fehler behoben und die Dokumentation begonnen.
 \subsection*{Soll-Ist-Vergleich}
 Die einzelnen Features, deren Einstufung und der Status sind im Anhang in \autoref{anh:sollist} aufgeführt.
+Die Darstellung basiert auf \cite{Wortmann.2020} und wurde in Muss-, Kann und Bonus-Anforderungen gegliedert. Bonusanforderungen waren hierbei zunächst nicht genannt, kamen jedoch in Besprechungen als mögliche Erweiterung hinzu.
+Das Projekt wurde von Anfang an so konzipiert, dass eine hohe Unabhängigkeit der einzelnen Komponenten gegeben ist.
+Die Anwendung kann beliebig auf die Gegebenheiten angepasst werden, örtliche Trennung sind genauso möglich wie Fernzugriff auf die Daten und Verbindung des Sensors mit einem mobilen Hotspot.
+Auch während des Betriebs können einzelne Bestandteile des Projekts bei Bedarf in den Konfigurationsdateien neu eingestellt werden.
+Alle Anforderungen wurden so umgesetzt, dass auch eine Veränderung oder Erweiterung der Software im späteren Verlauf problemlos möglich ist. 
