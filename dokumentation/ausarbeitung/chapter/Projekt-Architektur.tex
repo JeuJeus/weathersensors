@@ -1,7 +1,10 @@
 %!TEX root = ../Thesis.tex
+
+
 \section{Projekt-Architektur}\label{Projekt-Architektur}
-Die Ordnerstruktur des Projekts ist in \autoref{fig:dir_struc_root} zu sehen. Die Strukturen für das Frontend, Backend
-sowie den NodeMCU Code sind in \autoref{anh:Projekt-Architektur} zu finden.
+Die Ordnerstruktur des Projekts ist in \autoref{fig:dir_struc_root} zu sehen.
+Die Strukturen für das Frontend, Backend sowie den NodeMCU Code sind in \autoref{anh:Projekt-Architektur} zu finden.
+
 \begin{figure}[H]
     \centering
     \begin{minipage}[t]{1\textwidth}
@@ -11,18 +14,19 @@ sowie den NodeMCU Code sind in \autoref{anh:Projekt-Architektur} zu finden.
         \label{fig:dir_struc_root}
     \end{minipage}
 \end{figure}
-\\
-Die Quelltexte der drei Komponenten NodeMCU, Backend und Frontend sind voneinander getrennt, werden aber als ein
-Gesamtprojekt ausgeliefert.
+
+Die Quelltexte der drei Komponenten NodeMCU, Backend und Frontend sind voneinander getrennt, werden aber als ein Gesamtprojekt ausgeliefert.
+
 \subsection{Frontend}
 Die Struktur des Frontend-Quellcodes ist eine Mischung aus klassicher Web- und Nodejs- Projektstruktur.
 In dem Ordner \textit{resources} sind Ressourcen zu finden, welche der Webserver den Clients bereitstellt.
 Diese sind in \textit{css}, \textit{img} und \textit{js} gegliedert.
 Verwendete Libraries, wie z.B. \textit{sir.js} befinden sich in eigenen Unterordnern, während der eigenentwickelte
 Quellcode sich direkt in den Ordnern befindet.
-\\
+
 Im Root-Ordner des Frontends befinden sich ,für die Komponente, globale Dateien, wie z.B. das Buildscript für Docker,
 die \textit{package.json} für Node.js und die \textit{.eslintrc.json} zur Konfiguration des JavaScript-Linters.
+
 \subsection{Backend}
 Die Struktur das Backend-Quellcodes orientiert sich an der üblichen Struktur für Node.js Projekte, ist jedoch
 absichtlich simpel und flach, anstatt tief hierarchisch, gestaltet.
