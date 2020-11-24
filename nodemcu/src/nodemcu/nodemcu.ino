@@ -17,7 +17,7 @@ struct sensorData {
   float temperature;
   float pressure;
   float humidity;
-//based on unixtimestamp with second accuracy
+  //based on unix timestamp with second accuracy
   int timestamp;
 };
 
@@ -131,7 +131,7 @@ boolean processHttpResponse(HTTPClient *http, int httpCode){
     if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY || httpCode == HTTP_CODE_BAD_REQUEST) {
       String payload = http->getString();
       Serial.println(payload);
-        return true;
+      return true;
     }
   } else {
     Serial.printf("[HTTP] POST... failed: [%d], error: %s\n", httpCode, http->errorToString(httpCode).c_str());
