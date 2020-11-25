@@ -1,9 +1,9 @@
 const controller = require('./GeileTypenWetterAppController');
 const rp = require('./AppDateTimePicker');
 const ac = require('./AppChart');
+const at = require('./AppTrend');
 const constants = require('./Constants');
 const alert = require('./Alert');
-
 
 class GeileTypenWetterApp {
   // DOM - Elements
@@ -19,6 +19,7 @@ class GeileTypenWetterApp {
 
   // current state
   granularity = 100;
+  latestDatapointsAmount = 10;
   sensorToPlot = 1;
   sensors = [];
   sensorData = {
@@ -150,9 +151,9 @@ class GeileTypenWetterApp {
    updateUI(sensor) {
     this.updateDateTimeRangePicker();
     this.updateLatestValues(sensor, this.sensorData.temperature.slice(-1)[0], this.sensorData.humidity.slice(-1)[0], this.sensorData.airPressure.slice(-1)[0]);
-    ac.updateChart(this.unifiedChart, this.sensorData.timestamps, this.sensorData.temperature, this.sensorData.humidity, this.sensorData.airPressure);
-
-    this.updateSensorsDropdown();
+     ac.updateChart(this.unifiedChart, this.sensorData.timestamps, this.sensorData.temperature, this.sensorData.humidity, this.sensorData.airPressure);
+     at.calculateTrends(this.sensorData, this.sensorData.temperature, this.granularity);
+     this.updateSensorsDropdown();
   }
 
 //  ###### event listeners ######
