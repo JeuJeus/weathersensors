@@ -14,6 +14,9 @@ class GeileTypenWetterApp {
   temperatureNow = document.createElement('h3');
   humidityNow = document.createElement('h3');
   airPressureNow = document.createElement('h3');
+  temperatureTrend = document.createElement('div');
+  humidityTrend = document.createElement('div');
+  airPressureTrend = document.createElement('div');
   sensorSelectDropdown = document.createElement('div');
   chartCanvasElement = document.createElement('canvas');
 
@@ -65,7 +68,8 @@ class GeileTypenWetterApp {
   }
 
   setDomElements(granularityInputSelector, yAxisToggleSelector, sensorPlottingSelector, sensorPlotLocationSelector, temperatureNowSelector,
-    humidityNowSelector, airPressureNowSelector, sensorDropdownSelector, resetRangeButtonSelector, chartCanvasSelector, dateTimeRangePickerSelector) {
+    humidityNowSelector, airPressureNowSelector, temperatureTrendSelector, humidityTrendSelector, airPressureTrendSelector,
+    sensorDropdownSelector, resetRangeButtonSelector, chartCanvasSelector, dateTimeRangePickerSelector) {
     this.granularityInput = document.querySelector(granularityInputSelector);
     this.yAxisToggleButton = document.querySelector(yAxisToggleSelector);
     this.sensorPlotting = document.querySelector(sensorPlottingSelector);
@@ -73,6 +77,9 @@ class GeileTypenWetterApp {
     this.temperatureNow = document.querySelector(temperatureNowSelector);
     this.humidityNow = document.querySelector(humidityNowSelector);
     this.airPressureNow = document.querySelector(airPressureNowSelector);
+    this.temperatureTrend = document.querySelector(temperatureTrendSelector);
+    this.humidityTrend = document.querySelector(humidityTrendSelector);
+    this.airpressureTrend = document.querySelector(airPressureTrendSelector);
     this.sensorSelectDropdown = document.querySelector(sensorDropdownSelector);
     this.resetRangeButton = document.querySelector(resetRangeButtonSelector);
     this.chartCanvasElement = document.querySelector(chartCanvasSelector);
@@ -153,7 +160,7 @@ class GeileTypenWetterApp {
     this.updateDateTimeRangePicker();
     this.updateLatestValues(sensor, this.sensorData.temperature.slice(-1)[0], this.sensorData.humidity.slice(-1)[0], this.sensorData.airPressure.slice(-1)[0]);
      ac.updateChart(this.unifiedChart, this.sensorData.timestamps, this.sensorData.temperature, this.sensorData.humidity, this.sensorData.airPressure);
-     at.calculateTrends(this.sensorData, this.sensorData.temperature, this.granularity);
+     at.updateTrends(this.sensorData, this.granularity, this.temperatureTrend, this.humidityTrend, this.airpressureTrend);
      this.updateSensorsDropdown();
   }
 
