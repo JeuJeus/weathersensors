@@ -9,4 +9,5 @@ app.setDomElements('#granularity-input', '#y-axis-toggle-button', '#sensor-id-te
     '#chart-container', '#date-time-range-picker');
 app.setColors(c.TEMPERATURE_COLOR, c.AIRPRESSURE_COLOR, c.HUMIDITY_COLOR);
 app.setUpdateInterval(c.UPDATE_INTERVAL);
+app.setNumberOfDatapointsForRegression(c.LATEST_N_DATAPOINTS_AMOUNT);
 app.init();

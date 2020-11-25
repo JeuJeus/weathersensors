@@ -146,6 +146,7 @@ class GeileTypenWetterApp {
     this.sensors = (await controller.getSensorsFromServer(this.serverURI)).sensors;
     const sensor = (await controller.getSensorFromServer(this.sensorToPlot, this.serverURI)).sensor;
     this.updateUI(sensor);
+
   }
 
    updateUI(sensor) {
@@ -201,6 +202,10 @@ class GeileTypenWetterApp {
 
   setUpdateInterval(updateInterval) {
     this.updateInterval = updateInterval;
+  }
+
+  setNumberOfDatapointsForRegression(latestDatapointsAmount) {
+    this.latestDatapointsAmount = latestDatapointsAmount;
   }
 }
 
