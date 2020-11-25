@@ -27,7 +27,8 @@ WiFiUDP udp;
 EasyNTPClient ntpClient(udp, "pool.ntp.org");
 
 const unsigned long DELAY_TIME_NO_SENSOR_FOUND = 1000*5;
-const unsigned long DELAY_TIME_REST_SEND       = 1000*60*5;
+const unsigned long SEND_INTERVAL_IN_MINUTES   = 5;
+const unsigned long DELAY_TIME_REST_SEND       = 1000*60*SEND_INTERVAL_IN_MINUTES;
 const unsigned long DELAY_TIME_INITIAL_CONNECT = 1000*15;
 char macAddress[MAC_ADDRESS_LENGTH];
 
@@ -83,8 +84,8 @@ float assureTimestampWhenNoConnection(int positionInCache,int cacheLength, int t
         //assure udp connection to ntp is established
         now = ntpClient.getUnixTime();
     } while (now == 0);
-    //"Cache" is based on FIFO where each element is $(DELAY_TIME_REST_SEND) minutes of age apart
-    int ageMinutes = (cacheLength-positionInCache)*5;
+    //"Cache" is based on FIFO where each element is $(SEND_INTERVAL_IN_MINUTES) minutes of age apart
+    int ageMinutes = (cacheLength-positionInCache)*SEND_INTERVAL_IN_MINUTES;
     return (now - (ageMinutes * 60));
 }
 
