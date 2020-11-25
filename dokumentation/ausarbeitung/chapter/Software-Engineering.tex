@@ -1,3 +1,6 @@
+%!TEX root = ../Thesis.tex
+
+
 \section{Software-Engineering}
 In diesem Kapitel wird auf den Software-Engineering-Aspekt des Projekts eingegangen. Anhand von drei Beispielen wird dargelegt, wie wir die Code-Qualität durch Verwendung dieser Prinzipien sichergestellt und verbessert haben.
 \subsection*{Code-Kommentierung}
@@ -5,13 +8,18 @@ Im Projekt wurde auf die Kommentierung des Quellcodes weitestgehend verzichtet.
 In der Industrie ist heute der verbreitete Standard, dass eine tiefgehende Kommentierung des Codes nicht notwendig und nicht sinnvoll ist, um ein Verständnis für die Funktionalität zu schaffen.
 Stattdessen wird strikt darauf geachtet, gut lesbaren und verständlichen Code zu schreiben, der eine zügige Einarbeitung auch ohne Kommentare ermöglicht.
 Im Projekt wurde in Absprache mit Florian Wortmann\footnote{vgl. \cite{BesprNotiz.2020}} zum Großteil darauf verzichtet, den Code zu kommentieren.
-Ausnahmen bilden hier Kommentare, die dazu dienen den Code in inhaltlich getrennte Abschnitte zu unterteilen, beispielsweise die Unterteilung in Vorbereitungsfunktionen und tatsächliche Tests in den Front- und Backendtests.
+Ausnahmen bilden hier technisch komplexe Funktionen.
+Hierzu gehören zum einen beispielhaft die Verwendung von regulären Ausdrücken.
+Oder zum anderen innerhalb des Node-MCU Codes, die Erklärung unserer Funktion zur Zeitstempelkorrektur, da diese anhand einer \enquote{FIFO}-Queue die Werte berechnet.
+Des weiteren wurden Kommentare genutzt um den Code in inhaltlich getrennte Abschnitte zu unterteilen, beispielsweise die Unterteilung in Vorbereitungsfunktionen und tatsächliche Tests in den Front- und Backendtests.
 Eine gute Änderbarkeit des Codes wird somit primär durch die Verwendung von sprechenden Variablen- und Funktionsbezeichnungen und die Übersichtlichkeit durch Aufteilung in atomare Funktionen sichergestellt.
 \subsection*{Continous Integration}
-Um die durchgehende Funktionalität des Codes zu sichern und zu gewährleisten, dass nur funktionierender Code gepusht wird, wurde die CI von GitHub eingebunden.
-Sie stellt sicher, dass alle Tests erfolgreich durchlaufen und ermöglicht somit eine schnelle Fehlererkennung und gibt Ansätze zur Behebung.
-Die Verwendung der CI stellt somit sicher, dass der Code qualitativ hochwertig und funktionstüchtig ist.
+Um die durchgehende Funktionalität des Codes zu sichern und zu gewährleisten, dass nur funktionierender Code gepusht wird, wurde die CI-Funktionalität von GitHub eingebunden.
+Hierbei wurde für Backend sowie Frontend jeweils getrennt eine eigene Pipeline eingerichtet.
+Die CI stellt sicher, dass alle Tests erfolgreich durchlaufen und ermöglicht somit eine schnelle Fehlererkennung und gibt Ansätze zur Behebung.
+Durch die Kopplung von Tests im Zuge der Entwicklung von Funktionalität, sowie der automatischen Ausführung dieser auf einem unabhängigen \enquote{cleanen} System, wird der Code direkt nach dem Push validiert.
+Die Verwendung der CI stellt somit sicher, dass der Code qualitativ hochwertig und fehlerfrei ist.
 \subsection*{Linter}
 Für die Durchsetzung der Code-Konventionen wird der Linter ESLint\footnote{\cite{ESLint.2020}} als Plugin in IntelliJ genutzt.
 Der Linter stellt durch invasive Meldungen die Qualität und Lesbarkeit des geschriebenen Codes sicher und ist besonders bei der o.g. kommentar-armen Entwicklung wichtig, damit der Code nach dem Projekt auch durch andere Entwickler erweiterbar ist.
-Das Projekt orientiert sich an den Code-Konventionen von Google, die in der Industrie weit verbreitet sind.
+Die Einstellung von ESLint wurden anhand der Code-Konventionen von Google vorgenommen, die in der Industrie weit verbreitet sind.
