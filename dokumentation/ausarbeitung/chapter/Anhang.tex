@@ -311,13 +311,72 @@ Diese ist in Rot gehalten und zeigt Fehler auf.
 \end{figure}
 \subanhang{NodeMCU}
 \begin{figure}[H]
-	\centering
-	\begin{minipage}[t]{1\textwidth}
-		\caption{NodeMCU-Ordnerstruktur}
-		\includegraphics[width=0.5\textwidth]{img/dir_struc_nodemcu.png}\\
-		\source{Eigene Darstellung}
-		\label{fig:dir_struc_nodemcu}
-	\end{minipage}
+    \centering
+    \begin{minipage}[t]{1\textwidth}
+        \caption{NodeMCU-Ordnerstruktur}
+        \includegraphics[width=0.5\textwidth]{img/dir_struc_nodemcu.png}\\
+        \source{Eigene Darstellung}
+        \label{fig:dir_struc_nodemcu}
+    \end{minipage}
 \end{figure}
 
+\pagebreak
 
+\anhang{Ausblick - Wetterprognose}\label{prognose}
+
+In diesem Abschnitt findet sich eine Prototypische Implementierung die zu Psedudocode abgeändert wurde.
+Für den spezifischen gewählten Sensor \textit{specificSensor} werden die \enquote{n}-letzten Datenpunkte benutzt um mit Hilfe der Funktion \textit{calculateTrends} eine Regressionsgerade über diese zu erzeugen. Hierzu werden zwei Hilfsfunktionen herangezogen. Die Funktion \textit{createDataPointTuplos} erzeugt aus den Sensordaten ()\textit{sensorData}) einen mehrdimensionalen Array welcher von der Library (hier beispielhaft anhand \textit{regressionLibrary}) zur Erzeugung der linearen Regressionsgeraden verwendet wird.
+Des weiteren wird die Funktion \textit{getLowerBoundsGranularityOrSensordataLength} herangezogen um sicherzustellen dass keine \enquote{Out-of-Bounds}-Exceptions auftreten, indem der geringere Wert, anhand der Menge der vorhandenen Daten sowie den \enquote{n}-gewünschten Datenpunkten erzeugt wird.
+
+\subanhang{Pseudocode Umsetzung}
+\begin{figure}[bht]
+    \begin{lstlisting}[caption=Pseudocode Regressionsgerade, label=list:regression]
+		   calculateTrends(sensorData,specificSensor,granularity){
+		 	let dataLength = this.
+		 		getLowerBoundGranularityOrSensordataLength(sensorData, granularity)
+		 	let trendData = this.
+		 		createDataPointTuples(
+		 			sensorData.timestamps.slice(-dataLength),
+		 			sensorData.specificSensor.slice(-dataLength),
+		 			dataLength
+		 			);
+		 	console.log(trendData);
+		 	let trendSpecificSensor =
+		 		regressionLibrary.linearRegression(trendData);
+		 	console.log(trendSpecificSensor);
+		 }
+
+		 createDataPointTuples(timestamps,specificSensor, length){
+		 	return Array.from({length: length}, (x, i) => {
+		 		return [
+		 			moment(timestamps[i],"DD.MM.YYYY, HH.mm.ss").unix(),
+		 			specificSensor[i]
+		 			];
+		 	});
+		 }
+
+		 getLowerBoundGranularityOrSensordataLength(sensorData, granularity) {
+		 	return sensorData.timestamps.length < granularity ?
+		 		sensorData.timestamps.length : granularity;
+		 }
+    \end{lstlisting}
+\end{figure}
+
+\pagebreak
+
+\subanhang{GUI Positionierung Konzeptuell}
+
+In \cref{fig:posTrend} findet sich die Visualisierung der in \cref{list:regression} errechneten Daten.
+Mit Hilfe der Steigung der Regressionsgerade wird das Icon eines Pfeils anhand von CSS im passenden Winkel rotiert.
+Hierdurch ist direkt unter den aktuellen Werten der Trend in der Wertentwicklung sichtbar.
+Idealerweise liesse sich dies noch durch einen Tooltip ergänzen, damit die Bedeutung des Pfeils für jeden intuitiv ersichtlich wird.
+
+\begin{figure}[h!!]
+    \centering
+    \begin{minipage}[t]{1\textwidth}
+        \caption{Positionierung Trend}
+        \includegraphics[width=1\textwidth]{img/konzept-trend.png}\\
+        \source{Eigene Darstellung}
+        \label{fig:posTrend}
+    \end{minipage}
+\end{figure}
