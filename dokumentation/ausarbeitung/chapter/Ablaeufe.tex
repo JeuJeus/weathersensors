@@ -1,6 +1,30 @@
+\usepackage{hyperref}
+
 %!TEX root = ../Thesis.tex
 \section{Ablaeufe}\label{Ablaeufe}
-In diesem Kapitel werden die Abläufe der jeweiligen Anwendungen (vereinfacht) dargestellt.
-\subsection{Frontend}
+In diesem Kapitel werden die Abläufe der jeweiligen Anwendungen (vereinfacht) dargestellt. Für die Komponenten
+Backend und NodeMCU wurde jeweils ein UML-Ablaufdiagramm erstellt. Für das Frontend wurde darauf verzichtet, da bereits
+ein Use-Case-Diagramm besteht und der technische Ablauf sehr schnuckelig ist. Die Zustandsdiagramme befinden sich in
+\autoref{anh:ablaeufe}.
 \subsection{Backend}
 \subsection{NodeMCU}
+Das Zustandsdiagramm ist in \autoref{fig:zust_diag_nodemcu_setup}, \autoref{fig:zust_diag_nodemcu_loop} und
+\autoref{fig:zust_diag_nodemcu_send} zu sehen. Es wurde zu Gunsten der Übersichtlichkeit in drei Teile aufgeteilt.
+Es folgt eine grobe Erläuterung.
+Auf eine detaillierte Erläuterung wird verzichtet, da hierzu das Diagramm sowie der Quelltext analysiert werden kann.
+Nach dem Boot wird in die setup-Funktion gesprungen.
+In dieser wird nach einem BME280 Sensor gesucht.
+Insofern einer gefunden, wird die WLAN-Verbindung aufgebaut.
+Anschließend wird die loop-Funktion endlos in einer Schleife aufgerufen.
+Diese beginnt mit dem Auslesen der Sensordaten, welche in eine Liste gespeichert werden.
+Wenn die Liste voll ist, wird das erste Element zuvor entfernt.
+Nach Prüfung, ob die WLAN-Verbindung vorhanden ist, wird die sendCachedData-Funktion aufgerufen.
+In dieser wird über alle Listenelemente iteriert.
+In jeder Iteration wird eine HTTP-Verbindung zum Backend aufgebaut.
+Anschließend wird ein eventuell inkorrekter Timestamp (mit Wert = 0) korrigiert.
+Danach wird der JSON-String für den HTTP-Body aus den Daten erstellt.
+Nach anschließendem versenden wird der HTTP-Code ausgewertet.
+Bei einem erwarteten Wert wird das Element aus der Liste entfernt.
+Zuletzt wird die HTTP-Verbindung geschlossen und in die nächste Iteration gegangen.
+Mit dem Ende der Iterationen endet die Funktion, womit in die loop-Funktion zurückgekehrt wird.
+Nach warten einer Verzögerung wird diese erneut (endlos) aufgerufen.
