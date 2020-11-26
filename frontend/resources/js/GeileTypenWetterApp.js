@@ -22,7 +22,7 @@ class GeileTypenWetterApp {
 
   // current state
   granularity = 100;
-  latestDatapointsAmount = 10;
+  latestDatapointsAmount = 5;
   sensorToPlot = 1;
   sensors = [];
   sensorData = {
