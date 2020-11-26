@@ -149,10 +149,10 @@ div.alert-messages {
 }
 
 .trendRising {
-    transform: rotate(-45deg);
+    transform: rotate(45deg);
 }
 
 .trendFalling {
-    transform: rotate(45deg);
+    transform: rotate(-45deg);
 }
 
