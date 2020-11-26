@@ -8,6 +8,7 @@ const c = require('../resources/js/Constants');
 const sinon = require('sinon');
 const faker = require('faker');
 const AppController = require('../resources/js/GeileTypenWetterAppController');
+const appTrend = require('../resources/js/AppTrend');
 
 global.window = window;
 global.$ = require('jquery');
@@ -75,6 +76,10 @@ describe('-- APP TESTS -- ', () => {
   });
 
   describe('app-methods', () => {
+
+    //Trend Calculation is tested seperatly
+    sinon.stub(appTrend, 'updateTrends');
+
     it('should return correct trafficLightColors', async () => {
       const app = new App.GeileTypenWetterApp(c.SERVER_URI);
       app.sendIntervalESPMinutes = 5;
@@ -111,8 +116,45 @@ describe('-- APP TESTS -- ', () => {
       await app.init();
       expect(app.sensors.length).to.deep.equal(app.sensorSelectDropdown.childNodes.length);
     });
+  });
 
+  describe('calculating Trends', () => {
+    let nowSample = '26.11.2020, 16:16:31';
+    let nowUnix = 1606403791;
+    let specificSensor = document.createElement('div');
 
+    it('should get correct lower bounds when sensorData bigger than granularity', async () => {
+      let sensorData = {timestamps: [1, 2, 3]};
+      expect(appTrend.getLowerBoundGranularityOrSensordataLength(sensorData, 1)).to.equal(1);
+    });
+
+    it('should format timestamp correctly', function() {
+      expect(appTrend.formatTimeStringToUnix(nowSample)).to.equal(nowUnix);
+    });
+
+    it('should create correct tuples of data for given input', function() {
+      let timeStampsSample = [nowSample, nowSample, nowSample];
+      let sensorDataSample = [12.5, 24.5, 18.5];
+      let expectedOutput = [[nowUnix, 12.5], [nowUnix, 24.5], [nowUnix, 18.5]];
+
+      expect(appTrend.createDataPointTuples(timeStampsSample, sensorDataSample, 3))
+        .to.eql(expectedOutput);
+    });
+
+    it('should set trend falling if Trend is falling', function() {
+      appTrend.setTrend(specificSensor, 1, -0.3);
+      expect(specificSensor.classList.contains('trendFalling')).to.be.true;
+    });
+
+    it('should set trend stagnant if Trend is stagnant', function() {
+      appTrend.setTrend(specificSensor, 1, 0);
+      expect(specificSensor.classList.contains('trendStagnant')).to.be.true;
+    });
+
+    it('should set trend rising if Trend is rising', function() {
+      appTrend.setTrend(specificSensor, 1, 0.3);
+      expect(specificSensor.classList.contains('trendRising')).to.be.true;
+    });
   });
 
 });
