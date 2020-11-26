@@ -1,4 +1,4 @@
-const moment = require('moment');
+const moment = require('moment-timezone');
 const statistics = require('simple-statistics');
 
 function updateTrends(sensorData, granularity, temperatureTrend, humidityTrend, airpressureTrend) {
@@ -26,7 +26,7 @@ function calculateTrend(sensorData, specificSensor, granularity) {
 }
 
 function formatTimeStringToUnix(timestamp) {
-  return moment(timestamp, 'DD.MM.YYYY, HH.mm.ss').unix();
+  return moment.tz(timestamp, 'DD.MM.YYYY, HH.mm.ss', 'Europe/Berlin').unix();
 }
 
 function createDataPointTuples(timestamps, specificSensor, length) {
