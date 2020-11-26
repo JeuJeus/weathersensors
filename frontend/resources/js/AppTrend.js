@@ -1,3 +1,6 @@
+const moment = require('moment');
+const statistics = require('simple-statistics');
+
 function updateTrends(sensorData, granularity, temperatureTrend, humidityTrend, airpressureTrend) {
   //TODO check whether these 'relativeFactors' need to be adapted over time
   setTrend(temperatureTrend, 10000, calculateTrend(sensorData, sensorData.temperature, granularity));
@@ -19,7 +22,7 @@ function setTrend(specificSensor, relativeFactor, trendValue) {
 function calculateTrend(sensorData, specificSensor, granularity) {
   let dataLength = getLowerBoundGranularityOrSensordataLength(sensorData, granularity);
   let trendData = createDataPointTuples(sensorData.timestamps.slice(-dataLength), specificSensor.slice(-dataLength), dataLength);
-  return ss.linearRegression(trendData).m;
+  return statistics.linearRegression(trendData).m;
 }
 
 function createDataPointTuples(timestamps, specificSensor, length) {

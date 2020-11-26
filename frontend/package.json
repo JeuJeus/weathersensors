@@ -16,8 +16,10 @@
     "express": "^4.17.1",
     "express-basic-auth": "^1.2.0",
     "http-server": "^0.12.3",
+    "moment": "^2.29.1",
     "rotating-file-stream": "^2.1.3",
-    "serve-favicon": "^2.5.0"
+    "serve-favicon": "^2.5.0",
+    "simple-statistics": "^7.3.2"
   },
   "devDependencies": {
     "jquery": "^3.5.1",
