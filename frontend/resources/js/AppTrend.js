@@ -25,9 +25,13 @@ function calculateTrend(sensorData, specificSensor, granularity) {
   return statistics.linearRegression(trendData).m;
 }
 
+function formatTimeStringToUnix(timestamp) {
+  return moment(timestamp, 'DD.MM.YYYY, HH.mm.ss').unix();
+}
+
 function createDataPointTuples(timestamps, specificSensor, length) {
   return Array.from({length: length}, (x, i) => {
-    return [moment(timestamps[i], 'DD.MM.YYYY, HH.mm.ss').unix(), specificSensor[i]];
+    return [formatTimeStringToUnix(timestamps[i]), specificSensor[i]];
   });
 }
 
@@ -36,5 +40,9 @@ function getLowerBoundGranularityOrSensordataLength(sensorData, granularity) {
 }
 
 module.exports = {
+  getLowerBoundGranularityOrSensordataLength: getLowerBoundGranularityOrSensordataLength,
+  formatTimeStringToUnix: formatTimeStringToUnix,
+  createDataPointTuples: createDataPointTuples,
   updateTrends: updateTrends,
+  setTrend: setTrend,
 };
