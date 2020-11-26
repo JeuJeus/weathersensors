@@ -129,7 +129,7 @@ describe('-- APP TESTS -- ', () => {
     });
 
     it('should format timestamp correctly', function() {
-      expect(appTrend.formatTimeStringToUnix(nowSample)).to.equal(nowUnix);
+      expect(appTrend.formatTimeStringToUnix(nowSample)).to.deep.equal(nowUnix);
     });
 
     it('should create correct tuples of data for given input', function() {
