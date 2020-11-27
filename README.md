@@ -1,5 +1,6 @@
-# Uniprojekt "Wettersensoren" <img src="frontend/resources/img/logo.png?" height="30" width="30">
-## Anwendungsentwicklung 2 - FHDW Paderborn 
+# ehemaliges Uniprojekt "Wettersensoren" <img src="frontend/resources/img/logo.png?" height="30" width="30">
+Dieses Projekt entstand ursprünglich im Kontext des Modules "Anwendungsentwicklung 2" an der FHDW Paderborn (Releases <1.1.0).
+Nach Beendigung des Modules wurde dieses Projekt freiwillig weiterentwickelt (Releases >=1.1.0).
 
 Im Zuge dieses Projektes werden NodeMCU ESP8266 mit BME280 Sensoren (Temperatur, Luftdruck und Feuchtigkeitssensor) ausgestattet.
 Diese senden die gesammelten Daten an einen zentralen Server, welcher die Daten verwaltet. 
@@ -9,6 +10,7 @@ Diese senden die gesammelten Daten an einen zentralen Server, welcher die Daten 
 ### [Live Version](https://awe2.jeujeus.de)
 
 ## Features:
+### Stand 1.0.x :
 - Sammeln von Wetterdaten von 'n' verschiedenen Sensoren
 - Sensoraktivitätsindikator zur Übersicht aktiver Sensoren
 - Auswahl des zu plottenden Sensors
@@ -17,6 +19,8 @@ Diese senden die gesammelten Daten an einen zentralen Server, welcher die Daten 
 - frei wählbare Granularität der Darstellung
 - frei wählbarer anzuzeigender Zeitraum
 - schnell Übersicht der jeweils letzen Werte
+### zusätzlich ab 1.1.x :
+- Trendanzeige für die Entwicklung von Temperatur / Luftfeuchte und -druck basierend auf Regressionsprognosen
 
 ## Deployment 
 ### ESP8266
