@@ -76,20 +76,20 @@ Die exakten Geräte sind:
 \subsection{Backend und Frontend}
 
 Backend sowie Frontend werden mithilfe von Docker deployed.
-Im Frontend ist hierzu die Backend Url in der Klasse \textit{Constants.js} die Variable \textit{SERVER\_URI} anzupassen.
-Die Images dafür lassen sich in den jeweiligen Modulen mit Hilfe der \textit{buildImageandTar.sh} Skripts bauen.
-Diese bauen die Images und stellen diese in der lokalen Dockerumgebung zum Start bereit.
+Im Frontend ist hierzu die Backend URL in der Klasse \textit{Constants.js} die Variable \textit{SERVER\_URI} anzupassen.
+Die Images dafür lassen sich in den jeweiligen Modulen mit Hilfe der \textit{buildImageandTar.sh} Skripts erstellen.
+Diese erstellen die Images und stellen sie in der lokalen Dockerumgebung zum Start zur Verfügung.
 Darüber hinaus werden im Projekt-Root-Ordner tar-Bälle mit den jeweiligen Images hinterlegt.
 Für diesen Schritt haben wir uns entscheiden um die Images einfach auf einem Server verfügbar zu machen ohne Docker Registries (z.B. Docker.io) in Anspruch nehmen zu müssen.
 
-Der Standard Admin-Zugang ist \textit{admin:\$PASSWORD} Das Passwort für den Admin Zugang - in Form der Variable \textit{\$PASSWORD} in \textit{router.js} - ist gegebenermaßen zu ersetzen.
+Der Standard Admin-Benutzername ist \enquote{Admin} und das Standard-Passwort \enquote{\$PASSWORD}. Das Passwort kann in \textit{router.js} geändert werden.
 
 \textbf{Deployment Voraussetzungen unter Windows}
 
 Das Projekt kann mithilfe der WSL 2 und Docker for Windows deployed werden.
-Für die Vorbereitung muss zunächst eine WSL 2 eingerichtet werden (Link zur Anleitung: \href{https://docs.microsoft.com/en-us/windows/wsl/install-win10}{hier}).
-Danach kann Docker for Windows mit den WSL 2-Komponenten installiert werden (Link zur Anleitung: \href{https://docs.docker.com/docker-for-windows/wsl/}{hier}).
-Nachdem Docker for Windows bereitgestellt wurde kann die ausgewählte Linux Distribution in der WSL gestartet werden.
+Für die Vorbereitung muss zunächst eine WSL 2 eingerichtet werden.
+Danach kann Docker for Windows mit den WSL 2-Komponenten installiert werden.
+Nachdem Docker for Windows bereitgestellt wurde, kann die ausgewählte Linux Distribution in der WSL gestartet werden.
 Danach sind in der WSL die Schritte für Linux auszuführen.
 
 \textbf{Deployment Voraussetzungen unter Linux}

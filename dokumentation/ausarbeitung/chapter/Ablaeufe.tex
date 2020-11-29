@@ -1,17 +1,19 @@
 %!TEX root = ../Thesis.tex
-\section{Ablaeufe}\label{Ablaeufe}
+
+
+\section{Abläufe}\label{Ablaeufe}
 In diesem Kapitel werden die Abläufe der jeweiligen Anwendungen (vereinfacht) dargestellt. Für die Komponenten
 Backend und NodeMCU wurde jeweils ein UML-Zustandsdiagramm erstellt. Für das Frontend wurde darauf verzichtet, da bereits
-ein Use-Case-Diagramm besteht und der technische Ablauf sehr schnuckelig ist. Die Zustandsdiagramme befinden sich in
-\autoref{anh:ablaeufe}.
+ein Use-Case-Diagramm besteht und der technische Aufbau daraus hervorgeht. Die Zustandsdiagramme befinden sich in Anhang
+\ref{anh:ablaeufe}.
+
 \subsection{Backend}
 In \autoref{fig:backend_activity} ist ein Aktivitätendiagramm zu sehen. In diesem ist der simple Aufbau des Backends
-zu erkennen. Aufgrund der Einfachheit wird auf eine Erläuterung des Diagramms verzichtet.
+zu erkennen. Hierbei handelt es sich um einen klassischen Webserver, der Requests empfängt und verarbeitet.
+
 \subsection{NodeMCU}
 Das Zustandsdiagramm ist in \autoref{fig:zust_diag_nodemcu_setup}, \autoref{fig:zust_diag_nodemcu_loop} und
 \autoref{fig:zust_diag_nodemcu_send} zu sehen. Es wurde zu Gunsten der Übersichtlichkeit in drei Teile aufgeteilt.
-Es folgt eine grobe Erläuterung.
-Auf eine detaillierte Erläuterung wird verzichtet, da hierzu das Diagramm sowie der Quelltext analysiert werden kann.
 Nach dem Boot wird in die setup-Funktion gesprungen.
 In dieser wird nach einem BME280 Sensor gesucht.
 Insofern einer gefunden wurde, wird die WLAN-Verbindung aufgebaut.
@@ -27,4 +29,4 @@ Nach anschließendem Versenden wird der HTTP-Code ausgewertet.
 Bei einem erwarteten Wert wird das Element aus der Liste entfernt.
 Zuletzt wird die HTTP-Verbindung geschlossen und in die nächste Iteration gegangen.
 Mit dem Ende der Iterationen endet die Funktion, womit in die loop-Funktion zurückgekehrt wird.
-Nach warten einer Verzögerung wird diese erneut (endlos) aufgerufen.
+Nach Warten einer Verzögerung wird diese erneut (endlos) aufgerufen.

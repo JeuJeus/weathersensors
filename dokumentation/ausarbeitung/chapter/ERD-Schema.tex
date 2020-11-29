@@ -11,12 +11,12 @@ In \autoref{fig:erd} ist das ER-Diagramm des Projekts dargestellt. Die Datenbank
 \subsection*{SENSOR}
 Die Tabelle Sensor beinhaltet alle Informationen über die Sensoren des Systems.
 Neben einer vom System vergebenen ID sind Informationen über die MAC-Adresse und den Standort enthalten.
-Die MAC-Adresse wird bei jeder Request vom System zur Identifikation mitgeschickt und dient im Backend der Zuordnung von Messwerten zu Sensoren. Die MAC-Adresse wird als String gespeichert, es findet jedoch im Backend eine Überprüfung statt, die sicherstellt dass keine fehlerhafte Formatierung möglich ist.
-Die Spalte \enquote{Location} ermöglicht die Zuordnung eines Standorts zu einer Messstation. Dieser Wert kann im Frontend nur durch den Administrator festgelegt werden, weshalb hier keine besondere Datenvalidierung notwendig ist und die Speicherung als String die größtmögliche Flexibilität bietet.
+Die MAC-Adresse wird bei jedem Request vom System zur Identifikation mitgeschickt und dient im Backend der Zuordnung von Messwerten zu Sensoren. Die MAC-Adresse wird als String gespeichert, es findet jedoch im Backend eine Überprüfung statt, die sicherstellt dass keine fehlerhafte Formatierung möglich ist.
+Die Spalte \enquote{Location} ermöglicht die Zuordnung eines Standorts zu einer Messstation.
 \subsection*{SENSOR\_DATA}
 %TODO request hinzugefügt -> datenbank
 In dieser Tabelle werden die einzelnen Datensätze gespeichert.
-Ein Datensatz besteht standardmäßig aus einem Zeitstempel, und je einem Messwert für Temperatur, Luftdruck und -Feuchtigkeit.
+Ein Datensatz besteht standardmäßig aus einem Zeitstempel und je einem Messwert für Temperatur, Luftdruck und -Feuchtigkeit.
 Die Einzigartigkeit eines Datensatzes wird durch die Unique-Property von Sensor-ID und Zeitstempel sichergestellt.
 Der Sensor überträgt die oben genannten Daten zusätzlich zu seiner eigenen MAC-Adresse.
 Im Backend wird vor dem Speichern des Messwerts anhand der MAC-Adresse die Sensor-ID ermittelt (wenn der Sensor bereits bekannt ist) oder neu vergeben und dem Datensatz hinzugefügt, mit dem die Daten dann in die Datenbank eingefügt werden.

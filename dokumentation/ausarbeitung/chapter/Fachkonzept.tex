@@ -1,6 +1,8 @@
 %!TEX root = ../Thesis.tex
+
+
 \section{Fachkonzept}
-In diesem Kapitel werden die im Projekt eingesetzten Technologien beschrieben.\\
+In diesem Kapitel werden die im Projekt eingesetzten Technologien beschrieben. Sie sind in \autoref{fig:projektkomponenten} dargestellt. \\
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.7\linewidth]{img/projektkomponenten}
@@ -10,7 +12,7 @@ In diesem Kapitel werden die im Projekt eingesetzten Technologien beschrieben.\\
 \\
 %In \autoref{fig:projektkomponenten} ist ein möglicher Aufbau der Projektkomponenten gemäß den Projektanforderungen\footnote{\cite{Wortmann.2020}} dargestellt.
 Der \enquote{zentrale Server} besteht aus zwei Modulen, dem \enquote{Backend} sowie dem \enquote{Frontend} welche im Folgenden vorgestellt werden.
-%TODO jonathan glaubt hier gehöre ein Linter sowie CI CD etc rein
+
 \subsection{ESP8266}
 Wie in \autoref{ESP} beschrieben, kommt im Projekt ein ESP8266 Mikrocontroller zum Einsatz.
 Auf dem Mikrocontroller erfolgt die Erfassung der Messdaten mit einem BME280-Sensor und der Versand an das Backend.
@@ -20,19 +22,19 @@ Dadurch ist die Funktionalität auf das wesentliche beschränkt während trotzde
 Wenn der Mikrocontroller keine Verbindung zum angegebenen WLAN-Netzwerk herstellen kann oder der Server nicht erreichbar ist, werden die Daten gecached und versandt, sobald eine Verbindung hergestellt werden kann.\\
 Der Mikrocontroller wird in der Arduino IDE in C++ programmiert.
 
-\subsection{Backend} %TODO technisch überarbeiten
-Das Backend-Modul des Projekts, wird auf dem Zentralen Server bereitgestellt.
-Das Backend basiert auf der \enquote{Nodes.js}\footnote{\cite{nodejs}} Runtime in Version 14.4, ist somit in Javascript geschrieben und verwendet eine SQLite-Datenbank in Version 3 für die Speicherung der Daten.
+\subsection{Backend}
+Das Backend-Modul des Projekts wird auf dem zentralen Server bereitgestellt.
+Das Backend basiert auf der \enquote{Node.js}\footnote{\cite{nodejs}} Runtime in Version 14.4, ist somit in Javascript geschrieben und verwendet eine SQLite-Datenbank in Version 3 für die Speicherung der Daten.
 Für die Kommunikation zu den Sensoren und dem Frontend ist eine REST-API vorhanden, die in \autoref{Schnittstellen} näher erläutert wird.\\
 Sowohl das Backend als auch das Frontend sind für das Deployment in Docker vorgesehen.
-Hierbei ist eine örtliche Trennung möglich, das Frontend kann auf jeden Server zugreifen, der die API dieses Projekts bereitstellt.
+Hierbei ist eine örtliche Trennung zwischen Backend und Frontend möglich. Das Frontend kann auf jeden Server zugreifen, der die API dieses Projekts bereitstellt.
 
-\subsection{Frontend} %TODO technisch überarbeiten
+\subsection{Frontend}
 Das Frontend-Modul, welches die Weboberfläche bereitstellt, basiert ebenfalls auf \enquote{Node.js} in Version 14.4.
 Aufgrund des Projektaufbaus ist es wie oben genannt möglich, das Hosting von Backend und Frontend zu trennen.\\
 Für die Bereitstellung des Frontends nutzen wir die durch \enquote{Express}\footnote{\cite{express.2020}} bereitgestellte \enquote{Router}-Library.
 Die Darstellung der Messdaten auf der Website erfolgt mit \enquote{Chart.js}\footnote{\cite{chartjs.2020}}.
 Die Auswahl eines Zeitraums für die Darstellung eines Intervalls ist mit der Library \enquote{daterangepicker}\footnote{\cite{daterangepicker.2020}} umgesetzt.
-Zusätzlich wurde für das Projekt \enquote{Browserify}\footnote{\cite{browserify.2020}} verwendet, um zu verhindern, dass mehrere Dateien im Frontend geserved werden müssen, indem die einzelnen Dateien zu je einer Datei für die Haupt- und Adminseite zusammengefasst werden.
-Die HTML- und CSS-Komponenten der Website sind mit Bootstrap 4 erstellt worden.
+Zusätzlich wurde für das Projekt \enquote{Browserify}\footnote{\cite{browserify.2020}} verwendet, um den innerhalb des Browsers ausgeführten Code mithilfe von Node.JS testbar zu machen.
+Die HTML- und CSS-Komponenten der Website sind mithilfe von Bootstrap 4 erstellt worden.
 Auf die Gestaltung wird in \autoref{GUI-Konzept} näher eingegangen.

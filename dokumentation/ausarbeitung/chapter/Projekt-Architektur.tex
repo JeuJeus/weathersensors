@@ -3,7 +3,7 @@
 
 \section{Projekt-Architektur}\label{Projekt-Architektur}
 Die Ordnerstruktur des Projekts ist in \autoref{fig:dir_struc_root} zu sehen.
-Die Strukturen für das Frontend, Backend sowie den NodeMCU Code sind im Anhang \ref{anh:Projekt-Architektur} zu finden.
+Die Strukturen für das Frontend, Backend sowie den NodeMCU Code sind in Anhang \ref{anh:Projekt-Architektur} zu finden.
 
 \begin{figure}[H]
     \centering
@@ -31,10 +31,11 @@ die \textit{package.json} für Node.js und die \textit{.eslintrc.json} zur Konfi
 Die Struktur das Backend-Quellcodes orientiert sich an der üblichen Struktur für Node.js Projekte, ist jedoch
 absichtlich simpel und flach, anstatt tief hierarchisch, gestaltet.
 Dies ermöglicht bei der kleinen Größe der Anwendung eine effizientere Navigation durch die Dateien.
-In dem Unterordner \textit{src} befinden die Quelltexte des Backends, in \textit{test} die Quelltextdatei testMain.js
-sowie die testData.js, welche nur zum Generieren von Testdaten verwendet wird.
+In dem Unterordner \textit{src} befinden die Quelltexte des Backends, in \textit{test} die Quelltextdatei \textit{testMain.js}
+sowie die \textit{testData.js}, welche nur zum Generieren von Testdaten verwendet wird.
+
 \subsection{NodeMCU}
-In dieser Komponente befindet sich im Unterordner \textit{src/nocemcu} die aktuell einzige Quelltextdatei für den NodeMCU.
+In dieser Komponente befindet sich im Unterordner \textit{src/nodemcu} die aktuell einzige Quelltextdatei für den NodeMCU.
 Im Ordner \textit{ress} befindet sich zusätzlich eine Tabelle des Wirings von dem NodeMCU und dem BME280-Sensor.
 
 

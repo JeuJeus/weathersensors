@@ -275,17 +275,17 @@ Diese ist in Rot gehalten und zeigt Fehler auf.
 			Alle angeschlossenen Geräte sollen für einen Administrator \\ auf einer Plattform sichtbar sein
 		\end{tabular}               & Muss               & Erledigt \\ \hline
 		Mehrere Erfassungssystem pro Server sind möglich               & Muss               & Erledigt \\ \hline
-		\begin{tabular}[c]{@{}l@{}}
-			Ein Erfassungssystem kann mit verschiedenen \\ Servern kommunizieren
-		\end{tabular}               & Kann               & Erledigt \\ \hline
-		\begin{tabular}[c]{@{}l@{}}
-			Es ist möglich zu sehen, wann der Sensor das letzte Mal \\ Daten gesendet hat
-		\end{tabular}               & Bonus               & Erledigt \\ \hline
-		Es ist möglich eine Wetterprognose anzuzeigen               & Bonus               & \begin{tabular}[c]{@{}l@{}}
-																								Nicht\\ erledigt
-		\end{tabular}               \\ \hline
-	\end{tabular}
-	\caption[Anforderungen]{Anforderungen (nach \cite{Wortmann.2020}, eigene Darstellung)}
+        \begin{tabular}[c]{@{}l@{}}
+            Ein Erfassungssystem kann mit verschiedenen \\ Servern kommunizieren
+        \end{tabular} & Kann & Erledigt \\ \hline
+        \begin{tabular}[c]{@{}l@{}}
+            Es ist möglich zu sehen, wann der Sensor das letzte Mal \\ Daten gesendet hat
+        \end{tabular} & Bonus & Erledigt \\ \hline
+        Es ist möglich eine Wetterprognose anzuzeigen & Bonus & \begin{tabular}[c]{@{}l@{}}
+                                                                    Nicht\\ erledigt
+        \end{tabular} \\ \hline
+    \end{tabular}
+    \caption[Projektanforderungen]{Projektanforderungen (nach \cite{Wortmann.2020}, eigene Darstellung)}
 \end{table}
 \anhang{Projekt-Architektur}\label{anh:Projekt-Architektur}
 \subanhang{Frontend}
@@ -434,27 +434,27 @@ Idealerweise liesse sich dies noch durch einen Tooltip ergänzen, damit die Bede
         \hline
         \hline
 
-        \textbf{Überprüfen der Oberfläche bei Erstaufruf oder Aktualisieren} & &\\
+        \textbf{Überprüfen der Oberfläche bei Erstaufruf oder Aktualisieren} &                                                                                                      &           \\
         \hline
-		Oberfläche allgemein überprüfen & Alle Elemente werden geladen & \ding{51}\\
-		\hline
-		Oberfläche-Farben überprüfen & Alle Elemente haben die korrekten Farben & \ding{51}\\
-		\hline
-		Icons überprüfen & Die Font-Awesome Icons werden geladen & \ding{51}\\
-		\hline
-		Layout überprüfen & Das Layout wird korrekt dargestellt & \ding{51}\\
-		\hline
-		Die Granularity hat den Default Wert 100 & \ding{51}\\
+        Oberfläche allgemein überprüfen                                    & Alle Elemente werden geladen                                                                         & \ding{51} \\
+        \hline
+        Oberfläche-Farben überprüfen                                       & Alle Elemente haben die korrekten Farben                                                             & \ding{51} \\
+        \hline
+        Icons überprüfen                                                   & Die Font-Awesome Icons werden geladen                                                                & \ding{51} \\
+        \hline
+        Layout überprüfen                                                  & Das Layout wird korrekt dargestellt                                                                  & \ding{51} \\
+        \hline
+        Granularität überprüfen                                            & Die Granularity hat den Default Wert 100                                                             & \ding{51} \\
         \hline
         \hline
 
-		\textbf{Überprüfen der Daten} & &\\
-		\hline
-		letzte Werte überprüfen & Die letzten Werte gleichen den Letzten des Graphen & \ding{51}\\
-		\hline
-		Wertebereich überprüfen & Der Wertebereich stimmt mit dem des Datumpickers überein & \ding{51}\\
-		\hline
-		Granularity überprüfen & Die Anzahl der Datenpunkte entspricht der Granularity & \ding{51}\\
+        \textbf{Überprüfen der Daten}                                      &                                                                                                      &           \\
+        \hline
+        letzte Werte überprüfen                                            & Die letzten Werte gleichen den Letzten des Graphen                                                   & \ding{51} \\
+        \hline
+        Wertebereich überprüfen                                            & Der Wertebereich stimmt mit dem des Datumpickers überein                                             & \ding{51} \\
+        \hline
+        Granularity überprüfen                                             & Die Anzahl der Datenpunkte entspricht der Granularity                                                & \ding{51} \\
 		\hline
 		Sensor überprüfen & Die Datenpunkte entstammen dem ausgewählten Sensor & \ding{51}\\
 		\hline
@@ -481,28 +481,28 @@ Idealerweise liesse sich dies noch durch einen Tooltip ergänzen, damit die Bede
         \hline
 
 		\textbf{Überprüfen des Y-Axis-Toggle} & &\\
-		\hline
-		Funktionalität überprüfen & Nach Button-Press werden die Y-Achsen-Startpunkte getoggled zwischen 0 und an Daten angepasst & \ding{51}\\
-		\hline
+        \hline
+        Funktionalität überprüfen                                          & Nach Button-Press werden die Y-Achsen-Startpunkte getoggled zwischen 0 und an Daten angepasst        & \ding{51} \\
+        \hline
         \hline
 
-		\textbf{Überprüfen der Admin-Ansicht} & &\\
-		\hline
-		Login überprüfen & Nach Klick auf den Button \enquote{Admin Interface} erscheint eine Login-Aufforderung & \ding{51}\\
-		\hline
-		Korrekte Credentials überprüfen & Nach Eingabe der korrekten Credentials erscheint die Admin-Ansicht & \ding{51}\\
-		\hline
-		Falsche Credentials überprüfen & Nach Eingabe falscher Credentials erscheint der Login erneut & \ding{51}\\
-		\hline
-		Oberfläche allgemein überprüfen & Alle Elemente werden geladen & \ding{51}\\
-		\hline
-		Oberfläche-Farben überprüfen & Alle Elemente haben die korrekten Farben & \ding{51}\\
-		\hline
-		Icons überprüfen & Die Font-Awesome Icons werden geladen & \ding{51}\\
-		\hline
-		Layout überprüfen & Das Layout wird korrekt dargestellt & \ding{51}\\
-		\hline
-		Location-Update überprüfen & Nach Update der Location und Klick auf den \enquote{OK}-Button erscheint eine Erfolgsmeldung in grün & \ding{51}\\
+        \textbf{Überprüfen der Admin-Ansicht}                              &                                                                                                      &           \\
+        \hline
+        Login überprüfen                                                   & Nach Klick auf den Button \enquote{Admin Interface} erscheint eine Login-Aufforderung                & \ding{51} \\
+        \hline
+        Falsche Credentials überprüfen                                     & Nach Eingabe falscher Credentials erscheint der Login erneut                                         & \ding{51} \\
+        \hline
+        Korrekte Credentials überprüfen                                    & Nach Eingabe der korrekten Credentials erscheint die Admin-Ansicht                                   & \ding{51} \\
+        \hline
+        Oberfläche allgemein überprüfen                                    & Alle Elemente werden geladen                                                                         & \ding{51} \\
+        \hline
+        Oberfläche-Farben überprüfen                                       & Alle Elemente haben die korrekten Farben                                                             & \ding{51} \\
+        \hline
+        Icons überprüfen                                                   & Die Font-Awesome Icons werden geladen                                                                & \ding{51} \\
+        \hline
+        Layout überprüfen                                                  & Das Layout wird korrekt dargestellt                                                                  & \ding{51} \\
+        \hline
+        Location-Update überprüfen                                         & Nach Update der Location und Klick auf den \enquote{OK}-Button erscheint eine Erfolgsmeldung in grün & \ding{51} \\
 		\hline
 		\enquote{Go Back}-Button überprüfen & Nach Klick auf den Button erscheint wieder die Mainpage & \ding{51}\\
         \hline

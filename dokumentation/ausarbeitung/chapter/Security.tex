@@ -1,16 +1,18 @@
 %!TEX root = ../Thesis.tex
+
+
 \section{Security}\label{Security}
-Im folgenden werden getroffene (Design)-Entscheidungen in Bezug auf die Sicherheit unserer Anwendung erläutert.
+Im Folgenden werden getroffene (Design)-Entscheidungen in Bezug auf die Sicherheit unserer Anwendung erläutert.
 Dabei werden besonders relevante Stellen hervorgehoben und erklärt.
 Die Erläuterung ist aufgeteilt in die Bestandteile unserer Anwendung.
 
 \subsection{ESP8266}
 
 %- WLAN Hardcoded Designentscheidung -> vernunft -> gezielte Platzierung ESP
-Die \textit{Wlan Zugangsdaten} werden beim flashen unserer Anwendung auf den ESP übertragen und sind ab diesem Punkt fest / \enquote{hardcoded}.
-Diese Entscheidung wurde getroffen unter der Abwegung, dass die ESPs, und damit die Wettersensoren, einen festen Standort besitzen.\footnote{Darüber hinaus ist anzumerken, dass sowieso die letzte WLAN-Verbindung im ESP gehalten wird, auch wenn neuer Code geflasht wird. Somit dürfen die Geräte nicht durch Unbefugte benutzt werden.}
+Die \textit{WLAN Zugangsdaten} werden beim Flashen unserer Anwendung auf den ESP übertragen und sind ab diesem Punkt gespeichert.
+Diese Entscheidung wurde getroffen unter der Abwägung, dass die ESPs, und damit die Wettersensoren, einen festen Standort besitzen\footnote{Darüber hinaus ist anzumerken, dass sowieso die letzte WLAN-Verbindung im ESP gehalten wird, auch wenn neuer Code geflasht wird. Somit dürfen die Geräte nicht durch Unbefugte benutzt werden.}.
 Dieser wird wie bereits erläutert im Admininterface der jeweiligen MAC-Adresse des Gerätes zugeordnet.
-Hierdurch bedingt war eine mögliche dynamische Festlegung der Zugangsdaten für uns nicht verhältnismäßig.
+Hierdurch bedingt war eine mögliche dynamische Festlegung der Zugangsdaten nicht verhältnismäßig.
 Insbesondere da ohne WLAN-Verbindung keine Kommunikation mit dem Gerät erfolgen kann.\\
 %- keine Absicherung Rest Calls -> Leistung / Aufwand / Nutzen
 Der zweite relevante Punkt ist die \textit{Absicherung von REST-Calls}.
@@ -23,19 +25,19 @@ Diese Entscheidung wird im folgenden Absatz weiter erläutert.
 
 %- keine Absicherung anderer Endpoints -> interne und keine öffentliche Nutzung vorgesehen
 Durch die Ausrichtung auf eine interne und nicht öffentliche Nutzung (beispielhaft in einem internen Unternehmensnetzwerk) haben wir entschieden, dass eine grundlegende Absicherung des \textit{Sensordaten Endpoints} ausreichend ist.
-Diese besteht bei uns konkret in der Prüfung der empfangenen Sensordaten (Siehe \cref{schnittstellen:rest}), hier werden die Werte auf Korrektheit im Bezug auf Datentypen, sowie insbesondere sinnvolle Werte (z.B. Zeitstempel nicht vor Veröffentlichungsdatum oder Temperaturen außerhalb von festgelegten Grenzwerten) geprüft.
-Des weiteren werden die Daten vor dem einfügen in die Datenbank von uns parametrisiert um SQL-Injections zu verhindern.\\
+Diese besteht bei uns konkret in der Prüfung der empfangenen Sensordaten (siehe \cref{schnittstellen:rest}). Hier werden die Werte auf Korrektheit im Bezug auf Datentypen, sowie insbesondere sinnvolle Werte (z.B. Zeitstempel nicht vor Veröffentlichungsdatum oder Temperaturen außerhalb von festgelegten Grenzwerten) geprüft.
+Des Weiteren werden die Daten vor dem Einfügen in die Datenbank von uns parametrisiert um SQL-Injections zu verhindern.\\
 %- Absicherung Endpoint Ort -> API-Token -> Admins vorbehalten
-Die Nutzung des \textit{Sensorstandort Endpoint} ist dem Administrator vorbehalten.
+Die Nutzung des \textit{Sensorstandort Endpoints} ist dem Administrator vorbehalten.
 Deswegen ist zur erfolgreichen Änderung des Standorts ein \enquote{API-Token} notwendig.
 Dieser wird bei Änderungen des Standorts im Frontend mitgesendet.
-Diese Absicherung ist grundlegend da nur Administratoren diesen \enquote{API-Token} durch einen erfolgreichen Login erlangen können.
-Nach Abwegung des möglichen Schaden gegenüber den Kosten der Implementierung haben wir von einer weiteren Absicherung abgesehen.\\
+Diese Absicherung ist grundlegend, da nur Administratoren diesen \enquote{API-Token} durch einen erfolgreichen Login erlangen können.
+Nach Abwägung des möglichen Schadens gegenüber den Kosten der Implementierung haben wir von einer weiteren Absicherung abgesehen.\\
 %- Logging verwendet Siehe Anhang \ref{anhang:logdaten}
 Darüber hinaus nutzt unsere Anwendung \textit{Logging}.
-Eingehende Anfragen und insbesondere Fehler werden durch das Node-Modul \texttt{rotating-file-stream} geloggt.
-Dieses ist so konfiguriert, dass Events mit Zeitstempel und Dringlichkeit (beispielhaft \enquote{INFO} oder \enquote{ERROR})in die Konsole geloggt werden.
-Beim auftreten von Errors werden die fehlerhaften Requests in Gänze geloggt, da dies notwendig ist um die Quelle dieser nachzuvollziehen.
+Eingehende Anfragen und insbesondere Fehler werden durch das Node-Modul \texttt{rotating-file-stream}\footnote{\cite{rfs}} geloggt.
+Dieses ist so konfiguriert, dass Events mit Zeitstempel und Dringlichkeit (beispielhaft \enquote{INFO} oder \enquote{ERROR}) geloggt werden.
+Beim Auftreten von Fehlern werden die fehlerhaften Requests in Gänze geloggt, da dies notwendig ist um die Quelle dieser nachzuvollziehen.
 Darüber hinaus werden alle Log-Nachrichten in einer Datei gespeichert.
 Diese ist auf 10 Megabyte Größe begrenzt und wird täglich gewechselt.
 Alte Dateien werden komprimiert gespeichert.
@@ -44,7 +46,7 @@ Auszüge hiervon finden sich im Anhang \ref{anhang:logdaten}.
 \subsection{Frontend}
 
 %- Logging verwendet Siehe Anhang \ref{anhang:logdaten}
-Das Frontend-Modul verwendet die Selbe \textit{Logging Konfiguration} wie das Backend.
+Das Frontend-Modul verwendet die selbe \textit{Logging Konfiguration} wie das Backend.
 Auszüge hiervon finden sich im Anhang \ref{anhang:logdaten}.\\
 %- Basic Auth Login Admin Interface -> Ausreichend weil nur Ort veränderbar
 Erwähnenswert ist hier insbesondere das \textit{Admin-Interface}.
@@ -65,10 +67,10 @@ Das Deployment unserer Anwendung ist mit Hilfe von Docker realisiert.
 Wie während der Entwicklung umgesetzt, ist ein etwaiges Live-Deployment im besten Fall hinter einem \textit{zusätzlichen Reverse-Proxy-Server} zu realisieren\footnote{Hierzu wurde während der Entwicklung ein \cite{swag} Docker Container genutzt, alternativ kann \cite{traefik} als Docker Container genutzt werden}.
 Dadurch ergibt sich eine zusätzliche Instanz welche zum Schutz der Anwendung beiträgt. Mit Hilfe des Reverse-Proxy-Servers können Anfragen an Frontend sowie Backend überwacht und gefiltert werden.
 Darüber hinaus lassen sich IP-Adressen böswilliger Anfragen sperren.
-Dies lässt sich mit einem System wie \cite{Fail2Ban} realisieren.\footnote{Dieses ist in \cite{swag} bereits inkludiert}\\
+Dies lässt sich mit einem System wie Fail2Ban\footnote{\cite{Fail2Ban}} realisieren.\footnote{Dieses ist in \cite{swag} bereits inkludiert}\\
 %- Deployment automatisierbar einbinden von Dockerfile auf Server -> automatisches bauen v. Image mit neuestem Stand
 Ebenso sollte auf dem Deployment-Server im Zuge der Dockerverwaltung ein \textit{automatisches Update der Container} konfiguriert werden, wie während der Entwicklung geschehen.
 Hierbei werden mit Hilfe der Dockerfiles die Images regelmäßig neu gebaut, um Abhängigkeiten auf dem neuesten Stand zu halten.
 Anschliessend werden die verwendeten Images der Container ausgetauscht.
 Zum automatisierten Bau der Images, sollte ein \enquote{Cron-Job} genutzt werden.
-Um die Nutzung der neuesten Images zu gewährleisten bietet sich \cite{watchtower}, ebenfalls als Docker Container, an.
+Um die Nutzung der neuesten Images zu gewährleisten bietet sich watchtower\footnote{\cite{watchtower}}, ebenfalls als Docker Container, an.
