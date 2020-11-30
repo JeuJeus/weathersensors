@@ -17,7 +17,7 @@ Insbesondere da ohne WLAN-Verbindung keine Kommunikation mit dem Gerät erfolgen
 %- keine Absicherung Rest Calls -> Leistung / Aufwand / Nutzen
 Der zweite relevante Punkt ist die \textit{Absicherung von REST-Calls}.
 Wir haben uns im Hinblick auf die geringe Leistung der ESPs gegen eine weitere Absicherung der REST-Calls entschieden.
-Um aufgrund der Corona-Situation eine Zusammenarbeit zu ermöglichen wurde die Anwendung öffentlich erreichbar gemacht.
+Um aufgrund der Corona-Situation eine Zusammenarbeit zu ermöglichen wurde das Backend öffentlich erreichbar gemacht.
 Grundsätzlich ist dies aber kein notwendigerweise geplanter Einsatzzweck.
 Diese Entscheidung wird im folgenden Absatz weiter erläutert.
 
@@ -26,7 +26,7 @@ Diese Entscheidung wird im folgenden Absatz weiter erläutert.
 %- keine Absicherung anderer Endpoints -> interne und keine öffentliche Nutzung vorgesehen
 Durch die Ausrichtung auf eine interne und nicht öffentliche Nutzung (beispielhaft in einem internen Unternehmensnetzwerk) haben wir entschieden, dass eine grundlegende Absicherung des \textit{Sensordaten Endpoints} ausreichend ist.
 Diese besteht bei uns konkret in der Prüfung der empfangenen Sensordaten (siehe \cref{schnittstellen:rest}). Hier werden die Werte auf Korrektheit im Bezug auf Datentypen, sowie insbesondere sinnvolle Werte (z.B. Zeitstempel nicht vor Veröffentlichungsdatum oder Temperaturen außerhalb von festgelegten Grenzwerten) geprüft.
-Des Weiteren werden die Daten vor dem Einfügen in die Datenbank von uns parametrisiert um SQL-Injections zu verhindern.\\
+Des Weiteren werden die Datenbank-Queries parametrisiert um SQL-Injections zu verhindern.\\
 %- Absicherung Endpoint Ort -> API-Token -> Admins vorbehalten
 Die Nutzung des \textit{Sensorstandort Endpoints} ist dem Administrator vorbehalten.
 Deswegen ist zur erfolgreichen Änderung des Standorts ein \enquote{API-Token} notwendig.
@@ -70,7 +70,7 @@ Darüber hinaus lassen sich IP-Adressen böswilliger Anfragen sperren.
 Dies lässt sich mit einem System wie Fail2Ban\footnote{\cite{Fail2Ban}} realisieren.\footnote{Dieses ist in \cite{swag} bereits inkludiert}\\
 %- Deployment automatisierbar einbinden von Dockerfile auf Server -> automatisches bauen v. Image mit neuestem Stand
 Ebenso sollte auf dem Deployment-Server im Zuge der Dockerverwaltung ein \textit{automatisches Update der Container} konfiguriert werden, wie während der Entwicklung geschehen.
-Hierbei werden mit Hilfe der Dockerfiles die Images regelmäßig neu gebaut, um Abhängigkeiten auf dem neuesten Stand zu halten.
+Hierbei werden mit Hilfe der Dockerfiles die Images regelmäßig neu erstellt, um Abhängigkeiten auf dem neuesten Stand zu halten.
 Anschliessend werden die verwendeten Images der Container ausgetauscht.
-Zum automatisierten Bau der Images, sollte ein \enquote{Cron-Job} genutzt werden.
+Zum automatisierten Generierung der Images sollte ein \enquote{Cron-Job} genutzt werden.
 Um die Nutzung der neuesten Images zu gewährleisten bietet sich watchtower\footnote{\cite{watchtower}}, ebenfalls als Docker Container, an.
