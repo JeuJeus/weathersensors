@@ -46,18 +46,18 @@ Der BME280 Sensor und der ESP8266 müssen folgendermaßen verbunden werden:
 
 \begin{table}[hbt]
 	\centering
-	\begin{minipage}[t]{.5\textwidth}
-		\caption{Pin Layout für Verbindung ESP8266 mit BME280} 
-	\begin{tabular}{|l|l|}
-		\hline
-		\textbf{ESP8266 Pin}	& \textbf{BME280}  \\
-		\hline
-		3.3V & VIN \\
-		\hline
-		G & GND \\
-		\hline
-		D1 & SCL \\
-		\hline
+    \begin{minipage}[t]{.5\textwidth}
+        \caption{Pin Layout für Verbindung ESP8266 mit BME280}
+        \begin{tabular}{|l|l|}
+            \hline
+            \textbf{ESP8266 Pin} & \textbf{BME280} \\
+            \hline
+            3.3V                    & VIN             \\
+            \hline
+            G                       & GND             \\
+            \hline
+            D1                      & SCL             \\
+            \hline
 		D2 & SDA \\
 		\hline
 	\end{tabular}
@@ -82,7 +82,7 @@ Diese erstellen die Images und stellen sie in der lokalen Dockerumgebung zum Sta
 Darüber hinaus werden im Projekt-Root-Ordner tar-Bälle mit den jeweiligen Images hinterlegt.
 Für diesen Schritt haben wir uns entscheiden um die Images einfach auf einem Server verfügbar zu machen ohne Docker Registries (z.B. Docker.io) in Anspruch nehmen zu müssen.
 
-Der Standard Admin-Benutzername ist \enquote{dmin} und das Standard-Passwort \enquote{\$PASSWORD}. Das Passwort kann in \textit{router.js} geändert werden.
+Der Standard Admin-Benutzername ist \enquote{admin} und das Standard-Passwort \enquote{\$PASSWORD}. Das Passwort kann in \textit{router.js} geändert werden.
 
 \textbf{Deployment Voraussetzungen unter Windows}
 
