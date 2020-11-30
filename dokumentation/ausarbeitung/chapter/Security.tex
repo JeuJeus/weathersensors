@@ -6,17 +6,17 @@ Im Folgenden werden getroffene (Design)-Entscheidungen in Bezug auf die Sicherhe
 Dabei werden besonders relevante Stellen hervorgehoben und erklärt.
 Die Erläuterung ist aufgeteilt in die Bestandteile unserer Anwendung.
 
-\subsection{ESP8266}
+\subsection{NodeMCU}
 
 %- WLAN Hardcoded Designentscheidung -> vernunft -> gezielte Platzierung ESP
-Die \textit{WLAN Zugangsdaten} werden beim Flashen unserer Anwendung auf den ESP übertragen und sind ab diesem Punkt gespeichert.
-Diese Entscheidung wurde getroffen unter der Abwägung, dass die ESPs, und damit die Wettersensoren, einen festen Standort besitzen\footnote{Darüber hinaus ist anzumerken, dass sowieso die letzte WLAN-Verbindung im ESP gehalten wird, auch wenn neuer Code geflasht wird. Somit dürfen die Geräte nicht durch Unbefugte benutzt werden.}.
+Die \textit{WLAN Zugangsdaten} werden beim Flashen unserer Anwendung auf den NodeMCU übertragen und sind ab diesem Punkt gespeichert.
+Diese Entscheidung wurde getroffen unter der Abwägung, dass die NodeMCUs, und damit die Wettersensoren, einen festen Standort besitzen\footnote{Darüber hinaus ist anzumerken, dass sowieso die letzte WLAN-Verbindung im NodeMCU gehalten wird, auch wenn neuer Code geflasht wird. Somit dürfen die Geräte nicht durch Unbefugte benutzt werden.}.
 Dieser wird wie bereits erläutert im Admininterface der jeweiligen MAC-Adresse des Gerätes zugeordnet.
 Hierdurch bedingt war eine mögliche dynamische Festlegung der Zugangsdaten nicht verhältnismäßig.
 Insbesondere da ohne WLAN-Verbindung keine Kommunikation mit dem Gerät erfolgen kann.\\
 %- keine Absicherung Rest Calls -> Leistung / Aufwand / Nutzen
 Der zweite relevante Punkt ist die \textit{Absicherung von REST-Calls}.
-Wir haben uns im Hinblick auf die geringe Leistung der ESPs gegen eine weitere Absicherung der REST-Calls entschieden.
+Wir haben uns im Hinblick auf die geringe Leistung der NodeMCUs gegen eine weitere Absicherung der REST-Calls entschieden.
 Um aufgrund der Corona-Situation eine Zusammenarbeit zu ermöglichen wurde das Backend öffentlich erreichbar gemacht.
 Grundsätzlich ist dies aber kein notwendigerweise geplanter Einsatzzweck.
 Diese Entscheidung wird im folgenden Absatz weiter erläutert.

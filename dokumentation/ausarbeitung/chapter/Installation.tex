@@ -3,17 +3,17 @@
 
 \section{Installation}\label{Installation}
 
-\subsection{ESP8266}\label{ESP}
+\subsection{NodeMCU}\label{ESP}
 Zur Erfassung der Wetterdaten wird ein BME280 Sensor verwendet, welcher von einem Board mit ESP8266 Mikrocontroller und NodeMCU 1.0 Firmware angesteuert wird.
 Auf diesem Mikrocontroller kann der Sourcecode \textit{nodemcu.ino} ausgeführt werden.
-Zum Kompilieren sollte die Arduino IDE verwendet werden, in der zuvor die Treiber für den ESP8266 installiert werden müssen.
+Zum Kompilieren sollte die Arduino IDE verwendet werden, in der zuvor die Treiber für den NodeMCU installiert werden müssen.
 Dazu muss in den Voreinstellungen folgende Boardverwalter-URL hinzugefügt werden: \textit{\href{http://arduino.esp8266.com/stable/package\_esp8266com\_index.json}{Boardverwalter-URL}}.
 Darüber hinaus müssen folgende Bibliotheken über die integrierte Bibliotheksverwaltung installiert werden:
 
 \begin{table}[hbt]
-    \centering
-    \begin{minipage}[t]{.5\textwidth}
-        \caption{Verwendete Arduino-Bibliotheken}
+	\centering
+	\begin{minipage}[t]{.5\textwidth}
+		\caption{Verwendete Arduino-Bibliotheken}
         \begin{tabular}{|l|c|}
             \hline
             \textbf{Bibliothek}                   & \textbf{Version} \\
@@ -42,24 +42,24 @@ Bevor der Quellcode kompiliert wird, müssen die folgenden Konstanten auf die lo
 	\item \textit{WIFI\_PASSWORD}
 \end{itemize}
 
-Der BME280 Sensor und der ESP8266 müssen folgendermaßen verbunden werden:
+Der BME280 Sensor und der NodeMCU müssen folgendermaßen verbunden werden:
 
 \begin{table}[hbt]
 	\centering
     \begin{minipage}[t]{.5\textwidth}
-        \caption{Pin Layout für Verbindung ESP8266 mit BME280}
-        \begin{tabular}{|l|l|}
-            \hline
-            \textbf{ESP8266 Pin} & \textbf{BME280} \\
-            \hline
-            3.3V                    & VIN             \\
-            \hline
-            G                       & GND             \\
-            \hline
-            D1                      & SCL             \\
-            \hline
-		D2 & SDA \\
-		\hline
+		\caption{Pin Layout für Verbindung NodeMCU mit BME280}
+		\begin{tabular}{|l|l|}
+			\hline
+			\textbf{NodeMCU Pin} & \textbf{BME280} \\
+			\hline
+			3.3V                 & VIN             \\
+			\hline
+			G                    & GND             \\
+			\hline
+			D1                   & SCL             \\
+			\hline
+			D2                 & SDA             \\
+			\hline
 	\end{tabular}
 	\\\source{Eigene Darstellung}
 \label{tab:espBmePinout}
