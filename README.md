@@ -42,6 +42,7 @@ Bevor der Quellcode kompiliert wird, müssen die folgenden Konstanten auf die lo
 - ``SERVER_TO_CONNECT``
 - ``SSID`` 
 - ``WIFI_PASSWORD`` 
+- ``API_TOKEN`` (dieser muss gleich dem im Backend gesetzten Wert sein)
 
 Der BME280 Sensor und der ESP8266 müssen folgendermaßen verbunden werden:
 
@@ -67,6 +68,7 @@ ohne Docker Registries (e.g. Docker.io) in Anspruch nehmen zu müssen.
 
 Der Standard Admin-Zugang ist ``admin:$PASSWORD``
 Das Passwort für den Admin Zugang - in Form der Variable ``$PASSWORD`` in ``router.js`` - ist gegebenermaßen zu ersetzen.
+Der API-Token der Node-MCUs ist in Form der Variable ``API_TOKEN`` in ``persistanceService.js``, entsprechend der Änderung im ``nodemcu.ino``, abzuändern.
 
 #### Deployment Voraussetzungen unter Windows
 Das Projekt kann mithilfe der WSL 2 und Docker for Windows deployed werden.

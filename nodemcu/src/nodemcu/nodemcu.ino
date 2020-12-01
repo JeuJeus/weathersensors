@@ -10,6 +10,7 @@
 #define SERVER_TO_CONNECT "http://awe2-api.jeujeus.de/weatherData"
 #define SSID "$SSID-2.4ghz!"
 #define WIFI_PASSWORD "$PASSWORD"
+#define API_TOKEN "$NODEMCU_API_TOKEN"
 #define MAC_ADDRESS_LENGTH 18
 #define MAX_SENSOR_DATA 100
 // ########################################################################
@@ -157,8 +158,8 @@ void readValues(struct sensorData* data) {
 }
 
 void buildJson(char* body, char macaddress[MAC_ADDRESS_LENGTH], unsigned long timestamp, float temperature, float pressure, float humidity){
-  sprintf(body, "{\"MACADDRESS\":\"%s\",\"TIMESTAMP\":\"%d\",\"TEMPERATURE\":%f,\"AIRPRESSURE\":%f,\"HUMIDITY\":%f}",
-          macaddress, timestamp, temperature, pressure, humidity);
+  sprintf(body, "{\"API_TOKEN\":\"%s\",\"MACADDRESS\":\"%s\",\"TIMESTAMP\":\"%d\",\"TEMPERATURE\":%f,\"AIRPRESSURE\":%f,\"HUMIDITY\":%f}",
+          API_TOKEN, macaddress, timestamp, temperature, pressure, humidity);
   return;
 }
 

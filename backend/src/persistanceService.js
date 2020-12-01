@@ -3,6 +3,7 @@ const dbConnection = require('./databaseConnection');
 
 function validateSensorDataInBody() {
   return [
+    check('API_TOKEN').equals('$NODEMCU_API_TOKEN'),
     check('MACADDRESS').isMACAddress(),
     //1604248996 = 11/01/2020 @ 17:43 (CEST)
     check('TIMESTAMP').isInt({min: 1604248996}),
