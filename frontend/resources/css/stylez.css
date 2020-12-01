@@ -144,15 +144,15 @@ div.alert-messages {
     width: 100%;
 }
 
-.trendStagnant {
+.trendStagnant i {
     transform: rotate(0deg);
 }
 
-.trendRising {
+.trendRising i {
     transform: rotate(-45deg);
 }
 
-.trendFalling {
+.trendFalling i {
     transform: rotate(45deg);
 }
 
