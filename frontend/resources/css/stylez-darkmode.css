@@ -1,0 +1,26 @@
+/*NAVBAR*/
+@import "navbar.css";
+/*TRENDS*/
+@import "trend.css";
+/*CHARTS*/
+@import "chart.css";
+/*OPTION BAR*/
+@import "current-data-and-options.css";
+/*LAST SEEN / TRAFFIC LIGHTS*/
+@import "traffic-light.css";
+/*DATE AND TIME PICKER*/
+@import "date-time-picker.css";
+/*ADMIN APP*/
+@import "admin-app.css";
+/*ALERT*/
+@import "alert-message.css";
+
+.dark-mode {
+    background-color: #212529;
+    color: #ffffff;
+}
+
+.dark-mode-chart-options {
+    background-color: rgb(52, 58, 64) !important;
+    color: #ffffff !important;
+}
