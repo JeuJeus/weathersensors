@@ -156,3 +156,8 @@ div.alert-messages {
     transform: rotate(45deg);
 }
 
+/*DARKMODE*/
+.dark-mode {
+    background-color: #212529;
+    filter: invert(100%);
+}
