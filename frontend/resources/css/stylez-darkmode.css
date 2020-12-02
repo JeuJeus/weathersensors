@@ -18,7 +18,7 @@
 /*GLOBAL*/
 body {
     background-color: #212529;
-    color: #ffffff;
+    color: #fff;
 }
 
 /*ADMIN APP*/
@@ -31,9 +31,32 @@ body {
 /*TODO ADD DARKMODE RULES*/
 
 /*CURRENT DATE AND OPTIONS*/
-/*TODO ADD DARKMODE RULES*/
 #chart-options {
     background-color: rgb(52, 58, 64);
+}
+
+.btn-outline-dark {
+    color: #f8f9fa;
+    border-color: #f8f9fa;
+}
+
+.btn-outline-dark:hover {
+    color: #343a40;
+    border-color: #343a40;
+    background-color: #fff;
+}
+
+.form-control, .form-control:focus {
+    background: #6c757d;
+    color: #fff;
+}
+
+#reset-range-button {
+    background: #bab9b9;
+}
+
+#sensor-dropdown {
+    background: #6c757d;
 }
 
 /*DATETIMEPICKER*/
