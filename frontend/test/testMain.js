@@ -143,17 +143,17 @@ describe('-- APP TESTS -- ', () => {
 
     it('should set trend falling if Trend is falling', function() {
       appTrend.setTrend(specificSensor, 1, -0.3);
-      expect(specificSensor.classList.contains('trendFalling')).to.be.true;
+      expect(specificSensor.classList.contains('trend-falling')).to.be.true;
     });
 
     it('should set trend stagnant if Trend is stagnant', function() {
       appTrend.setTrend(specificSensor, 1, 0);
-      expect(specificSensor.classList.contains('trendStagnant')).to.be.true;
+      expect(specificSensor.classList.contains('trend-stagnant')).to.be.true;
     });
 
     it('should set trend rising if Trend is rising', function() {
       appTrend.setTrend(specificSensor, 1, 0.3);
-      expect(specificSensor.classList.contains('trendRising')).to.be.true;
+      expect(specificSensor.classList.contains('trend-rising')).to.be.true;
     });
   });
 

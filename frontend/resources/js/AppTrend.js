@@ -11,13 +11,13 @@ function updateTrends(sensorData, granularity, temperatureTrend, humidityTrend, 
 function setTrend(specificSensor, relativeFactor, trendValue, dataType) {
   const toCompare = (relativeFactor * parseFloat(trendValue));
   if (toCompare <= (-0.1)) {
-    specificSensor.classList = 'trendFalling';
+    specificSensor.classList = 'trend-falling';
     specificSensor.title = dataType + ' is trending downwards.';
   } else if ((-0.1) <= toCompare && toCompare <= 0.1) {
-    specificSensor.classList = 'trendStagnant';
+    specificSensor.classList = 'trend-stagnant';
     specificSensor.title = dataType + ' is stagnant.';
   } else if (0.1 <= toCompare) {
-    specificSensor.classList = 'trendRising';
+    specificSensor.classList = 'trend-rising';
     specificSensor.title = dataType + ' is trending upwards.';
   }
 }
