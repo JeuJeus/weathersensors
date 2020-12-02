@@ -34,7 +34,10 @@
                     <a class="btn btn-outline-light" href="/admin">Admin Interface</a>
                 </li>
                 <li class="nav-item m-1">
-                    <a class="btn btn-outline-light" onclick="document.body.classList.toggle('dark-mode')">Dark Mode</a>
+                    <a class="btn btn-outline-light" onclick="
+                    document.body.classList.toggle('dark-mode');
+                    document.getElementById('chart-options').classList.toggle('dark-mode-chart-options');
+                    ">Dark Mode</a>
                 </li>
             </ul>
     </div>
@@ -86,7 +89,7 @@
         </section>
     </article>
 
-    <div class="row borderRadius" id="chart-options">
+    <div class="row border-radius" id="chart-options">
         <div class="col col-12 col-sm-6 col-lg-2 mt-0 my-auto">
             <div class="dropdown button-margin">
                 <button class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" id="sensor-select-button"

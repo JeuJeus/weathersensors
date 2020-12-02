@@ -1,0 +1,22 @@
+.btn-pink:hover {
+    background-color: rgba(204, 0, 112, 0.7);
+}
+
+.btn-green:hover {
+    background-color: rgba(0, 204, 109, 0.7);
+}
+
+.date-time-range-picker td.active:hover {
+    background-color: rgba(0, 39, 191, 0.6);
+}
+
+input[type="text"] {
+    text-align: center;
+    border: 1px solid #343a40;
+    border-radius: 0 5px 5px 0;
+}
+
+.bg-pink {
+    background-color: #e57fb7 !important;
+    border-radius: 0 !important;
+}

@@ -1,0 +1,11 @@
+.trend-stagnant i {
+    transform: rotate(0deg);
+}
+
+.trend-rising i {
+    transform: rotate(-45deg);
+}
+
+.trend-falling i {
+    transform: rotate(45deg);
+}

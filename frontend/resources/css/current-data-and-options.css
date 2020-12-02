@@ -1,0 +1,64 @@
+.chartz {
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+/*CURRENT DATA / INFO BLOCKS*/
+.property-name {
+    margin-top: 0.2em;
+    margin-bottom: 0.4em;
+    padding-top: 0.5em;
+}
+
+#current-value-display > section {
+    padding: 0 0.3rem;
+}
+
+#current-value-display > section > div {
+    height: 100%;
+}
+
+#current-value-section > div {
+    background-color: rgba(214, 210, 68, 0.5);
+    border-radius: 5px;
+}
+
+#temperature-current-value-section > div, .btn-pink {
+    background-color: rgba(204, 0, 112, 0.5);
+    border-radius: 5px;
+}
+
+#humidity-current-value-section > div, .date-time-range-picker td.active {
+    background-color: rgba(0, 39, 191, 0.5);
+    border-radius: 5px;
+}
+
+#airpressure-current-value-section > div, .btn-green {
+    background-color: rgba(0, 204, 109, 0.5);
+    border-radius: 5px;
+}
+
+
+/*OPTIONS*/
+.input-group-text {
+    background-color: #bab9b9;
+    border: 1px solid #343a40;
+}
+
+.leftSpace {
+    padding-left: 0.3em;
+}
+
+.border-radius {
+    border-radius: 5px;
+}
+
+.button-margin {
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
+}
+
+#sensor-select-button, #y-axis-toggle-button {
+    width: 100%;
+}
+

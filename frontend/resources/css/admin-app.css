@@ -1,0 +1,10 @@
+.input-group-append {
+    border-radius: 0 5px 5px 0;
+    border: 1px solid #343a40;
+}
+
+.input-group-append button {
+    border: none;
+    margin: 1px !important;
+    border-radius: 0 3px 3px 0;
+}

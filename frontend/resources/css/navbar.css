@@ -1,0 +1,13 @@
+.navbar-brand > img {
+    margin-right: 0.5em;
+}
+
+a.nav-item {
+    color: white;
+    text-decoration: none;
+}
+
+a.nav-item.active, .btn:hover a {
+    color: black;
+    text-decoration: none;
+}

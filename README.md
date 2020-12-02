@@ -21,6 +21,7 @@ Diese senden die gesammelten Daten an einen zentralen Server, welcher die Daten 
 - schnell Übersicht der jeweils letzen Werte
 ### zusätzlich ab 1.1.x :
 - Trendanzeige für die Entwicklung von Temperatur / Luftfeuchte und -druck basierend auf Regressionsprognosen
+- Darkmode
 
 ## Deployment 
 ### ESP8266

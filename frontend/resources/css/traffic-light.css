@@ -1,0 +1,16 @@
+.greenTrafficLight, .yellowTrafficLight, .redTrafficLight {
+    cursor: pointer;
+    margin-right: 0.5em;
+}
+
+.greenTrafficLight {
+    color: rgba(0, 204, 109, 0.5);
+}
+
+.yellowTrafficLight {
+    color: rgba(214, 210, 68, 0.5);
+}
+
+.redTrafficLight {
+    color: rgba(204, 0, 112, 0.5);
+}

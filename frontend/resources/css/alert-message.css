@@ -1,0 +1,7 @@
+div.alert-messages {
+    position: fixed;
+    top: 40px;
+    left: 25%;
+    right: 25%;
+    z-index: 7000;
+}
