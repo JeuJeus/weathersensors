@@ -1,6 +1,8 @@
 function onDarkmodeButtonPress() {
-  console.log('this works');
-//  onclick="document.getElementById('pagestyle').setAttribute('href', './resources/css/darkmode.css');"
+  let pagestyle = document.getElementById('pagestyle');
+  let currentStylesheet = pagestyle.getAttribute('href');
+  let newStylesheet = (currentStylesheet === '../resources/css/stylez.css') ? '../resources/css/stylez-darkmode.css' : '../resources/css/stylez.css';
+  pagestyle.setAttribute('href', newStylesheet);
 }
 
 module.exports = {

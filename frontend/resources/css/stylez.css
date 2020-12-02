@@ -2,22 +2,16 @@
 @import "navbar.css";
 /*TRENDS*/
 @import "trend.css";
-
 /*CHARTS*/
 @import "chart.css";
-
 /*OPTION BAR*/
 @import "current-data-and-options.css";
-
 /*LAST SEEN / TRAFFIC LIGHTS*/
 @import "traffic-light.css";
-
 /*DATE AND TIME PICKER*/
 @import "date-time-picker.css";
-
 /*ADMIN APP*/
 @import "admin-app.css";
-
 /*ALERT*/
 @import "alert-message.css";
 
