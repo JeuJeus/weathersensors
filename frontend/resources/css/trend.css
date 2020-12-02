@@ -9,3 +9,13 @@
 .trend-falling i {
     transform: rotate(45deg);
 }
+
+.trend-container, .current-value-h3 {
+    display: inline;
+
+}
+
+.trend-container i {
+    font-size: 1.5em;
+    margin-left: 0.25em;
+}

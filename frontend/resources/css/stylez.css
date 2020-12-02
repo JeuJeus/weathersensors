@@ -21,24 +21,4 @@
 /*ALERT*/
 @import "alert-message.css";
 
-.trend-container, .current-value-h3{
-    display: inline;
-
-}
-
-.trend-container i {
-    font-size: 1.5em;
-    margin-left: 0.25em;
-}
-
-/*GLORY HOLE MODE*/
-.dark-mode {
-    background-color: #212529;
-    color: #ffffff;
-}
-
-.dark-mode-chart-options {
-    background-color: rgb(52, 58, 64) !important;
-    color: #ffffff !important;
-}
 

@@ -1,26 +1,32 @@
-/*NAVBAR*/
-@import "navbar.css";
-/*TRENDS*/
-@import "trend.css";
-/*CHARTS*/
-@import "chart.css";
-/*OPTION BAR*/
-@import "current-data-and-options.css";
-/*LAST SEEN / TRAFFIC LIGHTS*/
-@import "traffic-light.css";
-/*DATE AND TIME PICKER*/
-@import "date-time-picker.css";
-/*ADMIN APP*/
-@import "admin-app.css";
-/*ALERT*/
-@import "alert-message.css";
-
-.dark-mode {
+/*GLOBAL*/
+body {
     background-color: #212529;
     color: #ffffff;
 }
 
-.dark-mode-chart-options {
-    background-color: rgb(52, 58, 64) !important;
-    color: #ffffff !important;
+/*ADMIN APP*/
+/*TODO ADD DARKMODE RULES*/
+
+/*ALERT MESSAGES*/
+/*TODO ADD DARKMODE RULES*/
+
+/*CHARTS*/
+/*TODO ADD DARKMODE RULES*/
+
+/*CURRENT DATE AND OPTIONS*/
+/*TODO ADD DARKMODE RULES*/
+#chart-options {
+    background-color: rgb(52, 58, 64);
 }
+
+/*DATETIMEPICKER*/
+/*TODO ADD DARKMODE RULES*/
+
+/*NAVBAR*/
+
+
+/*TRAFFIC LIGHTS*/
+/*TODO ADD DARKMODE RULES*/
+
+/*TREND*/
+/*TODO ADD DARKMODE RULES*/
