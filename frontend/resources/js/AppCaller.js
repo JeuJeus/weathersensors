@@ -7,7 +7,7 @@ app.setDomElements('#granularity-input', '#y-axis-toggle-button', '#sensor-id-te
   '#sensor-location-text', '#temperature-current-value', '#humidity-current-value',
   '#airpressure-current-value', '#temperature-trend', '#humidity-trend',
   '#airpressure-trend', '#sensor-dropdown', '#reset-range-button',
-  '#chart-container', '#date-time-range-picker');
+  '#chart-container', '#date-time-range-picker', '#darkmode-button');
 app.setColors(c.TEMPERATURE_COLOR, c.AIRPRESSURE_COLOR, c.HUMIDITY_COLOR);
 app.setUpdateInterval(c.UPDATE_INTERVAL);
 app.setNumberOfDatapointsForRegression(c.LATEST_N_DATAPOINTS_AMOUNT);

@@ -4,6 +4,7 @@ const ac = require('./AppChart');
 const at = require('./AppTrend');
 const constants = require('./Constants');
 const alert = require('./Alert');
+const darkmode = require('./Darkmode');
 
 class GeileTypenWetterApp {
   // DOM - Elements
@@ -56,6 +57,7 @@ class GeileTypenWetterApp {
     this.yAxisToggleButton.addEventListener('click', () => {ac.yAxisStartToggle(this.unifiedChart)}, false);
     this.resetRangeButton.addEventListener('click',  this.resetRangeButtonOnClick.bind(this), false);
     this.granularityInput.addEventListener('keydown', this.granularityOnChange.bind(this, this.granularityInput), false);
+    this.darkmodeButton.addEventListener('click', darkmode.onDarkmodeButtonPress.bind(this), false);
 
     this.unifiedChart = ac.createChart(this.chartCanvasElement, this.temperatureColor, this.airpressureColor, this.humidityColor);
 
@@ -69,7 +71,7 @@ class GeileTypenWetterApp {
 
   setDomElements(granularityInputSelector, yAxisToggleSelector, sensorPlottingSelector, sensorPlotLocationSelector, temperatureNowSelector,
     humidityNowSelector, airPressureNowSelector, temperatureTrendSelector, humidityTrendSelector, airPressureTrendSelector,
-    sensorDropdownSelector, resetRangeButtonSelector, chartCanvasSelector, dateTimeRangePickerSelector) {
+    sensorDropdownSelector, resetRangeButtonSelector, chartCanvasSelector, dateTimeRangePickerSelector, darkmodeButtonSelector) {
     this.granularityInput = document.querySelector(granularityInputSelector);
     this.yAxisToggleButton = document.querySelector(yAxisToggleSelector);
     this.sensorPlotting = document.querySelector(sensorPlottingSelector);
@@ -84,6 +86,7 @@ class GeileTypenWetterApp {
     this.resetRangeButton = document.querySelector(resetRangeButtonSelector);
     this.chartCanvasElement = document.querySelector(chartCanvasSelector);
     this.dateTimeRangePickerElement = document.querySelector(dateTimeRangePickerSelector);
+    this.darkmodeButton = document.querySelector(darkmodeButtonSelector);
   }
 
   updateLatestValues(sensor, tempNow, humidNow, airPressNow) {
