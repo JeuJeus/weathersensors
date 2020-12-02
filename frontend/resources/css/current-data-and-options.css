@@ -29,7 +29,7 @@
 }
 
 #humidity-current-value-section > div, .date-time-range-picker td.active {
-    background-color: rgba(0, 39, 191, 0.5);
+    background-color: rgba(100, 100, 255, 0.5);
     border-radius: 5px;
 }
 
