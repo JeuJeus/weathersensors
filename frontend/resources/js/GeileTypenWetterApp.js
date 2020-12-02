@@ -20,6 +20,7 @@ class GeileTypenWetterApp {
   airPressureTrend = document.createElement('div');
   sensorSelectDropdown = document.createElement('div');
   chartCanvasElement = document.createElement('canvas');
+  darkmodeButton = document.createElement('button');
 
   // current state
   granularity = 100;
