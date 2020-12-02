@@ -11,13 +11,19 @@ function updateTrends(sensorData, granularity, temperatureTrend, humidityTrend, 
 function setTrend(specificSensor, relativeFactor, trendValue, dataType) {
   const toCompare = (relativeFactor * parseFloat(trendValue));
   if (toCompare <= (-0.1)) {
-    specificSensor.classList = 'trend-falling';
+    specificSensor.classList.add('trend-falling');
+    specificSensor.classList.remove('trend-stagnant');
+    specificSensor.classList.remove('trend-rising');
     specificSensor.title = dataType + ' is trending downwards.';
   } else if ((-0.1) <= toCompare && toCompare <= 0.1) {
-    specificSensor.classList = 'trend-stagnant';
+    specificSensor.classList.add('trend-stagnant');
+    specificSensor.classList.remove('trend-falling');
+    specificSensor.classList.remove('trend-rising');
     specificSensor.title = dataType + ' is stagnant.';
   } else if (0.1 <= toCompare) {
-    specificSensor.classList = 'trend-rising';
+    specificSensor.classList.add('trend-rising');
+    specificSensor.classList.remove('trend-falling');
+    specificSensor.classList.remove('trend-stagnant');
     specificSensor.title = dataType + ' is trending upwards.';
   }
 }
@@ -43,9 +49,9 @@ function getLowerBoundGranularityOrSensordataLength(sensorData, granularity) {
 }
 
 module.exports = {
-  getLowerBoundGranularityOrSensordataLength: getLowerBoundGranularityOrSensordataLength,
-  formatTimeStringToUnix: formatTimeStringToUnix,
-  createDataPointTuples: createDataPointTuples,
-  updateTrends: updateTrends,
-  setTrend: setTrend,
+  getLowerBoundGranularityOrSensordataLength,
+  formatTimeStringToUnix,
+  createDataPointTuples,
+  updateTrends,
+  setTrend,
 };
