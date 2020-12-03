@@ -60,7 +60,6 @@ body {
 }
 
 /*DATETIMEPICKER*/
-/*TODO ADD DARKMODE RULES*/
 .daterangepicker td.off, .daterangepicker td.off.in-range, .daterangepicker td.off.start-date, .daterangepicker td.off.end-date {
     background-color: transparent;
     color: rgba(200, 200, 200, 0.5);
@@ -111,6 +110,25 @@ body {
     border: none !important;
 }
 
+.daterangepicker td.active {
+    background-color: #424494;
+    color: #ebf4f8;
+}
+
+.daterangepicker td.active:hover {
+    background-color: #6266e0;
+    color: #ebf4f8;
+}
+
+.bg-pink {
+    background-color: #76124c !important;
+    border-radius: 0 !important;
+}
+
+.daterangepicker select.hourselect, .daterangepicker select.minuteselect {
+    background: #6c757d;
+    color: #ebf4f8;
+}
 
 /*NAVBAR*/
 
