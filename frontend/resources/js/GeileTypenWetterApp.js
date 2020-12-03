@@ -21,6 +21,7 @@ class GeileTypenWetterApp {
   sensorSelectDropdown = document.createElement('div');
   chartCanvasElement = document.createElement('canvas');
   darkmodeButton = document.createElement('button');
+  pagestyleTag = document.createElement('link');
 
   // current state
   granularity = 100;
@@ -58,7 +59,7 @@ class GeileTypenWetterApp {
     this.yAxisToggleButton.addEventListener('click', () => {ac.yAxisStartToggle(this.unifiedChart)}, false);
     this.resetRangeButton.addEventListener('click',  this.resetRangeButtonOnClick.bind(this), false);
     this.granularityInput.addEventListener('keydown', this.granularityOnChange.bind(this, this.granularityInput), false);
-    this.darkmodeButton.addEventListener('click', darkmode.onDarkmodeButtonPress.bind(this), false);
+    this.darkmodeButton.addEventListener('click', darkmode.onDarkmodeButtonPress.bind(this, this.pagestyleTag), false);
 
     this.unifiedChart = ac.createChart(this.chartCanvasElement, this.temperatureColor, this.airpressureColor, this.humidityColor);
 
@@ -72,7 +73,7 @@ class GeileTypenWetterApp {
 
   setDomElements(granularityInputSelector, yAxisToggleSelector, sensorPlottingSelector, sensorPlotLocationSelector, temperatureNowSelector,
     humidityNowSelector, airPressureNowSelector, temperatureTrendSelector, humidityTrendSelector, airPressureTrendSelector,
-    sensorDropdownSelector, resetRangeButtonSelector, chartCanvasSelector, dateTimeRangePickerSelector, darkmodeButtonSelector) {
+    sensorDropdownSelector, resetRangeButtonSelector, chartCanvasSelector, dateTimeRangePickerSelector, darkmodeButtonSelector, pagestyleTagSelector) {
     this.granularityInput = document.querySelector(granularityInputSelector);
     this.yAxisToggleButton = document.querySelector(yAxisToggleSelector);
     this.sensorPlotting = document.querySelector(sensorPlottingSelector);
@@ -88,6 +89,7 @@ class GeileTypenWetterApp {
     this.chartCanvasElement = document.querySelector(chartCanvasSelector);
     this.dateTimeRangePickerElement = document.querySelector(dateTimeRangePickerSelector);
     this.darkmodeButton = document.querySelector(darkmodeButtonSelector);
+    this.pagestyleTag = document.querySelector(pagestyleTagSelector);
   }
 
   updateLatestValues(sensor, tempNow, humidNow, airPressNow) {

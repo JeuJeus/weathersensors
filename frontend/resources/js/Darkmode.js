@@ -1,9 +1,15 @@
-function onDarkmodeButtonPress() {
-  let pagestyle = document.getElementById('pagestyle');
-  let currentStylesheet = pagestyle.getAttribute('href');
+function onDarkmodeButtonPress(pagestyleTag) {
+  if (window.localStorage.getItem('darkmode')) {
+    toggleDarkmode(pagestyleTag, 'stylez');
+    window.localStorage.removeItem('darkmode');
+  } else {
+    toggleDarkmode(pagestyleTag, 'stylez-darkmode');
+    window.localStorage.setItem('darkmode', 'enabled');
+  }
+}
 
-  let newStylesheet = (currentStylesheet === '../resources/css/stylez.css') ? '../resources/css/stylez-darkmode.css' : '../resources/css/stylez.css';
-  pagestyle.setAttribute('href', newStylesheet);
+function toggleDarkmode(pagestyleTag, mode) {
+  pagestyleTag.setAttribute('href', '../resources/css/' + mode + '.css');
 }
 
 module.exports = {
