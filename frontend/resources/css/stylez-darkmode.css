@@ -59,6 +59,10 @@ body {
     background: #6c757d;
 }
 
+.dropdown-item:hover {
+    background: #343a40;
+}
+
 /*DATETIMEPICKER*/
 .daterangepicker td.off, .daterangepicker td.off.in-range, .daterangepicker td.off.start-date, .daterangepicker td.off.end-date {
     background-color: transparent;
@@ -129,12 +133,3 @@ body {
     background: #6c757d;
     color: #ebf4f8;
 }
-
-/*NAVBAR*/
-
-
-/*TRAFFIC LIGHTS*/
-/*TODO ADD DARKMODE RULES*/
-
-/*TREND*/
-/*TODO ADD DARKMODE RULES*/
