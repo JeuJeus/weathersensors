@@ -5,12 +5,12 @@ class AdminApp {
   constructor(serverURI) {
     this.serverURI = serverURI;
     this.sensorTable = document.getElementById('sensorTable');
-    this.pagestyle = document.getElementById('pagestyle');
+    this.pagestyleTag = document.getElementById('pagestyle');
   }
 
   init() {
     this.getSensors(this.serverURI);
-    darkmode.checkIfDarkmodeSetAndEnableThen(this.pagestyle);
+    darkmode.checkIfDarkmodeSetAndEnableThen(this.pagestyleTag);
   }
 
   insertRows(sensor) {

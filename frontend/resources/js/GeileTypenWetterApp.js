@@ -55,9 +55,13 @@ class GeileTypenWetterApp {
   }
 
   async init() {
+    darkmode.checkIfDarkmodeSetAndEnableThen(this.pagestyleTag);
+
     this.granularityInput.value = this.granularity;
-    this.yAxisToggleButton.addEventListener('click', () => {ac.yAxisStartToggle(this.unifiedChart)}, false);
-    this.resetRangeButton.addEventListener('click',  this.resetRangeButtonOnClick.bind(this), false);
+    this.yAxisToggleButton.addEventListener('click', () => {
+      ac.yAxisStartToggle(this.unifiedChart);
+    }, false);
+    this.resetRangeButton.addEventListener('click', this.resetRangeButtonOnClick.bind(this), false);
     this.granularityInput.addEventListener('keydown', this.granularityOnChange.bind(this, this.granularityInput), false);
     this.darkmodeButton.addEventListener('click', darkmode.onDarkmodeButtonPress.bind(this, this.pagestyleTag), false);
 
@@ -66,7 +70,6 @@ class GeileTypenWetterApp {
     this.dateTimeRangePicker = new rp.AppDateTimePicker(this.dateTimeRangePickerElement, this.resetRangeButton, () => {
       this.update();
     });
-
     setInterval(this.update.bind(this), this.updateInterval);
     await this.update();
   }
