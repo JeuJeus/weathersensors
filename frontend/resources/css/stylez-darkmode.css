@@ -22,7 +22,10 @@ body {
 }
 
 /*ADMIN APP*/
-/*TODO ADD DARKMODE RULES*/
+.table-light {
+    color: #fff;
+    background-color: #343a40;
+}
 
 /*ALERT MESSAGES*/
 /*TODO ADD DARKMODE RULES*/
