@@ -121,16 +121,16 @@ async function updateSensorLocation(db, sensorLocationData) {
 }
 
 module.exports = {
-  'openDb': openDb,
-  'init': init,
-  'getSensors': getSensors,
-  'getSensorData': getSensorData,
-  'getSensorDataById': getSensorDataById,
-  'insertWeatherData': insertWeatherData,
-  'closeDb': closeDb,
-  'getSensorById': getSensorById,
-  'updateSensorLocation': updateSensorLocation,
-  'assignSensorIDByMACIfNotExists': assignSensorIDByMACIfNotExists,
-  'getSensorByMACAddress': getSensorByMACAddress,
-  'getWeatherDataByIdAndTimestamp': getWeatherDataByIdAndTimestamp,
+  openDb,
+  init,
+  getSensors,
+  getSensorData,
+  getSensorDataById,
+  insertWeatherData,
+  closeDb,
+  getSensorById,
+  updateSensorLocation,
+  assignSensorIDByMACIfNotExists,
+  getSensorByMACAddress,
+  getWeatherDataByIdAndTimestamp,
 };

@@ -47,9 +47,9 @@ function isAssigned(varToCheck) {
 }
 
 module.exports = {
-  'mapValuesOfData': mapValuesOfData,
-  'getSensorDataFromServer': getSensorDataFromServer,
-  'getSensorFromServer': getSensorFromServer,
-  'getSensorsFromServer': getSensorsFromServer,
-  'createQuery': createQuery,
+  mapValuesOfData,
+  getSensorDataFromServer,
+  getSensorFromServer,
+  getSensorsFromServer,
+  createQuery,
 };

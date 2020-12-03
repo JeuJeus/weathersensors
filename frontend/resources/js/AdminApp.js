@@ -95,5 +95,5 @@ class AdminApp {
 }
 
 module.exports = {
-  'AdminApp': AdminApp,
+  AdminApp,
 };

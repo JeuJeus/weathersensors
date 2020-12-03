@@ -13,5 +13,5 @@ function createTimeFilterTestData(length) {
 }
 
 module.exports = {
-  'createTimeFilterTestData': createTimeFilterTestData,
+  createTimeFilterTestData,
 };

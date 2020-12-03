@@ -7,5 +7,5 @@ function onDarkmodeButtonPress() {
 }
 
 module.exports = {
-  onDarkmodeButtonPress: onDarkmodeButtonPress,
+  onDarkmodeButtonPress,
 };

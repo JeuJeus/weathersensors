@@ -7,5 +7,5 @@ function showAndDismissAlert(type, message) {
 }
 
 module.exports = {
-  'showAndDismissAlert': showAndDismissAlert,
+  showAndDismissAlert,
 };

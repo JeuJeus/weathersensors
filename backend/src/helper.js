@@ -29,8 +29,8 @@ function filterTimeRange(elements, startTimeStamp, endTimestamp) {
 }
 
 module.exports = {
-  'reduceElementsToMaxSize': reduceElementsToMaxSize,
-  'filterTimeRange': filterTimeRange,
-  'filterTimeRangeByPresentParameters': filterTimeRangeByPresentParameters,
-  'reduceElementsWhilstAssuringKeepLastElement': reduceElementsWhilstAssuringKeepLastElement,
+  reduceElementsToMaxSize,
+  filterTimeRange,
+  filterTimeRangeByPresentParameters,
+  reduceElementsWhilstAssuringKeepLastElement,
 };

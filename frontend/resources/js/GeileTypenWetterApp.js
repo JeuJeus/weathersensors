@@ -234,7 +234,7 @@ function isInt(value) {
 // ######################################################################
 
 module.exports = {
-  'GeileTypenWetterApp': GeileTypenWetterApp,
-  'enterKeyPressed': enterKeyPressed,
-  'isInt': isInt,
+  GeileTypenWetterApp,
+  enterKeyPressed,
+  isInt,
 };

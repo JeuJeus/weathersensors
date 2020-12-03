@@ -85,7 +85,7 @@ function createChart(canvas, tempColor, airPressColor, humidColor) {
 }
 
 module.exports = {
-    createChart: createChart,
-    updateChart: updateChart,
-    yAxisStartToggle, yAxisStartToggle
+  createChart,
+  updateChart,
+  yAxisStartToggle,
 };

@@ -65,5 +65,5 @@ class AppDateTimePicker{
 }
 
 module.exports = {
-    AppDateTimePicker: AppDateTimePicker,
+  AppDateTimePicker,
 };
