@@ -16,8 +16,11 @@ function toggleDarkmode(pagestyleTag, mode) {
   pagestyleTag.setAttribute('href', '../resources/css/' + mode + '.css');
 }
 
+function checkIfDarkmodeSetAndEnableThen(pagestyle) {
+  if (isDarkmodeSet()) toggleDarkmode(pagestyle, 'stylez-darkmode');
+}
+
 module.exports = {
   onDarkmodeButtonPress,
-  isDarkmodeSet,
-  toggleDarkmode,
+  checkIfDarkmodeSetAndEnableThen,
 };

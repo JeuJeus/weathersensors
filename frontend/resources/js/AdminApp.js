@@ -10,11 +10,7 @@ class AdminApp {
 
   init() {
     this.getSensors(this.serverURI);
-    this.checkIfDarkmodeSetAndEnableThen(this.pagestyle);
-  }
-
-  checkIfDarkmodeSetAndEnableThen(pagestyle) {
-    if (darkmode.isDarkmodeSet()) darkmode.toggleDarkmode(pagestyle, 'stylez-darkmode');
+    darkmode.checkIfDarkmodeSetAndEnableThen(this.pagestyle);
   }
 
   insertRows(sensor) {
