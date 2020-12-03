@@ -1,5 +1,9 @@
+function isDarkmodeSet() {
+  return window.localStorage.getItem('darkmode');
+}
+
 function onDarkmodeButtonPress(pagestyleTag) {
-  if (window.localStorage.getItem('darkmode')) {
+  if (isDarkmodeSet()) {
     toggleDarkmode(pagestyleTag, 'stylez');
     window.localStorage.removeItem('darkmode');
   } else {
@@ -14,4 +18,6 @@ function toggleDarkmode(pagestyleTag, mode) {
 
 module.exports = {
   onDarkmodeButtonPress,
+  isDarkmodeSet,
+  toggleDarkmode,
 };

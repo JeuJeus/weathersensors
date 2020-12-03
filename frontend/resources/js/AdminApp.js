@@ -1,13 +1,20 @@
 const alert = require('./Alert');
+const darkmode = require('./Darkmode');
 
 class AdminApp {
   constructor(serverURI) {
     this.serverURI = serverURI;
     this.sensorTable = document.getElementById('sensorTable');
+    this.pagestyle = document.getElementById('pagestyle');
   }
 
   init() {
     this.getSensors(this.serverURI);
+    this.checkIfDarkmodeSetAndEnableThen(this.pagestyle);
+  }
+
+  checkIfDarkmodeSetAndEnableThen(pagestyle) {
+    if (darkmode.isDarkmodeSet()) darkmode.toggleDarkmode(pagestyle, 'stylez-darkmode');
   }
 
   insertRows(sensor) {
