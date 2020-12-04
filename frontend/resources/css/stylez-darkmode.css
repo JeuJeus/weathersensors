@@ -18,12 +18,12 @@
 /*GLOBAL*/
 body {
     background-color: #212529;
-    color: #fff;
+    color: #ebf4f8;
 }
 
 /*ADMIN APP*/
 .table-light {
-    color: #fff;
+    color: #ebf4f8;
     background-color: #343a40;
 }
 
@@ -40,24 +40,34 @@ body {
 .btn-outline-dark:hover {
     color: #343a40;
     border-color: #343a40;
-    background-color: #fff;
+    background-color: #ebf4f8;
 }
 
 .form-control, .form-control:focus {
     background: #6c757d;
-    color: #fff;
+    color: #ebf4f8;
 }
 
 #reset-range-button {
     background: #bab9b9;
 }
 
+.input-group-append button {
+    margin: 0px !important;
+}
+
 #sensor-dropdown {
-    background: #6c757d;
+    background: #343a40;
+    color: #ebf4f8;
+}
+
+.dropdown-item {
+    color: #ebf4f8;
 }
 
 .dropdown-item:hover {
-    background: #343a40;
+    background: #6c757d;
+    color: #ebf4f8;
 }
 
 /*DATETIMEPICKER*/
@@ -68,7 +78,7 @@ body {
 
 .daterangepicker {
     background-color: inherit;
-    color: #ebf4f0;
+    color: #ebf4f8;
 }
 
 .daterangepicker .calendar-table {
@@ -90,7 +100,7 @@ body {
 }
 
 .btn-default {
-    color: #fff;
+    color: #ebf4f8;
     background-color: inherit;
     border-color: rgba(255, 255, 255, 0.6);
 }
