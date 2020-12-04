@@ -19,10 +19,10 @@ Diese senden die gesammelten Daten an einen zentralen Server, welcher die Daten 
 - Sensoraktivitätsindikator zur Übersicht aktiver Sensoren
 - Auswahl des zu plottenden Sensors
 - abgesichertes Admininterface zur Verwaltung der Sensoren
-- graphische Darstellung der Temperatur-, Luftfeuchtigkeits- und Luftdruckverläufe
+- grafische Darstellung der Temperatur-, Luftfeuchtigkeits- und Luftdruckverläufe
 - frei wählbare Granularität der Darstellung
 - frei wählbarer anzuzeigender Zeitraum
-- schnell Übersicht der jeweils letzen Werte
+- schnell Übersicht der jeweils letzten Werte
 ### zusätzlich ab 1.1.x :
 - Trendanzeige für die Entwicklung von Temperatur / Luftfeuchte und -druck basierend auf Regressionsprognosen
 - Darkmode (beständig zwischen Sessions)
@@ -65,21 +65,21 @@ Die exakten Geräte sind:
 ### Backend und Frontend
 Backend sowie Frontend werden mithilfe von Docker deployed. 
 Im Frontend ist hierzu die Backend Url in der Klasse ``Constants.js`` die Variable ``SERVER_URI`` anzupassen.
-Die Images dafür lassen sich in den jeweiligen Modulen mit Hilfe der ```buildImageandTar.sh``` Skripts bauen.
+Die Images dafür lassen sich in den jeweiligen Modulen mithilfe der ```buildImageandTar.sh``` Skripts bauen.
 Diese bauen die Images und stellen diese in der lokalen Dockerumgebung zum Start bereit.
 Darüber hinaus werden im Projekt-Root-Ordner tar-Bälle mit den jeweiligen Images hinterlegt.
-Für diesen Schritt haben wir uns entscheiden um die Images einfach auf einem Server verfügbar zu machen
+Für diesen Schritt haben wir uns entschieden, um die Images einfach auf einem Server verfügbar zu machen
 ohne Docker Registries (e.g. Docker.io) in Anspruch nehmen zu müssen.
 
 Der Standard Admin-Zugang ist ``admin:$PASSWORD``
-Das Passwort für den Admin Zugang - in Form der Variable ``$PASSWORD`` in ``router.js`` - ist gegebenermaßen zu ersetzen.
+Das Passwort für den Admin Zugang - in Form der Variable ``$PASSWORD`` in ``router.js`` - ist gegebener maßen zu ersetzen.
 Der API-Token der Node-MCUs ist in Form der Variable ``API_TOKEN`` in ``persistanceService.js``, entsprechend der Änderung im ``nodemcu.ino``, abzuändern.
 
 #### Deployment Voraussetzungen unter Windows
 Das Projekt kann mithilfe der WSL 2 und Docker for Windows deployed werden.
 Für die Vorbereitung muss zunächst eine WSL 2 eingerichtet werden (Link zur Anleitung: [hier](https://docs.microsoft.com/en-us/windows/wsl/install-win10)).
 Danach kann Docker for Windows mit den WSL 2-Komponenten installiert werden (Link zur Anleitung: [hier](https://docs.docker.com/docker-for-windows/wsl/)).
-Nachdem Docker for Windows bereitgestellt wurde kann die ausgewählte Linux Distribution in der WSL gestartet werden. 
+Nachdem Docker for Windows bereitgestellt wurde, kann die ausgewählte Linux Distribution in der WSL gestartet werden. 
 Danach sind in der WSL die Schritte für Linux auszuführen.
 
 #### Deployment Voraussetzungen unter Linux
