@@ -1,6 +1,10 @@
 # ehemaliges Uniprojekt "Wettersensoren" <img src="frontend/resources/img/logo.png?" height="30" width="30">
 Dieses Projekt entstand ursprünglich im Kontext des Modules "Anwendungsentwicklung 2" an der FHDW Paderborn (Releases <1.1.0).
 Nach Beendigung des Modules wurde dieses Projekt freiwillig weiterentwickelt (Releases >=1.1.0).
+ 
+GUI (lightmode) | GUI (darkmode)
+:-------------------------:|:-------------------------:
+![Screenshot](dokumentation/res/GUI.png)   |  ![Screenshot](dokumentation/res/GUI_darkmode.png) 
 
 Im Zuge dieses Projektes werden NodeMCU ESP8266 mit BME280 Sensoren (Temperatur, Luftdruck und Feuchtigkeitssensor) ausgestattet.
 Diese senden die gesammelten Daten an einen zentralen Server, welcher die Daten verwaltet. 
