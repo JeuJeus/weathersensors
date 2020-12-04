@@ -32,7 +32,7 @@ class GeileTypenWetterApp {
     timestamps: [],
     temperature: [],
     humidity: [],
-    airPressure: []
+    airPressure: [],
   };
   unifiedChart;
 
@@ -55,7 +55,7 @@ class GeileTypenWetterApp {
   }
 
   async init() {
-    darkmode.checkIfDarkmodeSetAndEnableThen(this.pagestyleTag);
+    darkmode.checkIfDarkmodeSetAndEnableThen(this.pagestyleTag, this.darkmodeButton);
 
     this.granularityInput.value = this.granularity;
     this.yAxisToggleButton.addEventListener('click', () => {
@@ -63,7 +63,7 @@ class GeileTypenWetterApp {
     }, false);
     this.resetRangeButton.addEventListener('click', this.resetRangeButtonOnClick.bind(this), false);
     this.granularityInput.addEventListener('keydown', this.granularityOnChange.bind(this, this.granularityInput), false);
-    this.darkmodeButton.addEventListener('click', darkmode.onDarkmodeButtonPress.bind(this, this.pagestyleTag), false);
+    this.darkmodeButton.addEventListener('click', darkmode.onDarkmodeButtonPress.bind(this, this.pagestyleTag, this.darkmodeButton), false);
 
     this.unifiedChart = ac.createChart(this.chartCanvasElement, this.temperatureColor, this.airpressureColor, this.humidityColor);
 
@@ -158,19 +158,19 @@ class GeileTypenWetterApp {
 
   async update() {
     this.sensorData = controller.mapValuesOfData(await controller.getSensorDataFromServer(this.sensorToPlot, this.granularity,
-        this.dateTimeRangePicker.enabled, this.dateTimeRangePicker.start, this.dateTimeRangePicker.end, this.serverURI));
+      this.dateTimeRangePicker.enabled, this.dateTimeRangePicker.start, this.dateTimeRangePicker.end, this.serverURI));
     this.sensors = (await controller.getSensorsFromServer(this.serverURI)).sensors;
     const sensor = (await controller.getSensorFromServer(this.sensorToPlot, this.serverURI)).sensor;
     this.updateUI(sensor);
 
   }
 
-   updateUI(sensor) {
+  updateUI(sensor) {
     this.updateDateTimeRangePicker();
     this.updateLatestValues(sensor, this.sensorData.temperature.slice(-1)[0], this.sensorData.humidity.slice(-1)[0], this.sensorData.airPressure.slice(-1)[0]);
-     ac.updateChart(this.unifiedChart, this.sensorData.timestamps, this.sensorData.temperature, this.sensorData.humidity, this.sensorData.airPressure);
-     at.updateTrends(this.sensorData, this.granularity, this.temperatureTrend, this.humidityTrend, this.airpressureTrend);
-     this.updateSensorsDropdown();
+    ac.updateChart(this.unifiedChart, this.sensorData.timestamps, this.sensorData.temperature, this.sensorData.humidity, this.sensorData.airPressure);
+    at.updateTrends(this.sensorData, this.granularity, this.temperatureTrend, this.humidityTrend, this.airpressureTrend);
+    this.updateSensorsDropdown();
   }
 
 //  ###### event listeners ######
