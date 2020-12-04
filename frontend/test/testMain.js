@@ -1,8 +1,9 @@
 const expect = require('chai').expect;
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+//defining url for globals jsdom is needed in order to fix local storage testing
+const jsdom = require('jsdom-global')(undefined, {url: 'http://localhost'});
 const {JSDOM} = require('jsdom');
-const jsdom = require('jsdom-global')();
 const App = require('../resources/js/GeileTypenWetterApp');
 const c = require('../resources/js/Constants');
 const sinon = require('sinon');
