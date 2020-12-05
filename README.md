@@ -1,41 +1,42 @@
-# ehemaliges Uniprojekt "Wettersensoren" <img src="frontend/resources/img/logo.png?" height="30" width="30">
-Dieses Projekt entstand ursprünglich im Kontext des Modules "Anwendungsentwicklung 2" an der FHDW Paderborn (Releases <1.1.0).
-Nach Beendigung des Modules wurde dieses Projekt freiwillig weiterentwickelt (Releases >=1.1.0).
+# Former university project "Weathersensors" <img src="frontend/resources/img/logo.png?" height="30" width="30">
+This project was originally developed in the context of the module "Application Development 2" at the FHDW Paderborn (Releases <1.1.0).
+After finishing the module, this project was developed further voluntarily (Releases >=1.1.0).
  
 GUI (lightmode) | GUI (darkmode)
 :-------------------------:|:-------------------------:
 ![Screenshot](dokumentation/res/GUI.png)   |  ![Screenshot](dokumentation/res/GUI_darkmode.png) 
 
-Im Zuge dieses Projektes werden NodeMCU ESP8266 mit BME280 Sensoren (Temperatur, Luftdruck und Feuchtigkeitssensor) ausgestattet.
-Diese senden die gesammelten Daten an einen zentralen Server, welcher die Daten verwaltet. 
-Über einen Webserver lassen sich diese Daten visualisiert abrufen.
+In the course of this project NodeMCU ESP8266 will be equipped with BME280 sensors (temperature, air pressure and humidity sensor).
+These send the collected data to a central server, which manages the data. 
+These data can be retrieved in visual form via a web server.
 
 ### Build Status: ![CI Frontend](https://github.com/JeuJeus/awe2-wettersensoren/workflows/Test%20Frontend/badge.svg) ![Test Backend](https://github.com/JeuJeus/awe2-wettersensoren/workflows/Test%20Backend/badge.svg)
 ### [Live Version](https://awe2.jeujeus.de)
 
 ## Features:
-### Stand 1.0.x :
-- Sammeln von Wetterdaten von 'n' verschiedenen Sensoren
-- Sensoraktivitätsindikator zur Übersicht aktiver Sensoren
-- Auswahl des zu plottenden Sensors
-- abgesichertes Admininterface zur Verwaltung der Sensoren
-- grafische Darstellung der Temperatur-, Luftfeuchtigkeits- und Luftdruckverläufe
-- frei wählbare Granularität der Darstellung
-- frei wählbarer anzuzeigender Zeitraum
-- schnell Übersicht der jeweils letzten Werte
-### zusätzlich ab 1.1.x :
-- Trendanzeige für die Entwicklung von Temperatur / Luftfeuchte und -druck basierend auf Regressionsprognosen
-- Darkmode (beständig zwischen Sessions)
+### state 1.0.x :
+- collecting weather data from 'n' different sensors
+- sensor activity indicator for overview of active sensors
+- exact time stamp of last activity for inactive sensors
+- selection of the sensor to be plotted
+- secure admin interface for the administration of the sensors
+- graphic display of temperature, humidity and air pressure curves
+- freely selectable granularity of the representation
+- freely adjustable period to be displayed
+- quick overview of the last values
+### additionally since 1.1.x :
+- trend display for the development of temperature / humidity and pressure based on regression forecasts
+- darkmode (persistent between sessions)
 
 ## Deployment 
 ### ESP8266
-Zur Erfassung der Wetterdaten wird ein BME280 Sensor verwendet, welcher von einem Board mit ESP8266 Mikrocontroller
-und NodeMCU 1.0 Firmware angesteuert wird. Auf diesem Mikrocontroller kann der Sourcecode ``nodemcu.ino`` ausgeführt werden.
-Zum Kompilieren sollte die Arduino IDE verwendet werden, in der zuvor die Treiber für den ESP8266 installiert werden müssen.
-Dazu muss in den Voreinstellungen folgende Boardverwalter-URL hinzugefügt werden: ``http://arduino.esp8266.com/stable/package_esp8266com_index.json``.
-Darüber hinaus müssen folgende Bibliotheken über die integrierte Bibliotheksverwaltung installiert werden:
+A BME280 sensor is used to collect the weather data, which is controlled by a board with ESP8266 microcontroller
+and NodeMCU 1.0 firmware. On the microcontroller the source code ``nodemcu.ino`` can be executed.
+For compiling, the Arduino IDE should be used, in which the drivers for the ESP8266 must be installed first.
+For this purpose, the following board administrator URL must be added in the preferences: ``http://arduino.esp8266.com/stable/package_esp8266com_index.json``.
+In addition, the following libraries must be installed via the integrated library management:
 
-|Bibliothek|Version|
+|Library|Version|
 |---|---|
 |WiFi (by Arduino)|1.2.7|
 |Adafruit BME280 Library (by Adafruit)|2.1.1|
@@ -43,13 +44,13 @@ Darüber hinaus müssen folgende Bibliotheken über die integrierte Bibliotheksv
 |EasyNTPClient (by Harsha Alva)|1.1.0|
 |LinkedList (by Ivan Seidel)|1.2.3|
  
-Bevor der Quellcode kompiliert wird, müssen die folgenden Konstanten auf die lokalen Gegebenheiten angepasst werden:
+Before the source code is compiled, the following constants must be adapted to the local conditions:
 - ``SERVER_TO_CONNECT``
 - ``SSID`` 
 - ``WIFI_PASSWORD`` 
-- ``API_TOKEN`` (dieser muss gleich dem im Backend gesetzten Wert sein)
+- ``API_TOKEN`` (this must be equal to the value set in the backend)
 
-Der BME280 Sensor und der ESP8266 müssen folgendermaßen verbunden werden:
+The BME280 sensor and ESP8266 must be connected as follows:
 
 |ESP8266 Pin|BME280 Pinhole|
 |---|---|
@@ -58,37 +59,37 @@ Der BME280 Sensor und der ESP8266 müssen folgendermaßen verbunden werden:
 |D1|SCL|
 |D2|SDA|
 
-Die exakten Geräte sind:
+The exact devices are:
 - AZDelivery NodeMCU Lua Lolin V3 Module ESP8266 ESP-12F WIFI 
 - AZDelivery GY-BME280 
 
-### Backend und Frontend
-Backend sowie Frontend werden mithilfe von Docker deployed. 
-Im Frontend ist hierzu die Backend Url in der Klasse ``Constants.js`` die Variable ``SERVER_URI`` anzupassen.
-Die Images dafür lassen sich in den jeweiligen Modulen mithilfe der ```buildImageandTar.sh``` Skripts bauen.
-Diese bauen die Images und stellen diese in der lokalen Dockerumgebung zum Start bereit.
-Darüber hinaus werden im Projekt-Root-Ordner tar-Bälle mit den jeweiligen Images hinterlegt.
-Für diesen Schritt haben wir uns entschieden, um die Images einfach auf einem Server verfügbar zu machen
-ohne Docker Registries (e.g. Docker.io) in Anspruch nehmen zu müssen.
+### backend and frontend
+Backend and frontend are deployed using Docker. 
+In the frontend, the backend url in the class ``Constants.js`` has to be adapted to the variable ``SERVER_URI``.
+The images for this can be built in the respective modules using the ``buildImageandTar.sh`` scripts.
+These scripts build the images and make them available in the local docker environment.
+Furthermore, tar balls with the respective images are stored in the project root folder.
+For this step we decided to make the images available on a server
+without having to use Docker Registries (e.g. Docker.io)
 
-Der Standard Admin-Zugang ist ``admin:$PASSWORD``
-Das Passwort für den Admin Zugang - in Form der Variable ``$PASSWORD`` in ``router.js`` - ist gegebener maßen zu ersetzen.
-Der API-Token der Node-MCUs ist in Form der Variable ``API_TOKEN`` in ``persistanceService.js``, entsprechend der Änderung im ``nodemcu.ino``, abzuändern.
+The default admin access is ``admin:$PASSWORD``
+The password for the admin access - in form of the variable ``$PASSWORD`` in ``router.js`` - is to be replaced in a given dimension.
+The API token of the node MCUs must be changed in the form of the variable ``API_TOKEN`` in ``persistanceService.js``, according to the change in ``nodemcu.ino``.
 
-#### Deployment Voraussetzungen unter Windows
-Das Projekt kann mithilfe der WSL 2 und Docker for Windows deployed werden.
-Für die Vorbereitung muss zunächst eine WSL 2 eingerichtet werden (Link zur Anleitung: [hier](https://docs.microsoft.com/en-us/windows/wsl/install-win10)).
-Danach kann Docker for Windows mit den WSL 2-Komponenten installiert werden (Link zur Anleitung: [hier](https://docs.docker.com/docker-for-windows/wsl/)).
-Nachdem Docker for Windows bereitgestellt wurde, kann die ausgewählte Linux Distribution in der WSL gestartet werden. 
-Danach sind in der WSL die Schritte für Linux auszuführen.
+#### deployment requirements under Windows
+The project can be deployed using WSL 2 and Docker for Windows.
+For the preparation a WSL 2 must be set up first (link to the manual: [here](https://docs.microsoft.com/en-us/windows/wsl/install-win10)).
+Then Docker for Windows can be installed with the WSL 2 components (link to instructions: [here](https://docs.docker.com/docker-for-windows/wsl/)).
+Now that Docker for Windows has been setup, the selected Linux distribution can be started in the WSL. 
+After that, the steps for Linux have to be executed in the WSL.
 
-#### Deployment Voraussetzungen unter Linux
-In Linux sind Docker sowie Node und npm durch den Distribution-spezifischen Package Manager zu installieren. 
+#### deployment Voraussetzungen unter Linux
+In Linux Docker as well as Node and npm are to be installed by the distribution-specific Package Manager. 
 
 #### Backend Start-Command:
 ```docker run -p 3000:3000 -v $PATH_TO_DATABASE:/usr/src/app/db --name awe2-backend -it awe2/backend:abgabe```
 
-```$PATH_TO_DATABASE``` ist zu ersetzen mit dem Ordner, in welchem die Datenbank auf dem Host-System gespeichert werden soll.
+```$PATH_TO_DATABASE``` must be replaced with the folder where the database is to be stored on the host system.
 
 #### Frontend Start-Command:
 ```docker run -p 3344:3344 --name awe2-frontend -it awe2/frontend:abgabe```
