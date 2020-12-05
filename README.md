@@ -87,9 +87,9 @@ After that, the steps for Linux have to be executed in the WSL.
 In Linux Docker as well as Node and npm are to be installed by the distribution-specific Package Manager. 
 
 #### Backend Start-Command:
-```docker run -p 3000:3000 -v $PATH_TO_DATABASE:/usr/src/app/db --name awe2-backend -it awe2/backend:abgabe```
+```docker run -p 3000:3000 -v $PATH_TO_DATABASE:/usr/src/app/db --name weathersensors-backend -it weathersensors/backend:latest```
 
 ```$PATH_TO_DATABASE``` must be replaced with the folder where the database is to be stored on the host system.
 
 #### Frontend Start-Command:
-```docker run -p 3344:3344 --name awe2-frontend -it awe2/frontend:abgabe```
+```docker run -p 3344:3344 --name weathersensors-frontend -it weathersensors/frontend:latest```
