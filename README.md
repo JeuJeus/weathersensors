@@ -1,4 +1,4 @@
-# Former university project "Weathersensors" <img src="frontend/resources/img/logo.png?" height="30" width="30">
+# Weathersensors <img src="frontend/resources/img/logo.png?" height="30" width="30">
 This project was originally developed in the context of the module "Application Development 2" at the FHDW Paderborn (Releases <1.1.0).
 After finishing the module, this project was developed further voluntarily (Releases >=1.1.0).
  
