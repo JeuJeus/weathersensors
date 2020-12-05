@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-rm ../awe2frontend.tar
+rm ../weathersensors-frontend.tar
 npm install
 npm run browserify
-docker build -t awe2/frontend:abgabe . -f dockerfile
-docker save awe2/frontend:abgabe > ../awe2frontend.tar
+docker build -t weathersensors/frontend:latest . -f dockerfile
+docker save weathersensors/frontend:latest > ../weathersensors-frontend.tar

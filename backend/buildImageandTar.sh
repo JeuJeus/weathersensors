@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-rm ../awe2backend.tar
+rm ../weathersensors-backend.tar
 npm install
-rm db/data.db
-docker build -t awe2/backend:abgabe . -f dockerfile
-docker save awe2/backend:abgabe > ../awe2backend.tar
+npm run browserify
+docker build -t weathersensors/backend:latest . -f dockerfile
+docker save weathersensors/backend:latest > ../weathersensors-backend.tar
