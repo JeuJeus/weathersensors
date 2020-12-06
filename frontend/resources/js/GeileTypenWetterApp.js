@@ -21,6 +21,7 @@ class GeileTypenWetterApp {
   sensorSelectDropdown = document.createElement('div');
   chartCanvasElement = document.createElement('canvas');
   darkmodeButton = document.createElement('button');
+  darkmodeIcon = document.createElement('i');
   pagestyleTag = document.createElement('link');
 
   // current state
