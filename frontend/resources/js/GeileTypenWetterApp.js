@@ -55,7 +55,7 @@ class GeileTypenWetterApp {
   }
 
   async init() {
-    darkmode.checkIfDarkmodeSetAndEnableThen(this.pagestyleTag, this.darkmodeButton);
+    darkmode.checkIfDarkmodeSetAndEnableThen(this.pagestyleTag, this.darkmodeIcon);
 
     this.granularityInput.value = this.granularity;
     this.yAxisToggleButton.addEventListener('click', () => {
@@ -63,7 +63,7 @@ class GeileTypenWetterApp {
     }, false);
     this.resetRangeButton.addEventListener('click', this.resetRangeButtonOnClick.bind(this), false);
     this.granularityInput.addEventListener('keydown', this.granularityOnChange.bind(this, this.granularityInput), false);
-    this.darkmodeButton.addEventListener('click', darkmode.onDarkmodeButtonPress.bind(this, this.pagestyleTag, this.darkmodeButton), false);
+    this.darkmodeButton.addEventListener('click', darkmode.onDarkmodeButtonPress.bind(this, this.pagestyleTag, this.darkmodeButton, this.darkmodeIcon), false);
 
     this.unifiedChart = ac.createChart(this.chartCanvasElement, this.temperatureColor, this.airpressureColor, this.humidityColor);
 
@@ -75,8 +75,8 @@ class GeileTypenWetterApp {
   }
 
   setDomElements(granularityInputSelector, yAxisToggleSelector, sensorPlottingSelector, sensorPlotLocationSelector, temperatureNowSelector,
-    humidityNowSelector, airPressureNowSelector, temperatureTrendSelector, humidityTrendSelector, airPressureTrendSelector,
-    sensorDropdownSelector, resetRangeButtonSelector, chartCanvasSelector, dateTimeRangePickerSelector, darkmodeButtonSelector, pagestyleTagSelector) {
+                 humidityNowSelector, airPressureNowSelector, temperatureTrendSelector, humidityTrendSelector, airPressureTrendSelector,
+                 sensorDropdownSelector, resetRangeButtonSelector, chartCanvasSelector, dateTimeRangePickerSelector, darkmodeButtonSelector, darkModeIconSelector, pagestyleTagSelector) {
     this.granularityInput = document.querySelector(granularityInputSelector);
     this.yAxisToggleButton = document.querySelector(yAxisToggleSelector);
     this.sensorPlotting = document.querySelector(sensorPlottingSelector);
@@ -92,6 +92,7 @@ class GeileTypenWetterApp {
     this.chartCanvasElement = document.querySelector(chartCanvasSelector);
     this.dateTimeRangePickerElement = document.querySelector(dateTimeRangePickerSelector);
     this.darkmodeButton = document.querySelector(darkmodeButtonSelector);
+    this.darkmodeIcon = document.querySelector(darkModeIconSelector);
     this.pagestyleTag = document.querySelector(pagestyleTagSelector);
   }
 
