@@ -26,23 +26,39 @@ async function init(db) {
   const createSensorTable = `CREATE TABLE IF NOT EXISTS "SENSOR"
       (` +
       `"ID"	INTEGER NOT NULL UNIQUE, ` +
-      `"MAC_ADDRESS"	TEXT NOT NULL, ` +
-      `"LOCATION"	TEXT,` +
-      ` PRIMARY KEY("ID" AUTOINCREMENT)` +
-      `)`;
+    `"MAC_ADDRESS"	TEXT NOT NULL, ` +
+    `"LOCATION"	TEXT,` +
+    ` PRIMARY KEY("ID" AUTOINCREMENT)` +
+    `)`;
 
   const createSensorDataTable = `CREATE TABLE IF NOT EXISTS "SENSOR_DATA"
           (` +
     ` "SENSOR_ID"	INTEGER NOT NULL,` +
     ` "TIMESTAMP" INTEGER NOT NULL,` +
     ` "TEMPERATURE" NUMERIC NOT NULL,` +
-      ` "AIRPRESSURE" NUMERIC NOT NULL,` +
-      ` "HUMIDITY"	NUMERIC NOT NULL,` +
-      ` PRIMARY KEY("SENSOR_ID","TIMESTAMP")` +
-      `)`;
+    ` "AIRPRESSURE" NUMERIC NOT NULL,` +
+    ` "HUMIDITY"	NUMERIC NOT NULL,` +
+    ` PRIMARY KEY("SENSOR_ID","TIMESTAMP")` +
+    `)`;
+
+  const createSensorAssigneeTable = `CREATE TABLE IF NOT EXISTS "SENSOR_ASSIGNEE"
+          (` +
+    ` "SENSOR_ID"	INTEGER NOT NULL,` +
+    ` "USER_ID" INTEGER NOT NULL,` +
+    ` PRIMARY KEY("SENSOR_ID","USER_ID")` +
+    `)`;
+
+  const createUserTable = `CREATE TABLE IF NOT EXISTS "USER"
+          (` +
+    ` "USER_ID" INTEGER NOT NULL,` +
+    ` "MAIL_ADDRESS" TEXT NOT NULL,` +
+    ` PRIMARY KEY("USER_ID")` +
+    `)`;
 
   await db.run(createSensorTable);
   await db.run(createSensorDataTable);
+  await db.run(createSensorAssigneeTable);
+  await db.run(createUserTable);
 }
 
 async function getSensors(db) {
