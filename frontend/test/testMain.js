@@ -4,18 +4,18 @@ const chaiHttp = require('chai-http');
 //defining url for globals jsdom is needed in order to fix local storage testing
 const jsdom = require('jsdom-global')(undefined, {url: 'http://localhost'});
 const {JSDOM} = require('jsdom');
-const App = require('../resources/js/GeileTypenWetterApp');
+const App = require('../resources/js/WeathersensorsApp');
 const c = require('../resources/js/Constants');
 const sinon = require('sinon');
 const faker = require('faker');
-const AppController = require('../resources/js/GeileTypenWetterAppController');
+const AppController = require('../resources/js/WeathersensorsAppController');
 const appTrend = require('../resources/js/AppTrend');
 
 global.window = window;
 global.$ = require('jquery');
 global.jQuery = $;
 
-const wastedApp = new App.GeileTypenWetterApp(c.SERVER_URI);
+const wastedApp = new App.WeathersensorsApp(c.SERVER_URI);
 wastedApp.init();
 
 const stubSensorsData = {'sensorData': [{
@@ -64,7 +64,7 @@ describe('-- APP TESTS -- ', () => {
 
   describe('creating our App', () => {
     it('should create the App in node with correct SERVER_URI', async () => {
-      const app = new App.GeileTypenWetterApp(c.SERVER_URI);
+      const app = new App.WeathersensorsApp(c.SERVER_URI);
       app.setColors(c.TEMPERATURE_COLOR, c.AIRPRESSURE_COLOR, c.HUMIDITY_COLOR, c.SENSOR_COLOR);
       app.setUpdateInterval(c.UPDATE_INTERVAL);
       try{
@@ -82,7 +82,7 @@ describe('-- APP TESTS -- ', () => {
     sinon.stub(appTrend, 'updateTrends');
 
     it('should return correct trafficLightColors', async () => {
-      const app = new App.GeileTypenWetterApp(c.SERVER_URI);
+      const app = new App.WeathersensorsApp(c.SERVER_URI);
       app.sendIntervalESPMinutes = 5;
       await app.init();
       const nowSeconds = Date.now();
@@ -98,21 +98,21 @@ describe('-- APP TESTS -- ', () => {
     });
 
     it('should have sensors', async () => {
-      const app = new App.GeileTypenWetterApp(c.SERVER_URI);
+      const app = new App.WeathersensorsApp(c.SERVER_URI);
       app.sendIntervalESPMinutes = 5;
       await app.init();
       expect(app.sensors.length).to.not.equal(0);
     });
 
     it('should have sensorData', async () => {
-      const app = new App.GeileTypenWetterApp(c.SERVER_URI);
+      const app = new App.WeathersensorsApp(c.SERVER_URI);
       app.sendIntervalESPMinutes = 5;
       await app.init();
       expect(app.sensorData.length).to.not.equal(0);
     });
 
     it('should have all sensors in dropdown', async () => {
-      const app = new App.GeileTypenWetterApp(c.SERVER_URI);
+      const app = new App.WeathersensorsApp(c.SERVER_URI);
       app.sendIntervalESPMinutes = 5;
       await app.init();
       expect(app.sensors.length).to.deep.equal(app.sensorSelectDropdown.childNodes.length);

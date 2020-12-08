@@ -1,7 +1,7 @@
 const c = require('./Constants');
-const App = require('./GeileTypenWetterApp');
+const App = require('./WeathersensorsApp');
 // creating app
-const app = new App.GeileTypenWetterApp(c.SERVER_URI);
+const app = new App.WeathersensorsApp(c.SERVER_URI);
 
 app.setDomElements('#granularity-input', '#y-axis-toggle-button', '#sensor-id-text',
     '#sensor-location-text', '#temperature-current-value', '#humidity-current-value',

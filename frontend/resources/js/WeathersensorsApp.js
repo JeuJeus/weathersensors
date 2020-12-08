@@ -1,4 +1,4 @@
-const controller = require('./GeileTypenWetterAppController');
+const controller = require('./WeathersensorsAppController');
 const rp = require('./AppDateTimePicker');
 const ac = require('./AppChart');
 const at = require('./AppTrend');
@@ -6,7 +6,7 @@ const constants = require('./Constants');
 const alert = require('./Alert');
 const darkmode = require('./Darkmode');
 
-class GeileTypenWetterApp {
+class WeathersensorsApp {
   // DOM - Elements
   granularityInput = document.createElement('input');
   yAxisToggleButton = document.createElement('button');
@@ -241,7 +241,7 @@ function isInt(value) {
 // ######################################################################
 
 module.exports = {
-  GeileTypenWetterApp,
+  WeathersensorsApp,
   enterKeyPressed,
   isInt,
 };
