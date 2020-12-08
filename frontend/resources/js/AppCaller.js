@@ -2,7 +2,7 @@ const c = require('./Constants');
 const App = require('./WeathersensorsApp');
 // creating app
 const app = new App.WeathersensorsApp(c.SERVER_URI);
-
+//TODO INTRODUCE CONSTANT FILES IN ORDER TO AVOID CHANGING VARIABLE IN FRONTENT AND BACKEND
 app.setDomElements('#granularity-input', '#y-axis-toggle-button', '#sensor-id-text',
     '#sensor-location-text', '#temperature-current-value', '#humidity-current-value',
     '#airpressure-current-value', '#temperature-trend', '#humidity-trend',
