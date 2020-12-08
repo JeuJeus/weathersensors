@@ -5,6 +5,7 @@ const should = chai.should();
 
 const helper = require('../src/helper');
 const restController = require('../src/restController');
+const alert = require('../src/inactivityEmailAlert');
 const testData = require('./testData');
 const dbConnection = require('../src/databaseConnection');
 const sinon = require('sinon');
@@ -260,6 +261,17 @@ describe('-- REST CONTROLLER -- ', () => {
         .end((err, res) => {
           res.should.have.status(400);
         });
+    });
+  });
+
+  describe('email inactivity alert should work', () => {
+    const currentTimeSeconds = Date.now();
+    const oneHourAgoSeconds = Date.now() - (60 * 60 * 1000);
+    it('should determine sensor inactivity when inactive', function() {
+      expect(alert.checkIfSensorInactive(oneHourAgoSeconds)).to.be.true;
+    });
+    it('should not determine sensor inactivity when active', function() {
+      expect(alert.checkIfSensorInactive(currentTimeSeconds)).to.be.false;
     });
   });
 });
