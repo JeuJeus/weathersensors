@@ -28,7 +28,7 @@ async function init(db) {
     `"ID"	INTEGER NOT NULL UNIQUE, ` +
     `"MAC_ADDRESS"	TEXT NOT NULL, ` +
     `"LOCATION"	TEXT,` +
-    `"INACTIVITY_NOTIFICATION" INTEGER,` +
+    `"INACTIVITY_NOTIFICATION_SENT" BOOLEAN,` +
     ` PRIMARY KEY("ID" AUTOINCREMENT)` +
     `)`;
 
