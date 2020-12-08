@@ -273,6 +273,7 @@ describe('-- REST CONTROLLER -- ', () => {
     it('should not determine sensor inactivity when active', function() {
       expect(alert.checkIfSensorInactive(currentTimeSeconds)).to.be.false;
     });
+
   });
 });
 
