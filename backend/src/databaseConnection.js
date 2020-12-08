@@ -24,10 +24,11 @@ function closeDb(db) {
 }
 async function init(db) {
   const createSensorTable = `CREATE TABLE IF NOT EXISTS "SENSOR"
-      (` +
-      `"ID"	INTEGER NOT NULL UNIQUE, ` +
+          (` +
+    `"ID"	INTEGER NOT NULL UNIQUE, ` +
     `"MAC_ADDRESS"	TEXT NOT NULL, ` +
     `"LOCATION"	TEXT,` +
+    `"INACTIVITY_NOTIFICATION" INTEGER,` +
     ` PRIMARY KEY("ID" AUTOINCREMENT)` +
     `)`;
 
@@ -51,7 +52,7 @@ async function init(db) {
   const createUserTable = `CREATE TABLE IF NOT EXISTS "USER"
           (` +
     ` "USER_ID" INTEGER NOT NULL,` +
-    ` "MAIL_ADDRESS" TEXT NOT NULL,` +
+    ` "MAIL_ADDRESS" TEXT,` +
     ` PRIMARY KEY("USER_ID")` +
     `)`;
 
