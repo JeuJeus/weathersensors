@@ -6,23 +6,24 @@ const basicAuth = require('express-basic-auth');
 const path = require('path');
 const rfs = require('rotating-file-stream');
 const favicon = require('serve-favicon');
+const env = require('./env');
 
-const stream = rfs.createStream('log/frontend.log', {
-  size: '10M',
-  interval: '1d',
-  compress: 'gzip',
+const stream = rfs.createStream(env.LOG_LOCATION, {
+  size: env.LOG_SIZE,
+  interval: env.LOG_INTERVAL,
+  compress: env.LOG_COMPRESSION,
   teeToStdout: true,
 });
 function logWrite(importance, message) {
-  const as24hours = {hour12: false};
-  const now = `${new Date().toLocaleString('de-DE', as24hours)}`;
+  const as24hours = {hour12: env.LOG_AMPM};
+  const now = `${new Date().toLocaleString(env.LOG_LOCALE, as24hours)}`;
   stream.write(`${now} - ${importance} : ${message}\n`);
 }
 
 const httpServer = http.createServer(app);
 const logger = function(req, res, next) {
   logWrite('INFO', `GOT REQUEST TO [${req.originalUrl}] FROM [${req.ip}]`);
-  next(); // Passing the request to the next handler in the stack.
+  next();
 };
 
 app.use(bodyParser.json({
@@ -51,7 +52,7 @@ app.get('/', async function (req, res) {
 
 // ############### BASIC AUTH SECURED ###############
 const auth = basicAuth({
-  users: {admin: '$PASSWORD'},
+  users: {admin: env.ADMIN_PASSWORD},
   challenge: true,
 });
 

@@ -6,6 +6,7 @@ const jsdom = require('jsdom-global')(undefined, {url: 'http://localhost'});
 const {JSDOM} = require('jsdom');
 const App = require('../resources/js/WeathersensorsApp');
 const c = require('../resources/js/Constants');
+const env = require('../env');
 const sinon = require('sinon');
 const faker = require('faker');
 const AppController = require('../resources/js/WeathersensorsAppController');
@@ -15,7 +16,7 @@ global.window = window;
 global.$ = require('jquery');
 global.jQuery = $;
 
-const wastedApp = new App.WeathersensorsApp(c.SERVER_URI);
+const wastedApp = new App.WeathersensorsApp(env.SERVER_URI);
 wastedApp.init();
 
 const stubSensorsData = {'sensorData': [{
@@ -64,15 +65,15 @@ describe('-- APP TESTS -- ', () => {
 
   describe('creating our App', () => {
     it('should create the App in node with correct SERVER_URI', async () => {
-      const app = new App.WeathersensorsApp(c.SERVER_URI);
+      const app = new App.WeathersensorsApp(env.SERVER_URI);
       app.setColors(c.TEMPERATURE_COLOR, c.AIRPRESSURE_COLOR, c.HUMIDITY_COLOR, c.SENSOR_COLOR);
-      app.setUpdateInterval(c.UPDATE_INTERVAL);
+      app.setUpdateInterval(env.UPDATE_INTERVAL_MILLIS);
       try{
         await app.init();
       }catch (e) {
         console.log(e);
       }
-      expect(app.serverURI).to.deep.equal(c.SERVER_URI);
+      expect(app.serverURI).to.deep.equal(env.SERVER_URI);
     });
   });
 
@@ -82,7 +83,7 @@ describe('-- APP TESTS -- ', () => {
     sinon.stub(appTrend, 'updateTrends');
 
     it('should return correct trafficLightColors', async () => {
-      const app = new App.WeathersensorsApp(c.SERVER_URI);
+      const app = new App.WeathersensorsApp(env.SERVER_URI);
       app.sendIntervalESPMinutes = 5;
       await app.init();
       const nowSeconds = Date.now();
@@ -98,21 +99,21 @@ describe('-- APP TESTS -- ', () => {
     });
 
     it('should have sensors', async () => {
-      const app = new App.WeathersensorsApp(c.SERVER_URI);
+      const app = new App.WeathersensorsApp(env.SERVER_URI);
       app.sendIntervalESPMinutes = 5;
       await app.init();
       expect(app.sensors.length).to.not.equal(0);
     });
 
     it('should have sensorData', async () => {
-      const app = new App.WeathersensorsApp(c.SERVER_URI);
+      const app = new App.WeathersensorsApp(env.SERVER_URI);
       app.sendIntervalESPMinutes = 5;
       await app.init();
       expect(app.sensorData.length).to.not.equal(0);
     });
 
     it('should have all sensors in dropdown', async () => {
-      const app = new App.WeathersensorsApp(c.SERVER_URI);
+      const app = new App.WeathersensorsApp(env.SERVER_URI);
       app.sendIntervalESPMinutes = 5;
       await app.init();
       expect(app.sensors.length).to.deep.equal(app.sensorSelectDropdown.childNodes.length);
