@@ -5,5 +5,3 @@ const env = require('./env');
 cron.schedule(env.INACTIVITY_CRON_SCHEDULE, () => {
 
 });
-
-
