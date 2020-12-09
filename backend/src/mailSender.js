@@ -9,3 +9,19 @@ let transporter = nodeMailer.createTransport({
     pass: 'PASSWORD',
   },
 });
+
+function sendMail(mailContentAndOptions) {
+  transporter.sendMail(mailContentAndOptions, (error, info) => {
+    if (error) {
+      //TODO introduce logger here
+      console.log(error);
+      res.status(400).send({success: false});
+    } else {
+      res.status(200).send({success: true});
+    }
+  });
+}
+
+module.exports = {
+  sendMail,
+};
