@@ -5,7 +5,7 @@ const at = require('./AppTrend');
 const constants = require('./Constants');
 const alert = require('./Alert');
 const darkmode = require('./Darkmode');
-const env = require('../../env');
+const env = require('../../src/env');
 
 class WeathersensorsApp {
   // DOM - Elements

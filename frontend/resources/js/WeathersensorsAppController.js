@@ -1,5 +1,5 @@
 const moment = require('./moment/moment.min');
-const env = require('../../env');
+const env = require('../../src/env');
 function mapValuesOfData(data) {
   const timestamps = data.sensorData.map(
     (e) => new Date(parseFloat(e.TIMESTAMP)).toLocaleString(env.LOCALE),

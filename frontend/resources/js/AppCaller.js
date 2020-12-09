@@ -1,5 +1,5 @@
 const c = require('./Constants');
-const env = require('../../env');
+const env = require('../../src/env');
 const App = require('./WeathersensorsApp');
 // creating app
 const app = new App.WeathersensorsApp(env.SERVER_URI);
