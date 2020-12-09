@@ -1,9 +1,10 @@
 const {check} = require('express-validator');
 const dbConnection = require('./databaseConnection');
+const env = require('./env');
 
 function validateSensorDataInBody() {
   return [
-    check('API_TOKEN').equals('$NODEMCU_API_TOKEN'),
+    check('API_TOKEN').equals(env.NODEMCU_API_TOKEN),
     check('MACADDRESS').isMACAddress(),
     //1604248996 = 11/01/2020 @ 17:43 (CEST)
     check('TIMESTAMP').isInt({min: 1604248996}),
@@ -15,6 +16,7 @@ function validateSensorDataInBody() {
 
 function validateSensorLocation() {
   return [
+    //TODO CHANGE ME UP BEFORE YOU GO GO
     check('API_TOKEN').equals('aGllckv2bm50ZUlocmVXZXJidW5nU3RlaGVu'),
     check('ID').isInt(),
     check('LOCATION').isString(),

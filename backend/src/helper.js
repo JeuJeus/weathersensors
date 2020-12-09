@@ -1,5 +1,3 @@
-// *** helper / utility  functions *** //
-
 function reduceElementsWhilstAssuringKeepLastElement(elements, maxSize) {
 //  this is needed for large quantities of elements -> in order to keep latest timestamp for big live view
   let lastElement = elements[elements.length - 1];

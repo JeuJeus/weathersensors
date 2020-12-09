@@ -1,7 +1,9 @@
 const cron = require('node-cron');
 const alert = require('./inactivityEmailAlert');
+const env = require('./env');
 
-cron.schedule('0, *, *, *, *', () => {
+cron.schedule(env.INACTIVITY_CRON_SCHEDULE, () => {
+
 });
 
 

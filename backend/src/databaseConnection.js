@@ -1,6 +1,7 @@
 const fs = require('fs');
 const util = require('util');
 const sqlite3 = require('sqlite3').verbose();
+const env = require('./env');
 
 function ensureDbDirSync(dirpath) {
   try {
@@ -11,7 +12,7 @@ function ensureDbDirSync(dirpath) {
 }
 function openDb() {
   ensureDbDirSync('db');
-  const db = new sqlite3.Database('./db/data.db');
+  const db = new sqlite3.Database(env.DATABASE_PATH);
   db.run = util.promisify(db.run);
   db.get = util.promisify(db.get);
   db.all = util.promisify(db.all);

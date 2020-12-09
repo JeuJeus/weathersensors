@@ -27,6 +27,7 @@ These data can be retrieved in visual form via a web server.
 ### additionally since 1.1.x :
 - trend display for the development of temperature / humidity and pressure based on regression forecasts
 - darkmode (persistent between sessions)
+- mail on sensor inactivity
 
 ## Deployment 
 ### ESP8266
@@ -74,22 +75,63 @@ without having to use Docker Registries (e.g. Docker.io)
 
 The default admin access is ``admin:$PASSWORD``
 The password for the admin access - in form of the variable ``$PASSWORD`` in ``router.js`` - is to be replaced in a given dimension.
-The API token of the node MCUs must be changed in the form of the variable ``API_TOKEN`` in ``persistanceService.js``, according to the change in ``nodemcu.ino``.
 
 #### deployment requirements under Windows
-The project can be deployed using WSL 2 and Docker for Windows.
-For the preparation a WSL 2 must be set up first (link to the manual: [here](https://docs.microsoft.com/en-us/windows/wsl/install-win10)).
-Then Docker for Windows can be installed with the WSL 2 components (link to instructions: [here](https://docs.docker.com/docker-for-windows/wsl/)).
-Now that Docker for Windows has been setup, the selected Linux distribution can be started in the WSL. 
-After that, the steps for Linux have to be executed in the WSL.
+The project can be deployed using WSL 2 and Docker for Windows. For the preparation a WSL 2 must be set up first (link
+to the manual: [here](https://docs.microsoft.com/en-us/windows/wsl/install-win10)). Then Docker for Windows can be
+installed with the WSL 2 components (link to instructions: [here](https://docs.docker.com/docker-for-windows/wsl/)). Now
+that Docker for Windows has been setup, the selected Linux distribution can be started in the WSL. After that, the steps
+for Linux have to be executed in the WSL.
 
 #### deployment Voraussetzungen unter Linux
-In Linux Docker as well as Node and npm are to be installed by the distribution-specific Package Manager. 
+
+In Linux Docker as well as Node and npm are to be installed by the distribution-specific Package Manager.
 
 #### Backend Start-Command:
-```docker run -p 3000:3000 -v $PATH_TO_DATABASE:/usr/src/app/db --name weathersensors-backend -it weathersensors/backend:latest```
 
-```$PATH_TO_DATABASE``` must be replaced with the folder where the database is to be stored on the host system.
+```
+docker run -d \
+  --name=weathersensors-backend \
+  -e INACTIVITY_CRON_SCHEDULE = `#optional` \
+  -e INACTIVITY_THRESHOLD_MILLIS = `#optional` \
+  -e ADMIN_MAIL_ADDRESS = mail@example.com \
+  -e FRONTEND_LIVE_DOMAIN = weathersensors.jeujeus.de \
+  -e MAIL_HOST = smtp.example.com \
+  -e MAIL_PORT = 465 \
+  -e MAIL_USER = mail@example.com \
+  -e MAIL_PASSWORD = password\
+  -e NODEMCU_API_TOKEN = api-token\
+  -e LOG_LOCATION = `#optional` \
+  -e LOG_SIZE = `#optional` \
+  -e LOG_INTERVAL = `#optional` \
+  -e LOG_COMPRESSION = `#optional` \
+  -e LOG_LOCALE = `#optional` \
+  -e LOG_AMPM = `#optional` \
+  -p 3000:3000 \
+  -p 80:80 `#optional` \
+  -v /path/to/database:/usr/src/app/db \
+  --restart unless-stopped \
+  -it weathersensors/backend:latest
+  ```
+
+|Environment Variable| Necessity | Description|
+|---|---|---|
+|_INACTIVITY_CRON_SCHEDULE_ |optional| Cron schedule for checking sensor inactivity. (default: ```0 * * * *```)|
+|INACTIVITY_THRESHOLD_MILLIS |optional| Threshold in milliseconds from which on a sensor should be flagged inactive. (default: 20minutes ```20*60*1000```)|
+|ADMIN_MAIL_ADDRESS  | needed |  The Administrator's mail address - used to send inactivity Notifications to and from. (e.g. ``weathersensors@jeujeus.de``)|
+|FRONTEND_LIVE_DOMAIN  | needed |  The Live Domain of the Frontend module. (e.g.: ``jeujeus.de``)|
+|MAIL_HOST | needed | Mailservers Host (e.g.: ``smtp.example.com``)|
+|MAIL_PORT | needed | Mailservers Port (e.g.: ``465`` SSL/TLS)|
+|MAIL_USER | needed | Mailservers User (e.g. the mail address: ``weathersensors@jeujeus.de``)|
+|MAIL_PASSWORD | needed | Mailservers Password|
+|_NODEMCU_API_TOKEN_ |optional| The same API-Token used by the NodeMCU for Post Authentication|
+|_LOG_LOCATION_ |optional| Logstream Location (default: ``log/backend.log``)|
+|_LOG_SIZE_ |optional| Logstream maximum size before compression and rotation (default: ``10M``)|
+|_LOG_INTERVAL_ |optional| Logstream rotation interval (default: one day ``1d``)|
+|_LOG_COMPRESSION_ |optional| Logstream compression algorithm (default: ``gzip``)|
+|_LOG_LOCALE_ |optional| Logstream locale (default: germany ``de-DE``)|
+|_LOG_AMPM_ |optional| Logstream AM / PM format (default: 24h ``false``)|
 
 #### Frontend Start-Command:
+
 ```docker run -p 3344:3344 --name weathersensors-frontend -it weathersensors/frontend:latest```
