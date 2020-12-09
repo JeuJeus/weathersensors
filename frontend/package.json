@@ -5,7 +5,7 @@
   "scripts": {
     "test": "(cd resources/js && browserify AppCaller.js -o frontend.js && browserify AdminAppCaller.js -o frontend-admin.js) & mocha --exit",
     "browserify": "cd resources/js && browserify AppCaller.js -o frontend.js && browserify AdminAppCaller.js -o frontend-admin.js",
-    "start": "(cd resources/js && browserify AppCaller.js -o frontend.js && browserify AdminAppCaller.js -o frontend-admin.js) & node router.js"
+    "start": "(cd resources/js && browserify AppCaller.js -o frontend.js && browserify AdminAppCaller.js -o frontend-admin.js) & node src/router.js"
   },
   "keywords": [],
   "author": "",

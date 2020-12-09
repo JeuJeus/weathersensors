@@ -1,6 +1,6 @@
 const moment = require('moment-timezone');
 const statistics = require('simple-statistics');
-const env = require('../../env');
+const env = require('../../src/env');
 
 function updateTrends(sensorData, granularity, temperatureTrend, humidityTrend, airpressureTrend) {
   // TODO check whether these 'relativeFactors' need to be adapted over time
