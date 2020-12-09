@@ -265,8 +265,12 @@ describe('-- REST CONTROLLER -- ', () => {
   });
 
   describe('email inactivity alert should work', () => {
-    const currentTimeSeconds = Date.now();
-    const oneHourAgoSeconds = Date.now() - (60 * 60 * 1000);
+    const currentTimeSeconds = {
+      LAST_UPDATE: Date.now() / 1000,
+    };
+    const oneHourAgoSeconds = {
+      LAST_UPDATE: (Date.now() - (60 * 60 * 1000)) / 1000,
+    };
     it('should determine sensor inactivity when inactive', function() {
       expect(alert.checkIfSensorInactive(oneHourAgoSeconds)).to.be.true;
     });

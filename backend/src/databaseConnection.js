@@ -127,7 +127,7 @@ async function getWeatherDataByIdAndTimestamp(db, id, timestamp) {
 
 async function insertWeatherData(db, weatherData) {
   const sql = 'INSERT INTO SENSOR_DATA (SENSOR_ID, TIMESTAMP, TEMPERATURE, AIRPRESSURE, HUMIDITY) ' +
-      'VALUES (?, ?, ?, ?, ?)';
+    'VALUES (?, ?, ?, ?, ?)';
   const params = [weatherData.ID, weatherData.TIMESTAMP, weatherData.TEMPERATURE, weatherData.AIRPRESSURE, weatherData.HUMIDITY];
   db.run(sql, params);
 }
@@ -135,6 +135,12 @@ async function insertWeatherData(db, weatherData) {
 async function updateSensorLocation(db, sensorLocationData) {
   const sql = 'UPDATE SENSOR SET LOCATION = ? WHERE ID=?';
   const params = [sensorLocationData.LOCATION, sensorLocationData.ID];
+  db.run(sql, params);
+}
+
+async function updateInactivityNotificationSent(db, sensor) {
+  const sql = 'UPDATE SENSOR SET INACTIVITY_NOTIFICATION_SENT = ? WHERE ID=?';
+  const params = [sensor.INACTIVITY_NOTIFICATION_SENT, sensor.ID];
   db.run(sql, params);
 }
 
@@ -151,4 +157,5 @@ module.exports = {
   assignSensorIDByMACIfNotExists,
   getSensorByMACAddress,
   getWeatherDataByIdAndTimestamp,
+  updateInactivityNotificationSent,
 };
