@@ -8,16 +8,17 @@ const atob = require('atob');
 const {validationResult} = require('express-validator');
 const rfs = require('rotating-file-stream');
 const cors = require('cors');
+const env = require('./env');
 
-const stream = rfs.createStream('log/backend.log', {
-  size: '10M',
-  interval: '1d',
-  compress: 'gzip',
+const stream = rfs.createStream(env.LOG_LOCATION, {
+  size: env.LOG_SIZE,
+  interval: env.LOG_INTERVAL,
+  compress: env.LOG_COMPRESSION,
   teeToStdout: true,
 });
 function logWrite(importance, message) {
-  const as24hours = {hour12: false};
-  const now = `${new Date().toLocaleString('de-DE', as24hours)}`;
+  const as24hours = {hour12: env.LOG_AMPM};
+  const now = `${new Date().toLocaleString(env.LOG_LOCALE, as24hours)}`;
   stream.write(`${now} - ${importance} : ${message}\n`);
 }
 
@@ -38,7 +39,7 @@ app.use(bodyParser.json({
 
 app.use(cors({origin: '*'}));
 
-httpServer.listen(3000, (err) => {
+httpServer.listen(env.PORT, (err) => {
   if (err) {
     logWrite('ERROR', `[${err}]`);
   }
