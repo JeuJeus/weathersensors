@@ -1,5 +1,6 @@
 const moment = require('moment-timezone');
 const statistics = require('simple-statistics');
+const env = require('../../env');
 
 function updateTrends(sensorData, granularity, temperatureTrend, humidityTrend, airpressureTrend) {
   // TODO check whether these 'relativeFactors' need to be adapted over time
@@ -35,7 +36,8 @@ function calculateTrend(sensorData, specificSensor, granularity) {
 }
 
 function formatTimeStringToUnix(timestamp) {
-  return moment.tz(timestamp, 'DD.MM.YYYY, HH.mm.ss', 'Europe/Berlin').unix();
+  //TODO this should be made compatible to mm.dd.yyyy
+  return moment.tz(timestamp, 'DD.MM.YYYY, HH.mm.ss', env.TIMEZONE).unix();
 }
 
 function createDataPointTuples(timestamps, specificSensor, length) {

@@ -5,6 +5,7 @@ const at = require('./AppTrend');
 const constants = require('./Constants');
 const alert = require('./Alert');
 const darkmode = require('./Darkmode');
+const env = require('../../env');
 
 class WeathersensorsApp {
   // DOM - Elements
@@ -44,7 +45,7 @@ class WeathersensorsApp {
 
   serverURI = 'localhost:3000';
   updateInterval = 1000 * 60;
-  sendIntervalESPMinutes = 5;
+  nodeMcuSendInterval = 5;
 
   // datepicker
   dateTimeRangePickerElement = document.createElement('input');
@@ -125,20 +126,20 @@ class WeathersensorsApp {
 
   getTrafficLightClassBasedOnUpdateAge(timestamp) {
     const differenceInMinutes = Math.floor((Date.now() - timestamp) / 1000 / 60);
-    if (differenceInMinutes < (this.sendIntervalESPMinutes * 2)) {
+    if (differenceInMinutes < (this.nodeMcuSendInterval * 2)) {
       return {
         class: constants.TRAFFIC_LIGHT_CLASSES.GREEN,
         tooltip: `Sensor is active`,
       };
-    } else if ((this.sendIntervalESPMinutes * 2) <= differenceInMinutes && differenceInMinutes <= (this.sendIntervalESPMinutes * 4)) {
+    } else if ((this.nodeMcuSendInterval * 2) <= differenceInMinutes && differenceInMinutes <= (this.nodeMcuSendInterval * 4)) {
       return {
         class: constants.TRAFFIC_LIGHT_CLASSES.YELLOW,
-        tooltip: `Sensor was last seen ${new Date(timestamp).toLocaleString('de-DE')}`,
+        tooltip: `Sensor was last seen ${new Date(timestamp).toLocaleString(env.LOCALE)}`,
       };
     } else {
       return {
         class: constants.TRAFFIC_LIGHT_CLASSES.RED,
-        tooltip: `Sensor was last seen ${new Date(timestamp).toLocaleString('de-DE')}`,
+        tooltip: `Sensor was last seen ${new Date(timestamp).toLocaleString(env.LOCALE)}`,
       };
     }
   }
@@ -220,6 +221,10 @@ class WeathersensorsApp {
 
   setUpdateInterval(updateInterval) {
     this.updateInterval = updateInterval;
+  }
+
+  setNodeMcuSendInterval(nodeMcuSendInterval) {
+    this.nodeMcuSendInterval = nodeMcuSendInterval;
   }
 
   setNumberOfDatapointsForRegression(latestDatapointsAmount) {

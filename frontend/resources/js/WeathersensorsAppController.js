@@ -1,7 +1,8 @@
 const moment = require('./moment/moment.min');
+const env = require('../../env');
 function mapValuesOfData(data) {
   const timestamps = data.sensorData.map(
-    (e) => new Date(parseFloat(e.TIMESTAMP)).toLocaleString('de-DE'),
+    (e) => new Date(parseFloat(e.TIMESTAMP)).toLocaleString(env.LOCALE),
   );
   const temperature = data.sensorData.map(
       (e) => e.TEMPERATURE,
@@ -33,6 +34,7 @@ function createQuery(granularity, rangeEnabled, timeRangeStart, timeRangeEnd) {
   query['granularity'] = granularity;
   if (rangeEnabled) {
     if (isAssigned(timeRangeStart)) {
+      //TODO CHECK FOR INTERNATIONAL FORMATTING
       query['timerange_start'] = moment(timeRangeStart, 'DD.MM.YYYY, HH:mm:ss').unix()*1000;
     }
     if (isAssigned(timeRangeEnd)) {

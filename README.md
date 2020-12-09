@@ -66,15 +66,11 @@ The exact devices are:
 
 ### backend and frontend
 Backend and frontend are deployed using Docker. 
-In the frontend, the backend url in the class ``Constants.js`` has to be adapted to the variable ``SERVER_URI``.
 The images for this can be built in the respective modules using the ``buildImageandTar.sh`` scripts.
 These scripts build the images and make them available in the local docker environment.
 Furthermore, tar balls with the respective images are stored in the project root folder.
 For this step we decided to make the images available on a server
 without having to use Docker Registries (e.g. Docker.io)
-
-The default admin access is ``admin:$PASSWORD``
-The password for the admin access - in form of the variable ``$PASSWORD`` in ``router.js`` - is to be replaced in a given dimension.
 
 #### deployment requirements under Windows
 The project can be deployed using WSL 2 and Docker for Windows. For the preparation a WSL 2 must be set up first (link
@@ -135,3 +131,19 @@ docker run -d \
 #### Frontend Start-Command:
 
 ```docker run -p 3344:3344 --name weathersensors-frontend -it weathersensors/frontend:latest```
+
+```
+docker run -d \
+  --name=weathersensors-backend \
+  -e INACTIVITY_CRON_SCHEDULE = `#optional` \
+  -p 3000:3000 \
+  -p 80:80 `#optional` \
+  -v /path/to/database:/usr/src/app/db \
+  --restart unless-stopped \
+  -it weathersensors/backend:latest
+  ```
+
+|Environment Variable| Necessity | Description|
+|---|---|---|
+|MAIL_PASSWORD | needed | Mailservers Password|
+|_LOG_AMPM_ |optional| Logstream AM / PM format (default: 24h ``false``)|
