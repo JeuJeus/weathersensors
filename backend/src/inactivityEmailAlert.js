@@ -23,10 +23,15 @@ function checkIfAlertAlreadySent(sensor) {
   return sensor.INACTIVITY_NOTIFICATION_SENT === 1;
 }
 
+function updateNotificationStatus(sensor) {
+  sensor.INACTIVITY_NOTIFICATION_SENT = 1;
+  dbConnection.updateInactivityNotificationSent(db, sensor);
+}
+
 function sendAlert(sensor) {
   const mail = Object.assign({}, mailOptions);
   mail.text = `sensor ${sensor.ID} failed to send data, last update was "${sensor.LAST_UPDATE}"`;
-  if (mailSender.sendMail(mail)) dbConnection.updateInactivityNotificationSent(db, sensor);
+  if (mailSender.sendMail(mail)) updateNotificationStatus(sensor);
 }
 
 function inactivityMailPreconditions(sensor) {
