@@ -12,15 +12,14 @@ let transporter = nodeMailer.createTransport({
 });
 
 function sendMail(mailContentAndOptions) {
-  //TODO CHECK IF ENV VAR IS SET BEFORE RUNNING IN ORDER TO FIX LOCALHOST MAILING NOT SET
   transporter.sendMail(mailContentAndOptions, (error, info) => {
     //TODO INTRODUCE LOGGER
     if (error) {
       console.log(error);
-      return true;
+      return false;
     } else {
       console.log(info);
-      return false;
+      return true;
     }
   });
 }
