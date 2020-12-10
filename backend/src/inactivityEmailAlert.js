@@ -24,11 +24,16 @@ function checkIfAlertAlreadySent(sensor) {
 }
 
 function sendAlert(sensor) {
+  //TODO WRITE TESTS FOR ME
   if (checkIfSensorInactive(sensor) && !(checkIfAlertAlreadySent(sensor))) {
     const mail = Object.assign({}, mailOptions);
     mail.text = `sensor ${sensor.ID} failed to send data, last update was "${sensor.LAST_UPDATE}"`;
     if (mailSender.sendMail(mail)) dbConnection.updateInactivityNotificationSent(db, sensor);
   }
+}
+
+function checkAndAlertInactiveSensors() {
+//  TODO WRITE FUNCTION
 }
 
 function cleanup() {
@@ -38,4 +43,5 @@ function cleanup() {
 
 module.exports = {
   checkIfSensorInactive,
+  sendAlert,
 };
