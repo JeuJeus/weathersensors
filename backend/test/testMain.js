@@ -112,33 +112,6 @@ describe('-- REST CONTROLLER -- ', () => {
   sinon.stub(dbConnection, 'insertWeatherData');
   sinon.stub(dbConnection, 'updateSensorLocation');
 
-  const nowSensorDataNoNotificationSent = {
-    LAST_UPDATE: Date.now() / 1000,
-    INACTIVITY_NOTIFICATION_SENT: 0,
-    ID: 1,
-  };
-  const oneHourOldSensorNotificationSent = {
-    LAST_UPDATE: (Date.now() - (60 * 60 * 1000)) / 1000,
-    INACTIVITY_NOTIFICATION_SENT: 1,
-  };
-  const oneHourOldSensorNoNotificationSent = {
-    LAST_UPDATE: (Date.now() - (60 * 60 * 1000)) / 1000,
-    INACTIVITY_NOTIFICATION_SENT: 0,
-    ID: 1,
-  };
-  const oneHourOldSensorNoNotificationSentMailProblem = {
-    LAST_UPDATE: (Date.now() - (60 * 60 * 1000)) / 1000,
-    INACTIVITY_NOTIFICATION_SENT: 0,
-    ID: 187,
-  };
-  const notificationMail = sinon.stub(dbConnection, 'updateInactivityNotificationSent');
-  notificationMail
-    .withArgs(oneHourOldSensorNoNotificationSent)
-    .returns(true);
-  notificationMail
-    .withArgs(oneHourOldSensorNoNotificationSentMailProblem)
-    .returns(false);
-
   describe('when get /weatherData', () => {
     it('should return valid data when calling get', () => {
       chai.request('http://localhost:3000')
@@ -292,33 +265,57 @@ describe('-- REST CONTROLLER -- ', () => {
         });
     });
   });
+});
+describe('-- INACTIVITY MAIL CRON JOB --', () => {
 
-  describe('email inactivity alert should work', () => {
+  const nowSensorDataNoNotificationSent = {
+    LAST_UPDATE: Date.now() / 1000,
+    INACTIVITY_NOTIFICATION_SENT: 0,
+    ID: 1,
+  };
+  const oneHourOldSensorNotificationSent = {
+    LAST_UPDATE: (Date.now() - (60 * 60 * 1000)) / 1000,
+    INACTIVITY_NOTIFICATION_SENT: 1,
+  };
+  const oneHourOldSensorNoNotificationSent = {
+    LAST_UPDATE: (Date.now() - (60 * 60 * 1000)) / 1000,
+    INACTIVITY_NOTIFICATION_SENT: 0,
+    ID: 1,
+  };
+  const oneHourOldSensorNoNotificationSentMailProblem = {
+    LAST_UPDATE: (Date.now() - (60 * 60 * 1000)) / 1000,
+    INACTIVITY_NOTIFICATION_SENT: 0,
+    ID: 187,
+  };
+  const notificationMail = sinon.stub(dbConnection, 'updateInactivityNotificationSent');
+  notificationMail
+    .withArgs(oneHourOldSensorNoNotificationSent)
+    .returns(true);
+  notificationMail
+    .withArgs(oneHourOldSensorNoNotificationSentMailProblem)
+    .returns(false);
 
-    it('should determine sensor inactivity when inactive', function() {
-      expect(alert.checkIfSensorInactive(oneHourOldSensorNotificationSent)).to.be.true;
+
+  it('should determine sensor inactivity when inactive and no notification sent', function() {
+    expect(alert.inactivityMailPreconditions(oneHourOldSensorNoNotificationSent)).to.be.true;
+  });
+  it('should not determine sensor inactivity when active or mail sent', function() {
+    expect(alert.inactivityMailPreconditions(nowSensorDataNoNotificationSent)).to.be.false;
+    expect(alert.inactivityMailPreconditions(oneHourOldSensorNotificationSent)).to.be.false;
+  });
+
+  it('should send Alert when preconditions met', function() {
+    it('should update sensordata on successfull mail', function() {
+      alert.sendAlert(oneHourOldSensorNoNotificationSent);
+      sinon.assert.called(mailSender.sendMail());
+      sinon.assert.called(dbConnection.updateInactivityNotificationSent());
+      sinon.assert.returnValue(mailSender.sendMail()).to.be.true;
     });
-    it('should not determine sensor inactivity when active', function() {
-      expect(alert.checkIfSensorInactive(nowSensorDataNoNotificationSent)).to.be.false;
-    });
-
-    it('should send Alert when preconditions met', function() {
-      it('should update sensordata on successfull mail', function() {
-        alert.sendAlert(oneHourOldSensorNoNotificationSent);
-        sinon.assert.called(mailSender.sendMail());
-        sinon.assert.called(dbConnection.updateInactivityNotificationSent());
-        sinon.assert.returnValue(mailSender.sendMail()).to.be.true;
-      });
-      it('should not update sensordata on unsuccessfull mail', function() {
-        !sinon.assert.called(mailSender.sendMail());
-        !sinon.assert.called(dbConnection.updateInactivityNotificationSent());
-        sinon.assert.returnValue(mailSender.sendMail()).to.be.false;
-      });
-      it('should not send mail when preconditions not met', function() {
-        alert.sendAlert(oneHourOldSensorNotificationSent);
-        !sinon.assert.called(mailSender.sendMail());
-        !sinon.assert.called(dbConnection.updateInactivityNotificationSent());
-      });
+    it('should not update sensordata on unsuccessfull mail', function() {
+      alert.sendAlert(oneHourOldSensorNoNotificationSentMailProblem);
+      !sinon.assert.called(mailSender.sendMail());
+      !sinon.assert.called(dbConnection.updateInactivityNotificationSent());
+      sinon.assert.returnValue(mailSender.sendMail()).to.be.false;
     });
   });
 });
