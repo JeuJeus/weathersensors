@@ -2,14 +2,17 @@ const expect = require('chai').expect;
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const should = chai.should();
+const sinon = require('sinon');
+const faker = require('faker');
 
 const helper = require('../src/helper');
 const restController = require('../src/restController');
 const alert = require('../src/inactivityEmailAlert');
 const testData = require('./testData');
 const dbConnection = require('../src/databaseConnection');
-const sinon = require('sinon');
-const faker = require('faker');
+const mailSender = require('../src/mailSender');
+
+//TODO clean up and extract into own classes
 
 describe('-- HELPER TESTS -- ', () => {
   describe('it should reduce data points array to maximum specified size', () => {
@@ -69,7 +72,6 @@ describe('-- REST CONTROLLER -- ', () => {
     TEMPERATURE: faker.random.float(),
     AIRPRESSURE: faker.random.float(),
     HUMIDITY: faker.random.float(),
-
   }];
   const stubSensorInsertData = {
     API_TOKEN: '$NODEMCU_API_TOKEN',
@@ -109,6 +111,33 @@ describe('-- REST CONTROLLER -- ', () => {
   sinon.stub(dbConnection, 'assignSensorIDByMACIfNotExists').returns(stubSensors);
   sinon.stub(dbConnection, 'insertWeatherData');
   sinon.stub(dbConnection, 'updateSensorLocation');
+
+  const nowSensorDataNoNotificationSent = {
+    LAST_UPDATE: Date.now() / 1000,
+    INACTIVITY_NOTIFICATION_SENT: 0,
+    ID: 1,
+  };
+  const oneHourOldSensorNotificationSent = {
+    LAST_UPDATE: (Date.now() - (60 * 60 * 1000)) / 1000,
+    INACTIVITY_NOTIFICATION_SENT: 1,
+  };
+  const oneHourOldSensorNoNotificationSent = {
+    LAST_UPDATE: (Date.now() - (60 * 60 * 1000)) / 1000,
+    INACTIVITY_NOTIFICATION_SENT: 0,
+    ID: 1,
+  };
+  const oneHourOldSensorNoNotificationSentMailProblem = {
+    LAST_UPDATE: (Date.now() - (60 * 60 * 1000)) / 1000,
+    INACTIVITY_NOTIFICATION_SENT: 0,
+    ID: 187,
+  };
+  const notificationMail = sinon.stub(dbConnection, 'updateInactivityNotificationSent');
+  notificationMail
+    .withArgs(oneHourOldSensorNoNotificationSent)
+    .returns(true);
+  notificationMail
+    .withArgs(oneHourOldSensorNoNotificationSentMailProblem)
+    .returns(false);
 
   describe('when get /weatherData', () => {
     it('should return valid data when calling get', () => {
@@ -265,19 +294,32 @@ describe('-- REST CONTROLLER -- ', () => {
   });
 
   describe('email inactivity alert should work', () => {
-    const currentTimeSeconds = {
-      LAST_UPDATE: Date.now() / 1000,
-    };
-    const oneHourAgoSeconds = {
-      LAST_UPDATE: (Date.now() - (60 * 60 * 1000)) / 1000,
-    };
+
     it('should determine sensor inactivity when inactive', function() {
-      expect(alert.checkIfSensorInactive(oneHourAgoSeconds)).to.be.true;
+      expect(alert.checkIfSensorInactive(oneHourOldSensorNotificationSent)).to.be.true;
     });
     it('should not determine sensor inactivity when active', function() {
-      expect(alert.checkIfSensorInactive(currentTimeSeconds)).to.be.false;
+      expect(alert.checkIfSensorInactive(nowSensorDataNoNotificationSent)).to.be.false;
     });
 
+    it('should send Alert when preconditions met', function() {
+      it('should update sensordata on successfull mail', function() {
+        alert.sendAlert(oneHourOldSensorNoNotificationSent);
+        sinon.assert.called(mailSender.sendMail());
+        sinon.assert.called(dbConnection.updateInactivityNotificationSent());
+        sinon.assert.returnValue(mailSender.sendMail()).to.be.true;
+      });
+      it('should not update sensordata on unsuccessfull mail', function() {
+        !sinon.assert.called(mailSender.sendMail());
+        !sinon.assert.called(dbConnection.updateInactivityNotificationSent());
+        sinon.assert.returnValue(mailSender.sendMail()).to.be.false;
+      });
+      it('should not send mail when preconditions not met', function() {
+        alert.sendAlert(oneHourOldSensorNotificationSent);
+        !sinon.assert.called(mailSender.sendMail());
+        !sinon.assert.called(dbConnection.updateInactivityNotificationSent());
+      });
+    });
   });
 });
 
