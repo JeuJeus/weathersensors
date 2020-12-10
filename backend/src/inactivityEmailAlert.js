@@ -38,8 +38,8 @@ function inactivityMailPreconditions(sensor) {
   return checkIfSensorInactive(sensor) && !(checkIfAlertAlreadySent(sensor));
 }
 
-function checkAndAlertInactiveSensors() {
-  let sensors = dbConnection.getSensors(db);
+async function checkAndAlertInactiveSensors() {
+  let sensors = await dbConnection.getSensors(db);
   for (let sensor in sensors) {
     if (inactivityMailPreconditions(sensor)) sendAlert(sensor);
   }
@@ -54,4 +54,5 @@ module.exports = {
   inactivityMailPreconditions,
   sendAlert,
   checkAndAlertInactiveSensors,
+  updateNotificationStatus,
 };
