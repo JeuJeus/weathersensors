@@ -266,6 +266,7 @@ describe('-- REST CONTROLLER -- ', () => {
     });
   });
 });
+
 describe('-- INACTIVITY MAIL CRON JOB --', () => {
 
   const nowSensorDataNoNotificationSent = {
