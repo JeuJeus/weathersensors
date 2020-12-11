@@ -15,10 +15,10 @@ let transporter = nodeMailer.createTransport({
 function sendMail(mailContentAndOptions) {
   transporter.sendMail(mailContentAndOptions, (error, info) => {
     if (error) {
-      log.logWrite('ERROR', `FAILURE SENDING MAIL TO [${mailContentAndOptions.to}] WITH CONTENT [[${mailContentAndOptions.text}]`);
+      log.logWrite('ERROR', `FAILURE SENDING MAIL TO [${mailContentAndOptions.to}] WITH CONTENT [${mailContentAndOptions.text}]`);
       return false;
     } else {
-      log.logWrite('INFO', `SEND TO [${mailContentAndOptions.to}] WITH CONTENT [[${mailContentAndOptions.text}]`);
+      log.logWrite('INFO', `SEND TO [${mailContentAndOptions.to}] WITH CONTENT [${mailContentAndOptions.text}]`);
       return true;
     }
   });

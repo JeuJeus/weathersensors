@@ -12,7 +12,7 @@ let mailOptions = {
 
 function checkIfSensorInactive(sensor) {
   const timeSecondsNow = Date.now();
-  return (timeSecondsNow - (sensor.LAST_UPDATE * 1000)) > env.INACTIVITY_THRESHOLD_MILLIS;
+  return (timeSecondsNow - (sensor.LAST_UPDATE)) > env.INACTIVITY_THRESHOLD_MILLIS;
 }
 
 function checkIfAlertAlreadySent(sensor) {
@@ -38,9 +38,9 @@ function inactivityMailPreconditions(sensor) {
 async function checkAndAlertInactiveSensors() {
   const db = dbConnection.openDb();
   let sensors = await dbConnection.getSensors(db);
-  for (let sensor in sensors) {
+  sensors.forEach(sensor => {
     if (inactivityMailPreconditions(sensor)) sendAlert(db, sensor);
-  }
+  });
   dbConnection.closeDb(db);
 }
 
