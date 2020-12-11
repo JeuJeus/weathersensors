@@ -3,11 +3,6 @@ const dbConnection = require('./databaseConnection');
 const env = require('./env');
 const log = require('./logger');
 
-process.on('SIGINT', cleanup);
-process.on('SIGTERM', cleanup);
-
-const db = dbConnection.openDb();
-
 let mailOptions = {
   from: `"Weathersensors" <${env.ADMIN_MAIL_ADDRESS}>`,
   to: `${env.ADMIN_MAIL_ADDRESS}`,
@@ -41,15 +36,12 @@ function inactivityMailPreconditions(sensor) {
 }
 
 async function checkAndAlertInactiveSensors() {
+  const db = dbConnection.openDb();
   let sensors = await dbConnection.getSensors(db);
   for (let sensor in sensors) {
     if (inactivityMailPreconditions(sensor)) sendAlert(sensor);
   }
-}
-
-function cleanup() {
   dbConnection.closeDb(db);
-  process.exit(1);
 }
 
 module.exports = {
