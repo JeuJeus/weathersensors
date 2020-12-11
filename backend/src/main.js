@@ -1,2 +1,4 @@
 require('./restController');
 require('./cron');
+//TODO MAYBE INSTANTIATE CLASSES AND INJECT LOGGER
+// TODO INJECT DB -> SHUTDOWN CLEAN UP FUNCTION HERE?
