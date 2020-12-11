@@ -596,3 +596,5 @@ backend/db/.fuse_*
 /prototyp.tar
 /frontend/resources/js/bundle.js
 /awe2frontend.tar
+/weathersensors-backend.tar
+/weathersensors-frontend.tar
