@@ -164,12 +164,9 @@ docker run -d \
 |Environment Variable| Necessity | Description|
 |---|---|---|
 |SERVER_URI | needed | URI of Backend (example: ``https://awe2-api.jeujeus.de``|
-|_
-UPDATE_INTERVAL_MILLIS_ | optional | Time in Milliseconds for the UI Update / Data Poll Interval (default: 1 minute ``1000 * 60``|
-|_
-NODEMCU_SEND_INTERVAL_ | optional | Time in Milliseconds defining how often the NodeMCU sends it's measurements to the backend (default: ``5`` minutes|
-|_
-LIN_REGRESSION_DATAPOINT_AMOUNT_ | optional | The amount of data-points used for the prediction / trend calculation by the linear regression (default: ``10``)|
+|_UPDATE_INTERVAL_MILLIS_ | optional | Time in Milliseconds for the UI Update / Data Poll Interval (default: 1 minute ``1000 * 60``|
+|_NODEMCU_SEND_INTERVAL_ | optional | Time in Milliseconds defining how often the NodeMCU sends it's measurements to the backend (default: ``5`` minutes|
+|_LIN_REGRESSION_DATAPOINT_AMOUNT_ | optional | The amount of data-points used for the prediction / trend calculation by the linear regression (default: ``10``)|
 |_TIMEZONE_ | optional | The Servers Timezone (default: ``Europe/Berlin``)|
 |_LOCALE_ | optional |  The Servers Timezone (default: ``de-DE``)|
 |ADMIN_PASSWORD | needed | The Admin Interface password (*username: admin*)|
