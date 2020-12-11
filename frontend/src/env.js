@@ -1,7 +1,7 @@
 const SERVER_URI = (process.env.SERVER_URI) ? process.env.SERVER_URI : 'https://awe2-api.jeujeus.de';
 
 const UPDATE_INTERVAL_MILLIS = (process.env.UPDATE_INTERVAL) ? process.env.UPDATE_INTERVAL : 1000 * 60;
-const NODEMCU_SEND_INTERVAL = (process.env.NODEMCU_SEND_INTERVAL) ? process.env.NODEMCU_SEND_INTERVAL : 1000 * 60 * 5;
+const NODEMCU_SEND_INTERVAL = (process.env.NODEMCU_SEND_INTERVAL) ? process.env.NODEMCU_SEND_INTERVAL : 5;
 const LIN_REGRESSION_DATAPOINT_AMOUNT = (process.env.LIN_REGRESSION_DATAPOINT_AMOUNT) ? process.env.LIN_REGRESSION_DATAPOINT_AMOUNT : 10;
 
 const TIMEZONE = (process.env.TIMEZONE) ? process.env.TIMEZONE : 'Europe/Berlin';
