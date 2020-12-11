@@ -132,7 +132,7 @@ app.post('/updateSensorLocation', persistanceService.validateSensorLocation(), f
 
 
 function cleanup() {
-  log.logWrite('INFO', 'BACKEND SHUTTING DOWN');
+  log.logWrite('INFO', 'BACKEND REST CONTROLLER SHUTTING DOWN');
   dbConnection.closeDb(db);
   process.exit(1);
 }

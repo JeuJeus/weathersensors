@@ -9,6 +9,9 @@ let mailOptions = {
   subject: `sensor failure! on "${env.FRONTEND_LIVE_DOMAIN}"`,
   text: 'sensor failure!',
 };
+const db = dbConnection.openDb();
+process.on('SIGINT', cleanup);
+process.on('SIGTERM', cleanup);
 
 function checkIfSensorInactive(sensor) {
   const timeSecondsNow = Date.now();
@@ -36,12 +39,16 @@ function inactivityMailPreconditions(sensor) {
 }
 
 async function checkAndAlertInactiveSensors() {
-  const db = dbConnection.openDb();
   let sensors = await dbConnection.getSensors(db);
   sensors.forEach(sensor => {
     if (inactivityMailPreconditions(sensor)) sendAlert(db, sensor);
   });
+}
+
+function cleanup() {
+  log.logWrite('INFO', 'BACKEND EMAIL ALERT SHUTTING DOWN');
   dbConnection.closeDb(db);
+  process.exit(1);
 }
 
 module.exports = {
