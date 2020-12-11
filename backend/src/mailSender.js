@@ -1,5 +1,6 @@
 const nodeMailer = require('nodemailer');
 const env = require('./env');
+const log = require('./logger');
 
 let transporter = nodeMailer.createTransport({
   host: env.MAIL_HOST,
@@ -13,12 +14,11 @@ let transporter = nodeMailer.createTransport({
 
 function sendMail(mailContentAndOptions) {
   transporter.sendMail(mailContentAndOptions, (error, info) => {
-    //TODO INTRODUCE LOGGER
     if (error) {
-      console.log(error);
+      log.logWrite('ERROR', `FAILURE SENDING MAIL TO [${mailContentAndOptions.to}] WITH CONTENT [[${mailContentAndOptions.text}]`);
       return false;
     } else {
-      console.log(info);
+      log.logWrite('INFO', `SEND TO [${mailContentAndOptions.to}] WITH CONTENT [[${mailContentAndOptions.text}]`);
       return true;
     }
   });

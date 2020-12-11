@@ -1,6 +1,7 @@
 const mailSender = require('./mailSender');
 const dbConnection = require('./databaseConnection');
 const env = require('./env');
+const log = require('./logger');
 
 process.on('SIGINT', cleanup);
 process.on('SIGTERM', cleanup);
@@ -26,6 +27,7 @@ function checkIfAlertAlreadySent(sensor) {
 function updateNotificationStatus(sensor) {
   sensor.INACTIVITY_NOTIFICATION_SENT = 1;
   dbConnection.updateInactivityNotificationSent(db, sensor);
+  log.logWrite('INFO', `INACTIVITY NOTIFICATION FOR SENSOR [${sensor.ID}] WAS PERSISTED.`);
 }
 
 function sendAlert(sensor) {
