@@ -19,16 +19,16 @@ function checkIfAlertAlreadySent(sensor) {
   return sensor.INACTIVITY_NOTIFICATION_SENT === 1;
 }
 
-function updateNotificationStatus(sensor) {
+function updateNotificationStatus(db, sensor) {
   sensor.INACTIVITY_NOTIFICATION_SENT = 1;
   dbConnection.updateInactivityNotificationSent(db, sensor);
   log.logWrite('INFO', `INACTIVITY NOTIFICATION FOR SENSOR [${sensor.ID}] WAS PERSISTED.`);
 }
 
-function sendAlert(sensor) {
+function sendAlert(db, sensor) {
   const mail = Object.assign({}, mailOptions);
   mail.text = `sensor ${sensor.ID} failed to send data, last update was "${sensor.LAST_UPDATE}"`;
-  if (mailSender.sendMail(mail)) updateNotificationStatus(sensor);
+  if (mailSender.sendMail(mail)) updateNotificationStatus(db, sensor);
 }
 
 function inactivityMailPreconditions(sensor) {
@@ -39,7 +39,7 @@ async function checkAndAlertInactiveSensors() {
   const db = dbConnection.openDb();
   let sensors = await dbConnection.getSensors(db);
   for (let sensor in sensors) {
-    if (inactivityMailPreconditions(sensor)) sendAlert(sensor);
+    if (inactivityMailPreconditions(sensor)) sendAlert(db, sensor);
   }
   dbConnection.closeDb(db);
 }
