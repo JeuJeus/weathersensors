@@ -6,27 +6,15 @@ const helper = require('./helper');
 const app = require('express')();
 const atob = require('atob');
 const {validationResult} = require('express-validator');
-const rfs = require('rotating-file-stream');
 const cors = require('cors');
 const env = require('./env');
-
-const stream = rfs.createStream(env.LOG_LOCATION, {
-  size: env.LOG_SIZE,
-  interval: env.LOG_INTERVAL,
-  compress: env.LOG_COMPRESSION,
-  teeToStdout: true,
-});
-function logWrite(importance, message) {
-  const as24hours = {hour12: env.LOG_AMPM};
-  const now = `${new Date().toLocaleString(env.LOG_LOCALE, as24hours)}`;
-  stream.write(`${now} - ${importance} : ${message}\n`);
-}
+const log = require('./logger');
 
 const httpServer = http.createServer(app);
 const db = dbConnection.openDb();
 
 const logger = function(req, res, next) {
-  logWrite('INFO', `GOT REQUEST TO [${req.originalUrl}] FROM [${req.ip}]`);
+  log.logWrite('INFO', `GOT REQUEST TO [${req.originalUrl}] FROM [${req.ip}]`);
   next(); // Passing the request to the next handler in the stack.
 };
 app.use(logger);
@@ -41,9 +29,9 @@ app.use(cors({origin: '*'}));
 
 httpServer.listen(env.PORT, (err) => {
   if (err) {
-    logWrite('ERROR', `[${err}]`);
+    log.logWrite('ERROR', `[${err}]`);
   }
-  logWrite('INFO', 'BACKEND STARTED');
+  log.logWrite('INFO', 'BACKEND STARTED');
   process.on('SIGINT', cleanup);
   process.on('SIGTERM', cleanup);
 });
@@ -109,12 +97,12 @@ app.get('/sensor/id/:SENSOR_ID', async function(req, res) {
 // ############### POST REQUESTS ###############
 
 function errorParsingPostBody(req, res, errors) {
-  logWrite('ERROR', `POST REQUEST PARSING BODY FAILED FROM [${req.connection.remoteAddress}], REQUEST BODY: ${JSON.stringify(req.body)}`);
+  log.logWrite('ERROR', `POST REQUEST PARSING BODY FAILED FROM [${req.connection.remoteAddress}], REQUEST BODY: ${JSON.stringify(req.body)}`);
   return res.status(400).json({errors: errors.array()});
 }
 
 function errorDuplicateValue(req, res, error) {
-  logWrite('ERROR', `POST REQUEST ATTEMPTED TO INSERT DUPLICATE VALUE FROM [${req.connection.remoteAddress}], REQUEST BODY: ${JSON.stringify(req.body)}`);
+  log.logWrite('ERROR', `POST REQUEST ATTEMPTED TO INSERT DUPLICATE VALUE FROM [${req.connection.remoteAddress}], REQUEST BODY: ${JSON.stringify(req.body)}`);
   return res.status(400).json({errors: error.message});
 }
 
@@ -135,7 +123,7 @@ app.post('/updateSensorLocation', persistanceService.validateSensorLocation(), f
   const errors = validationResult(req);
   if (errors.isEmpty()) {
     dbConnection.updateSensorLocation(db, req.body);
-    logWrite('INFO', `LOCATION OF SENSOR [${req.body.ID}] WAS UPDATED BY [${req.connection.remoteAddress}]`);
+    log.logWrite('INFO', `LOCATION OF SENSOR [${req.body.ID}] WAS UPDATED BY [${req.connection.remoteAddress}]`);
   } else {
     return errorParsingPostBody(req, res, errors);
   }
@@ -144,7 +132,7 @@ app.post('/updateSensorLocation', persistanceService.validateSensorLocation(), f
 
 
 function cleanup() {
-  logWrite('INFO', 'BACKEND SHUTTING DOWN');
+  log.logWrite('INFO', 'BACKEND SHUTTING DOWN');
   dbConnection.closeDb(db);
   process.exit(1);
 }
