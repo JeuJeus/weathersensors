@@ -21,7 +21,7 @@ app.use(bodyParser.json({
 }));
 app.use('/resources', express.static(path.join(__dirname, 'resources')));
 app.use(logger);
-app.use(favicon(path.join(__dirname, 'resources', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, '../resources', 'favicon.ico')));
 
 httpServer.listen(3344, (err) => {
   if (err) {
