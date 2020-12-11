@@ -305,21 +305,23 @@ describe('-- INACTIVITY MAIL CRON JOB --', () => {
   describe('should send Alert when preconditions met', function() {
     it('should update sensordata on successfull mail', function() {
       sinon.stub(dbConnection, 'updateInactivityNotificationSent');
+      let fakeDb = null;
       let mailSend = sinon.stub(mailSender);
       sinon.stub(alert, 'updateNotificationStatus');
       mailSend.sendMail.returns(true);
 
-      alert.sendAlert(oneHourOldSensorNoNotificationSent);
+      alert.sendAlert(fakeDb, oneHourOldSensorNoNotificationSent);
 
       sinon.assert.calledOnce(dbConnection.updateInactivityNotificationSent);
     });
     it('should not update sensordata on unsuccessfull mail', function() {
       sinon.stub(dbConnection, 'updateInactivityNotificationSent');
+      let fakeDb = null;
       let mailSend = sinon.stub(mailSender);
       sinon.stub(alert, 'updateNotificationStatus');
       mailSend.sendMail.returns(false);
 
-      alert.sendAlert(nowSensorDataNoNotificationSent);
+      alert.sendAlert(fakeDb, nowSensorDataNoNotificationSent);
 
       sinon.assert.notCalled(dbConnection.updateInactivityNotificationSent);
     });
