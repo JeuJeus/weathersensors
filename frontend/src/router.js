@@ -4,25 +4,13 @@ const express = require('express');
 const app = require('express')();
 const basicAuth = require('express-basic-auth');
 const path = require('path');
-const rfs = require('rotating-file-stream');
 const favicon = require('serve-favicon');
 const env = require('./env');
-
-const stream = rfs.createStream(env.LOG_LOCATION, {
-  size: env.LOG_SIZE,
-  interval: env.LOG_INTERVAL,
-  compress: env.LOG_COMPRESSION,
-  teeToStdout: true,
-});
-function logWrite(importance, message) {
-  const as24hours = {hour12: env.LOG_AMPM};
-  const now = `${new Date().toLocaleString(env.LOG_LOCALE, as24hours)}`;
-  stream.write(`${now} - ${importance} : ${message}\n`);
-}
+const log = require('./logger');
 
 const httpServer = http.createServer(app);
 const logger = function(req, res, next) {
-  logWrite('INFO', `GOT REQUEST TO [${req.originalUrl}] FROM [${req.ip}]`);
+  log.logWrite('INFO', `GOT REQUEST TO [${req.originalUrl}] FROM [${req.ip}]`);
   next();
 };
 
@@ -37,9 +25,9 @@ app.use(favicon(path.join(__dirname, 'resources', 'favicon.ico')));
 
 httpServer.listen(3344, (err) => {
   if (err) {
-    logWrite('ERROR', `[${err}]`);
+    log.logWrite('ERROR', `[${err}]`);
   }
-  logWrite('INFO', 'FRONTEND STARTED');
+  log.logWrite('INFO', 'FRONTEND STARTED');
   process.on('SIGINT', cleanup);
   process.on('SIGTERM', cleanup);
 });
@@ -61,6 +49,6 @@ app.get('/admin', auth, function (req, res) {
 });
 
 function cleanup() {
-  logWrite('INFO', 'FRONTEND SHUTTING DOWN');
+  log.logWrite('INFO', 'FRONTEND SHUTTING DOWN');
   process.exit(1);
 }
