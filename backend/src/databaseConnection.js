@@ -29,7 +29,7 @@ async function init(db) {
     `"ID"	INTEGER NOT NULL UNIQUE, ` +
     `"MAC_ADDRESS"	TEXT NOT NULL, ` +
     `"LOCATION"	TEXT,` +
-    `"INACTIVITY_NOTIFICATION_SENT" BOOLEAN,` +
+    `"INACTIVITY_NOTIFICATION_SENT" INTEGER,` +
     ` PRIMARY KEY("ID" AUTOINCREMENT)` +
     `)`;
 
@@ -64,7 +64,8 @@ async function init(db) {
 }
 
 async function getSensors(db) {
-  const sql = 'SELECT S.ID, S.MAC_ADDRESS, S.LOCATION, MAX(SD.TIMESTAMP) LAST_UPDATE ' +
+  const sql = 'SELECT S.ID, S.MAC_ADDRESS, S.LOCATION,' +
+    ' MAX(SD.TIMESTAMP) LAST_UPDATE, INACTIVITY_NOTIFICATION_SENT ' +
     'FROM SENSOR S ' +
     'JOIN SENSOR_DATA SD ' +
     'ON S.ID = SD.SENSOR_ID ' +
