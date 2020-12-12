@@ -28,10 +28,10 @@ function updateNotificationStatus(db, sensor) {
   log.logWrite('INFO', `INACTIVITY NOTIFICATION FOR SENSOR [${sensor.ID}] WAS PERSISTED.`);
 }
 
-function sendAlert(db, sensor) {
+async function sendAlert(db, sensor) {
   const mail = Object.assign({}, mailOptions);
-  mail.text = `sensor ${sensor.ID} failed to send data, last update was "${sensor.LAST_UPDATE}"`;
-  if (mailSender.sendMail(mail)) updateNotificationStatus(db, sensor);
+  mail.text = `sensor ${sensor.ID} failed to send data, last update was "${sensor.LAST_UPDATE}"`;//TODO -> CONVERT TIMESTAMP
+  if (await mailSender.sendMail(mail)) updateNotificationStatus(db, sensor);
 }
 
 function inactivityMailPreconditions(sensor) {
