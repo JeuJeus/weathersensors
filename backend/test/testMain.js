@@ -74,7 +74,7 @@ describe('-- REST CONTROLLER -- ', () => {
   }];
   const stubSensorInsertData = {
     API_TOKEN: '$NODEMCU_API_TOKEN',
-    MACADDRESS: 'aa:bb:cc:dd:ee:ff',
+    MAC_ADDRESS: 'aa:bb:cc:dd:ee:ff',
     TIMESTAMP: '1604248997',
     TEMPERATURE: '20.0',
     AIRPRESSURE: '1000.0',
@@ -187,7 +187,7 @@ describe('-- REST CONTROLLER -- ', () => {
         .post('/weatherData')
         .send({
           API_TOKEN: '$NODEMCU_API_TOKEN',
-          MACADDRESS: 'f4:cf:a2:d1:49:3e',
+          MAC_ADDRESS: 'f4:cf:a2:d1:49:3e',
           TIMESTAMP: Date.now(),
           TEMPERATURE: '20.930000',
           AIRPRESSURE: '1008.037476',
@@ -201,7 +201,7 @@ describe('-- REST CONTROLLER -- ', () => {
       chai.request('http://localhost:3000')
         .post('/weatherData')
         .send({
-          MACADDRESS: 'werdasliestistdoof',
+          MAC_ADDRESS: 'werdasliestistdoof',
           TIMESTAMP: '187',
           TEMPERATURE: '20.93as0000',
           AIRPRESSURE: 'downmitdemfunk',
