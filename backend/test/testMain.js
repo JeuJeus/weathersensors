@@ -268,7 +268,7 @@ describe('-- REST CONTROLLER -- ', () => {
 });
 
 describe('-- INACTIVITY MAIL CRON JOB --', () => {
-
+  //TODO ADD MORE TESTS FOR BETTER COVERAGE
   afterEach(function() {
     sinon.restore();
   });
