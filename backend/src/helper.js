@@ -1,3 +1,5 @@
+const env = require('./env');
+
 function reduceElementsWhilstAssuringKeepLastElement(elements, maxSize) {
 //  this is needed for large quantities of elements -> in order to keep latest timestamp for big live view
   let lastElement = elements[elements.length - 1];
@@ -26,9 +28,20 @@ function filterTimeRange(elements, startTimeStamp, endTimestamp) {
   });
 }
 
+function checkIfSensorInactive(timestamp) {
+  const timeSecondsNow = Date.now();
+  return (timeSecondsNow - (timestamp)) > env.INACTIVITY_THRESHOLD_MILLIS;
+}
+
+function checkIfAlertAlreadySent(sensor) {
+  return sensor.INACTIVITY_NOTIFICATION_SENT === 1;
+}
+
 module.exports = {
   reduceElementsToMaxSize,
   filterTimeRange,
   filterTimeRangeByPresentParameters,
   reduceElementsWhilstAssuringKeepLastElement,
+  checkIfSensorInactive,
+  checkIfAlertAlreadySent,
 };
