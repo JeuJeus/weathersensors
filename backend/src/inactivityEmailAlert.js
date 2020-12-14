@@ -2,6 +2,7 @@ const mailSender = require('./mailSender');
 const dbConnection = require('./databaseConnection');
 const env = require('./env');
 const log = require('./logger');
+const helper = require('./helper');
 
 let mailOptions = {
   from: `"Weathersensors" <${env.ADMIN_MAIL_ADDRESS}>`,
@@ -13,14 +14,6 @@ const db = dbConnection.openDb();
 process.on('SIGINT', cleanup);
 process.on('SIGTERM', cleanup);
 
-function checkIfSensorInactive(sensor) {
-  const timeSecondsNow = Date.now();
-  return (timeSecondsNow - (sensor.LAST_UPDATE)) > env.INACTIVITY_THRESHOLD_MILLIS;
-}
-
-function checkIfAlertAlreadySent(sensor) {
-  return sensor.INACTIVITY_NOTIFICATION_SENT === 1;
-}
 
 function updateNotificationStatus(db, sensor) {
   sensor.INACTIVITY_NOTIFICATION_SENT = 1;
@@ -35,7 +28,7 @@ async function sendAlert(db, sensor) {
 }
 
 function inactivityMailPreconditions(sensor) {
-  return checkIfSensorInactive(sensor) && !(checkIfAlertAlreadySent(sensor));
+  return helper.checkIfSensorInactive(sensor.LAST_UPDATE) && !(helper.checkIfAlertAlreadySent(sensor));
 }
 
 async function checkAndAlertInactiveSensors() {

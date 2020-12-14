@@ -1,6 +1,7 @@
 const {check} = require('express-validator');
 const dbConnection = require('./databaseConnection');
 const env = require('./env');
+const helper = require('./helper');
 
 function validateSensorDataInBody() {
   return [
@@ -23,11 +24,21 @@ function validateSensorLocation() {
   ];
 }
 
+function updateInactivityFlagForSensor(db, id, timestamp) {
+  if (!helper.checkIfSensorInactive(timestamp)) {
+    dbConnection.updateInactivityNotificationSent(db, {
+      ID: id,
+      INACTIVITY_NOTIFICATION_SENT: 0,
+    });
+  }
+}
+
 async function insertWeatherData(db, weatherData) {
   //this is needed in order to convert from seconds to milliseconds
   weatherData.TIMESTAMP = weatherData.TIMESTAMP * 1000;
   const result = await dbConnection.assignSensorIDByMACIfNotExists(db, weatherData.MAC_ADDRESS);
   weatherData.ID = result.ID;
+  updateInactivityFlagForSensor(db, weatherData.ID, weatherData.TIMESTAMP);
   const dbresult = await dbConnection.getWeatherDataByIdAndTimestamp(db, weatherData.ID, weatherData.TIMESTAMP);
   if (dbresult === undefined) {
     return await dbConnection.insertWeatherData(db, weatherData);
