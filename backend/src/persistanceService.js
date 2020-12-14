@@ -5,7 +5,7 @@ const env = require('./env');
 function validateSensorDataInBody() {
   return [
     check('API_TOKEN').equals(env.NODEMCU_API_TOKEN),
-    check('MACADDRESS').isMACAddress(),
+    check('MAC_ADDRESS').isMACAddress(),
     //1604248996 = 11/01/2020 @ 17:43 (CEST)
     check('TIMESTAMP').isInt({min: 1604248996}),
     check('TEMPERATURE').isFloat({min: -100, max: 100}),
@@ -26,7 +26,7 @@ function validateSensorLocation() {
 async function insertWeatherData(db, weatherData) {
   //this is needed in order to convert from seconds to milliseconds
   weatherData.TIMESTAMP = weatherData.TIMESTAMP * 1000;
-  const result = await dbConnection.assignSensorIDByMACIfNotExists(db, weatherData.MACADDRESS);
+  const result = await dbConnection.assignSensorIDByMACIfNotExists(db, weatherData.MAC_ADDRESS);
   weatherData.ID = result.ID;
   const dbresult = await dbConnection.getWeatherDataByIdAndTimestamp(db, weatherData.ID, weatherData.TIMESTAMP);
   if (dbresult === undefined) {
