@@ -274,22 +274,22 @@ describe('-- INACTIVITY MAIL CRON JOB --', () => {
   });
 
   const nowSensorDataNoNotificationSent = {
-    LAST_UPDATE: Date.now() / 1000,
+    LAST_UPDATE: Date.now(),
     INACTIVITY_NOTIFICATION_SENT: 0,
     ID: 1,
   };
   const oneHourOldSensorNotificationSent = {
-    LAST_UPDATE: (Date.now() - (60 * 60 * 1000)) / 1000,
+    LAST_UPDATE: (Date.now() - (60 * 60 * 1000)),
     INACTIVITY_NOTIFICATION_SENT: 1,
     ID: 1,
   };
   const oneHourOldSensorNoNotificationSent = {
-    LAST_UPDATE: (Date.now() - (60 * 60 * 1000)) / 1000,
+    LAST_UPDATE: (Date.now() - (60 * 60 * 1000)),
     INACTIVITY_NOTIFICATION_SENT: 0,
     ID: 1,
   };
   const oneHourOldSensorNoNotificationSentMailProblem = {
-    LAST_UPDATE: (Date.now() - (60 * 60 * 1000)) / 1000,
+    LAST_UPDATE: (Date.now() - (60 * 60 * 1000)),
     INACTIVITY_NOTIFICATION_SENT: 0,
     ID: 187,
   };
