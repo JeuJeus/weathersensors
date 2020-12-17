@@ -89,7 +89,6 @@ async function assignSensorIDByMACIfNotExists(db, MAC_ADDRESS) {
     'EXCEPT SELECT MAC_ADDRESS, LOCATION FROM SENSOR WHERE MAC_ADDRESS = ?';
   const params = [MAC_ADDRESS, MAC_ADDRESS];
   db.run(sql, params);
-  console.log(sql);
   return getSensorByMACAddress(db, MAC_ADDRESS);
 }
 
