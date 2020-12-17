@@ -24,7 +24,7 @@ function updateNotificationStatus(db, sensor) {
 async function sendAlert(db, sensor) {
   //TODO INTRODUCE POSSIBILITY TO SEND MAILS TO OTHER RECIPANTS
   const mail = Object.assign({}, mailOptions);
-  mail.text = `sensor ${sensor.ID} failed to send data, last update was "${sensor.LAST_UPDATE}"`;//TODO -> CONVERT TIMESTAMP
+  mail.text = `sensor ${sensor.ID} failed to send data, last update was "${new Date(sensor.LAST_UPDATE).toLocaleDateString(process.env.LOG_LOCALE)}"`;
   if (await mailSender.sendMail(mail)) updateNotificationStatus(db, sensor);
 }
 

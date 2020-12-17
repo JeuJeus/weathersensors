@@ -17,7 +17,7 @@ function validateSensorDataInBody() {
 
 function validateSensorLocation() {
   return [
-    //TODO CHANGE ME UP BEFORE YOU GO GO
+    //TODO CHANGE AUTHENTICATION METHOD FOR API ENDPOINTS
     check('API_TOKEN').equals('aGllckv2bm50ZUlocmVXZXJidW5nU3RlaGVu'),
     check('ID').isInt(),
     check('LOCATION').isString(),
