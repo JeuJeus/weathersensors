@@ -1,14 +1,18 @@
 {
-  "name": "backend",
+  "name": "weathersensors-backend",
+  "description": "backend module handling sensor communication and data persistance",
   "version": "1.2.0",
   "main": "index.js",
   "scripts": {
     "test": "mocha --exit",
     "start": "node src/main.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JeuJeus/weathersensors"
+  },
+  "author": "philipp röring, jonathan brockhausen, julius figge",
+  "homepage": "https://weathersensors.jeujeus.de",
   "dependencies": {
     "atob": "^2.1.2",
     "cors": "^2.8.5",

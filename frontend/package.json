@@ -1,5 +1,6 @@
 {
-  "name": "frontend",
+  "name": "weathersensors-frontend",
+  "description": "webinterface for displaying collected sensor- weather-data",
   "version": "1.2.0",
   "main": "index.js",
   "scripts": {
@@ -7,9 +8,12 @@
     "browserify": "cd resources/js && browserify AppCaller.js -o frontend.js && browserify AdminAppCaller.js -o frontend-admin.js",
     "start": "(cd resources/js && browserify AppCaller.js -o frontend.js && browserify AdminAppCaller.js -o frontend-admin.js) & node src/router.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JeuJeus/weathersensors"
+  },
+  "author": "philipp röring, jonathan brockhausen, julius figge",
+  "homepage": "https://weathersensors.jeujeus.de",
   "dependencies": {
     "browserify": "^17.0.0",
     "chart.js": "^2.9.3",
