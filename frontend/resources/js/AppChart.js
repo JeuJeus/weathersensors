@@ -1,11 +1,28 @@
 const Chart = require('./chartjs/chart.min');
 
+Chart.plugins.register({
+  beforeInit: responsiveForMobile,
+  resize: responsiveForMobile,
+});
+
+function responsiveForMobile(chart) {
+  if (!(chart.width > 500)) {
+    chart.options.legend.display = false;
+    chart.options.scales.xAxes[0].ticks.display = false;
+    chart.options.scales.yAxes[2].ticks.callback = value => value;
+  } else {
+    chart.options.legend.display = true;
+    chart.options.scales.xAxes[0].ticks.display = true;
+    chart.options.scales.yAxes[2].ticks.callback = value => value + ' mbar';
+  }
+}
+
 function updateChart(chart, timestamps, temperature, humidity, airPressure) {
-    chart.data.labels = timestamps;
-    chart.data.datasets[0].data = temperature;
-    chart.data.datasets[1].data = humidity;
-    chart.data.datasets[2].data = airPressure;
-    chart.update();
+  chart.data.labels = timestamps;
+  chart.data.datasets[0].data = temperature;
+  chart.data.datasets[1].data = humidity;
+  chart.data.datasets[2].data = airPressure;
+  chart.update();
 }
 
 function yAxisStartToggle(chart) {
