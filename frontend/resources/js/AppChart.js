@@ -62,33 +62,27 @@ function createChart(canvas, tempColor, airPressColor, humidColor) {
                     type: 'linear',
                     position: 'left',
                     ticks: {
-                        fontColor: tempColor,
-                        beginAtZero: false,
-                        callback: function(value) {
-                            return value + '°C';
-                        },
+                      fontColor: tempColor,
+                      beginAtZero: false,
+                      callback: value => value + '°C',
                     },
                 }, {
                     id: 'humid',
                     type: 'linear',
                     position: 'right',
                     ticks: {
-                        fontColor: humidColor,
-                        beginAtZero: false,
-                        callback: function(value) {
-                            return value + '%';
-                        },
+                      fontColor: humidColor,
+                      beginAtZero: false,
+                      callback: value => value + '%',
                     },
                 }, {
                     id: 'air',
                     type: 'linear',
                     position: 'right',
                     ticks: {
-                        fontColor: airPressColor,
-                        beginAtZero: false,
-                        callback: function(value) {
-                            return value + ' mbar';
-                        },
+                      fontColor: airPressColor,
+                      beginAtZero: false,
+                      callback: value => value + ' mbar',
                     },
                 }],
                 xAxes: [{
