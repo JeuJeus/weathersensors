@@ -34,6 +34,7 @@ in visual form via a web server.
 - trend display for the development of temperature / humidity and pressure based on regression forecasts
 - darkmode (persistent between sessions)
 - mail on sensor inactivity
+- mobile optimization (smartphone, tablet)
 
 ## Deployment
 
