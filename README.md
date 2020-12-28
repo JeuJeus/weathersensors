@@ -122,7 +122,7 @@ docker run -d \
 
 |Environment Variable| Necessity | Description|
 |---|---|---|
-|_INACTIVITY_CRON_SCHEDULE_ |optional| Cron schedule for checking sensor inactivity. (default: ```0 * * * *```)|
+|_INACTIVITY_CRON_SCHEDULE_ |optional| Cron schedule for checking sensor inactivity. Set to ``OFF`` in order to deactivate. (default: ```0 * * * *```)|
 |INACTIVITY_THRESHOLD_MILLIS |optional| Threshold in milliseconds from which on a sensor should be flagged inactive. (default: 20minutes ```20*60*1000```)|
 |ADMIN_MAIL_ADDRESS  | needed |  The Administrator's mail address - used to send inactivity Notifications to and from. (e.g. ``weathersensors@jeujeus.de``)|
 |FRONTEND_LIVE_DOMAIN  | needed |  The Live Domain of the Frontend module. (e.g.: ``jeujeus.de``)|
