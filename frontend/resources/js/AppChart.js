@@ -6,7 +6,7 @@ Chart.plugins.register({
 });
 
 function responsiveForMobile(chart) {
-  if (!(chart.width > 500)) {
+  if (!(window.screen.width > 500)) {
     chart.options.legend.display = false;
     chart.options.scales.xAxes[0].ticks.display = false;
     chart.options.scales.yAxes[2].ticks.callback = value => value;
