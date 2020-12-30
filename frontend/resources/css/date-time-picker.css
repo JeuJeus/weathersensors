@@ -6,8 +6,8 @@
     background-color: rgba(0, 204, 109, 0.7);
 }
 
-.date-time-range-picker td.active:hover {
-    background-color: rgba(0, 39, 191, 0.6);
+.date-time-range-picker td.active {
+    background-color: rgba(0, 39, 191, 0.5);
 }
 
 input[type="text"] {
@@ -19,4 +19,8 @@ input[type="text"] {
 .bg-pink {
     background-color: #e57fb7 !important;
     border-radius: 0 !important;
+}
+
+.daterangepicker .ranges li.active {
+    background-color: rgba(0, 39, 191, 0.5);
 }

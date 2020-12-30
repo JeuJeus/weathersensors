@@ -90,7 +90,6 @@ body {
 }
 
 .daterangepicker td.active, .daterangepicker td.active:hover {
-    background-color: transparent;
     color: #ebf4f8;
 }
 
@@ -122,13 +121,22 @@ body {
 }
 
 .daterangepicker td.active {
-    background-color: #424494;
+    background-color: rgba(100, 100, 255, 0.5);
     color: #ebf4f8;
 }
 
 .daterangepicker td.active:hover {
-    background-color: #6266e0;
+    background-color: rgba(100, 100, 255, 0.5);
     color: #ebf4f8;
+}
+
+.daterangepicker .ranges li.active {
+    background-color: rgba(100, 100, 255, 0.5);
+}
+
+.daterangepicker .ranges li:hover {
+    background-color: #ebf4f8;
+    color: #343a40;
 }
 
 .bg-pink {
