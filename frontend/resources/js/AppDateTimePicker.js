@@ -59,7 +59,7 @@ class AppDateTimePicker{
       applyButtonClasses: 'btn-green',
       cancelButtonClasses: 'btn-pink',
       locale: {
-        format: 'DD.MM.YY HH:mm',
+        format: 'DD.MM.YYYY HH:mm',
       },
       ranges: {
         'Today': [moment().startOf('day'), moment().endOf('day')],
