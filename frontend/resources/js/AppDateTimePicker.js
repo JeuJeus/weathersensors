@@ -59,6 +59,7 @@ class AppDateTimePicker{
       applyButtonClasses: 'btn-green',
       cancelButtonClasses: 'btn-pink',
       locale: {
+        //TODO optimize mobile usage -> year is too long
         format: 'DD.MM.YYYY HH:mm',
       },
       ranges: {
