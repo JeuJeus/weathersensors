@@ -21,23 +21,23 @@
     "express-basic-auth": "^1.2.0",
     "http-server": "^0.12.3",
     "moment": "^2.29.1",
-    "moment-timezone": "^0.5.32",
-    "rotating-file-stream": "^2.1.3",
+    "moment-timezone": "^0.5.33",
+    "rotating-file-stream": "^2.1.5",
     "serve-favicon": "^2.5.0",
-    "simple-statistics": "^7.4.0"
+    "simple-statistics": "^7.7.0"
   },
   "devDependencies": {
-    "canvas": "^2.6.1",
-    "chai": "^4.2.0",
+    "canvas": "^2.7.0",
+    "chai": "^4.3.4",
     "chai-http": "^4.3.0",
-    "eslint": "^7.16.0",
+    "eslint": "^7.26.0",
     "eslint-config-google": "^0.14.0",
-    "faker": "^5.1.0",
-    "jquery": "^3.5.1",
+    "faker": "^5.5.3",
+    "jquery": "^3.6.0",
     "jquery-jsdom": "^1.0.0",
-    "jsdom": "^16.4.0",
+    "jsdom": "^16.5.3",
     "jsdom-global": "^3.0.2",
-    "mocha": "^8.2.0",
-    "sinon": "^9.2.2"
+    "mocha": "^8.4.0",
+    "sinon": "^9.2.4"
   }
 }
